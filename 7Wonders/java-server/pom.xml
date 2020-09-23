@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>Lamac</groupId> <!-- à changer par le nom du groupe -->
+        <artifactId>Global</artifactId> <!-- et le nom du projet -->
+        <version>1</version>
+    </parent>
+
+    <artifactId>java-server</artifactId> <!-- et le nom du projet -->
+    <version>1</version>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <testSourceDirectory>src/test/java</testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
+        <plugins>
+            <!-- la génération de la  javadoc s'utilise avec "mvn site" -->
+<!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <show>package</show>
+                    <nohelp>true</nohelp>
+                    <encoding>utf-8</encoding>
+                    <charset>utf-8</charset>
+                    <docencoding>utf-8</docencoding>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            &lt;!&ndash; <overview>${basedir}/src/main/java/jeu421/overview.html</overview> &ndash;&gt;&lt;!&ndash; à changer : selon que vous avez des descriptions du projet et des packages &ndash;&gt;
+                            &lt;!&ndash; fichiers html générés dans src/main/apidocs &ndash;&gt;
+                            <outputDirectory>${basedir}/src/main/</outputDirectory>
+                            <reportOutputDirectory>${basedir}/src/main/</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-javadoc</id>
+                        <goals>
+                            <goal>test-javadoc</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            &lt;!&ndash; fichiers html générés dans src/test/apidocs &ndash;&gt;
+                            <reportOutputDirectory>${basedir}/src/test/</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>serveur.Serveur</mainClass>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-common</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Intégrations Network -->
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.17</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-transport</artifactId>
+            <version>4.1.32.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+</project>
