@@ -54,7 +54,7 @@ hs_err_pid*
 .idea/
 *.iml
 .bin/
-*/target
+target
 
 #.idea/workspace.xml
 #.idea/tasks.xml
@@ -96,7 +96,7 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
-# lint/reports/
+lint/reports/
 
 # Project files
 .project
