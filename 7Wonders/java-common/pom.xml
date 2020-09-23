@@ -17,58 +17,6 @@
         <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
         <testSourceDirectory>src/test/java</testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
         <plugins>
-            <!-- la génération de la  javadoc s'utilise avec "mvn site" -->
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <show>package</show>
-                    <nohelp>true</nohelp>
-                    <encoding>utf-8</encoding>
-                    <charset>utf-8</charset>
-                    <docencoding>utf-8</docencoding>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>javadoc</id>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                        <phase>site</phase>
-                        <configuration>
-                            &lt;!&ndash; <overview>${basedir}/src/main/java/jeu421/overview.html</overview> &ndash;&gt;&lt;!&ndash; à changer : selon que vous avez des descriptions du projet et des packages &ndash;&gt;
-                            &lt;!&ndash; fichiers html générés dans src/main/apidocs &ndash;&gt;
-                            <outputDirectory>${basedir}/src/main/</outputDirectory>
-                            <reportOutputDirectory>${basedir}/src/main/</reportOutputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-javadoc</id>
-                        <goals>
-                            <goal>test-javadoc</goal>
-                        </goals>
-                        <phase>site</phase>
-                        <configuration>
-                            &lt;!&ndash; fichiers html générés dans src/test/apidocs &ndash;&gt;
-                            <reportOutputDirectory>${basedir}/src/test/</reportOutputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
--->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -90,12 +38,6 @@
 
 
     <dependencies>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.json/json &ndash;&gt;
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20190722</version>
-        </dependency>-->
     </dependencies>
 
 
