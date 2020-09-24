@@ -1,6 +1,6 @@
-7 Wonders game by LAMAC
+# 7 Wonders
 
-Fabulous team members :
+## Team members
 - Loïc Filippi
 - Alessandro Pepegna
 - Meryem Boufalah
