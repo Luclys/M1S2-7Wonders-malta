@@ -9,7 +9,19 @@ import java.util.Collections;
 public class Board {
     private final ArrayList<Player> playerList;
     private final ArrayList<Card> deckCardList;
+    private int tour;
 
+    public ArrayList<Player> getPlayerList() {
+        return this.playerList;
+    }
+
+    public ArrayList<Card> getDeckCardList() {
+        return this.deckCardList;
+    }
+
+    public int getTour() {
+        return this.tour;
+    }
 
     public Board(int nbPlayers) {
         playerList = new ArrayList<>(nbPlayers);
@@ -36,6 +48,7 @@ public class Board {
             for (Player p : playerList) {
                 p.playCard();
             }
+            tour++;
         }
     }
 
