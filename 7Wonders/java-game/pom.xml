@@ -29,7 +29,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>Board.Board</mainClass>
+                    <mainClass>board.Board</mainClass>
                 </configuration>
             </plugin>
 
