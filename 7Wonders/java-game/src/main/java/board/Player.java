@@ -6,27 +6,28 @@ import java.util.ArrayList;
 
 public class Player {
     private final int playerId;
-    private int nbCoin;
     private ArrayList<Card> cardArrayList;
     private int score;
 
-    public Player(int id, int nbCoin) {
+    public Player(int id) {
         playerId = id;
-        this.nbCoin = nbCoin;
         cardArrayList = new ArrayList<>(7);
     }
 
+    //Player
     public void playCard() {
-        System.out.println("I play my card");
-        score += cardArrayList.get(0).getPoint();
+        System.out.println("Player " + playerId + " plays a card");
+        //Updating player's score
+        score += cardArrayList.get(0).getVictoryPoints();
+        //Card is removed from hand
         cardArrayList.remove(0);
     }
 
     public String toString() {
-        return "id player :" + playerId + " score :" + score;
+        return "Player " + playerId + " wins with a score of " + score;
     }
 
-    public void setCard(ArrayList<Card> initiateCards) {
+    public void setCards(ArrayList<Card> initiateCards) {
         this.cardArrayList = initiateCards;
     }
 }

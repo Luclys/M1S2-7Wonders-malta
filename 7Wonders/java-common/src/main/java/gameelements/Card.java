@@ -2,16 +2,14 @@ package gameelements;
 
 public class Card {
     private final int idCard;
-    private final int pointCard;
+    private final int victoryPoints;
 
     public Card() {
         idCard = 1;
-        pointCard = 1;
+        victoryPoints = 1;
     }
 
-    public int getPoint() {
-        return pointCard;
+    public int getVictoryPoints() {
+        return victoryPoints;
     }
-
-
 }
