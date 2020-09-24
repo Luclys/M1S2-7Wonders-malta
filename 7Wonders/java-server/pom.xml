@@ -29,7 +29,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>serveur.Serveur</mainClass>
+                    <mainClass>server.Server</mainClass>
                 </configuration>
             </plugin>
 
