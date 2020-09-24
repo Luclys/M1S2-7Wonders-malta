@@ -12,6 +12,9 @@ public class Player {
     public Player(int id) {
         playerId = id;
         cardArrayList = new ArrayList<>(7);
+        for(int i = 0; i < 7; i++) {
+            cardArrayList.add(new Card());
+        }
     }
 
     //Player
@@ -29,5 +32,13 @@ public class Player {
 
     public void setCards(ArrayList<Card> initiateCards) {
         this.cardArrayList = initiateCards;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public ArrayList<Card> getCardArrayList() {
+        return cardArrayList;
     }
 }
