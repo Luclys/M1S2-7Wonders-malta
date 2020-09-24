@@ -9,9 +9,9 @@
     <version>1</version>
 
     <modules>
-        <module>java-common</module>
         <module>java-server</module>
         <module>java-game</module>
+        <module>java-common</module>
     </modules>
     <packaging>pom</packaging>
 
