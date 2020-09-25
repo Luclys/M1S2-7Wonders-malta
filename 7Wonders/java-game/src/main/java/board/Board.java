@@ -20,13 +20,13 @@ public class Board {
             if (i == 0) {
                 player.setleftNeighborId(nbPlayers-1);
             } else {
-                player.setleftNeighborId(i+1);
+                player.setleftNeighborId(i-1);
             }
             // To make a tor we bind the last's right to first id
             if (i == nbPlayers-1) {
                 player.setrightNeighborId(0);
             }else {
-                player.setrightNeighborId(i-1);
+                player.setrightNeighborId(i+1);
             }
 
             playerList.add(player);
