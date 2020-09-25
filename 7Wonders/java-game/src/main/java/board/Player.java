@@ -16,6 +16,15 @@ public class Player {
 
     //Player
     public void playCard() {
+        /*
+         * Choices :
+         * Can be affected by the ressource choice on a card
+         * - Buy a Card : cdt sufficient ressources & same card not previously bought, effect : Add ressources production
+         * - Construct Wonder step : cdt sufficient ressources & step not already constructed, effect : grant step effect
+         *
+         * To do whenever there is no other choice possible
+         * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
+         * */
         System.out.println("Player " + playerId + " plays a card");
         //Updating player's score
         score += cards.get(0).getVictoryPoints();
@@ -27,15 +36,15 @@ public class Player {
         return "Player " + playerId + " wins with a score of " + score;
     }
 
-    public void setCards(ArrayList<Card> initiateCards) {
-        this.cards = initiateCards;
-    }
-
     public int getScore() {
         return score;
     }
 
     public ArrayList<Card> getCards() {
         return cards;
+    }
+
+    public void setCards(ArrayList<Card> initiateCards) {
+        this.cards = initiateCards;
     }
 }

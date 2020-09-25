@@ -20,7 +20,7 @@ public class BoardTest {
     @Test
     public void testInitializedDeckCardList() {
         Board board = new Board(10);
-        int deckCardsCount = board.getDeckCardList().size();
+        int deckCardsCount = board.getCurrentDeckCardList().size();
         assertEquals(7, deckCardsCount);
     }
 
