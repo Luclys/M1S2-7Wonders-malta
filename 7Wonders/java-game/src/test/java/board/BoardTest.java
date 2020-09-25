@@ -7,7 +7,7 @@ public class BoardTest {
     public void playTest() {
         Board board = new Board(1);
         board.play();
-        assertEquals(7, board.getTour());
+        assertEquals(6, board.getTour());
     }
 
     @Test

@@ -14,7 +14,22 @@ public class Board {
     public Board(int nbPlayers) {
         playerList = new ArrayList<>(nbPlayers);
         for (int i = 0; i < nbPlayers; i++) {
-            playerList.add(new Player(i));
+            Player player = new Player(i);
+
+            // To make a tor we bind the first's left to last id
+            if (i == 0) {
+                player.setleftNeighborId(nbPlayers-1);
+            } else {
+                player.setleftNeighborId(i+1);
+            }
+            // To make a tor we bind the last's right to first id
+            if (i == nbPlayers-1) {
+                player.setrightNeighborId(0);
+            }else {
+                player.setrightNeighborId(i-1);
+            }
+
+            playerList.add(player);
         }
 
         currentDeckCardList = initiateCards(nbPlayers);
@@ -23,7 +38,7 @@ public class Board {
 
     public static void main(String[] args) {
         System.out.println("~Starting a new game of 7 Wonders~");
-        Board board = new Board(1); // We won't code the 2p version.
+        Board board = new Board(3); // We won't code the 2p version.
         board.play();
         board.scores();
     }
@@ -41,10 +56,11 @@ public class Board {
     }
 
     public void play() {
-        //Card dealing
+        // Card dealing
         playerList.forEach(player -> player.setCards(drawCards(7)));
-        //Each player plays a card on each turn
-        for (int i = 0; i < 7; i++) {
+
+        // Each player plays a card on each turn
+        for (int i = 0; i < 6; i++) {
             for (Player p : playerList) {
                 p.playCard();
             }
