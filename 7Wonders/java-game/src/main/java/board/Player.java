@@ -8,9 +8,13 @@ public class Player {
     private final int playerId;
     private ArrayList<Card> cards;
     private int score;
+    private int rightNeighborId;
+    private int leftNeighborId;
 
     public Player(int id) {
         playerId = id;
+        this.leftNeighborId = 0;
+        this.rightNeighborId = 0;
         cards = new ArrayList<>(7);
     }
 
@@ -36,6 +40,13 @@ public class Player {
         return "Player " + playerId + " wins with a score of " + score;
     }
 
+    public void setleftNeighborId (int id) {
+        this.leftNeighborId = id;
+    }
+    public void setrightNeighborId (int id) {
+        this.rightNeighborId = id;
+    }
+
     public int getScore() {
         return score;
     }
@@ -46,5 +57,22 @@ public class Player {
 
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
+    }
+
+    public Card discardLastCard() {
+        if (cards.size() == 1) {
+            return cards.remove(0);
+        }
+        else {
+            throw new Error("There is more than 1 card left.");
+        }
+    }
+
+    public int getRightNeighborId() {
+        return this.rightNeighborId;
+    }
+
+    public int getLeftNeighborId() {
+        return this.leftNeighborId;
     }
 }
