@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Card;
+import gameelements.Resource;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class PlayerTest {
     public void setUp() {
         player = new Player(3);
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card());
+            cards.add(new Card("CHANTIER", new Resource[] {Resource.BOIS}));
         }
         player.setCards(cards);
     }

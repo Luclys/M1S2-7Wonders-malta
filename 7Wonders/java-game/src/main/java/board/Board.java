@@ -1,12 +1,13 @@
 package board;
 
 import gameelements.Card;
+import gameelements.Resource;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 public class Board {
+    public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
     private final ArrayList<Card> currentDeckCardList;
     private int tour;
@@ -18,15 +19,15 @@ public class Board {
 
             // To make a tor we bind the first's left to last id
             if (i == 0) {
-                player.setleftNeighborId(nbPlayers-1);
+                player.setLeftNeighbor(nbPlayers-1);
             } else {
-                player.setleftNeighborId(i-1);
+                player.setLeftNeighbor(i-1);
             }
             // To make a tor we bind the last's right to first id
             if (i == nbPlayers-1) {
-                player.setrightNeighborId(0);
+                player.setRightNeighbor(0);
             }else {
-                player.setrightNeighborId(i+1);
+                player.setRightNeighbor(i+1);
             }
 
             playerList.add(player);
@@ -57,10 +58,10 @@ public class Board {
 
     public void play() {
         // Card dealing
-        playerList.forEach(player -> player.setCards(drawCards(7)));
+        playerList.forEach(player -> player.setCards(drawCards(NOMBRE_CARTES)));
 
         // Each player plays a card on each turn
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < NOMBRE_CARTES - 1; i++) {
             for (Player p : playerList) {
                 p.playCard();
             }
@@ -96,14 +97,10 @@ public class Board {
          * Generate three different decks for the three ages according to the nbPlayers.
          * shuffle guild card and keep nbPlayers + 2. Add to the ThirdAge deck.
          * */
-        ArrayList<Card> res = new ArrayList<>();
-        res.add(new Card());
-        res.add(new Card());
-        res.add(new Card());
-        res.add(new Card());
-        res.add(new Card());
-        res.add(new Card());
-        res.add(new Card());
+        ArrayList<Card> res = new ArrayList<>(NOMBRE_CARTES);
+        for (int i = 0; i < NOMBRE_CARTES; i++) {
+            res.add(new Card("BATIMENT", new Resource[] {Resource.BOIS, Resource.ARGILE}));
+        }
         return res;
     }
 

@@ -28,12 +28,12 @@ public class BoardTest {
         Player lastPlayer = playerList.get(nbPlayers-1);
 
         // We test the neighborhood tor to the left then to the right
-        assertSame(playerList.get(firstPlayer.getLeftNeighborId()), lastPlayer);
-        assertSame(playerList.get(lastPlayer.getRightNeighborId()), firstPlayer);
+        assertSame(playerList.get(firstPlayer.getLeftNeighbor()), lastPlayer);
+        assertSame(playerList.get(lastPlayer.getRightNeighbor()), firstPlayer);
 
         // We test the left neighbor then the right
-        assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
-        assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
+        assertSame(playerList.get(secondPlayer.getLeftNeighbor()), firstPlayer);
+        assertSame(playerList.get(firstPlayer.getRightNeighbor()), secondPlayer);
     }
 
     @Test
