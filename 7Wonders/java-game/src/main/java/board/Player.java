@@ -46,7 +46,7 @@ public class Player {
     }
 
     private void updateAvailableResources(Card playedCard) {
-        for (Resource r: playedCard.getGainedResources()) {
+        for (Resource r : playedCard.getGainedResources()) {
             availableResources[r.getIndex()]++;
         }
         System.out.println("\tHe now has "
@@ -60,8 +60,7 @@ public class Player {
         if (cards.size() == 1) {
             System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             return cards.remove(0);
-        }
-        else {
+        } else {
             throw new Error("There is more than 1 card left.");
         }
     }
@@ -76,19 +75,20 @@ public class Player {
         return this.rightNeighborId;
     }
 
-    public int getLeftNeighborId() {
-        return this.leftNeighborId;
+    public void setRightNeighborId(int id) {
+        this.rightNeighborId = id;
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    public int getLeftNeighborId() {
+        return this.leftNeighborId;
     }
 
     public void setLeftNeighborId(int id) {
         this.leftNeighborId = id;
     }
-    public void setRightNeighborId(int id) {
-        this.rightNeighborId = id;
+
+    public ArrayList<Card> getCards() {
+        return cards;
     }
 
     public void setCards(ArrayList<Card> initiateCards) {

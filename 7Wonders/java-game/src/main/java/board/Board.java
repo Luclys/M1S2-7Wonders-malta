@@ -20,15 +20,15 @@ public class Board {
 
             // To make a tor we bind the first's left to last id
             if (i == 0) {
-                player.setLeftNeighborId(nbPlayers-1);
+                player.setLeftNeighborId(nbPlayers - 1);
             } else {
-                player.setLeftNeighborId(i-1);
+                player.setLeftNeighborId(i - 1);
             }
             // To make a tor we bind the last's right to first id
-            if (i == nbPlayers-1) {
+            if (i == nbPlayers - 1) {
                 player.setRightNeighborId(0);
-            }else {
-                player.setRightNeighborId(i+1);
+            } else {
+                player.setRightNeighborId(i + 1);
             }
 
             playerList.add(player);
@@ -81,8 +81,8 @@ public class Board {
     }
 
     private void resolveWarConflict(Player player) {
-        Player rightNeighbor = playerList.get(player.getRightNeighborId()) ;
-        Player leftNeighbor = playerList.get(player.getLeftNeighborId()) ;
+        Player rightNeighbor = playerList.get(player.getRightNeighborId());
+        Player leftNeighbor = playerList.get(player.getLeftNeighborId());
     }
 
     ArrayList<Card> drawCards(int nbCards) {
@@ -118,13 +118,13 @@ public class Board {
         ArrayList<Card> res = new ArrayList<>(NOMBRE_CARTES * nbPlayers);
 
         for (int i = 0; i < nbPlayers; i++) {
-            res.add(new Card("Wood"+i, new Resource[] {Resource.BOIS}));
-            res.add(new Card("Clay"+i, new Resource[] {Resource.ARGILE}));
-            res.add(new Card("stone"+i, new Resource[] {Resource.PIERRE}));
-            res.add(new Card("ore"+i, new Resource[] {Resource.MINERAI}));
-            res.add(new Card("ClayWood"+i, new Resource[] {Resource.BOIS, Resource.ARGILE}));
-            res.add(new Card("ClayStone"+i, new Resource[] {Resource.ARGILE, Resource.PIERRE}));
-            res.add(new Card("StoneOre"+i, new Resource[] {Resource.PIERRE, Resource.MINERAI}));
+            res.add(new Card("Wood" + i, new Resource[]{Resource.BOIS}));
+            res.add(new Card("Clay" + i, new Resource[]{Resource.ARGILE}));
+            res.add(new Card("stone" + i, new Resource[]{Resource.PIERRE}));
+            res.add(new Card("ore" + i, new Resource[]{Resource.MINERAI}));
+            res.add(new Card("ClayWood" + i, new Resource[]{Resource.BOIS, Resource.ARGILE}));
+            res.add(new Card("ClayStone" + i, new Resource[]{Resource.ARGILE, Resource.PIERRE}));
+            res.add(new Card("StoneOre" + i, new Resource[]{Resource.PIERRE, Resource.MINERAI}));
         }
         return res;
     }

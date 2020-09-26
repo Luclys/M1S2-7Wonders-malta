@@ -1,4 +1,5 @@
 package board;
+
 import gameelements.Card;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +20,14 @@ public class BoardTest {
         int nbPlayers = 10;
 
         Board board = new Board(nbPlayers);
-        ArrayList<Player>  playerList = board.getPlayerList();
+        ArrayList<Player> playerList = board.getPlayerList();
 
         int playersCount = playerList.size();
         assertEquals(10, playersCount);
 
         Player firstPlayer = playerList.get(0);
         Player secondPlayer = playerList.get(1);
-        Player lastPlayer = playerList.get(nbPlayers-1);
+        Player lastPlayer = playerList.get(nbPlayers - 1);
 
         // We test the neighborhood tor to the left then to the right
         assertSame(playerList.get(firstPlayer.getLeftNeighborId()), lastPlayer);
@@ -49,8 +50,8 @@ public class BoardTest {
     public void initiateCardsTest() {
         int nbPlayers = 1;
         Board board = new Board(nbPlayers);
-       int resSize = board.initiateCards(nbPlayers).size();
-       assertEquals(7, resSize);
+        int resSize = board.initiateCards(nbPlayers).size();
+        assertEquals(7, resSize);
     }
 
     @Test
