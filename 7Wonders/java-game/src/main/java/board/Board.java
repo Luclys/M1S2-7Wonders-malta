@@ -10,7 +10,8 @@ public class Board {
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
     private final ArrayList<Card> currentDeckCardList;
-    private int tour;
+    private ArrayList<Card> discardedCardList;
+    private int turn;
 
     public Board(int nbPlayers) {
         playerList = new ArrayList<>(nbPlayers);
@@ -19,15 +20,15 @@ public class Board {
 
             // To make a tor we bind the first's left to last id
             if (i == 0) {
-                player.setLeftNeighbor(nbPlayers-1);
+                player.setLeftNeighborId(nbPlayers-1);
             } else {
-                player.setLeftNeighbor(i-1);
+                player.setLeftNeighborId(i-1);
             }
             // To make a tor we bind the last's right to first id
             if (i == nbPlayers-1) {
-                player.setRightNeighbor(0);
+                player.setRightNeighborId(0);
             }else {
-                player.setRightNeighbor(i+1);
+                player.setRightNeighborId(i+1);
             }
 
             playerList.add(player);
@@ -52,26 +53,42 @@ public class Board {
         return this.currentDeckCardList;
     }
 
-    public int getTour() {
-        return this.tour;
+    public int getTurn() {
+        return this.turn;
     }
 
     public void play() {
-        // Card dealing
-        playerList.forEach(player -> player.setCards(drawCards(NOMBRE_CARTES)));
+        for (int age = 0; age < 1; age++) {
 
-        // Each player plays a card on each turn
-        for (int i = 0; i < NOMBRE_CARTES - 1; i++) {
-            for (Player p : playerList) {
-                p.playCard();
+            // Card dealing
+            playerList.forEach(player -> player.setCards(drawCards(NOMBRE_CARTES)));
+
+            // Each player plays a card on each turn
+            for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
+                for (Player p : playerList) {
+                    p.playCard();
+                }
+                // The players exchange cards according to the Age's sens.
+
+                this.turn++;
             }
-            tour++;
+            // At the end of the 6th turn, we discard the remaining card
+            // ⚠ The discarded cards must be remembered.
+            playerList.forEach(player -> discardedCardList.add(player.discardLastCard()));
+            // Resolving war conflicts
+            playerList.forEach(this::resolveWarConflict);
         }
-        //⚠ The discarded cards must be remembered.
     }
 
-    private ArrayList<Card> drawCards(int nbCards) {
-        return new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+    private void resolveWarConflict(Player player) {
+        Player rightNeighbor = playerList.get(player.getRightNeighborId()) ;
+        Player leftNeighbor = playerList.get(player.getLeftNeighborId()) ;
+    }
+
+    ArrayList<Card> drawCards(int nbCards) {
+        ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+        this.currentDeckCardList.removeAll(playerDeck);
+        return playerDeck;
     }
 
     public void scores() {
@@ -92,14 +109,22 @@ public class Board {
         }
     }
 
-    public ArrayList<Card> initiateCards(int nbPlayers) {
+    ArrayList<Card> initiateCards(int nbPlayers) {
+        this.discardedCardList = new ArrayList<>();
         /*
          * Generate three different decks for the three ages according to the nbPlayers.
          * shuffle guild card and keep nbPlayers + 2. Add to the ThirdAge deck.
          * */
-        ArrayList<Card> res = new ArrayList<>(NOMBRE_CARTES);
-        for (int i = 0; i < NOMBRE_CARTES; i++) {
-            res.add(new Card("BATIMENT", new Resource[] {Resource.BOIS, Resource.ARGILE}));
+        ArrayList<Card> res = new ArrayList<>(NOMBRE_CARTES * nbPlayers);
+
+        for (int i = 0; i < nbPlayers; i++) {
+            res.add(new Card("Wood"+i, new Resource[] {Resource.BOIS}));
+            res.add(new Card("Clay"+i, new Resource[] {Resource.ARGILE}));
+            res.add(new Card("stone"+i, new Resource[] {Resource.PIERRE}));
+            res.add(new Card("ore"+i, new Resource[] {Resource.MINERAI}));
+            res.add(new Card("ClayWood"+i, new Resource[] {Resource.BOIS, Resource.ARGILE}));
+            res.add(new Card("ClayStone"+i, new Resource[] {Resource.ARGILE, Resource.PIERRE}));
+            res.add(new Card("StoneOre"+i, new Resource[] {Resource.PIERRE, Resource.MINERAI}));
         }
         return res;
     }

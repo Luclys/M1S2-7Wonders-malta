@@ -1,4 +1,5 @@
 package board;
+import gameelements.Card;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class BoardTest {
     public void playTest() {
         Board board = new Board(1);
         board.play();
-        assertEquals(6, board.getTour());
+        assertEquals(6, board.getTurn());
     }
 
     @Test
@@ -28,26 +29,42 @@ public class BoardTest {
         Player lastPlayer = playerList.get(nbPlayers-1);
 
         // We test the neighborhood tor to the left then to the right
-        assertSame(playerList.get(firstPlayer.getLeftNeighbor()), lastPlayer);
-        assertSame(playerList.get(lastPlayer.getRightNeighbor()), firstPlayer);
+        assertSame(playerList.get(firstPlayer.getLeftNeighborId()), lastPlayer);
+        assertSame(playerList.get(lastPlayer.getRightNeighborId()), firstPlayer);
 
         // We test the left neighbor then the right
-        assertSame(playerList.get(secondPlayer.getLeftNeighbor()), firstPlayer);
-        assertSame(playerList.get(firstPlayer.getRightNeighbor()), secondPlayer);
+        assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
+        assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
     }
 
     @Test
     public void testInitializedDeckCardList() {
-        Board board = new Board(10);
+        int nbPlayers = 10;
+        Board board = new Board(nbPlayers);
         int deckCardsCount = board.getCurrentDeckCardList().size();
-        assertEquals(7, deckCardsCount);
+        assertEquals(nbPlayers * 7, deckCardsCount);
     }
 
     @Test
     public void initiateCardsTest() {
-       Board board = new Board(1);
-       int resSize = board.initiateCards(5).size();
+        int nbPlayers = 1;
+        Board board = new Board(nbPlayers);
+       int resSize = board.initiateCards(nbPlayers).size();
        assertEquals(7, resSize);
+    }
+
+    @Test
+    public void drawCardsTest() {
+        int nbPlayers = 1;
+        Board board = new Board(nbPlayers);
+
+        int nbToDraw = 1;
+        ArrayList<Card> listBeforeDrawing = board.getCurrentDeckCardList();
+        ArrayList<Card> card = board.drawCards(nbToDraw);
+        ArrayList<Card> listAfterDrawing = board.getCurrentDeckCardList();
+
+        //assertEquals(listBeforeDrawing.size(), listAfterDrawing.size() - nbToDraw);
+        //assertSame(listBeforeDrawing.get(0), card.get(0));
     }
 }
 

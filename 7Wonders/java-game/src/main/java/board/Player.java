@@ -36,7 +36,7 @@ public class Player {
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
         Card playedCard = cards.get(0);
-        System.out.println("Player " + id + " plays the " + playedCard.getName() + " card.");
+        System.out.print("Player " + id + " plays the " + playedCard.getName() + " card.\t");
         //Updating player's score
         score += playedCard.getVictoryPoints();
         //Updating player's available resources
@@ -49,11 +49,16 @@ public class Player {
         for (Resource r: playedCard.getGainedResources()) {
             availableResources[r.getIndex()]++;
         }
-        System.out.println("Player " + id + " now has " + availableResources[Resource.BOIS.getIndex()] + " wood and " + availableResources[Resource.ARGILE.getIndex()] + " clay.");
+        System.out.println("\tHe now has "
+                + availableResources[Resource.BOIS.getIndex()] + " wood and "
+                + availableResources[Resource.ARGILE.getIndex()] + " clay and "
+                + availableResources[Resource.PIERRE.getIndex()] + " stone and "
+                + availableResources[Resource.MINERAI.getIndex()] + " ore.");
     }
 
-    private Card discardLastCard() {
+    Card discardLastCard() {
         if (cards.size() == 1) {
+            System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             return cards.remove(0);
         }
         else {
@@ -67,11 +72,11 @@ public class Player {
         return score;
     }
 
-    public int getRightNeighbor() {
+    public int getRightNeighborId() {
         return this.rightNeighborId;
     }
 
-    public int getLeftNeighbor() {
+    public int getLeftNeighborId() {
         return this.leftNeighborId;
     }
 
@@ -79,10 +84,10 @@ public class Player {
         return cards;
     }
 
-    public void setLeftNeighbor(int id) {
+    public void setLeftNeighborId(int id) {
         this.leftNeighborId = id;
     }
-    public void setRightNeighbor(int id) {
+    public void setRightNeighborId(int id) {
         this.rightNeighborId = id;
     }
 
