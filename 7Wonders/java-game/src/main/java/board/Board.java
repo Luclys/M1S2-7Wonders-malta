@@ -81,8 +81,8 @@ public class Board {
     }
 
     private void resolveWarConflict(Player player) {
-        Player rightNeighbor = playerList.get(player.getRightNeighborId());
-        Player leftNeighbor = playerList.get(player.getLeftNeighborId());
+        player.fightWithNeighbor(playerList.get(player.getRightNeighborId()), 1);
+        player.fightWithNeighbor(playerList.get(player.getLeftNeighborId()), 1);
     }
 
     ArrayList<Card> drawCards(int nbCards) {
