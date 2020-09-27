@@ -65,7 +65,6 @@ public class Board {
 
             // Each player plays a card on each turn
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
-                System.out.println("Round "+(currentTurn+1)+" :");
                 for (Player p : playerList) {
                     p.playCard();
                 }

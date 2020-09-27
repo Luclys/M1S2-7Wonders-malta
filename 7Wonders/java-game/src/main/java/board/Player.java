@@ -177,6 +177,27 @@ public class Player {
         }
     }
 
+    public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
+
+    private void addVictoryPoints(int victoryPoints) { this.victoryPoints += victoryPoints; }
+
+    public void fightWithNeighbor(Player neighbor, int victoryPoints) { // victoryPoints depends on Age
+        int playerBoucliersCount = this.getBoucliersCount();
+        System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers");
+
+        int neighborBoucliersCount = neighbor.getBoucliersCount();
+        System.out.println("[RESOLVING WAR CONFLICTS] Neighbor has " + neighborBoucliersCount + " boucliers");
+
+        if (playerBoucliersCount > neighborBoucliersCount) {
+            this.addVictoryPoints(victoryPoints);
+            System.out.println("[RESOLVING WAR CONFLICTS] " + victoryPoints + " victory points added");
+        } else if (playerBoucliersCount < neighborBoucliersCount) {
+            this.addVictoryPoints(-1);
+            System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 victory point) added");
+        }
+        System.out.println("[RESOLVING WAR CONFLICTS] Total player victory points: " + this.getVictoryPoints());
+    }
+
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
     }
