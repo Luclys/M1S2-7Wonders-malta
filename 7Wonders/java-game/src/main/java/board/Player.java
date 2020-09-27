@@ -166,6 +166,18 @@ public class Player {
 
     public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 
+    private void addVictoryPoints(int victoryPoints) { this.victoryPoints += victoryPoints; }
+
+    public void fightWithNeighbor(Player neighbor, int victoryPoints) { // victoryPoints depends on Age
+        int playerBoucliersCount = this.getBoucliersCount();
+        int neighborBoucliersCount = neighbor.getBoucliersCount();
+        if (playerBoucliersCount > neighborBoucliersCount) {
+            this.addVictoryPoints(victoryPoints);
+        } else if (playerBoucliersCount < neighborBoucliersCount) {
+            this.addVictoryPoints(-1);
+        }
+    }
+
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
     }
