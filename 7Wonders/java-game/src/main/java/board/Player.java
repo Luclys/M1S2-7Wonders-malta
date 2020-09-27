@@ -92,7 +92,6 @@ public class Player {
              *
              * */
             p.addCoins(n);
-            p.removeRessource(r);
             this.removeCoins(n);
         }
     }
@@ -101,9 +100,6 @@ public class Player {
         return availableResources[r.getIndex()] > 0;
     }
 
-    private void removeRessource(Resource r){
-        availableResources[r.getIndex()]--;
-    }
 
     private void updateAvailableResources(Card playedCard) {
         for (Resource r : playedCard.getGainedResources()) {

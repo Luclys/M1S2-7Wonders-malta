@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class PlayerTest {
@@ -49,5 +50,23 @@ public class PlayerTest {
         Card lastCard = player.getCards().get(0);
         assertSame(lastCard, player.discardLastCard());
         assertTrue(player.getCards().isEmpty());
+    }
+
+    @Test
+    public void addCoinsTest(){
+        player.addCoins(5);
+        assertEquals(player.getCoins(),5);
+    }
+
+    @Test
+    public void removeCoinsTest(){
+        player.setCoins(5);
+        player.removeCoins(3);
+        assertEquals(player.getCoins(),2);
+    }
+
+    @Test
+    public void acceptToSaleTest(){
+
     }
 }
