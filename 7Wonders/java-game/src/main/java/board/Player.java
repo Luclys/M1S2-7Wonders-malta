@@ -64,6 +64,11 @@ public class Player {
                 System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
                 this.priceRight = 1;
                 break;
+            case "MARCHE":
+                System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+                this.priceRight = 1;
+                this.priceLeft = 1;
+                break;
         }
 
 
