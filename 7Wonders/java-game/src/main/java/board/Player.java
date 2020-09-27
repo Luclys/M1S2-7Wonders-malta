@@ -166,7 +166,6 @@ public class Player {
 
     public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 
-    private void addVictoryPoints(int victoryPoints) { this.victoryPoints += victoryPoints; }
 
     public void fightWithNeighbor(Player neighbor, int victoryPoints) { // victoryPoints depends on Age
         int playerBoucliersCount = this.getBoucliersCount();
