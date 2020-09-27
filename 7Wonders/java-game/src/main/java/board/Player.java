@@ -18,7 +18,7 @@ public class Player {
         this.leftNeighborId = 0;
         this.rightNeighborId = 0;
         this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
-        this.availableResources = new int[12];
+        this.availableResources = new int[Resource.values().length];
     }
 
     public String toString() {
