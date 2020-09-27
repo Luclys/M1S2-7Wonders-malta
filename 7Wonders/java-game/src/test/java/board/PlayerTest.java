@@ -31,4 +31,23 @@ public class PlayerTest {
         assertEquals(player.getScore(), 1);
         assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
     }
+
+    @Test
+    public void updateAvailableResourcesTest() {
+        assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
+        player.playCard();
+        assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
+        assertEquals(0, player.getAvailableResources()[Resource.MINERAI.getIndex()]);
+    }
+
+    @Test
+    public void discardLastCardTest() {
+        assertThrows(Error.class, () -> player.discardLastCard());
+        while (player.getCards().size() > 1) {
+            player.playCard();
+        }
+        Card lastCard = player.getCards().get(0);
+        assertSame(lastCard, player.discardLastCard());
+        assertTrue(player.getCards().isEmpty());
+    }
 }

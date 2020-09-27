@@ -9,7 +9,7 @@ public class Player {
     private final int id;
     private ArrayList<Card> cards;
     private int score;
-    private int[] availableResources;
+    private final int[] availableResources;
     private int rightNeighborId;
     private int leftNeighborId;
 
@@ -17,7 +17,7 @@ public class Player {
         this.id = id;
         this.leftNeighborId = 0;
         this.rightNeighborId = 0;
-        this.cards = new ArrayList<>(7);
+        this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
         this.availableResources = new int[12];
     }
 
@@ -96,6 +96,8 @@ public class Player {
     public ArrayList<Card> getCards() {
         return cards;
     }
+
+    public int[] getAvailableResources() { return availableResources; }
 
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
