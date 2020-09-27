@@ -18,7 +18,7 @@ public class Player {
         this.leftNeighborId = 0;
         this.rightNeighborId = 0;
         this.cards = new ArrayList<>(7);
-        this.availableResources = new int[4];
+        this.availableResources = new int[12];
     }
 
     public String toString() {
@@ -50,10 +50,16 @@ public class Player {
             availableResources[r.getIndex()]++;
         }
         System.out.println("\tHe now has "
-                + availableResources[Resource.BOIS.getIndex()] + " wood and "
-                + availableResources[Resource.ARGILE.getIndex()] + " clay and "
-                + availableResources[Resource.PIERRE.getIndex()] + " stone and "
-                + availableResources[Resource.MINERAI.getIndex()] + " ore.");
+                + availableResources[Resource.BOIS.getIndex()] + " bois and "
+                + availableResources[Resource.ARGILE.getIndex()] + " argile and "
+                + availableResources[Resource.PIERRE.getIndex()] + " pierre and "
+                + availableResources[Resource.MINERAI.getIndex()] + " minerai and"
+                + availableResources[Resource.VERRE.getIndex()] + " verre and "
+                + availableResources[Resource.PAPYRUS.getIndex()] + " papyrus and "
+                + availableResources[Resource.TISSU.getIndex()] + " tissu and "
+                + availableResources[Resource.BOUCLIER.getIndex()] + " bouclier and "
+                + availableResources[Resource.POINTSCORE.getIndex()] + " point score. "
+        );
     }
 
     Card discardLastCard() {

@@ -110,21 +110,123 @@ public class Board {
     }
 
     ArrayList<Card> initiateCards(int nbPlayers) {
-        this.discardedCardList = new ArrayList<>();
+        this.discardedCardList = new ArrayList<>(nbPlayers * 3);
         /*
          * Generate three different decks for the three ages according to the nbPlayers.
          * shuffle guild card and keep nbPlayers + 2. Add to the ThirdAge deck.
          * */
         ArrayList<Card> res = new ArrayList<>(NOMBRE_CARTES * nbPlayers);
 
-        for (int i = 0; i < nbPlayers; i++) {
-            res.add(new Card("Wood" + i, new Resource[]{Resource.BOIS}));
-            res.add(new Card("Clay" + i, new Resource[]{Resource.ARGILE}));
-            res.add(new Card("stone" + i, new Resource[]{Resource.PIERRE}));
-            res.add(new Card("ore" + i, new Resource[]{Resource.MINERAI}));
-            res.add(new Card("ClayWood" + i, new Resource[]{Resource.BOIS, Resource.ARGILE}));
-            res.add(new Card("ClayStone" + i, new Resource[]{Resource.ARGILE, Resource.PIERRE}));
-            res.add(new Card("StoneOre" + i, new Resource[]{Resource.PIERRE, Resource.MINERAI}));
+        switch (nbPlayers){
+            case 7 :
+                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("BAINS", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+
+                res.add(new Card("PALISSADE", new Resource[]{Resource.BOUCLIER}));
+
+
+                // Age II
+                // Age III
+
+            case 6 :
+                // Age I
+                res.add(new Card("Métier à tisser", new Resource[]{Resource.TISSU}));
+                res.add(new Card("Verrerie", new Resource[]{Resource.VERRE}));
+                res.add(new Card("Presse", new Resource[]{Resource.PAPYRUS}));
+
+                res.add(new Card("THÉÂTRE", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+
+
+                // Age II
+                //res.add(new Card("Métier à tisser", new Resource[]{Resource.TISSU}));
+                //res.add(new Card("Verrerie", new Resource[]{Resource.VERRE}));
+                //res.add(new Card("Presse", new Resource[]{Resource.PAPYRUS}));
+
+                // Age III
+            case 5 :
+                // Age I
+                res.add(new Card("Cavité", new Resource[]{Resource.PIERRE}));
+                res.add(new Card("Bassin Argileux", new Resource[]{Resource.ARGILE}));
+
+                res.add(new Card("AUTEL", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+
+                res.add(new Card("CASERNE", new Resource[]{Resource.BOUCLIER}));
+
+
+
+                // Age II
+                // Gray
+                res.add(new Card("Métier à tisser", new Resource[]{Resource.TISSU}));
+                res.add(new Card("Verrerie", new Resource[]{Resource.VERRE}));
+                res.add(new Card("Presse", new Resource[]{Resource.PAPYRUS}));
+
+                // Age III
+            case 4 :
+                // Age I
+                // Brown
+                res.add(new Card("Chantier", new Resource[]{Resource.BOIS}));
+                res.add(new Card("filon", new Resource[]{Resource.MINERAI}));
+
+                // Blue
+                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+
+                // Red
+                res.add(new Card("TOUR DE GARDE", new Resource[]{Resource.BOUCLIER}));
+
+                // Age II
+                // Brown
+                //res.add(new Card("Scierie", new Resource[]{Resource.BOIS, Resource.BOIS}));
+                //res.add(new Card("Carrière", new Resource[]{Resource.PIERRE, Resource.PIERRE}));
+                //res.add(new Card("Briqueterie", new Resource[]{Resource.ARGILE, Resource.ARGILE}));
+                //res.add(new Card("FonderieMINERAI", new Resource[]{Resource.MINERAI, Resource.MINERAI}));
+
+                // Age III
+
+            case 3 :
+                // Age I
+                // Brown
+                res.add(new Card("Chantier", new Resource[]{Resource.BOIS}));
+                res.add(new Card("Cavité", new Resource[]{Resource.PIERRE}));
+                res.add(new Card("Bassin Argileux", new Resource[]{Resource.ARGILE}));
+                res.add(new Card("filon", new Resource[]{Resource.MINERAI}));
+
+                // Gray
+                res.add(new Card("Métier à tisser", new Resource[]{Resource.TISSU}));
+                res.add(new Card("Verrerie", new Resource[]{Resource.VERRE}));
+                res.add(new Card("Presse", new Resource[]{Resource.PAPYRUS}));
+
+                // Blue
+                res.add(new Card("BAINS", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("AUTEL", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("THÉÂTRE", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+
+                // Red
+                res.add(new Card("PALISSADE", new Resource[]{Resource.BOUCLIER}));
+                res.add(new Card("CASERNE", new Resource[]{Resource.BOUCLIER}));
+                res.add(new Card("TOUR DE GARDE", new Resource[]{Resource.BOUCLIER}));
+
+                // Green
+                res.add(new Card("OFFICINE", new Resource[]{Resource.COMPAS}));
+                res.add(new Card("ATELIER", new Resource[]{Resource.ROUAGE}));
+                res.add(new Card("SCRIPTORIUM", new Resource[]{Resource.STELE}));
+
+                // Age II
+                // Brown
+                //res.add(new Card("Scierie", new Resource[]{Resource.BOIS, Resource.BOIS}));
+                //res.add(new Card("Carrière", new Resource[]{Resource.PIERRE, Resource.PIERRE}));
+                //res.add(new Card("Briqueterie", new Resource[]{Resource.ARGILE, Resource.ARGILE}));
+                //res.add(new Card("FonderieMINERAI", new Resource[]{Resource.MINERAI, Resource.MINERAI}));
+
+                //res.add(new Card("Métier à tisser", new Resource[]{Resource.TISSU}));
+                //res.add(new Card("Verrerie", new Resource[]{Resource.VERRE}));
+                //res.add(new Card("Presse", new Resource[]{Resource.PAPYRUS}));
+
+
+                // Age III
+        }
+
+        for (int i = res.size(); i < nbPlayers*7; i++) {
+            res.add(new Card("Filler" + i, new Resource[]{Resource.BOIS}));
         }
         return res;
     }
