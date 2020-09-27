@@ -12,7 +12,8 @@ public enum Resource {
     COMPAS(8),
     ROUAGE(9),
     STELE(10),
-    POINTSCORE(11);
+    POINTSCORE(11),
+    ARGENT(12);
 
     private final int index;
 

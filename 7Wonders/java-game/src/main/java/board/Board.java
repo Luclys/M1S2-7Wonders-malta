@@ -30,7 +30,7 @@ public class Board {
             } else {
                 player.setRightNeighborId(i + 1);
             }
-
+            player.setCoins(3);
             playerList.add(player);
         }
 
@@ -65,6 +65,7 @@ public class Board {
 
             // Each player plays a card on each turn
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
+                System.out.println("Round "+(currentTurn+1)+" :");
                 for (Player p : playerList) {
                     p.playCard();
                 }
@@ -103,7 +104,7 @@ public class Board {
          *
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-
+        System.out.println("End of the game");
         for (Player p : playerList) {
             System.out.println(p);
         }
@@ -126,6 +127,12 @@ public class Board {
                 // Red
                 res.add(new Card("PALISSADE", new Resource[]{Resource.BOUCLIER}));
 
+                // Yellow
+                res.add(new Card("COMPTOIR OUEST", new Resource[]{Resource.ARGILE,Resource.BOIS,Resource.MINERAI,Resource.PIERRE}));
+                res.add(new Card("COMPTOIR EST", new Resource[]{Resource.ARGILE,Resource.BOIS,Resource.MINERAI,Resource.PIERRE}));
+
+                res.add(new Card("TAVERNE", new Resource[]{Resource.ARGENT}));
+
 
                 // Age II
                 // Age III
@@ -138,6 +145,9 @@ public class Board {
                 res.add(new Card("PRESSE", new Resource[]{Resource.PAPYRUS}));
 
                 res.add(new Card("THÉÂTRE", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+
+                // Yellow
+                res.add(new Card("MARCHE", new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}));
 
 
                 // Age II
@@ -158,6 +168,8 @@ public class Board {
                 // Red
                 res.add(new Card("CASERNE", new Resource[]{Resource.BOUCLIER}));
 
+                // Yellow
+                res.add(new Card("TAVERNE", new Resource[]{Resource.ARGENT}));
 
                 // Age II
                 // Gray
@@ -177,6 +189,11 @@ public class Board {
 
                 // Red
                 res.add(new Card("TOUR DE GARDE", new Resource[]{Resource.BOUCLIER}));
+
+
+                // Yellow
+                res.add(new Card("TAVERNE", new Resource[]{Resource.ARGENT}));
+
 
                 // Age II
                 // Brown
@@ -214,6 +231,15 @@ public class Board {
                 res.add(new Card("OFFICINE", new Resource[]{Resource.COMPAS}));
                 res.add(new Card("ATELIER", new Resource[]{Resource.ROUAGE}));
                 res.add(new Card("SCRIPTORIUM", new Resource[]{Resource.STELE}));
+
+                // Yellow
+                res.add(new Card("MARCHE", new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}));
+                res.add(new Card("COMPTOIR OUEST", new Resource[]{Resource.ARGILE,Resource.BOIS,Resource.MINERAI,Resource.PIERRE}));
+                res.add(new Card("COMPTOIR EST", new Resource[]{Resource.ARGILE,Resource.BOIS,Resource.MINERAI,Resource.PIERRE}));
+
+
+
+
 
                 // Age II
                 // Brown

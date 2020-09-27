@@ -12,6 +12,9 @@ public class Player {
     private final int[] availableResources;
     private int rightNeighborId;
     private int leftNeighborId;
+    private int coins;
+    private int priceLeft;
+    private int priceRight;
 
     public Player(int id) {
         this.id = id;
@@ -19,10 +22,13 @@ public class Player {
         this.rightNeighborId = 0;
         this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
         this.availableResources = new int[Resource.values().length];
+        this.coins = 0;
+        this.priceRight = 2;
+        this.priceLeft = 2;
     }
 
     public String toString() {
-        return "Player " + id + " wins with a score of " + score;
+        return "Player " + id + " wins with a score of " + score +" coins "+coins;
     }
 
     public void playCard() {
@@ -37,12 +43,59 @@ public class Player {
          * */
         Card playedCard = cards.get(0);
         System.out.print("Player " + id + " plays the " + playedCard.getName() + " card.\t");
+
+        /**
+         * To modify when we add the action method
+         * Add coins when the player plays the card that gives coins AKA TAVERNE CARD
+         * **/
+
+        switch (playedCard.getName()){
+            case "TAVERNE":
+                addCoins(5);
+                break;
+            case "COMPTOIR OUEST":
+                System.out.println("Player "+ id +" can get from his left Neighbor the ressource that he wants for one coin ");
+                this.priceLeft = 1;
+                break;
+            case "COMPTOIR EST":
+                System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+                this.priceRight = 1;
+                break;
+        }
+
+
+
         //Updating player's score
         score += playedCard.getVictoryPoints();
         //Updating player's available resources
         updateAvailableResources(playedCard);
         //Card is removed from hand
         cards.remove(0);
+    }
+
+    private void buyRessource(Resource  r, Player p){
+        /**
+         * if player p have the ressource then the courant player can pay it (for the moment)
+         * **/
+        if(p.acceptToSale(r)){
+            availableResources[r.getIndex()]++;
+            int n = 2;
+            /**
+             * if(p is rightNeighborId) n = priceRight else n= priceLeft
+             *
+             * */
+            p.addCoins(n);
+            p.removeRessource(r);
+            this.removeCoins(n);
+        }
+    }
+
+    private boolean acceptToSale(Resource  r){
+        return availableResources[r.getIndex()] > 0;
+    }
+
+    private void removeRessource(Resource r){
+        availableResources[r.getIndex()]--;
     }
 
     private void updateAvailableResources(Card playedCard) {
@@ -101,5 +154,21 @@ public class Player {
 
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public void removeCoins(int coins){
+        setCoins(this.coins+coins);
+    }
+
+    public void addCoins(int coins) {
+        setCoins(this.coins+coins);
     }
 }
