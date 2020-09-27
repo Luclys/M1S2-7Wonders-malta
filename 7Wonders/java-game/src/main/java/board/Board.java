@@ -39,7 +39,7 @@ public class Board {
     }
 
     public static void main(String[] args) {
-        System.out.println("~Starting a new game of 7 Wonders~");
+        System.out.println("~Starting a new game of 7 Wonders~\n");
         Board board = new Board(3); // We won't code the 2p version.
         board.play();
         board.scores();
@@ -121,8 +121,8 @@ public class Board {
         switch (nbPlayers) {
             case 7:
                 // Blue
-                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
-                res.add(new Card("BAINS", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[0], 3));
+                res.add(new Card("BAINS", new Resource[0],3));
 
                 // Red
                 res.add(new Card("PALISSADE", new Resource[]{Resource.BOUCLIER}));
@@ -144,7 +144,7 @@ public class Board {
                 res.add(new Card("VERRERIE", new Resource[]{Resource.VERRE}));
                 res.add(new Card("PRESSE", new Resource[]{Resource.PAPYRUS}));
 
-                res.add(new Card("THÉÂTRE", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("THÉÂTRE", new Resource[0], 2));
 
                 // Yellow
                 res.add(new Card("MARCHE", new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}));
@@ -163,7 +163,7 @@ public class Board {
                 res.add(new Card("BASSIN ARGILEUX", new Resource[]{Resource.ARGILE}));
 
                 // Blue
-                res.add(new Card("AUTEL", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("AUTEL", new Resource[0], 2));
 
                 // Red
                 res.add(new Card("CASERNE", new Resource[]{Resource.BOUCLIER}));
@@ -185,7 +185,7 @@ public class Board {
                 res.add(new Card("FILON", new Resource[]{Resource.MINERAI}));
 
                 // Blue
-                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("PRÊTEUR SUR GAGES", new Resource[0], 3));
 
                 // Red
                 res.add(new Card("TOUR DE GARDE", new Resource[]{Resource.BOUCLIER}));
@@ -218,9 +218,9 @@ public class Board {
                 res.add(new Card("PRESSE", new Resource[]{Resource.PAPYRUS}));
 
                 // Blue
-                res.add(new Card("BAINS", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE, Resource.POINTSCORE}));
-                res.add(new Card("AUTEL", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
-                res.add(new Card("THÉÂTRE", new Resource[]{Resource.POINTSCORE, Resource.POINTSCORE}));
+                res.add(new Card("BAINS", new Resource[0], 3));
+                res.add(new Card("AUTEL", new Resource[0], 2));
+                res.add(new Card("THÉÂTRE", new Resource[0],2));
 
                 // Red
                 res.add(new Card("PALISSADE", new Resource[]{Resource.BOUCLIER}));

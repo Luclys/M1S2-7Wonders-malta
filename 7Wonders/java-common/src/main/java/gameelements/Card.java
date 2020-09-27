@@ -8,9 +8,14 @@ public class Card {
     public Card(String name, Resource[] gainedResources) {
         this.name = name;
         this.gainedResources = gainedResources;
-        victoryPoints = 1;
+        this.victoryPoints = 0;
     }
 
+    public Card(String name, Resource[] gainedResources, int victoryPoints) {
+        this.name = name;
+        this.gainedResources = gainedResources;
+        this.victoryPoints = victoryPoints;
+    }
     public int getVictoryPoints() {
         return victoryPoints;
     }

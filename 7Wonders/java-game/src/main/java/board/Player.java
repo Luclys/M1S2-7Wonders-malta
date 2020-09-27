@@ -73,7 +73,7 @@ public class Player {
 
 
         //Updating player's score
-        score += playedCard.getVictoryPoints();
+        updateScore(playedCard);
         //Updating player's available resources
         updateAvailableResources(playedCard);
         //Card is removed from hand
@@ -109,17 +109,21 @@ public class Player {
         for (Resource r : playedCard.getGainedResources()) {
             availableResources[r.getIndex()]++;
         }
-        System.out.println("\tHe now has "
-                + availableResources[Resource.BOIS.getIndex()] + " bois and "
-                + availableResources[Resource.ARGILE.getIndex()] + " argile and "
-                + availableResources[Resource.PIERRE.getIndex()] + " pierre and "
-                + availableResources[Resource.MINERAI.getIndex()] + " minerai and"
-                + availableResources[Resource.VERRE.getIndex()] + " verre and "
-                + availableResources[Resource.PAPYRUS.getIndex()] + " papyrus and "
-                + availableResources[Resource.TISSU.getIndex()] + " tissu and "
-                + availableResources[Resource.BOUCLIER.getIndex()] + " bouclier and "
-                + availableResources[Resource.POINTSCORE.getIndex()] + " point score. "
+        System.out.println("\tA : "
+                + availableResources[Resource.BOIS.getIndex()] + " | B : "
+                + availableResources[Resource.ARGILE.getIndex()] + " | P : "
+                + availableResources[Resource.PIERRE.getIndex()] + " | M : "
+                + availableResources[Resource.MINERAI.getIndex()] + " | V : "
+                + availableResources[Resource.VERRE.getIndex()] + " | P : "
+                + availableResources[Resource.PAPYRUS.getIndex()] + " | T : "
+                + availableResources[Resource.TISSU.getIndex()] + " | B : "
+                + availableResources[Resource.BOUCLIER.getIndex()] + " | # "
+                + getScore()
         );
+    }
+
+    private void updateScore(Card playedCard) {
+        score += playedCard.getVictoryPoints();
     }
 
     Card discardLastCard() {

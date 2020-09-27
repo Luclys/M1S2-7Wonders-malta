@@ -19,16 +19,16 @@ public class PlayerTest {
     public void setUp() {
         player = new Player(3);
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Resource[]{Resource.BOIS}));
+            cards.add(new Card("CHANTIER", new Resource[]{Resource.BOIS}, 1));
         }
         player.setCards(cards);
     }
 
     @Test
     public void playCardTest() {
-        assertEquals(player.getScore(), 0);
+        assertEquals(0, player.getScore());
         player.playCard();
-        assertEquals(player.getScore(), 1);
+        assertEquals(1, player.getScore());
         assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
     }
 
