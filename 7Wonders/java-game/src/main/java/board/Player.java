@@ -72,7 +72,6 @@ public class Player {
         }
 
 
-
         //Updating player's score
         score += playedCard.getVictoryPoints();
         //Updating player's available resources
@@ -144,7 +143,6 @@ public class Player {
 
     public int getVictoryPoints() { return this.victoryPoints; }
 
-    public void addVictoryPoints(int victoryPoints) { this.victoryPoints = this.victoryPoints + victoryPoints; }
 
     public void setRightNeighborId(int id) {
         this.rightNeighborId = id;
@@ -164,18 +162,6 @@ public class Player {
 
     public int[] getAvailableResources() { return availableResources; }
 
-    public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
-
-
-    public void fightWithNeighbor(Player neighbor, int victoryPoints) { // victoryPoints depends on Age
-        int playerBoucliersCount = this.getBoucliersCount();
-        int neighborBoucliersCount = neighbor.getBoucliersCount();
-        if (playerBoucliersCount > neighborBoucliersCount) {
-            this.addVictoryPoints(victoryPoints);
-        } else if (playerBoucliersCount < neighborBoucliersCount) {
-            this.addVictoryPoints(-1);
-        }
-    }
 
     public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 

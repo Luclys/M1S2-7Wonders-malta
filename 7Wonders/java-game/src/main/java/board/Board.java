@@ -81,19 +81,10 @@ public class Board {
     }
 
     private void resolveWarConflict(Player player) {
-        fightWithNeighbor(player, playerList.get(player.getRightNeighborId()), 1);
-        fightWithNeighbor(player, playerList.get(player.getLeftNeighborId()), 1);
+        player.fightWithNeighbor(playerList.get(player.getRightNeighborId()), 1);
+        player.fightWithNeighbor(playerList.get(player.getLeftNeighborId()), 1);
     }
 
-    private void fightWithNeighbor(Player player, Player neighbor, int victoryPoints) { // victoryPoints depends on Age
-        int playerBoucliersCount = player.getBoucliersCount();
-        int neighborBoucliersCount = neighbor.getBoucliersCount();
-        if (playerBoucliersCount > neighborBoucliersCount) {
-            player.addVictoryPoints(victoryPoints);
-        } else if (playerBoucliersCount < neighborBoucliersCount) {
-            player.addVictoryPoints(-1);
-        }
-    }
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
