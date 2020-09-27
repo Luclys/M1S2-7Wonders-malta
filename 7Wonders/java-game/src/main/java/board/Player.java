@@ -12,6 +12,8 @@ public class Player {
     private final int[] availableResources;
     private int rightNeighborId;
     private int leftNeighborId;
+
+    private int victoryPoints;
     private int coins;
     private int priceLeft;
     private int priceRight;
@@ -25,10 +27,11 @@ public class Player {
         this.coins = 0;
         this.priceRight = 2;
         this.priceLeft = 2;
+        this.victoryPoints = 0;
     }
 
     public String toString() {
-        return "Player " + id + " wins with a score of " + score +" coins "+coins;
+        return "Player " + id + " wins with a score of " + score;
     }
 
     public void playCard() {
@@ -134,6 +137,10 @@ public class Player {
         return this.rightNeighborId;
     }
 
+    public int getVictoryPoints() { return this.victoryPoints; }
+
+    public void addVictoryPoints(int victoryPoints) { this.victoryPoints = this.victoryPoints + victoryPoints; }
+
     public void setRightNeighborId(int id) {
         this.rightNeighborId = id;
     }
@@ -151,6 +158,8 @@ public class Player {
     }
 
     public int[] getAvailableResources() { return availableResources; }
+
+    public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 
     public void setCards(ArrayList<Card> initiateCards) {
         this.cards = initiateCards;
