@@ -3,6 +3,7 @@ package board;
 import gameelements.Card;
 import gameelements.Resource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class PlayerTest {
     @Test
     public void playCardTest() {
         assertEquals(0, player.getScore());
-        player.playCard();
+        player.updatePlayer(player.playCard());
         assertEquals(1, player.getScore());
         assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
     }
@@ -36,22 +37,22 @@ public class PlayerTest {
     @Test
     public void updateAvailableResourcesTest() {
         assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.playCard();
+        player.updatePlayer(player.playCard());
         assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
         assertEquals(0, player.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
 
-    @Test
+   @Test
     public void discardLastCardTest() {
         assertThrows(Error.class, () -> player.discardLastCard());
         while (player.getCards().size() > 1) {
-            player.playCard();
+            player.updatePlayer(player.playCard());
         }
         Card lastCard = player.getCards().get(0);
         assertSame(lastCard, player.discardLastCard());
         assertTrue(player.getCards().isEmpty());
     }
-/*
+
     @Test
     public void addCoinsTest(){
         player.addCoins(5);
@@ -66,7 +67,16 @@ public class PlayerTest {
     }
 
     @Test
-    public void acceptToSaleTest(){
+    void missingResourcesTest() {
+        Card c = new Card("CHANTIER", new Resource[]{Resource.BOIS}, new Resource[]{Resource.BOIS});
+        Resource[] m = player.missingResources(c);
+        assertEquals(Resource.BOIS, m[0]);
+    }
 
-    }*/
+    @Test
+    void UpdatePlayer() {
+        assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
+        player.updatePlayer(player.playCard());
+        assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
+    }
 }

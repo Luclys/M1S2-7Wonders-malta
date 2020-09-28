@@ -57,27 +57,28 @@ public class Player {
                 addCoins(5);
                 break;
             case "COMPTOIR OUEST":
-                System.out.println("Player "+ id +" can get from his left Neighbor the ressource that he wants for one coin ");
+               // System.out.println("Player "+ id +" can get from his left Neighbor the ressource that he wants for one coin ");
                 this.priceLeft = 1;
                 break;
             case "COMPTOIR EST":
-                System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+             //   System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
                 this.priceRight = 1;
                 break;
             case "MARCHE":
-                System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+               // System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
                 this.priceRight = 1;
                 this.priceLeft = 1;
                 break;
+            default:
+                break;
         }
-
+        //Updating player's score
+        updateScore(playedCard);
         return playedCard;
         // return the played card to the board so taht the board can decied which decession to make(buy ressource or defausse)
     }
 
-    protected  void addResource(Resource r){
-        availableResources[r.getIndex()]++;
-    }
+
     protected Resource[] missingResources(Card c){
         Resource[] missing = new Resource[4];
         int i = 0;
@@ -91,18 +92,10 @@ public class Player {
     }
 
     protected void updatePlayer(Card playedCard){
-        //Updating player's score
-        updateScore(playedCard);
         //Updating player's available resources
         updateAvailableResources(playedCard);
         //Card is removed from hand
         cards.remove(0);
-    }
-
-
-
-    protected boolean acceptToSale(Resource  r){
-        return availableResources[r.getIndex()] >= 0;
     }
 
 
@@ -136,10 +129,10 @@ public class Player {
         }
     }
 
-    void saleCard(){
+    Card saleCard(){
         System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
         addCoins(3);
-        cards.remove(0);
+        return cards.remove(0);
     }
 
     //Getters and setters

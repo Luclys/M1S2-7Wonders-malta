@@ -68,33 +68,35 @@ public class Board {
             // Each player plays a card on each turn
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 for (Player p : playerList) {
-                    // action(p.playCard(),p);
-                    System.out.println("Coins of the player " + p.getCoins() + "\nresources of the player " + Arrays.toString(p.getAvailableResources()));
+                    System.out.println("Coins of the player " + p.getCoins() + "\nResources of the player " + Arrays.toString(p.getAvailableResources())+"\n");
 
                     playedCard = p.playCard();
-                    System.out.println("*card: " + playedCard.getName() + " resource of card " + Arrays.toString(playedCard.getRequiredResources()));
-                    System.out.println("**verify if the player has the required resources: ");
-                    Resource[] s = p.missingResources(playedCard);
-                    System.out.println("***missing resource to play the card " + Arrays.toString(s));
-                    result = false;
-                    if (s[0] != null) {
-                        System.out.println("****Verify if the player can buy missing resources ");
-                        result = BuyResources(s, p);
-                    } else {
-                        result = true;
+                    if(playedCard != null){
+                        System.out.println("Card that the player wants to play : " + playedCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(playedCard.getRequiredResources())+"\n");
+                        System.out.println("** verify if the player has the required resources: ");
+                        Resource[] s = p.missingResources(playedCard);
+                        result = false;
+                        if (s[0] != null) {
+                            System.out.println("*** Missing resource to play the card " + Arrays.toString(s));
+                            System.out.println("**** Verify if the player can buy missing resources ");
+                            result = BuyResources(s, p);
+                        } else {
+                            System.out.println("*** No resource is required ");
+                            result = true;
+                        }
+
+                        if (!result) {
+                            System.out.println("The player can't use the card so card"+ playedCard.getName() +" is discord");
+                            p.saleCard();
+                        } else {
+                            System.out.println("The player got the resources of the played card");
+                            p.updatePlayer(playedCard);
+                        }
+                        System.out.println("Coins of the player " + p.getCoins() + "\n Resources of the player " + Arrays.toString(p.getAvailableResources())+"\n");
+
+                        System.out.println("********************************************************************");
                     }
 
-                    if (!result) {
-                        System.out.println("the player can't use thecard so card is discord");
-                        p.saleCard();
-                    } else {
-                        System.out.println("the player has the required resources so he get the resource of the played card");
-                        p.updatePlayer(playedCard);
-                    }
-                    System.out.println("Coins of the player " + p.getCoins() + "\nresources of the player " + Arrays.toString(p.getAvailableResources()));
-
-                    System.out.println("********************************************************************");
-                    // System.out.println("**** "+playerList.get(p.getLeftNeighborId())+"  "+playerList.get(p.getRightNeighborId())+" *******");
 
                 }
                 System.out.println("############################################################################");
@@ -110,7 +112,7 @@ public class Board {
         }
     }
 
-    private boolean BuyResources(Resource[] missingResources, Player p) {//add if can't bl
+    private boolean BuyResources(Resource[] missingResources, Player p) {
         boolean result = false;
         Player[] playersWithResources = new Player[4];
         Player neighbor = null;
@@ -133,25 +135,23 @@ public class Board {
         }
         if (k == 4) {// neighbors have all the missing resources
             for (int i = 0; i < 4; i++) {// buy  resources from neighbors
-                buyFromNeighbor(p, playersWithResources[i], missingResources[i]);
+                buyFromNeighbor(p, playersWithResources[i]);
             }
             result = true;
         }
         return result;
     }
 
-    private Player chooseNeighbor(Resource missingResource, Player p) {// check price left and price right if the player can buy from both neighbor
+    protected Player chooseNeighbor(Resource missingResource, Player p) {// check price left and price right if the player can buy from both neighbor
         Player rightNeighbor = playerList.get(p.getRightNeighborId());
         Player leftNeighbor = playerList.get(p.getLeftNeighborId());
         Player neighbor = null;
         if (rightNeighbor.getAvailableResources()[missingResource.getIndex()] > 0) {
             System.out.println(" from the right neighbor the resource " + missingResource);
             neighbor = playerList.get(p.getRightNeighborId());
-            // buyFromNeighbor(p,rightNeighbor,missingResource);
         } else {
             if (leftNeighbor.getAvailableResources()[missingResource.getIndex()] > 0) {
                 System.out.println(" from the left neighbor the resource " + missingResource);
-                //buyFromNeighbor(p,leftNeighbor,missingResource);
                 neighbor = playerList.get(p.getLeftNeighborId());
                 ;
             }
@@ -159,7 +159,7 @@ public class Board {
         return neighbor;
     }
 
-    private void buyFromNeighbor(Player p, Player neighbor, Resource r) {// add that the neighbor can't use the adding coins till next turn
+    protected void buyFromNeighbor(Player p, Player neighbor) {// add that the neighbor can't use the adding coins till next turn
         neighbor.addCoins(2);
         p.removeCoins(2);
     }
@@ -232,7 +232,7 @@ public class Board {
                 res.add(new Card("THÉÂTRE", new Resource[0], 2, new Resource[0]));
 
                 // Yellow
-                res.add(new Card("MARCHE", new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}, new Resource[0]));
+                res.add(new Card("MARCHE", new Resource[0], new Resource[0]));
 
 
                 // Age II
@@ -254,7 +254,7 @@ public class Board {
                 res.add(new Card("CASERNE", new Resource[]{Resource.BOUCLIER}, new Resource[0]));
 
                 // Yellow
-                res.add(new Card("TAVERNE", new Resource[]{Resource.ARGENT}, new Resource[0]));
+                res.add(new Card("TAVERNE", new Resource[0], new Resource[0]));
 
                 // Age II
                 // Gray
@@ -277,7 +277,7 @@ public class Board {
 
 
                 // Yellow
-                res.add(new Card("TAVERNE", new Resource[]{Resource.ARGENT}, new Resource[0]));
+                res.add(new Card("TAVERNE", new Resource[0], new Resource[0]));
 
 
                 // Age II
@@ -318,9 +318,9 @@ public class Board {
                 res.add(new Card("SCRIPTORIUM", new Resource[]{Resource.STELE}, new Resource[0]));
 
                 // Yellow
-                res.add(new Card("MARCHE", new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}, new Resource[0]));
-                res.add(new Card("COMPTOIR OUEST", new Resource[]{Resource.ARGILE, Resource.BOIS, Resource.MINERAI, Resource.PIERRE}, new Resource[0]));
-                res.add(new Card("COMPTOIR EST", new Resource[]{Resource.ARGILE, Resource.BOIS, Resource.MINERAI, Resource.PIERRE}, new Resource[0]));
+                res.add(new Card("MARCHE", new Resource[0], new Resource[0]));
+                res.add(new Card("COMPTOIR OUEST", new Resource[0], new Resource[0]));
+                res.add(new Card("COMPTOIR EST", new Resource[0], new Resource[0]));
 
 
                 // Age II
