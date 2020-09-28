@@ -69,13 +69,13 @@ public class PlayerTest {
 
     @Test
     public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1);
-        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1);
+        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1,new Resource[0]);
+        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1,new Resource[0]);
 
         Player neighbor = new Player(2);
         cards.set(0, bouclierCard);
         neighbor.setCards(cards);
-        neighbor.playCard(); //Neighbor has 1 bouclier
+        neighbor.updatePlayer(neighbor.playCard()); //Neighbor has 1 bouclier
 
         //Player has less boucliers than his neighbor
         player = new Player(3);
@@ -103,7 +103,7 @@ public class PlayerTest {
     private void addCardAndPlayIt(Player player, Card card) {
         cards.set(0, card);
         player.setCards(cards);
-        player.playCard();
+        player.updatePlayer(player.playCard());
     }
 
     @Test

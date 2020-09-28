@@ -21,7 +21,7 @@ public class Card {
     }
     public int getGainedVictoryPoints() {
         return gainedVictoryPoints;
-
+    }
 
     public int getVictoryPoints() {
         return gainedVictoryPoints;
@@ -38,4 +38,5 @@ public class Card {
     public Resource[] getRequiredResources() {
         return requiredResources;
     }
+
 }

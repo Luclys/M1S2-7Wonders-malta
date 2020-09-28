@@ -24,7 +24,7 @@ public class Player {
         this.rightNeighborId = 0;
         this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
         this.availableResources = new int[Resource.values().length];
-        this.coins = 0;
+        this.coins = 3;
         this.priceRight = 2;
         this.priceLeft = 2;
         this.conflictPoints = 0;
