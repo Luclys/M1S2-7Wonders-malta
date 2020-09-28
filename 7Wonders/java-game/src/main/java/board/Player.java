@@ -141,7 +141,7 @@ public class Player {
         return this.rightNeighborId;
     }
 
-    public int getVictoryPoints() { return this.conflictPoints; }
+    public int getConflictPoints() { return this.conflictPoints; }
 
 
     public void setRightNeighborId(int id) {
@@ -176,12 +176,12 @@ public class Player {
 
         if (playerBoucliersCount > neighborBoucliersCount) {
             this.updateConflictPoints(conflictPoints);
-            System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " victory points added");
+            System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             this.updateConflictPoints(-1);
-            System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 victory point) added");
+            System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 conflict point) added");
         }
-        System.out.println("[RESOLVING WAR CONFLICTS] Total player victory points: " + this.getVictoryPoints());
+        System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
     }
 
     public void setCards(ArrayList<Card> initiateCards) {
