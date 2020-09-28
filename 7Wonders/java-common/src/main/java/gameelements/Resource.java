@@ -21,6 +21,7 @@ public enum Resource {
         this.index = index;
     }
 
+
     public int getIndex() {
         return index;
     }
