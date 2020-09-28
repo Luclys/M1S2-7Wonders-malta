@@ -30,7 +30,6 @@ public class Board {
             } else {
                 player.setRightNeighborId(i + 1);
             }
-            player.setCoins(3);
             playerList.add(player);
         }
 
@@ -69,11 +68,27 @@ public class Board {
                     p.playCard();
                 }
                 // The players exchange cards according to the Age's sens.
+                ArrayList<Card> tempListCard = null;
+                ArrayList<Card> dernierCartes = null;
+
+                for(Player p : playerList){
+                    int leftNeighborId = p.getLeftNeighborId();
+                    Player leftNeighbor = playerList.get(leftNeighborId);
+                    tempListCard = leftNeighbor.getCards();
+                    if(p.getId() == 0){
+                        leftNeighbor.setCards(p.getCards());
+                    }else{
+                        leftNeighbor.setCards(dernierCartes);
+                    }
+                    dernierCartes = tempListCard;
+
+                }
 
                 this.turn++;
             }
+
             // At the end of the 6th turn, we discard the remaining card
-            // ⚠ The discarded cards must be remembered.
+            // ⚠ The discarded cards must remembered.
             playerList.forEach(player -> discardedCardList.add(player.discardLastCard()));
             // Resolving war conflicts
             playerList.forEach(this::resolveWarConflict);
@@ -88,7 +103,9 @@ public class Board {
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+        System.out.println("NB CARTES : " + currentDeckCardList.size());
         this.currentDeckCardList.removeAll(playerDeck);
+        System.out.println("NB CARTES APRES : " + currentDeckCardList.size());
         return playerDeck;
     }
 

@@ -3,21 +3,21 @@ package gameelements;
 public class Card {
     private final String name;
     private final Resource[] gainedResources;
-    private final int victoryPoints;
+    private final int gainedVictoryPoints;
 
     public Card(String name, Resource[] gainedResources) {
         this.name = name;
         this.gainedResources = gainedResources;
-        this.victoryPoints = 0;
+        this.gainedVictoryPoints = 0;
     }
 
-    public Card(String name, Resource[] gainedResources, int victoryPoints) {
+    public Card(String name, Resource[] gainedResources, int gainedVictoryPoints) {
         this.name = name;
         this.gainedResources = gainedResources;
-        this.victoryPoints = victoryPoints;
+        this.gainedVictoryPoints = gainedVictoryPoints;
     }
-    public int getVictoryPoints() {
-        return victoryPoints;
+    public int getGainedVictoryPoints() {
+        return gainedVictoryPoints;
     }
 
     public String getName() {

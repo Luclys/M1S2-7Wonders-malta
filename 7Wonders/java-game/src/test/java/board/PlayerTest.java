@@ -54,8 +54,9 @@ public class PlayerTest {
 
     @Test
     public void addCoinsTest(){
+        player.setCoins(0);
         player.addCoins(5);
-        assertEquals(player.getCoins(),5);
+        assertEquals(5, player.getCoins());
     }
 
     @Test
