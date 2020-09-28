@@ -34,7 +34,7 @@ public class Player {
         return "Player " + id + " wins with a score of " + score;
     }
 
-    public void playCard() {
+    public Card playCard() {
         /*
          * Choices :
          * Can be affected by the resource choice on a card
@@ -71,7 +71,26 @@ public class Player {
                 break;
         }
 
+        return playedCard;
+        // return the played card to the board so taht the board can decied which decession to make(buy ressource or defausse)
+    }
 
+    protected  void addResource(Resource r){
+        availableResources[r.getIndex()]++;
+    }
+    protected Resource[] missingResources(Card c){
+        Resource[] missing = new Resource[4];
+        int i = 0;
+        for(Resource r: c.getRequiredResources()){
+            if(availableResources[r.getIndex()]==0){
+                missing[i]=r;
+                i++;
+            }
+        }
+        return missing;
+    }
+
+    protected void updatePlayer(Card playedCard){
         //Updating player's score
         updateScore(playedCard);
         //Updating player's available resources
@@ -80,24 +99,10 @@ public class Player {
         cards.remove(0);
     }
 
-    private void buyRessource(Resource  r, Player p){
-        /**
-         * if player p have the ressource then the courant player can pay it (for the moment)
-         * **/
-        if(p.acceptToSale(r)){
-            availableResources[r.getIndex()]++;
-            int n = 2;
-            /**
-             * if(p is rightNeighborId) n = priceRight else n= priceLeft
-             *
-             * */
-            p.addCoins(n);
-            this.removeCoins(n);
-        }
-    }
 
-    private boolean acceptToSale(Resource  r){
-        return availableResources[r.getIndex()] > 0;
+
+    protected boolean acceptToSale(Resource  r){
+        return availableResources[r.getIndex()] >= 0;
     }
 
 
@@ -129,6 +134,12 @@ public class Player {
         } else {
             throw new Error("There is more than 1 card left.");
         }
+    }
+
+    void saleCard(){
+        System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
+        addCoins(3);
+        cards.remove(0);
     }
 
     //Getters and setters
@@ -197,7 +208,7 @@ public class Player {
     }
 
     public void removeCoins(int coins){
-        setCoins(this.coins+coins);
+        setCoins(this.coins-coins);
     }
 
     public void addCoins(int coins) {
