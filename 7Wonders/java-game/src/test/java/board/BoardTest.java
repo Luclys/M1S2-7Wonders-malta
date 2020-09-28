@@ -60,12 +60,12 @@ public class BoardTest {
         Board board = new Board(nbPlayers);
 
         int nbToDraw = 1;
-        ArrayList<Card> listBeforeDrawing = board.getCurrentDeckCardList();
+        ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
         ArrayList<Card> card = board.drawCards(nbToDraw);
-        ArrayList<Card> listAfterDrawing = board.getCurrentDeckCardList();
+        ArrayList<Card> listAfterDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
 
-        //assertEquals(listBeforeDrawing.size(), listAfterDrawing.size() - nbToDraw);
-        //assertSame(listBeforeDrawing.get(0), card.get(0));
+        assertEquals(listBeforeDrawing.size() - nbToDraw, listAfterDrawing.size());
+        assertSame(listBeforeDrawing.get(0), card.get(0));
     }
 }
 

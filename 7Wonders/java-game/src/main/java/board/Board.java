@@ -30,7 +30,6 @@ public class Board {
             } else {
                 player.setRightNeighborId(i + 1);
             }
-            player.setCoins(3);
             playerList.add(player);
         }
 
@@ -88,7 +87,9 @@ public class Board {
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+        System.out.println("NB CARTES : " + currentDeckCardList.size());
         this.currentDeckCardList.removeAll(playerDeck);
+        System.out.println("NB CARTES APRES : " + currentDeckCardList.size());
         return playerDeck;
     }
 

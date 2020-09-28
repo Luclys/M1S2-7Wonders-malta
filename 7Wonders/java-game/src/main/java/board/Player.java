@@ -13,7 +13,7 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
-    private int victoryPoints;
+    private int conflictPoints;
     private int coins;
     private int priceLeft;
     private int priceRight;
@@ -24,10 +24,10 @@ public class Player {
         this.rightNeighborId = 0;
         this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
         this.availableResources = new int[Resource.values().length];
-        this.coins = 0;
+        this.coins = 3;
         this.priceRight = 2;
         this.priceLeft = 2;
-        this.victoryPoints = 0;
+        this.conflictPoints = 0;
     }
 
     public String toString() {
@@ -119,7 +119,7 @@ public class Player {
     }
 
     private void updateScore(Card playedCard) {
-        score += playedCard.getVictoryPoints();
+        score += playedCard.getGainedVictoryPoints();
     }
 
     Card discardLastCard() {
@@ -141,7 +141,7 @@ public class Player {
         return this.rightNeighborId;
     }
 
-    public int getVictoryPoints() { return this.victoryPoints; }
+    public int getVictoryPoints() { return this.conflictPoints; }
 
 
     public void setRightNeighborId(int id) {
@@ -165,9 +165,9 @@ public class Player {
 
     public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 
-    private void addVictoryPoints(int victoryPoints) { this.victoryPoints += victoryPoints; }
+    private void updateConflictPoints(int conflictPoints) { this.conflictPoints += conflictPoints; }
 
-    public void fightWithNeighbor(Player neighbor, int victoryPoints) { // victoryPoints depends on Age
+    public void fightWithNeighbor(Player neighbor, int conflictPoints) { // conflictPoints depends on Age
         int playerBoucliersCount = this.getBoucliersCount();
         System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers");
 
@@ -175,10 +175,10 @@ public class Player {
         System.out.println("[RESOLVING WAR CONFLICTS] Neighbor has " + neighborBoucliersCount + " boucliers");
 
         if (playerBoucliersCount > neighborBoucliersCount) {
-            this.addVictoryPoints(victoryPoints);
-            System.out.println("[RESOLVING WAR CONFLICTS] " + victoryPoints + " victory points added");
+            this.updateConflictPoints(conflictPoints);
+            System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " victory points added");
         } else if (playerBoucliersCount < neighborBoucliersCount) {
-            this.addVictoryPoints(-1);
+            this.updateConflictPoints(-1);
             System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 victory point) added");
         }
         System.out.println("[RESOLVING WAR CONFLICTS] Total player victory points: " + this.getVictoryPoints());
@@ -197,10 +197,10 @@ public class Player {
     }
 
     public void removeCoins(int coins){
-        setCoins(this.coins+coins);
+        this.coins -= coins;
     }
 
     public void addCoins(int coins) {
-        setCoins(this.coins+coins);
+        this.coins += coins;
     }
 }
