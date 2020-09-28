@@ -57,7 +57,7 @@ public class BoardTest {
     }
 
 
-   @Test
+    @Test
     public void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(nbPlayers);
@@ -66,17 +66,12 @@ public class BoardTest {
         ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
         ArrayList<Card> card = board.drawCards(nbToDraw);
         ArrayList<Card> listAfterDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
-<<<<<<< HEAD
-
-        assertEquals(listBeforeDrawing.size() - nbToDraw, listAfterDrawing.size());
-        assertSame(listBeforeDrawing.get(0), card.get(0));
-=======
 
         assertEquals(listBeforeDrawing.size() - nbToDraw, listAfterDrawing.size());
         assertSame(listBeforeDrawing.get(0), card.get(0));
     }
 
-   @Disabled @Test
+    @Disabled @Test
     public void chooseNeighborTest() {
         Board board = new Board(3);
         System.out.println(board.getPlayerList().get(1));
@@ -91,7 +86,6 @@ public class BoardTest {
         board.buyFromNeighbor(board.getPlayerList().get(0),board.getPlayerList().get(1));
         assertEquals(1,board.getPlayerList().get(0).getCoins());
         assertEquals(5,board.getPlayerList().get(1).getCoins());
->>>>>>> 1697b1af85d0b9615bb512ee0a2a09104391b6f8
     }
 }
 

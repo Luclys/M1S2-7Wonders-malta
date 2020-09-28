@@ -147,12 +147,7 @@ public class Player {
         return this.rightNeighborId;
     }
 
-<<<<<<< HEAD
-    public int getVictoryPoints() { return this.conflictPoints; }
-=======
     public int getConflictPoints() { return this.conflictPoints; }
->>>>>>> 1697b1af85d0b9615bb512ee0a2a09104391b6f8
-
 
     public void setRightNeighborId(int id) {
         this.rightNeighborId = id;
@@ -186,17 +181,10 @@ public class Player {
 
         if (playerBoucliersCount > neighborBoucliersCount) {
             this.updateConflictPoints(conflictPoints);
-<<<<<<< HEAD
-            System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " victory points added");
-        } else if (playerBoucliersCount < neighborBoucliersCount) {
-            this.updateConflictPoints(-1);
-            System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 victory point) added");
-=======
             System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             this.updateConflictPoints(-1);
             System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 conflict point) added");
->>>>>>> 1697b1af85d0b9615bb512ee0a2a09104391b6f8
         }
         System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
     }
@@ -214,11 +202,7 @@ public class Player {
     }
 
     public void removeCoins(int coins){
-<<<<<<< HEAD
-        this.coins -= coins;
-=======
         setCoins(this.coins-coins);
->>>>>>> 1697b1af85d0b9615bb512ee0a2a09104391b6f8
     }
 
     public void addCoins(int coins) {

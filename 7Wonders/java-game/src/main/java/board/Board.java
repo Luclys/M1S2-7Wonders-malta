@@ -100,6 +100,8 @@ public class Board {
                 }
                 System.out.println("############################################################################");
                 // The players exchange cards according to the Age's sens.
+
+                /*
                 ArrayList<Card> tempListCard = null;
                 ArrayList<Card> dernierCartes = null;
 
@@ -113,8 +115,7 @@ public class Board {
                         leftNeighbor.setCards(dernierCartes);
                     }
                     dernierCartes = tempListCard;
-
-                }
+                }*/
 
                 this.turn++;
             }
