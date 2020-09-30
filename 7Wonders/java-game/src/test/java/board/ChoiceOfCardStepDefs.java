@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 
-public class ChoiseOfCardStepDefs implements En {
+public class ChoiceOfCardStepDefs implements En {
     Player player;
     Card tavern = new Card("TAVERNE", new Resource[0], new Resource[0]);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 
-    public ChoiseOfCardStepDefs() {
+    public ChoiceOfCardStepDefs() {
         Given("a player with id {int}", (Integer playerId) -> {
             player = new Player(playerId);
         });
