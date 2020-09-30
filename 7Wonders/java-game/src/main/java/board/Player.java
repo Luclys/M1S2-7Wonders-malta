@@ -45,9 +45,9 @@ public class Player {
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
         Card playedCard = cards.get(0);
-        System.out.print("Player " + id + " plays the " + playedCard.getName() + " card.\t");
+       // System.out.print("Player " + id + " plays the " + playedCard.getName() + " card.\t");
 
-        /**
+        /*
          * To modify when we add the action method
          * Add coins when the player plays the card that gives coins AKA TAVERNE CARD
          * **/
@@ -57,15 +57,15 @@ public class Player {
                 addCoins(5);
                 break;
             case "COMPTOIR OUEST":
-               // System.out.println("Player "+ id +" can get from his left Neighbor the ressource that he wants for one coin ");
+               // //System.out.println("Player "+ id +" can get from his left Neighbor the ressource that he wants for one coin ");
                 this.priceLeft = 1;
                 break;
             case "COMPTOIR EST":
-             //   System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+             //   //System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
                 this.priceRight = 1;
                 break;
             case "MARCHE":
-               // System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
+               // //System.out.println("Player "+ id +" can get from his right Neighbor the ressource that he wants for one coin ");
                 this.priceRight = 1;
                 this.priceLeft = 1;
                 break;
@@ -103,7 +103,7 @@ public class Player {
         for (Resource r : playedCard.getGainedResources()) {
             availableResources[r.getIndex()]++;
         }
-        System.out.println("\tA : "
+        /*System.out.println("\tA : "
                 + availableResources[Resource.BOIS.getIndex()] + " | B : "
                 + availableResources[Resource.ARGILE.getIndex()] + " | P : "
                 + availableResources[Resource.PIERRE.getIndex()] + " | M : "
@@ -113,7 +113,7 @@ public class Player {
                 + availableResources[Resource.TISSU.getIndex()] + " | B : "
                 + availableResources[Resource.BOUCLIER.getIndex()] + " | # "
                 + getScore()
-        );
+        );*/
     }
 
     private void updateScore(Card playedCard) {
@@ -122,17 +122,17 @@ public class Player {
 
     Card discardLastCard() {
         if (cards.size() == 1) {
-            System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
+            //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             return cards.remove(0);
         } else {
             throw new Error("There is more than 1 card left.");
         }
     }
 
-    Card saleCard(){
-        System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
+      void saleCard(){
+        //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
         addCoins(3);
-        return cards.remove(0);
+        cards.remove(0);
     }
 
     //Getters and setters
@@ -174,19 +174,19 @@ public class Player {
 
     public void fightWithNeighbor(Player neighbor, int conflictPoints) { // conflictPoints depends on Age
         int playerBoucliersCount = this.getBoucliersCount();
-        System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers");
+        //System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers");
 
         int neighborBoucliersCount = neighbor.getBoucliersCount();
-        System.out.println("[RESOLVING WAR CONFLICTS] Neighbor has " + neighborBoucliersCount + " boucliers");
+        //System.out.println("[RESOLVING WAR CONFLICTS] Neighbor has " + neighborBoucliersCount + " boucliers");
 
         if (playerBoucliersCount > neighborBoucliersCount) {
             this.updateConflictPoints(conflictPoints);
-            System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");
+            //System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             this.updateConflictPoints(-1);
-            System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 conflict point) added");
+            //System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 conflict point) added");
         }
-        System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
+        //System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
     }
 
     public void setCards(ArrayList<Card> initiateCards) {
