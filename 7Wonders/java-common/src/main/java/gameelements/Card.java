@@ -39,4 +39,10 @@ public class Card {
         return requiredResources;
     }
 
+    @Override
+    public String toString() {
+        return "Card{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
