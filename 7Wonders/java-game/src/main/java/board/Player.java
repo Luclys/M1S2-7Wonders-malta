@@ -201,6 +201,10 @@ public class Player {
         this.coins = coins;
     }
 
+    public void setConflictPoints(int conflictPoints) {
+        this.conflictPoints = conflictPoints;
+    }
+
     public void removeCoins(int coins){
         setCoins(this.coins-coins);
     }
