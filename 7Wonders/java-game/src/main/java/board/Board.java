@@ -7,7 +7,6 @@ import gameelements.enums.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Map;
 
 public class Board {
     private final Action action;
@@ -123,6 +122,7 @@ public class Board {
                 outputText += "\n*** No resource is required ";
                 result = true;
             }
+
             if (!result) {
                 outputText += "\nThe player can't use the card so card"+ choosenCard.getName() +" is discord";
 

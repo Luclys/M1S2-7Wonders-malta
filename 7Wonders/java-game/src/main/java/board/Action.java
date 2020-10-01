@@ -47,7 +47,6 @@ public class Action {
         //System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
     }
 
-
     protected ArrayList<Player> generatePlayers(int nbPlayers) {
         playerList = new ArrayList<>(nbPlayers);
         playerInventoryList = new ArrayList<>(nbPlayers);
@@ -70,10 +69,6 @@ public class Action {
             playerInventoryList.add(inv);
         }
         return playerList;
-    }
-
-    public ArrayList<Inventory> getPlayerInventoryList() {
-        return playerInventoryList;
     }
 
     protected ArrayList<Card> initiateCards(int nbPlayers) {
@@ -231,5 +226,9 @@ public class Action {
             res.add(new Card("REMPLIR VIDE" + i, new ResourceEffect("FillerEffect", Resource.BOIS, 1), null));
         }
         return res;
+    }
+
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
     }
 }

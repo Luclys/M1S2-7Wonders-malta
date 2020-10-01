@@ -13,8 +13,7 @@ public class CoinEffect extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // Request the add of nb score points to the player;
-        // inv.addCoins(nb);
+        inv.addCoins(nb);
         changeStatus();
     }
 }

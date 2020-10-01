@@ -7,9 +7,9 @@ import gameelements.Inventory;
 import java.util.ArrayList;
 
 public class WonderBoard {
-    private String name;
-    private Effect baseEffect;
-    private ArrayList<Step> steps;
+    private final String name;
+    private final Effect baseEffect;
+    private final ArrayList<Step> steps;
     private int currentStep = 0;
     private Inventory associatedInv;
 
@@ -20,21 +20,11 @@ public class WonderBoard {
     }
 
     public void claimBoard(Inventory inv) {
+        this.baseEffect.activateEffect(inv);
         this.associatedInv = inv;
-        baseEffect.activateEffect(inv);
     }
 
-    void buySpecificStep(Step step, Card card) {
-        int indiceStepToBuild = steps.indexOf(step);
-        if (indiceStepToBuild == 0 || steps.get(indiceStepToBuild - 1).getBuilt()) {
-            // No more checks, we can buy if given the sufficient amount of resources.
-            step.build(associatedInv, card);
-        } else {
-            throw new Error("Can't build step in the wrong order");
-        }
-    }
-
-    void buyNextStep(Card card) {
+    public void buyNextStep(Card card) {
         if (currentStep != steps.size()) {
             steps.get(currentStep).build(associatedInv, card);
             currentStep++;

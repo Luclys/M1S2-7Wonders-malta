@@ -16,7 +16,7 @@ public class ChoiceResourceEffect extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // ask Player which resource he chooses
+        // TODO : ask Player which resource he chooses
         changeStatus();
     }
 }

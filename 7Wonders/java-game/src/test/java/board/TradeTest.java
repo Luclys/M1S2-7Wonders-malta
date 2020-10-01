@@ -2,13 +2,13 @@ package board;
 
 import effects.ResourceEffect;
 import gameelements.Card;
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class TradeTest {
     private Card card;
@@ -17,7 +17,7 @@ public class TradeTest {
     @BeforeEach
     public void setUp() {
         board = new Board(3);
-        card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[] {Resource.BOIS});
+        card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS});
     }
 
     @Test
