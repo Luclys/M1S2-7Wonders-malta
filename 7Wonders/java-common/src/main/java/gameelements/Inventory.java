@@ -5,6 +5,7 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Inventory {
     private final int playerId;
@@ -71,7 +72,6 @@ public class Inventory {
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
             cards.remove(0);
-
         } else{
             throw new Error("Can't sell a card you don't have.");
         }
@@ -159,4 +159,5 @@ public class Inventory {
     public void setPriceRight(int priceRight) {
         this.priceRight = priceRight;
     }
+
 }
