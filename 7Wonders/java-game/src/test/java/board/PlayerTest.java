@@ -1,9 +1,8 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

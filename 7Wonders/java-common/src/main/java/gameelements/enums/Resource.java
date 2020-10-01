@@ -1,4 +1,4 @@
-package gameelements;
+package gameelements.enums;
 
 public enum Resource {
     ARGILE(0),

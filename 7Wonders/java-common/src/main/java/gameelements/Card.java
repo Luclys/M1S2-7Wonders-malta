@@ -1,5 +1,7 @@
 package gameelements;
 
+import gameelements.enums.Resource;
+
 public class Card {
     private final String name;
     private final Resource[] gainedResources;

@@ -1,7 +1,7 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.enums.Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;

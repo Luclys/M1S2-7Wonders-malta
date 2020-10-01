@@ -1,7 +1,7 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.enums.Resource;
 
 import java.util.ArrayList;
 
@@ -82,8 +82,8 @@ public class Player {
     protected Resource[] missingResources(Card c){
         Resource[] missing = new Resource[4];
         int i = 0;
-        for(Resource r: c.getRequiredResources()){
-            if(availableResources[r.getIndex()]==0){
+        for(Resource r: c.getRequiredResources()) {
+            if(availableResources[r.getIndex()]==0) {
                 missing[i]=r;
                 i++;
             }
