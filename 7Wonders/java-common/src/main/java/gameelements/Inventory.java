@@ -5,7 +5,6 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Inventory {
     private final int playerId;
@@ -103,6 +102,9 @@ public class Inventory {
         return this.availableSymbols[symbol.getIndex()];
     }
 
+    public int getResCount(Resource resource) {
+        return this.availableResources[resource.getIndex()];
+    }
 
     public int getPlayerId() {
         return playerId;
@@ -160,4 +162,7 @@ public class Inventory {
         this.priceRight = priceRight;
     }
 
+    public int[] getAvailableSymbols() {
+        return this.availableSymbols;
+    }
 }

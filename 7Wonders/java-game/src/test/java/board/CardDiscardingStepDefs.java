@@ -2,6 +2,7 @@ package board;
 
 import effects.ResourceEffect;
 import gameelements.Card;
+import gameelements.Inventory;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CardDiscardingStepDefs implements En {
     Player player;
     Inventory inv;
-    Card cavite = new Card("CAVITÉ", new ResourceEffect("", Resource.PIERRE, 1), null);
+    Card card = new Card("CAVITÉ", new ResourceEffect("", Resource.PIERRE, 1), null);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
     int initialCardsCount = 0;
@@ -20,14 +21,14 @@ public class CardDiscardingStepDefs implements En {
     public CardDiscardingStepDefs() {
         Given("Player has a card", () -> {
             player = new Player(1);
-            cards.add(cavite);
+            cards.add(card);
             inv.setCards(cards);
         });
 
         When("player discards a card", () -> {
             initialCoinsCount = inv.getCoins();
             initialCardsCount = inv.getCards().size();
-            inv.sellCard(cavite);
+            inv.sellCard(card);
         });
         Then("3 coins added to player", () -> {
             assertEquals(inv.getCoins(), (initialCoinsCount + 3));

@@ -102,10 +102,10 @@ public class Board {
         }
     }
 
-    private void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
+    protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
         boolean result;
         Card choosenCard = player.getChoosenCard();
-        
+
         if (choosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));

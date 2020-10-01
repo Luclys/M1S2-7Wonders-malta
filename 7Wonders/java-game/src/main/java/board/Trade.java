@@ -3,14 +3,12 @@ package board;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 
-import java.util.ArrayList;
-
 public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
         Inventory[] playersWithResources = new Inventory[4];
-        Inventory neighbor = null;
+        Inventory neighbor;
         int k = 0;
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
             if (r != null) {

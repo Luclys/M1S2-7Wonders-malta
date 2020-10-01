@@ -68,10 +68,6 @@ public class Action {
         return playerList;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
-        return playerInventoryList;
-    }
-
     protected ArrayList<Card> initiateCards(int nbPlayers) {
         /*
          * Generate three different decks for the three ages according to the nbPlayers.
@@ -227,5 +223,9 @@ public class Action {
             res.add(new Card("REMPLIR VIDE" + i, new ResourceEffect("FillerEffect", Resource.BOIS, 1), null));
         }
         return res;
+    }
+
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
     }
 }
