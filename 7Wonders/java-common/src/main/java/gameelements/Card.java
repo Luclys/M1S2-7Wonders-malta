@@ -4,42 +4,19 @@ import gameelements.enums.Resource;
 
 public class Card {
     private final String name;
-    private final Resource[] gainedResources;
-    private final int gainedVictoryPoints;
+    private Effect[] effects;
     private final Resource[] requiredResources;
 
-    public Card(String name, Resource[] gainedResources, Resource[] requiredResources) {
+    public Card(String name, Effect[] effects, Resource[] requiredResources) {
         this.name = name;
-        this.gainedResources = gainedResources;
-        this.gainedVictoryPoints = 0;
+        this.effects = effects;
         this.requiredResources = requiredResources;
     }
 
-    public Card(String name, Resource[] gainedResources, int gainedVictoryPoints, Resource[] requiredResources) {
+    public Card(String name, Effect effect, Resource[] requiredResources) {
         this.name = name;
-        this.gainedResources = gainedResources;
-        this.gainedVictoryPoints = gainedVictoryPoints;
+        this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
-    }
-
-    public int getGainedVictoryPoints() {
-        return gainedVictoryPoints;
-    }
-
-    public int getVictoryPoints() {
-        return gainedVictoryPoints;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Resource[] getGainedResources() {
-        return gainedResources;
-    }
-
-    public Resource[] getRequiredResources() {
-        return requiredResources;
     }
 
     @Override
@@ -47,5 +24,22 @@ public class Card {
         return "Card{" +
                 "name='" + name + '\'' +
                 '}';
+    }
+
+    // GETTERS & SETTERS
+    public String getName() {
+        return name;
+    }
+
+    public Effect[] getEffects() {
+        return effects;
+    }
+
+    public void setEffects(Effect[] effects) {
+        this.effects = effects;
+    }
+
+    public Resource[] getRequiredResources() {
+        return requiredResources;
     }
 }

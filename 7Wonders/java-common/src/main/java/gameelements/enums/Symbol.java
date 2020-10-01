@@ -1,7 +1,7 @@
 package gameelements.enums;
 
 public enum Symbol {
-    SHIELD(0),
+    BOUCLIER(0),
     COMPAS(1),
     ROUAGE(2),
     STELE(3);

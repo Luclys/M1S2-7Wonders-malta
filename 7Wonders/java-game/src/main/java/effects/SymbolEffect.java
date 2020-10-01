@@ -1,6 +1,7 @@
 package effects;
 
 import gameelements.Effect;
+import gameelements.Inventory;
 import gameelements.enums.Symbol;
 
 public class SymbolEffect extends Effect {
@@ -14,8 +15,8 @@ public class SymbolEffect extends Effect {
         this.nb = nb;
     }
 
-    public void activateEffect() {
-        super.activateEffect();
+    public void activateEffect(Inventory inv) {
+        super.activateEffect(inv);
         // Request the add of nb resource to the player
         //collectedSymbols[symbol.getIndex()]++;
         changeStatus();

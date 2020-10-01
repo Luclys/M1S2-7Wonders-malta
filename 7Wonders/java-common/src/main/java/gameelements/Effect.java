@@ -21,12 +21,14 @@ public abstract class Effect {
     }
 
     // Needed : 2 neighbors, and Player Inventories
-    public void activateEffect() {
+    public void activateEffect(Inventory inv) {
+/*
         if (delay == 0 && repeat == 0) {
             if (!status) {
                 throw new Error("Effect already executed.");
             }
         }
+*/
     }
 
     protected void changeStatus() {

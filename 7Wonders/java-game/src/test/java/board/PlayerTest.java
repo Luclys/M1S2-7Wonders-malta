@@ -1,7 +1,13 @@
 package board;
 
+import effects.ResourceEffect;
+import effects.ScoreEffect;
+import effects.SymbolEffect;
 import gameelements.Card;
+import gameelements.Effect;
+import gameelements.Inventory;
 import gameelements.enums.Resource;
+import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,66 +20,70 @@ public class PlayerTest {
 
     final ArrayList<Card> cards = new ArrayList<>(7);
     private Player player;
+    private Inventory inv;
 
     @BeforeEach
     public void setUp() {
         player = new Player(3);
+        inv = new Inventory(3);
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Resource[]{Resource.BOIS}, 1, new Resource[0]));
+            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("",Resource.BOIS, 1)}, null));
         }
-        player.setCards(cards);
+        inv.setCards(cards);
     }
 
     @Test
     public void playCardTest() {
-        assertEquals(0, player.getScore());
-        player.updatePlayer(player.playCard());
-        assertEquals(1, player.getScore());
-        assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
+        assertEquals(0, inv.getScore());
+        player.updateInventory(player.playCard(inv));
+        assertEquals(1, inv.getScore());
+        assertNotEquals(inv.getCards().size(), new Inventory(2).getCards().size());
     }
 
     @Test
     public void updateAvailableResourcesTest() {
-        assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updatePlayer(player.playCard());
-        assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        assertEquals(0, player.getAvailableResources()[Resource.MINERAI.getIndex()]);
+        assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
+        player.updateInventory(player.playCard(inv));
+        assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
+        assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
 
     @Test
     public void discardLastCardTest() {
-        assertThrows(Error.class, () -> player.discardLastCard());
-        while (player.getCards().size() > 1) {
-            player.updatePlayer(player.playCard());
+        assertThrows(Error.class, () -> inv.discardLastCard());
+        while (inv.getCards().size() > 1) {
+            player.updateInventory(player.playCard(inv));
         }
-        Card lastCard = player.getCards().get(0);
-        assertSame(lastCard, player.discardLastCard());
-        assertTrue(player.getCards().isEmpty());
+        Card lastCard = inv.getCards().get(0);
+        assertSame(lastCard, inv.discardLastCard());
+        assertTrue(inv.getCards().isEmpty());
     }
 
     @Test
     public void addCoinsTest() {
-        player.setCoins(0);
-        player.addCoins(5);
-        assertEquals(5, player.getCoins());
+        inv.setCoins(0);
+        inv.addCoins(5);
+        assertEquals(5, inv.getCoins());
     }
 
     @Test
     public void removeCoinsTest() {
-        player.setCoins(5);
-        player.removeCoins(3);
-        assertEquals(player.getCoins(), 2);
+        inv.setCoins(5);
+        inv.removeCoins(3);
+        assertEquals(inv.getCoins(), 2);
     }
 
     @Test
     public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1, new Resource[0]);
-        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1, new Resource[0]);
+        Card bouclierCard = new Card("BOUCLIER", new SymbolEffect("", Symbol.BOUCLIER, 1), null);
+        Card boisCard = new Card("BOIS", new ResourceEffect("", Resource.BOIS, 1), null);
 
         Player neighbor = new Player(2);
+        Inventory neighborInv = new Inventory(2);
+
         cards.set(0, bouclierCard);
-        neighbor.setCards(cards);
-        neighbor.updatePlayer(neighbor.playCard()); //Neighbor has 1 bouclier
+        neighborInv.setCards(cards);
+        neighbor.updateInventory(neighbor.playCard(inv)); //Neighbor has 1 bouclier
 
         //Player has less boucliers than his neighbor
         player = new Player(3);
@@ -101,12 +111,12 @@ public class PlayerTest {
     private void addCardAndPlayIt(Player player, Card card) {
         cards.set(0, card);
         player.setCards(cards);
-        player.updatePlayer(player.playCard());
+        player.updateInventory(player.playCard());
     }
 
     @Test
     void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Resource[]{Resource.BOIS}, new Resource[]{Resource.BOIS});
+        Card c = new Card("CHANTIER TEST", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS});
         Resource[] m = player.missingResources(c);
         assertEquals(Resource.BOIS, m[0]);
     }
@@ -114,7 +124,7 @@ public class PlayerTest {
     @Test
     void UpdatePlayer() {
         assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updatePlayer(player.playCard());
+        player.updateInventory(player.playCard());
         assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
     }
 }

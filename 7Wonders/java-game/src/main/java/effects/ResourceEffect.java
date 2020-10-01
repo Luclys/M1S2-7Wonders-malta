@@ -4,19 +4,20 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 
-public class ChoiceResourceEffect extends Effect {
-    Resource[] resources;
+public class ResourceEffect extends Effect {
+    Resource resource;
     int nb;
 
-    public ChoiceResourceEffect(String name, Resource[] resources, int nb) {
-        super(name, 0, 1);
-        this.resources = resources;
+    public ResourceEffect(String name, Resource resource, int nb) {
+        super(name);
+        this.resource = resource;
         this.nb = nb;
     }
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // ask Player which resource he chooses
+        inv.getAvailableResources()[resource.getIndex()] += nb;
+
         changeStatus();
     }
 }

@@ -8,10 +8,6 @@ public enum Resource {
     VERRE(4),
     TISSU(5),
     PAPYRUS(6),
-    BOUCLIER(7),
-    COMPAS(8),
-    ROUAGE(9),
-    STELE(10),
     ARGENT(12);
 
     private final int index;

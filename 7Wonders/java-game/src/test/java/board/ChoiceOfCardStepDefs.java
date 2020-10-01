@@ -1,6 +1,8 @@
 package board;
 
+import effects.CoinEffect;
 import gameelements.Card;
+import gameelements.Effect;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ChoiceOfCardStepDefs implements En {
     Player player;
-    Card tavern = new Card("TAVERNE", new Resource[0], new Resource[0]);
+    Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 

@@ -1,6 +1,7 @@
 package effects;
 
 import gameelements.Effect;
+import gameelements.Inventory;
 
 public class CoinEffect extends Effect {
     int nb;
@@ -10,8 +11,8 @@ public class CoinEffect extends Effect {
         this.nb = nb;
     }
 
-    public void activateEffect() {
-        super.activateEffect();
+    public void activateEffect(Inventory inv) {
+        super.activateEffect(inv);
         // Request the add of nb score points to the player;
         // inv.addCoins(nb);
         changeStatus();
