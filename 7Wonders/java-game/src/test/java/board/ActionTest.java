@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class ActionTest {
     @Test
-    public void generetePlayers(){
+    public void generetePlayers() {
         int nbPlayers = 7;
 
         Board board = new Board(nbPlayers);
@@ -30,11 +30,12 @@ public class ActionTest {
         assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
         assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
     }
+
     @Test
     public void initiateCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(nbPlayers);
         int resSize = board.getAction().initiateCards(nbPlayers).size();
-        assertEquals(7*nbPlayers, resSize);
+        assertEquals(7 * nbPlayers, resSize);
     }
 }

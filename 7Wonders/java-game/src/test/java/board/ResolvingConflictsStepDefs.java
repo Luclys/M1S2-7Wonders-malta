@@ -1,6 +1,7 @@
 package board;
 
 import io.cucumber.java8.En;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ResolvingConflictsStepDefs implements En {

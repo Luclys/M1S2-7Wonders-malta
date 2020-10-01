@@ -40,7 +40,7 @@ public class PlayerTest {
         assertEquals(0, player.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
 
-   @Test
+    @Test
     public void discardLastCardTest() {
         assertThrows(Error.class, () -> player.discardLastCard());
         while (player.getCards().size() > 1) {
@@ -52,7 +52,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void addCoinsTest(){
+    public void addCoinsTest() {
         player.setCoins(0);
         player.addCoins(5);
         assertEquals(5, player.getCoins());
@@ -67,8 +67,8 @@ public class PlayerTest {
 
     @Test
     public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1,new Resource[0]);
-        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1,new Resource[0]);
+        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1, new Resource[0]);
+        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1, new Resource[0]);
 
         Player neighbor = new Player(2);
         cards.set(0, bouclierCard);

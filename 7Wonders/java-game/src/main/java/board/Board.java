@@ -11,20 +11,20 @@ public class Board {
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
     private final ArrayList<Card> currentDeckCardList;
-    private ArrayList<Card> discardedCardList;
-    private int turn;
     private final Action action;
     private final Trade commerce;
+    private final ArrayList<Card> discardedCardList;
+    private int turn;
     private String outputText;
 
     public Board(int nbPlayers) {
         action = new Action();
-        playerList = action.generetePlayers(nbPlayers);
+        playerList = action.generatePlayers(nbPlayers);
         discardedCardList = new ArrayList<>(nbPlayers * 3);
         currentDeckCardList = action.initiateCards(nbPlayers);
         Collections.shuffle(currentDeckCardList);
         commerce = new Trade();
-        outputText ="";
+        outputText = "";
     }
 
     public static void main(String[] args) {
@@ -55,11 +55,11 @@ public class Board {
             // Each player plays a card on each turn
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 for (Player p : playerList) {
-                    outputText += "\nCoins of the player " + p.getCoins() ;
-                    outputText += "\nResources of the player " + Arrays.toString(p.getAvailableResources())+"\n";
+                    outputText += "\nCoins of the player " + p.getCoins();
+                    outputText += "\nResources of the player " + Arrays.toString(p.getAvailableResources()) + "\n";
                     playedCard = p.playCard();
-                    if(playedCard != null){
-                        outputText += "Card that the player wants to play : " + playedCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(playedCard.getRequiredResources())+"\n";
+                    if (playedCard != null) {
+                        outputText += "Card that the player wants to play : " + playedCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(playedCard.getRequiredResources()) + "\n";
                         outputText += "\n** verify if the player has the required resources: ";
                         Resource[] s = p.missingResources(playedCard);
                         if (s[0] != null) {
@@ -68,20 +68,20 @@ public class Board {
 
                             Player rightNeighbor = playerList.get(p.getRightNeighborId());
                             Player leftNeighbor = playerList.get(p.getLeftNeighborId());
-                            result = commerce.saleResources(s,p,rightNeighbor, leftNeighbor);
+                            result = commerce.saleResources(s, p, rightNeighbor, leftNeighbor);
                         } else {
                             outputText += "\n*** No resource is required ";
                             result = true;
                         }
                         if (!result) {
-                            outputText += "\nThe player can't use the card so card"+ playedCard.getName() +" is discord";
+                            outputText += "\nThe player can't use the card so card" + playedCard.getName() + " is discord";
                             discardedCardList.add(playedCard);
                             p.saleCard();
                         } else {
                             outputText += "\nThe player got the resources of the played card";
                             p.updatePlayer(playedCard);
                         }
-                        outputText += "\nCoins of the player " + p.getCoins() + "\n Resources of the player " + Arrays.toString(p.getAvailableResources())+"\n";
+                        outputText += "\nCoins of the player " + p.getCoins() + "\n Resources of the player " + Arrays.toString(p.getAvailableResources()) + "\n";
                         outputText += "\n********************************************************************";
                     }
                 }
@@ -141,7 +141,7 @@ public class Board {
         }
     }
 
-    public void display(){
+    public void display() {
         System.out.println(outputText);
     }
 }

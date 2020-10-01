@@ -21,6 +21,7 @@ public class Card {
         this.gainedVictoryPoints = gainedVictoryPoints;
         this.requiredResources = requiredResources;
     }
+
     public int getGainedVictoryPoints() {
         return gainedVictoryPoints;
     }

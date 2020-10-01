@@ -11,24 +11,24 @@ public class Action {
     ArrayList<Player> playerList;
 
 
-    private void leftRotation(){
+    private void leftRotation() {
         ArrayList<Card> CardOfTheFirstPlayer = playerList.get(playerList.get(0).getId()).getCards();
         int leftNeighborId;
         Player leftNeighbor, lastPlayerOnList, p;
         int i = 0;
-        while(i < playerList.size()-1){
+        while (i < playerList.size() - 1) {
             p = playerList.get(i);
             leftNeighborId = p.getLeftNeighborId();
             leftNeighbor = playerList.get(leftNeighborId);
             leftNeighbor.setCards(p.getCards());
             i++;
         }
-        lastPlayerOnList = playerList.get(playerList.size()-2);
+        lastPlayerOnList = playerList.get(playerList.size() - 2);
         lastPlayerOnList.setCards(CardOfTheFirstPlayer);
     }
 
 
-    protected ArrayList<Player> generetePlayers(int nbPlayers){
+    protected ArrayList<Player> generatePlayers(int nbPlayers) {
         playerList = new ArrayList<>(nbPlayers);
         for (int i = 0; i < nbPlayers; i++) {
             Player player = new Player(i);

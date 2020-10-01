@@ -4,10 +4,10 @@ import gameelements.Card;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import java.util.ArrayList;
 
 public class ChoiceOfCardStepDefs implements En {
     Player player;

@@ -4,10 +4,12 @@ import gameelements.enums.Resource;
 
 public class Trade {
     String outputText;
-    public Trade(){
+
+    public Trade() {
         outputText = "";
     }
-    protected boolean saleResources(Resource[] missingResources,Player p,Player rightNeighbor, Player leftNeighbor ) {
+
+    protected boolean saleResources(Resource[] missingResources, Player p, Player rightNeighbor, Player leftNeighbor) {
         boolean result = false;
         Player[] playersWithResources = new Player[4];
         Player neighbor = null;
@@ -15,7 +17,7 @@ public class Trade {
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
             if (r != null) {
                 if (p.getCoins() - (2 * k) > 1) {
-                    neighbor = findSaler(r, rightNeighbor,leftNeighbor);
+                    neighbor = findSaler(r, rightNeighbor, leftNeighbor);
                     if (neighbor == null) {// check if one of the neigbor has the resource
                         break;
                     } else {
@@ -36,14 +38,15 @@ public class Trade {
         }
         return result;
     }
+
     protected void buyFromNeighbor(Player p, Player neighbor) {// add that the neighbor can't use the adding coins till next turn
         neighbor.addCoins(2);
         p.removeCoins(2);
     }
 
-    protected Player findSaler(Resource missingResource, Player rightNeighbor, Player leftNeighbor  ) {// check price left and price right if the player can buy from both neighbor
+    protected Player findSaler(Resource missingResource, Player rightNeighbor, Player leftNeighbor) {// check price left and price right if the player can buy from both neighbor
         Player neighbor = null;
-        outputText ="";
+        outputText = "";
         if (rightNeighbor.getAvailableResources()[missingResource.getIndex()] > 0) {
             outputText = " from the right neighbor the resource " + missingResource;
             neighbor = leftNeighbor;

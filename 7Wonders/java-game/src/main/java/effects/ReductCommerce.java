@@ -1,7 +1,6 @@
 package effects;
 
 import gameelements.Effect;
-import gameelements.enums.Resource;
 
 public class ReductCommerce extends Effect {
     // 0 = Left, 1 = Right, 2 = Both.
