@@ -3,6 +3,7 @@ package board;
 import effects.CoinEffect;
 import gameelements.Card;
 import gameelements.Effect;
+import gameelements.Inventory;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
@@ -12,29 +13,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ChoiceOfCardStepDefs implements En {
-    Player player;
+    Board board = new Board(1);
     Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 
     public ChoiceOfCardStepDefs() {
         Given("a player with id {int}", (Integer playerId) -> {
+            inventory = new Inventory(playerId);
             player = new Player(playerId);
         });
         And("a player has a card TAVERNE", () -> {
             cards.add(tavern);
-            player.setCards(cards);
+            inventory.setCards(cards);
         });
 
         When("player chooses TAVERNE", () -> {
-            initialCoinsCount = player.getCoins();
-            player.playCard();
+            initialCoinsCount = inventory.getCoins();
+            board.playCard(inventory);
         });
         Then("5 coins added to player", () -> {
-            assertEquals(player.getCoins(), (initialCoinsCount + 5));
+            assertEquals(inventory.getCoins(), (initialCoinsCount + 5));
         });
         Then("this card is unavailable", () -> {
-            assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
+            assertNotEquals(inventory.getCards().size(), new Inventory(2).getCards().size());
         });
     }
 }

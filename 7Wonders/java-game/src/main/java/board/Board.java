@@ -5,7 +5,9 @@ import gameelements.Inventory;
 import gameelements.enums.Resource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
 public class Board {
     private final Action action;
@@ -65,34 +67,25 @@ public class Board {
     }
 
     public void play() {
-        boolean result;
         for (int age = 0; age < 1; age++) {
             // Card dealing
             playerInventoryList.forEach(inventory -> inventory.setCards(drawCards(NOMBRE_CARTES)));
-            Card playedCard;
 
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
-                    Inventory fakeInv = new Inventory(trueInv);
-                    playedCard = p.playCard(fakeInv);
 
-                    if (playedCard != null) {
-                        Resource[] s = p.missingResources(fakeInv, playedCard);
-                        if (s[0] != null) {
-                            result = commerce.saleResources(s, trueInv, playerInventoryList.get(p.getRightNeighborId()), playerInventoryList.get(p.getLeftNeighborId()));
-                        } else {
-                            result = true;
-                        }
-                        if (!result) {
-                            discardedDeckCardList.add(playedCard);
-                            trueInv.sellCard(playedCard);
-                        } else {
-                            trueInv.updateInventory(playedCard);
-                        }
-                    }
+                    outputText += "\nCoins of the player " + trueInv.getCoins() ;
+                    outputText += "\nResources of the player " + Arrays.toString(trueInv.getAvailableResources())+"\n";
+
+                    p.ChooseCard(new Inventory(playerInventoryList.get(p.getId())));
                 }
+
+                for (int i = 0; i < playerList.size(); i++) {
+                    playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
+                }
+
                 // The players exchange cards according to the Age's sens.
                 /*if(getTurn()<6){
                     leftRotation();
@@ -106,6 +99,38 @@ public class Board {
             // Resolving war conflicts
             resolveWarConflict();
         }
+    }
+
+    private void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
+        boolean result;
+        Card choosenCard = player.getChoosenCard();
+
+        if (choosenCard != null) {
+            outputText += "Card that the player wants to play : " + choosenCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(choosenCard.getRequiredResources())+"\n";
+            outputText += "\n** verify if the player has the required resources: ";
+
+            Resource[] s = player.missingResources(fakeInv, choosenCard);
+            if (s[0] != null) {
+                outputText += "\n*** Missing resource to play the card " + Arrays.toString(s);
+                outputText += "\n**** Verify if the player can buy missing resources ";
+
+                result = commerce.saleResources(s, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+            } else {
+                outputText += "\n*** No resource is required ";
+                result = true;
+            }
+            if (!result) {
+                outputText += "\nThe player can't use the card so card"+ choosenCard.getName() +" is discord";
+
+                discardedDeckCardList.add(choosenCard);
+                trueInv.sellCard(choosenCard);
+            } else {
+                outputText += "\nThe player got the resources of the played card";
+                trueInv.updateInventory(choosenCard);
+            }
+            outputText += "\nCoins of the player : "+player.getId() + " : " + trueInv.getCoins() + "\n Resources of the player " + Arrays.toString(trueInv.getAvailableResources())+"\n";
+        }
+
     }
 
     public Action getAction() {
@@ -155,5 +180,9 @@ public class Board {
 
     public void display() {
         System.out.println(outputText);
+    }
+
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return this.playerInventoryList;
     }
 }

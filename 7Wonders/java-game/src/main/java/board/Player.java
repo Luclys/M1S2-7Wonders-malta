@@ -22,7 +22,7 @@ public class Player {
         return "Player " + id + " wins.";
     }
 
-    public Card playCard(Inventory inv) {
+    public Card ChooseCard(Inventory inv) {
         /*
          * Choices :
          * Can be affected by the resource choice on a card
@@ -76,6 +76,10 @@ public class Player {
     }
 
 
+    public Card getChoosenCard() {
+        return this.choosenCard;
+    }
+
     public int getRightNeighborId() {
         return this.rightNeighborId;
     }
@@ -92,5 +96,4 @@ public class Player {
     public void setLeftNeighborId(int id) {
         this.leftNeighborId = id;
     }
-
 }
