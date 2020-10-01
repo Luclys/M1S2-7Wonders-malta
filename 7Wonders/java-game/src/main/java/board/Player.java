@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 public class Player {
     private final int id;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cardsInHand;
+    private ArrayList<Card> playedCards;
     private int score;
     private final int[] availableResources;
     private int rightNeighborId;
@@ -22,7 +23,8 @@ public class Player {
         this.id = id;
         this.leftNeighborId = 0;
         this.rightNeighborId = 0;
-        this.cards = new ArrayList<>(Board.NOMBRE_CARTES);
+        this.cardsInHand = new ArrayList<>(Board.NOMBRE_CARTES);
+        this.playedCards = new ArrayList<>(Board.NOMBRE_CARTES*3);
         this.availableResources = new int[Resource.values().length];
         this.coins = 3;
         this.priceRight = 2;
@@ -44,7 +46,9 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        Card playedCard = cards.get(0);
+        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(cardsInHand); //player can't play the same card again
+        cardsAvailableToPlay.removeIf(card -> card.isBatiment() && playedCards.contains(card));
+        Card playedCard = cardsAvailableToPlay.get(0);
        // System.out.print("Player " + id + " plays the " + playedCard.getName() + " card.\t");
 
         /*
@@ -91,11 +95,11 @@ public class Player {
         return missing;
     }
 
-    protected void updatePlayer(Card playedCard){
+    protected void updatePlayerWithPlayedCard(Card playedCard){
         //Updating player's available resources
         updateAvailableResources(playedCard);
-        //Card is removed from hand
-        cards.remove(0);
+        playedCards.add(playedCard);
+        cardsInHand.remove(0);
     }
 
 
@@ -121,9 +125,9 @@ public class Player {
     }
 
     Card discardLastCard() {
-        if (cards.size() == 1) {
+        if (cardsInHand.size() == 1) {
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
-            return cards.remove(0);
+            return cardsInHand.remove(0);
         } else {
             throw new Error("There is more than 1 card left.");
         }
@@ -132,7 +136,7 @@ public class Player {
       void saleCard(){
         //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
         addCoins(3);
-        cards.remove(0);
+        cardsInHand.remove(0);
     }
 
     //Getters and setters
@@ -161,12 +165,11 @@ public class Player {
         this.leftNeighborId = id;
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    public ArrayList<Card> getCardsInHand() {
+        return cardsInHand;
     }
 
     public int[] getAvailableResources() { return availableResources; }
-
 
     public int getBoucliersCount() { return availableResources[Resource.BOUCLIER.getIndex()]; }
 
@@ -189,8 +192,8 @@ public class Player {
         //System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
     }
 
-    public void setCards(ArrayList<Card> initiateCards) {
-        this.cards = initiateCards;
+    public void setCardsInHand(ArrayList<Card> initiateCards) {
+        this.cardsInHand = initiateCards;
     }
 
     public int getCoins() {

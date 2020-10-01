@@ -50,7 +50,7 @@ public class Board {
         boolean result;
         for (int age = 0; age < 1; age++) {
             // Card dealing
-            playerList.forEach(player -> player.setCards(drawCards(NOMBRE_CARTES)));
+            playerList.forEach(player -> player.setCardsInHand(drawCards(NOMBRE_CARTES)));
             Card playedCard;
             // Each player plays a card on each turn
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
@@ -79,7 +79,7 @@ public class Board {
                             p.saleCard();
                         } else {
                             outputText += "\nThe player got the resources of the played card";
-                            p.updatePlayer(playedCard);
+                            p.updatePlayerWithPlayedCard(playedCard);
                         }
                         outputText += "\nCoins of the player " + p.getCoins() + "\n Resources of the player " + Arrays.toString(p.getAvailableResources())+"\n";
                         outputText += "\n********************************************************************";

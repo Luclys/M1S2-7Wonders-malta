@@ -1,13 +1,16 @@
 package board;
 
 import gameelements.Card;
+import gameelements.Category;
 import gameelements.Resource;
+import io.cucumber.java8.Ca;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 public class PlayerTest {
@@ -19,23 +22,30 @@ public class PlayerTest {
     public void setUp() {
         player = new Player(3);
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Resource[]{Resource.BOIS}, 1, new Resource[0]));
+            cards.add(new Card("CHANTIER", new Resource[]{Resource.BOIS}, 1, new Resource[0], Category.MATIERE_PREMIERE));
         }
-        player.setCards(cards);
+        player.setCardsInHand(cards);
     }
 
     @Test
     public void playCardTest() {
         assertEquals(0, player.getScore());
-        player.updatePlayer(player.playCard());
+        player.updatePlayerWithPlayedCard(player.playCard());
         assertEquals(1, player.getScore());
-        assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
+        assertNotEquals(player.getCardsInHand().size(), new Player(2).getCardsInHand().size());
+
+        //test if player can't build two identical buildings
+        Card taverne = new Card("TAVERNE", new Resource[0], new Resource[0], Category.BATIMENT_COMMERCIEAU);
+        player.updatePlayerWithPlayedCard(taverne);
+        player.getCardsInHand().set(0, taverne);
+        player.playCard();
+        assertEquals(player.getCardsInHand().get(0), taverne);
     }
 
     @Test
     public void updateAvailableResourcesTest() {
         assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updatePlayer(player.playCard());
+        player.updatePlayerWithPlayedCard(player.playCard());
         assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
         assertEquals(0, player.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
@@ -43,12 +53,12 @@ public class PlayerTest {
    @Test
     public void discardLastCardTest() {
         assertThrows(Error.class, () -> player.discardLastCard());
-        while (player.getCards().size() > 1) {
-            player.updatePlayer(player.playCard());
+        while (player.getCardsInHand().size() > 1) {
+            player.updatePlayerWithPlayedCard(player.playCard());
         }
-        Card lastCard = player.getCards().get(0);
+        Card lastCard = player.getCardsInHand().get(0);
         assertSame(lastCard, player.discardLastCard());
-        assertTrue(player.getCards().isEmpty());
+        assertTrue(player.getCardsInHand().isEmpty());
     }
 
     @Test
@@ -67,13 +77,13 @@ public class PlayerTest {
 
     @Test
     public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1,new Resource[0]);
-        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1,new Resource[0]);
+        Card bouclierCard = new Card("BOUCLIER", new Resource[]{Resource.BOUCLIER}, 1, new Resource[0], Category.MATIERE_PREMIERE);
+        Card boisCard = new Card("BOIS", new Resource[]{Resource.BOIS}, 1, new Resource[0], Category.MATIERE_PREMIERE);
 
         Player neighbor = new Player(2);
         cards.set(0, bouclierCard);
-        neighbor.setCards(cards);
-        neighbor.updatePlayer(neighbor.playCard()); //Neighbor has 1 bouclier
+        neighbor.setCardsInHand(cards);
+        neighbor.updatePlayerWithPlayedCard(neighbor.playCard()); //Neighbor has 1 bouclier
 
         //Player has less boucliers than his neighbor
         player = new Player(3);
@@ -100,13 +110,13 @@ public class PlayerTest {
 
     private void addCardAndPlayIt(Player player, Card card) {
         cards.set(0, card);
-        player.setCards(cards);
-        player.updatePlayer(player.playCard());
+        player.setCardsInHand(cards);
+        player.updatePlayerWithPlayedCard(player.playCard());
     }
 
     @Test
     void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Resource[]{Resource.BOIS}, new Resource[]{Resource.BOIS});
+        Card c = new Card("CHANTIER", new Resource[]{Resource.BOIS}, new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
         Resource[] m = player.missingResources(c);
         assertEquals(Resource.BOIS, m[0]);
     }
@@ -114,7 +124,7 @@ public class PlayerTest {
     @Test
     void UpdatePlayer() {
         assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updatePlayer(player.playCard());
+        player.updatePlayerWithPlayedCard(player.playCard());
         assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
     }
 }

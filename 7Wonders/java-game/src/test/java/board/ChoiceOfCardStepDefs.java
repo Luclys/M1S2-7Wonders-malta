@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Card;
+import gameelements.Category;
 import gameelements.Resource;
 import io.cucumber.java8.En;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class ChoiceOfCardStepDefs implements En {
     Player player;
-    Card tavern = new Card("TAVERNE", new Resource[0], new Resource[0]);
+    Card tavern = new Card("TAVERNE", new Resource[0], new Resource[0], Category.BATIMENT_COMMERCIEAU);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 
@@ -21,7 +22,7 @@ public class ChoiceOfCardStepDefs implements En {
         });
         And("a player has a card TAVERNE", () -> {
             cards.add(tavern);
-            player.setCards(cards);
+            player.setCardsInHand(cards);
         });
 
         When("player chooses TAVERNE", () -> {
@@ -32,7 +33,7 @@ public class ChoiceOfCardStepDefs implements En {
             assertEquals(player.getCoins(), (initialCoinsCount + 5));
         });
         Then("this card is unavailable", () -> {
-            assertNotEquals(player.getCards().size(), new Player(2).getCards().size());
+            assertNotEquals(player.getCardsInHand().size(), new Player(2).getCardsInHand().size());
         });
     }
 }
