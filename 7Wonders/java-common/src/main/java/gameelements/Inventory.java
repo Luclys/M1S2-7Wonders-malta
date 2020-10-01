@@ -103,6 +103,9 @@ public class Inventory {
         return this.availableSymbols[symbol.getIndex()];
     }
 
+    public int getResCount(Resource resource) {
+        return this.availableResources[resource.getIndex()];
+    }
 
     public int getPlayerId() {
         return playerId;
@@ -158,5 +161,9 @@ public class Inventory {
 
     public void setPriceRight(int priceRight) {
         this.priceRight = priceRight;
+    }
+
+    public int[] getAvailableSymbols() {
+        return this.availableSymbols;
     }
 }

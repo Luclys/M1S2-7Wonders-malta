@@ -17,8 +17,7 @@ public class SymbolEffect extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // Request the add of nb resource to the player
-        //collectedSymbols[symbol.getIndex()]++;
+        inv.getAvailableSymbols()[symbol.getIndex()] += nb;
         changeStatus();
     }
 }

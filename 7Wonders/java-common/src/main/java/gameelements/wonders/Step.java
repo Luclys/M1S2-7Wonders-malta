@@ -1,9 +1,9 @@
 package gameelements.wonders;
 
 import gameelements.Card;
+import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
-import gameelements.Effect;
 
 public class Step {
     private final Resource[] requiredResources;
@@ -14,6 +14,11 @@ public class Step {
     public Step(Resource[] requiredResources, Effect[] effects) {
         this.requiredResources = requiredResources;
         this.effects = effects;
+    }
+
+    public Step(Resource[] requiredResources, Effect effect) {
+        this.requiredResources = requiredResources;
+        this.effects = new Effect[]{effect};
     }
 
     void build(Inventory inv, Card sacrifice) {
