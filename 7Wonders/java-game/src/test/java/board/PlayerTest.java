@@ -9,6 +9,7 @@ import gameelements.Inventory;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ public class PlayerTest {
     final ArrayList<Card> cards = new ArrayList<>(7);
     private Player player;
     private Inventory inv;
+    private Board board;
 
     @BeforeEach
     public void setUp() {
+        board = new Board(3);
         player = new Player(3);
-        inv = new Inventory(3);
+        inv = board.getPlayerInventoryList().get(0);
         for (int i = 0; i < 7; i++) {
             cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("",Resource.BOIS, 1)}, null));
         }
@@ -35,7 +38,8 @@ public class PlayerTest {
     @Test
     public void playCardTest() {
         assertEquals(0, inv.getScore());
-        player.updateInventory(player.playCard(inv));
+        Card playedCard = player.playCard(inv);
+        inv.updateInventory(playedCard);
         assertEquals(1, inv.getScore());
         assertNotEquals(inv.getCards().size(), new Inventory(2).getCards().size());
     }
@@ -43,7 +47,7 @@ public class PlayerTest {
     @Test
     public void updateAvailableResourcesTest() {
         assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updateInventory(player.playCard(inv));
+        inv.updateInventory(player.playCard(inv));
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
@@ -52,7 +56,7 @@ public class PlayerTest {
     public void discardLastCardTest() {
         assertThrows(Error.class, () -> inv.discardLastCard());
         while (inv.getCards().size() > 1) {
-            player.updateInventory(player.playCard(inv));
+            inv.updateInventory(player.playCard(inv));
         }
         Card lastCard = inv.getCards().get(0);
         assertSame(lastCard, inv.discardLastCard());
@@ -83,48 +87,48 @@ public class PlayerTest {
 
         cards.set(0, bouclierCard);
         neighborInv.setCards(cards);
-        neighbor.updateInventory(neighbor.playCard(inv)); //Neighbor has 1 bouclier
+        inv.updateInventory(neighbor.playCard(inv)); //Neighbor has 1 bouclier
 
         //Player has less boucliers than his neighbor
         player = new Player(3);
         addCardAndPlayIt(player, boisCard); //Player has no boucliers
 
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(player.getConflictPoints(), -1);
+        board.resolveWarConflict();
+        assertEquals(inv.getConflictPoints(), -1);
 
         //Player has same amount of boucliers than his neighbor
         player = new Player(4);
         addCardAndPlayIt(player, bouclierCard); //Player has 1 bouclier
 
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(player.getConflictPoints(), 0);
+        board.resolveWarConflict();
+        assertEquals(inv.getConflictPoints(), 0);
 
         //Player has more boucliers than his neighbor
         player = new Player(5);
         addCardAndPlayIt(player, bouclierCard); //Player has 1 bouclier
         addCardAndPlayIt(player, bouclierCard); //Player has 2 boucliers
 
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(player.getConflictPoints(), 3);
+        board.resolveWarConflict();
+        assertEquals(inv.getConflictPoints(), 3);
     }
 
     private void addCardAndPlayIt(Player player, Card card) {
         cards.set(0, card);
-        player.setCards(cards);
-        player.updateInventory(player.playCard());
+        inv.setCards(cards);
+        inv.updateInventory(player.playCard(inv));
     }
 
     @Test
     void missingResourcesTest() {
         Card c = new Card("CHANTIER TEST", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS});
-        Resource[] m = player.missingResources(c);
+        Resource[] m = player.missingResources(inv, c);
         assertEquals(Resource.BOIS, m[0]);
     }
 
     @Test
     void UpdatePlayer() {
-        assertEquals(0, player.getAvailableResources()[Resource.BOIS.getIndex()]);
-        player.updateInventory(player.playCard());
-        assertEquals(1, player.getAvailableResources()[Resource.BOIS.getIndex()]);
+        assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
+        inv.updateInventory(player.playCard(inv));
+        assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
     }
 }

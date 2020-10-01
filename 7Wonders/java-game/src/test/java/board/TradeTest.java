@@ -1,24 +1,27 @@
 package board;
 
+import gameelements.Card;
+import gameelements.Effect;
+import gameelements.Inventory;
 import gameelements.enums.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class TradeTest {
+    private Card card;
 
-
-    @Disabled
+    @BeforeEach
+    public void setUp() {
+        card = new Card("DUMMY", new Effect())
+    }
     @Test
-    public void findSalerTest() {
+    public void findSellerTest() {
         Board board = new Board(3);
-        //System.out.println(board.getPlayerList().get(1));
         Player rightNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getRightNeighborId());
         Player leftNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getLeftNeighborId());
-        Player n = board.getCommerce().findSaler(Resource.ARGENT, rightNeighbor, leftNeighbor);
-
-        //  assertEquals(n,n);
+        board.getPlayerInventoryList().get(rightNeighbor.getId()).updateInventory(new Card("DUMMY", ));
+        Inventory neighbourInv = board.getCommerce().findSeller(Resource.BOIS, board.getPlayerInventoryList().get(rightNeighbor.getId()), board.getPlayerInventoryList().get(leftNeighbor.getId()));
     }
 
     @Test

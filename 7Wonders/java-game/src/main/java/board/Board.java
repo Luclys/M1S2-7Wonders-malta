@@ -64,6 +64,10 @@ public class Board {
         return this.turn;
     }
 
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
+    }
+
     public void play() {
         boolean result;
         for (int age = 0; age < 1; age++) {
@@ -116,7 +120,7 @@ public class Board {
         return commerce;
     }
 
-    private void resolveWarConflict() {
+    public void resolveWarConflict() {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
             int getRightNeighborId = player.getRightNeighborId();

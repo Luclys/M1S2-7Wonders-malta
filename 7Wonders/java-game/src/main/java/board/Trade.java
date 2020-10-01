@@ -18,7 +18,7 @@ public class Trade {
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
             if (r != null) {
                 if (playerInv.getCoins() - (2 * k) > 1) {
-                    neighbor = findSaler(r, rightNeighborInv, leftNeighborInv);
+                    neighbor = findSeller(r, rightNeighborInv, leftNeighborInv);
                     if (neighbor == null) {// check if one of the neigbor has the resource
                         break;
                     } else {
@@ -45,7 +45,7 @@ public class Trade {
         playerInv.removeCoins(2);
     }
 
-    protected Inventory findSaler(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
+    protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
         Inventory neighborInv = null;
         outputText = "";
         if (rightNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
