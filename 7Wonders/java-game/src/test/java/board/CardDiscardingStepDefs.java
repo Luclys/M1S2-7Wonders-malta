@@ -2,7 +2,6 @@ package board;
 
 import effects.ResourceEffect;
 import gameelements.Card;
-import gameelements.Inventory;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
