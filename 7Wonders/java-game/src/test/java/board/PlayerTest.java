@@ -8,12 +8,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class PlayerTest {
 
-    ArrayList<Card> cards = new ArrayList<>(7);
+    final ArrayList<Card> cards = new ArrayList<>(7);
     private Player player;
 
     @BeforeEach
