@@ -1,7 +1,7 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.enums.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;

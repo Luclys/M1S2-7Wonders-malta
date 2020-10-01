@@ -1,7 +1,7 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

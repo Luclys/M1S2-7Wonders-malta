@@ -1,6 +1,6 @@
 package board;
 
-import gameelements.Resource;
+import gameelements.enums.Resource;
 
 public class Trade {
     String outputText;
