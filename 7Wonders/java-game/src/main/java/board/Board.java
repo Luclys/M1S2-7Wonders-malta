@@ -185,8 +185,4 @@ public class Board {
     public void display() {
         System.out.println(outputText);
     }
-
-    public ArrayList<Inventory> getPlayerInventoryList() {
-        return this.playerInventoryList;
-    }
 }

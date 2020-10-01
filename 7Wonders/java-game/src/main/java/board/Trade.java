@@ -13,7 +13,7 @@ public class Trade {
     protected boolean saleResources(Resource[] missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
         Inventory[] playersWithResources = new Inventory[4];
-        Inventory neighbor = null;
+        Inventory neighbor;
         int k = 0;
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
             if (r != null) {
@@ -50,11 +50,11 @@ public class Trade {
         outputText = "";
         if (rightNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
             outputText = " from the right neighbor the resource " + missingResource;
-            neighborInv = leftNeighborInv;
+            neighborInv = rightNeighborInv;
         } else {
             if (leftNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
                 outputText += " from the left neighbor the resource " + missingResource;
-                neighborInv = rightNeighborInv;
+                neighborInv = leftNeighborInv;
             }
         }
         System.out.println(outputText);
