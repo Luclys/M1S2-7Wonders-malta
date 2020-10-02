@@ -58,16 +58,16 @@ public class Inventory {
 
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
-        this.playerId =  inventory.playerId;
-        this.availableResources =  inventory.availableResources;
+        this.playerId = inventory.playerId;
+        this.availableResources = inventory.availableResources;
         this.availableSymbols = inventory.availableSymbols;
-        this.cardsInHand =  inventory.cardsInHand;
+        this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
-        this.score =  inventory.score;
-        this.conflictPoints =  inventory.conflictPoints;
-        this.coins =  inventory.coins;
-        this.priceLeft =  inventory.priceLeft;
-        this.priceRight =  inventory.priceRight;
+        this.score = inventory.score;
+        this.conflictPoints = inventory.conflictPoints;
+        this.coins = inventory.coins;
+        this.priceLeft = inventory.priceLeft;
+        this.priceRight = inventory.priceRight;
     }
 
     public Card discardLastCard() {
@@ -80,11 +80,11 @@ public class Inventory {
     }
 
     public void sellCard(Card card) {
-        if (cardsInHand.contains(card)){
+        if (cardsInHand.contains(card)) {
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
             cardsInHand.remove(0);
-        } else{
+        } else {
             throw new Error("Can't sell a card you don't have.");
         }
     }

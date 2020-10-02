@@ -84,18 +84,18 @@ public class Board {
                 sout.play();
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
-                    p.ChooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     System.out.println(playerInventoryList.get(p.getId()).getCardsInHand());
-                    sout.chosenCards(p.getId(), p.getChoosenCard());
+                    sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
-                if((age == 0 || age == 2)){
-                    action.leftRotation();
-                }else {
+                if(age == 1){
                     action.rightRotation();
+                }else {
+                    action.leftRotation();
                 }
                 this.turn++;
             }
@@ -110,7 +110,7 @@ public class Board {
 
     protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
         boolean result;
-        Card choosenCard = player.getChoosenCard();
+        Card choosenCard = player.getChosenCard();
 
         if (choosenCard != null) {
             sout.action(player.getId());

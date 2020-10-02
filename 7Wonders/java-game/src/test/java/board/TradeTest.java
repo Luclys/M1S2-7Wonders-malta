@@ -7,8 +7,8 @@ import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TradeTest {
     private Card card;
     private Board board;
@@ -29,7 +29,7 @@ public class TradeTest {
                 Resource.BOIS,
                 board.getPlayerInventoryList().get(rightNeighbor.getId()),
                 board.getPlayerInventoryList().get(leftNeighbor.getId()));
-       // assertEquals(board.getPlayerInventoryList().get(rightNeighbor.getId()), neighbourInv);
+        // assertEquals(board.getPlayerInventoryList().get(rightNeighbor.getId()), neighbourInv);
     }
 
     @Test

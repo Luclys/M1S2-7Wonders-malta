@@ -11,17 +11,17 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
-    private Card choosenCard;
+    private Card chosenCard;
 
     public Player(int id) {
         this.id = id;
     }
 
     public String toString() {
-        return "Player " + id ;
+        return "Player " + id;
     }
 
-    public Card ChooseCard(Inventory inv) {
+    public Card chooseCard(Inventory inv) {
         /*
          * Choices :
          * Can be affected by the resource choice on a card
@@ -32,14 +32,15 @@ public class Player {
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
         ArrayList<Card> cards = inv.getCardsInHand();
-        choosenCard = cards.get(0);
-        return choosenCard;
+        chosenCard = cards.get(0);
+
+        return chosenCard;
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
     }
 
     protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
         ArrayList<Resource> missing = new ArrayList<Resource>();
-        if (c.getRequiredResources() == null){
+        if (c.getRequiredResources() == null) {
             return null;
         }
         for (Resource r : c.getRequiredResources()) {
@@ -56,8 +57,8 @@ public class Player {
     }
 
 
-    public Card getChoosenCard() {
-        return this.choosenCard;
+    public Card getChosenCard() {
+        return this.chosenCard;
     }
 
     public int getRightNeighborId() {
