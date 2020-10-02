@@ -3,6 +3,7 @@ package board;
 import effects.CoinEffect;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.enums.Category;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ChoiceOfCardStepDefs implements En {
     Player player;
     Inventory inventory;
     Board board = new Board(1);
-    Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null);
+    Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 
@@ -25,7 +26,7 @@ public class ChoiceOfCardStepDefs implements En {
         });
         And("a player has a card TAVERNE", () -> {
             cards.add(tavern);
-            inventory.setCards(cards);
+            inventory.setCardsInHand(cards);
         });
 
         When("player chooses TAVERNE", () -> {
@@ -36,7 +37,7 @@ public class ChoiceOfCardStepDefs implements En {
             assertEquals(inventory.getCoins(), (initialCoinsCount + 5));
         });
         Then("this card is unavailable", () -> {
-            assertNotEquals(inventory.getCards().size(), new Inventory(2).getCards().size());
+            assertNotEquals(inventory.getCardsInHand().size(), new Inventory(2).getCardsInHand().size());
         });
     }
 }

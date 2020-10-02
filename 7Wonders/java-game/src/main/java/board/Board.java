@@ -76,7 +76,7 @@ public class Board {
         for (int age = 0; age < AGES; age++) {
             sout.beginingOfAge(age+1);
             // Card dealing
-            playerInventoryList.forEach(inventory -> inventory.setCards(drawCards(NOMBRE_CARTES)));
+            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);
@@ -85,12 +85,18 @@ public class Board {
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    System.out.println(playerInventoryList.get(p.getId()).getCardsInHand());
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
+                if(age == 1){
+                    action.rightRotation();
+                }else {
+                    action.leftRotation();
+                }
                 this.turn++;
             }
             // At the end of the 6th turn, we discard the remaining card

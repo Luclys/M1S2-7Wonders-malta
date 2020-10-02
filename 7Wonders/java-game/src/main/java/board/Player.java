@@ -31,7 +31,7 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        ArrayList<Card> cards = inv.getCards();
+        ArrayList<Card> cards = inv.getCardsInHand();
         chosenCard = cards.get(0);
 
         return chosenCard;

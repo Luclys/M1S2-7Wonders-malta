@@ -12,11 +12,9 @@ public enum Resource {
 
     private final int index;
 
-
     Resource(int index) {
         this.index = index;
     }
-
 
     public int getIndex() {
         return index;

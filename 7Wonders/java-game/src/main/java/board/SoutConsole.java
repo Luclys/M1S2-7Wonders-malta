@@ -119,8 +119,8 @@ public class SoutConsole {
 
         s +=       p.getAvailableResources()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
                 + p.getAvailableResources()[Symbol.COMPAS.getIndex()] + " COMPAS , "
-                + p.getAvailableResources()[Symbol.ROUAGE.getIndex()]  + " PIERRE , "
-                + p.getAvailableResources()[Symbol.STELE.getIndex()]  + " MINERAI ";
+                + p.getAvailableResources()[Symbol.ROUAGE.getIndex()]  + " ROUAGE , "
+                + p.getAvailableResources()[Symbol.STELE.getIndex()]  + " STELE ";
 
         System.out.println( "{" +
                 "player : " + p.getPlayerId() +

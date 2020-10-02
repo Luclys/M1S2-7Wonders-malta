@@ -4,6 +4,7 @@ import effects.ResourceEffect;
 import effects.SymbolEffect;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
@@ -22,7 +23,6 @@ public class BoardTest {
         board.play();
         assertEquals(6, board.getTurn());
     }
-
 
     @Test
     public void testInitializedDeckCardList() {
@@ -64,7 +64,7 @@ public class BoardTest {
         assertEquals(1, inv.getResCount(Resource.BOIS));
 
         // We claim a test Board, then test if when buying a step, we get the resource.
-        Card card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), null);
+        Card card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), null, Category.MATIERE_PREMIERE);
         TESTBOARD.buyNextStep(card);
 
         assertEquals(2, inv.getResCount(Resource.BOIS));
