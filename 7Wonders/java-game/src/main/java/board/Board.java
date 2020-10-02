@@ -82,7 +82,7 @@ public class Board {
                     outputText += "\nCoins of the player " + trueInv.getCoins() ;
                     outputText += "\nResources of the player " + Arrays.toString(trueInv.getAvailableResources())+"\n";
 
-                    p.ChooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                 }
 
                 for (int i = 0; i < playerList.size(); i++) {
@@ -106,7 +106,7 @@ public class Board {
 
     protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
         boolean result;
-        Card choosenCard = player.getChoosenCard();
+        Card choosenCard = player.getChosenCard();
 
         if (choosenCard != null) {
             outputText += "Card that the player wants to play : " + choosenCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(choosenCard.getRequiredResources())+"\n";

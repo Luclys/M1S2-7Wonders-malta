@@ -3,7 +3,6 @@ package board;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
-import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
-    private Card choosenCard;
+    private Card chosenCard;
 
     public Player(int id) {
         this.id = id;
@@ -22,7 +21,7 @@ public class Player {
         return "Player " + id + " wins.";
     }
 
-    public Card ChooseCard(Inventory inv) {
+    public Card chooseCard(Inventory inv) {
         /*
          * Choices :
          * Can be affected by the resource choice on a card
@@ -33,9 +32,9 @@ public class Player {
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
         ArrayList<Card> cards = inv.getCards();
-        choosenCard = cards.get(0);
+        chosenCard = cards.get(0);
 
-        return choosenCard;
+        return chosenCard;
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
     }
 
@@ -76,8 +75,8 @@ public class Player {
     }
 
 
-    public Card getChoosenCard() {
-        return this.choosenCard;
+    public Card getChosenCard() {
+        return this.chosenCard;
     }
 
     public int getRightNeighborId() {
