@@ -109,8 +109,8 @@ public class PlayerTest {
     @Test
     void missingResourcesTest() {
         Card c = new Card("CHANTIER TEST", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS});
-        Resource[] m = player.missingResources(inv, c);
-        assertEquals(Resource.BOIS, m[0]);
+        ArrayList<Resource> m = player.missingResources(inv, c);
+        assertEquals(Resource.BOIS, m.get(0));
     }
 
     @Test

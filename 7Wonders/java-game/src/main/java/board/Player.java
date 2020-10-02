@@ -11,7 +11,7 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
-    private Card choosenCard;
+    private Card chosenCard;
 
     public Player(int id) {
         this.id = id;

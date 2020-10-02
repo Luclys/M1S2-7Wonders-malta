@@ -84,8 +84,8 @@ public class Board {
                 sout.play();
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
-                    p.ChooseCard(new Inventory(playerInventoryList.get(p.getId())));
-                    sout.chosenCards(p.getId(), p.getChoosenCard());
+                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
