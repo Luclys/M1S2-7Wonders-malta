@@ -3,6 +3,7 @@ package board;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
+import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class Board {
     private final ArrayList<Card> discardedDeckCardList;
     private int turn;
     private final SoutConsole sout;
-    private final  CardManager cardManager;
+    private final CardManager cardManager;
 
     public Board(int nbPlayers) {
         commerce = new Trade();
@@ -28,7 +29,7 @@ public class Board {
         // Setup Players and their inventories
         playerList = playersManager.generatePlayers(nbPlayers);
         playerInventoryList = playersManager.getPlayerInventoryList();
-        cardManager = new CardManager(playerList,playerInventoryList);
+        cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
         currentDeckCardList = cardManager.initiateCards(nbPlayers);
@@ -77,8 +78,9 @@ public class Board {
     }
 
     public void play() {
+        playerInventoryList.forEach(this::chooseWonderBoard);
         for (int age = 0; age < AGES; age++) {
-            sout.beginingOfAge(age+1);
+            sout.beginingOfAge(age + 1);
             // Card dealing
             playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
@@ -87,17 +89,16 @@ public class Board {
                 // Each player plays a card on each turn
                 sout.play();
                 for (Player p : playerList) {
-                    Inventory trueInv = playerInventoryList.get(p.getId());
-                    p.chooseCard(new Inventory(trueInv));
+                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
-                if(age == 1){
+                if (age == 1) {
                     cardManager.rightRotation();
-                }else {
+                } else {
                     cardManager.leftRotation();
                 }
                 this.turn++;
@@ -107,8 +108,14 @@ public class Board {
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
             resolveWarConflict();
-            sout.endOfAge(age+1);
+            sout.endOfAge(age + 1);
         }
+    }
+
+    private void chooseWonderBoard(Inventory inventory) {
+        // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
+        WonderBoard colossus = playersManager.initiateColossus();
+        colossus.claimBoard(inventory);
     }
 
     protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {

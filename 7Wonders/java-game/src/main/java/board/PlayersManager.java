@@ -52,9 +52,11 @@ public class PlayersManager {
         }
         return playerList;
     }
+
     public ArrayList<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
+
     protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
         ArrayList<Resource> missing = new ArrayList<>();
         if (c.getRequiredResources() == null) {
@@ -66,6 +68,14 @@ public class PlayersManager {
             }
         }
         return missing;
+    }
+
+    protected WonderBoard initiateColossus() {
+        ArrayList<Step> colosseStepsA = new ArrayList<>();
+        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect("", 3)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect("", Symbol.BOUCLIER, 2)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect("", 7)));
+        return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect("", Resource.MINERAI, 1), colosseStepsA);
     }
 
     protected ArrayList<WonderBoard> initiateWonders() {
@@ -183,5 +193,4 @@ public class PlayersManager {
 
         return res;
     }
-
 }

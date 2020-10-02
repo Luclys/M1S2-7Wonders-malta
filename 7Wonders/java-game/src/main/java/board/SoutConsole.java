@@ -35,12 +35,14 @@ public class SoutConsole {
         }
         System.out.printf("\n\n================ TURN n° %d ===============\n\n", turn);
     }
+
     public void endOfGame() {
         if (!booleanPrint) {
             return;
         }
         System.out.print("\n\n========== END OF THE GAME ==========\n\n");
     }
+
     public void FinalResults() {
         if (!booleanPrint) {
             return;
@@ -48,12 +50,13 @@ public class SoutConsole {
         System.out.print("\n\n========== FINAL RESULTS  ==========\n");
     }
 
-    public void play(){
+    public void play() {
         if (!booleanPrint) {
             return;
         }
         System.out.println("\n\n============ The chosen cards ==========\n\n");
     }
+
     public void chosenCards(int i, Card c) {
         if (!booleanPrint) {
             return;
@@ -61,49 +64,49 @@ public class SoutConsole {
         System.out.printf("(*)Player : %d  plays card %s \n", i, c);
     }
 
-    public void action(int i){
+    public void action(int i) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n\n============ The action of PLAYER %d ===============\n\n",i);
+        System.out.printf("\n\n============ The action of PLAYER %d ===============\n\n", i);
     }
 
-    public void checkMissingResources(Card choosenCard ){
+    public void checkMissingResources(Card choosenCard) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n*Check if player has the required resources to build  %s \n",choosenCard);
+        System.out.printf("\n*Check if player has the required resources to build  %s \n", choosenCard);
     }
 
-    public void noRequiredResources(Card choosenCard){
+    public void noRequiredResources(Card choosenCard) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n**No resource is required to play  %s  \n",choosenCard);
+        System.out.printf("\n**No resource is required to play  %s  \n", choosenCard);
     }
 
-    public void missingResources(ArrayList<Resource> r){
+    public void missingResources(ArrayList<Resource> r) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n**The missing resources are %s",r);
+        System.out.printf("\n**The missing resources are %s", r);
     }
 
-    public void cantBuyMissingResources(){
+    public void cantBuyMissingResources() {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n***The player cannot buy resources, so he sells the card for 3 coins.\n\n");
     }
 
-    public void gotMissingResources(){
+    public void gotMissingResources() {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n***The player got resources so he gets the effects of this card.\n\n");
     }
 
-    public void informationOfPlayer(Inventory p){
+    public void informationOfPlayer(Inventory p) {
         if (!booleanPrint) {
             return;
         }

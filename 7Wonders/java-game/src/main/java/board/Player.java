@@ -2,7 +2,6 @@ package board;
 
 import gameelements.Card;
 import gameelements.Inventory;
-import gameelements.enums.Resource;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,6 @@ public class Player {
         return chosenCard;
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
     }
-
 
 
     //Getters and setters
