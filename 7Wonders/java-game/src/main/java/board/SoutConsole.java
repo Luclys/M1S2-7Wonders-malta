@@ -108,7 +108,7 @@ public class SoutConsole {
             return;
         }
         String r = "";
-        r +=    p.getAvailableResources()[Resource.BOIS.getIndex()] + " BOIS , "
+        r += p.getAvailableResources()[Resource.BOIS.getIndex()] + " BOIS , "
                 + p.getAvailableResources()[Resource.ARGILE.getIndex()] + " ARGILE , "
                 + p.getAvailableResources()[Resource.PIERRE.getIndex()] + " PIERRE , "
                 + p.getAvailableResources()[Resource.MINERAI.getIndex()] + " MINERAI , "
@@ -117,18 +117,18 @@ public class SoutConsole {
                 + p.getAvailableResources()[Resource.TISSU.getIndex()] + " TISSU ";
         String s = "";
 
-        s +=       p.getAvailableResources()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
-                + p.getAvailableResources()[Symbol.COMPAS.getIndex()] + " COMPAS , "
-                + p.getAvailableResources()[Symbol.ROUAGE.getIndex()]  + " ROUAGE , "
-                + p.getAvailableResources()[Symbol.STELE.getIndex()]  + " STELE ";
+        s += p.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
+                + p.getAvailableSymbols()[Symbol.COMPAS.getIndex()] + " COMPAS , "
+                + p.getAvailableSymbols()[Symbol.ROUAGE.getIndex()] + " ROUAGE , "
+                + p.getAvailableSymbols()[Symbol.STELE.getIndex()] + " STELE ";
 
-        System.out.println( "{" +
+        System.out.println("{" +
                 "player : " + p.getPlayerId() +
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
                 " },\n\t score=" + p.getScore() +
                 ", \n\t conflictPoints=" + p.getConflictPoints() +
-                ", \n\t coins"+p.getCoins()+
+                ", \n\t coins" + p.getCoins() +
                 "\n}");
     }
 
