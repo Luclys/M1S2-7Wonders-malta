@@ -35,7 +35,7 @@ public class Board {
         Collections.shuffle(currentDeckCardList);
 
         //display
-        sout = new SoutConsole(true);
+        sout = new SoutConsole(false);
     }
 
     public static void main(String[] args) {
@@ -177,6 +177,7 @@ public class Board {
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
         sout.endOfGame();
+        sout.booleanPrint = true;
         sout.FinalResults();
         for (Inventory p : playerInventoryList) {
             sout.informationOfPlayer(p);
