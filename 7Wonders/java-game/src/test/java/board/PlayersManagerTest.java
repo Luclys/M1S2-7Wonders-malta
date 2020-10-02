@@ -7,7 +7,6 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
-import io.cucumber.java8.Ca;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,7 @@ public class PlayersManagerTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3);
+        board = new Board(3, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
@@ -46,7 +45,7 @@ public class PlayersManagerTest {
     public void generetePlayersTest() {
         int nbPlayers = 7;
 
-        Board board = new Board(nbPlayers);
+        Board board = new Board(nbPlayers, false);
         ArrayList<Player> playerList = board.getPlayerList();
 
         int playersCount = playerList.size();

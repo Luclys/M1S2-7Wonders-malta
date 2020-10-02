@@ -27,7 +27,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3);
+        board = new Board(3, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
