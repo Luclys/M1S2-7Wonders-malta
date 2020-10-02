@@ -1,5 +1,6 @@
 package board;
 
+import client.Client;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
@@ -108,6 +109,15 @@ public class Board {
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
             resolveWarConflict();
+            // On envoie l'inventaire du gagnant au serveur
+            Inventory winnerInventory = getPlayerInventoryList().get(0);
+            for (Inventory inv: getPlayerInventoryList()) {
+                if (inv.getScore() > winnerInventory.getScore()) {
+                    winnerInventory = inv;
+                }
+            }
+            Client client = new Client("http://127.0.0.1:10101");
+            client.handshake();
             sout.endOfAge(age + 1);
         }
     }

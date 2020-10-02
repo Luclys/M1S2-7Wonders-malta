@@ -17,9 +17,21 @@ public class Server {
         // On accepte une connexion
         server.addConnectListener(socketIOClient -> System.out.println("Connexion de " + socketIOClient.getRemoteAddress()));
 
-        // Réception d'un inventaire
-        server.addEventListener("inventory", Inventory.class, (socketIOClient, inventory, ackRequest)
-                -> System.out.println("On reçoit l'inventaire du joueur " + inventory.getPlayerId()));
+        // Réception d'un inventaire et déclaration du gagnant
+        server.addEventListener("inventory", Inventory.class, new DataListener<Inventory>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, Inventory inventory, AckRequest ackRequest) throws Exception {
+                System.out.println("Le joueur gagnant est " + inventory.getPlayerId() + " !");
+            }
+        });
+
+        // Test
+        server.addEventListener("test", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                System.out.println(s);
+            }
+        });
     }
 
     private void start() {
