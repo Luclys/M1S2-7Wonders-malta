@@ -1,6 +1,5 @@
 package gameelements;
 
-
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
@@ -10,7 +9,8 @@ public class Inventory {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cardsInHand;
+    private ArrayList<Card> playedCards;
     private int score;
 
     private int conflictPoints;
@@ -18,13 +18,25 @@ public class Inventory {
     private int priceLeft;
     private int priceRight;
 
-    public Inventory(int playerId, int[] availableResources, int[] availableSymbols, ArrayList<Card> cards, int score, int conflictPoints, int coins, int priceLeft, int priceRight) {
+    public Inventory(
+            int playerId,
+            int[] availableResources,
+            int[] availableSymbols,
+            ArrayList<Card> cardsInHand,
+            ArrayList<Card> playedCards,
+            int score,
+            int conflictPoints,
+            int coins,
+            int priceLeft,
+            int priceRight
+    ) {
         this.playerId = playerId;
 
         this.availableResources = availableResources;
         this.availableSymbols = availableSymbols;
         this.conflictPoints = conflictPoints;
-        this.cards = cards;
+        this.cardsInHand = cardsInHand;
+        this.playedCards = playedCards;
         this.score = score;
         this.coins = coins;
         this.priceLeft = priceLeft;
@@ -33,8 +45,8 @@ public class Inventory {
 
     public Inventory(int playerId) {
         this.playerId = playerId;
-
-        this.cards = new ArrayList<>(7);
+        this.cardsInHand = new ArrayList<>(7);
+        this.playedCards = new ArrayList<>(7*3);
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
         this.coins = 3;
@@ -49,7 +61,8 @@ public class Inventory {
         this.playerId =  inventory.playerId;
         this.availableResources =  inventory.availableResources;
         this.availableSymbols = inventory.availableSymbols;
-        this.cards =  inventory.cards;
+        this.cardsInHand =  inventory.cardsInHand;
+        this.playedCards = inventory.playedCards;
         this.score =  inventory.score;
         this.conflictPoints =  inventory.conflictPoints;
         this.coins =  inventory.coins;
@@ -58,19 +71,19 @@ public class Inventory {
     }
 
     public Card discardLastCard() {
-        if (cards.size() == 1) {
+        if (cardsInHand.size() == 1) {
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
-            return cards.remove(0);
+            return cardsInHand.remove(0);
         } else {
             throw new Error("There is more than 1 card left.");
         }
     }
 
     public void sellCard(Card card) {
-        if (cards.contains(card)){
+        if (cardsInHand.contains(card)){
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
-            cards.remove(0);
+            cardsInHand.remove(0);
         } else{
             throw new Error("Can't sell a card you don't have.");
         }
@@ -80,7 +93,8 @@ public class Inventory {
         for (Effect effect : playedCard.getEffects()) {
             effect.activateEffect(this);
         }
-        cards.remove(0);
+        playedCards.add(playedCard);
+        cardsInHand.remove(0);
     }
 
 
@@ -114,12 +128,12 @@ public class Inventory {
         return availableResources;
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    public ArrayList<Card> getCardsInHand() {
+        return cardsInHand;
     }
 
-    public void setCards(ArrayList<Card> cards) {
-        this.cards = cards;
+    public void setCardsInHand(ArrayList<Card> cardsInHand) {
+        this.cardsInHand = cardsInHand;
     }
 
     public int getScore() {

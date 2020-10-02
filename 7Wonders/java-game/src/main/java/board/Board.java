@@ -76,7 +76,7 @@ public class Board {
         for (int age = 0; age < AGES; age++) {
             sout.beginingOfAge(age+1);
             // Card dealing
-            playerInventoryList.forEach(inventory -> inventory.setCards(drawCards(NOMBRE_CARTES)));
+            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);

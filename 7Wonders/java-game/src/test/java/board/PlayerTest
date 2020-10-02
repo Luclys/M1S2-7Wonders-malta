@@ -42,6 +42,14 @@ public class PlayerTest {
         inv.updateInventory(playedCard);
         assertEquals(1, inv.getScore());
         assertNotEquals(inv.getCards().size(), new Inventory(2).getCards().size());
+
+
+        //test if player can't build two identical buildings
+        Card taverne = new Card("TAVERNE", new Resource[0], new Resource[0], Category.BATIMENT_COMMERCIEAU);
+        player.updatePlayerWithPlayedCard(taverne);
+        player.getCardsInHand().set(0, taverne);
+        player.playCard();
+        assertEquals(player.getCardsInHand().get(0), taverne);
     }
 
     @Test
