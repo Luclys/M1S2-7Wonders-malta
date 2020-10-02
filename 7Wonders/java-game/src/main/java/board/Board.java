@@ -11,7 +11,7 @@ public class Board {
     public static final int PLAYERS_NUMBER = 3;
     public static final int AGES = 1;
 
-    private final Action action;
+    private final PlayersManager playersManager;
     private final Trade commerce;
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
@@ -20,18 +20,18 @@ public class Board {
     private final ArrayList<Card> discardedDeckCardList;
     private int turn;
     private final SoutConsole sout;
+    private final  CardManager cardManager;
 
     public Board(int nbPlayers) {
         commerce = new Trade();
-        action = new Action();
-
+        playersManager = new PlayersManager();
         // Setup Players and their inventories
-        playerList = action.generatePlayers(nbPlayers);
-        playerInventoryList = action.getPlayerInventoryList();
-
+        playerList = playersManager.generatePlayers(nbPlayers);
+        playerInventoryList = playersManager.getPlayerInventoryList();
+        cardManager = new CardManager(playerList,playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
-        currentDeckCardList = action.initiateCards(nbPlayers);
+        currentDeckCardList = cardManager.initiateCards(nbPlayers);
         Collections.shuffle(currentDeckCardList);
 
         //display
@@ -54,6 +54,10 @@ public class Board {
         Board board = new Board(nbPlayers); // We won't code the 2p version.
         board.play();
         board.scores();
+    }
+
+    public CardManager getCardManager() {
+        return cardManager;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -84,8 +88,7 @@ public class Board {
                 sout.play();
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
-                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
-                    System.out.println(playerInventoryList.get(p.getId()).getCardsInHand());
+                    p.chooseCard(new Inventory(trueInv));
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
@@ -93,9 +96,9 @@ public class Board {
                 }
                 // The players exchange cards according to the Age's sens.
                 if(age == 1){
-                    action.rightRotation();
+                    cardManager.rightRotation();
                 }else {
-                    action.leftRotation();
+                    cardManager.leftRotation();
                 }
                 this.turn++;
             }
@@ -115,7 +118,7 @@ public class Board {
         if (choosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = player.missingResources(fakeInv, choosenCard);
+            ArrayList<Resource> s = getManager().missingResources(fakeInv, choosenCard);
             sout.checkMissingResources(choosenCard);
             if (s != null) {
                 sout.missingResources(s);
@@ -136,8 +139,8 @@ public class Board {
         }
     }
 
-    public Action getAction() {
-        return action;
+    public PlayersManager getManager() {
+        return playersManager;
     }
 
     public Trade getCommerce() {
@@ -149,8 +152,8 @@ public class Board {
             Player player = playerList.get(i);
             int getRightNeighborId = player.getRightNeighborId();
             int getLeftNeighborId = player.getLeftNeighborId();
-            action.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
-            action.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
         }
     }
 

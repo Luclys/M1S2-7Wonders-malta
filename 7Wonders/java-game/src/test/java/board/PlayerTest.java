@@ -116,12 +116,7 @@ public class PlayerTest {
         inv.updateInventory(player.chooseCard(inv));
     }
 
-    @Test
-    void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, new Resource[]{Resource.BOIS}, Category.BATIMENT_CIVIL);
-        ArrayList<Resource> m = player.missingResources(inv, c);
-        assertEquals(Resource.BOIS, m.get(0));
-    }
+
 
     @Test
     void UpdatePlayer() {

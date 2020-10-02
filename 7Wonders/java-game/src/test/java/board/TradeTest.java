@@ -29,7 +29,7 @@ public class TradeTest {
                 Resource.BOIS,
                 board.getPlayerInventoryList().get(rightNeighbor.getId()),
                 board.getPlayerInventoryList().get(leftNeighbor.getId()));
-        // assertEquals(board.getPlayerInventoryList().get(rightNeighbor.getId()), neighbourInv);
+         assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
     }
 
     @Test
