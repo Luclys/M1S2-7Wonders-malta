@@ -1,24 +1,24 @@
 package gameelements;
 
+import gameelements.enums.Category;
+import gameelements.enums.Resource;
+
 public class Card {
     private final String name;
-    private final Resource[] gainedResources;
-    private final int gainedVictoryPoints;
+    private Effect[] effects;
     private final Resource[] requiredResources;
     private final Category category;
 
-    public Card(String name, Resource[] gainedResources, Resource[] requiredResources, Category category) {
+    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category) {
         this.name = name;
-        this.gainedResources = gainedResources;
-        this.gainedVictoryPoints = 0;
+        this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
     }
 
-    public Card(String name, Resource[] gainedResources, int gainedVictoryPoints, Resource[] requiredResources, Category category) {
+    public Card(String name, Effect effect, Resource[] requiredResources, Category category) {
         this.name = name;
-        this.gainedResources = gainedResources;
-        this.gainedVictoryPoints = gainedVictoryPoints;
+        this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
     }
@@ -32,34 +32,31 @@ public class Card {
         );
     }
 
-    public int getGainedVictoryPoints() {
-        return gainedVictoryPoints;
+    @Override
+    public String toString() {
+        return "Card{" +
+                name + '\'' +
+                '}';
     }
 
-    public int getVictoryPoints() {
-        return gainedVictoryPoints;
-    }
-
+    // GETTERS & SETTERS
     public String getName() {
         return name;
     }
 
-    public Category getCategory() {
-        return category;
+    public Effect[] getEffects() {
+        return effects;
     }
 
-    public Resource[] getGainedResources() {
-        return gainedResources;
+    public void setEffects(Effect[] effects) {
+        this.effects = effects;
     }
 
     public Resource[] getRequiredResources() {
         return requiredResources;
     }
 
-    @Override
-    public String toString() {
-        return "Card{" +
-                "name='" + name + '\'' +
-                '}';
+    public Category getCategory() {
+        return category;
     }
 }
