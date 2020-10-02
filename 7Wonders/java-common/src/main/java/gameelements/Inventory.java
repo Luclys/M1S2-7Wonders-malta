@@ -71,7 +71,6 @@ public class Inventory {
             //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
             cards.remove(0);
-
         } else{
             throw new Error("Can't sell a card you don't have.");
         }

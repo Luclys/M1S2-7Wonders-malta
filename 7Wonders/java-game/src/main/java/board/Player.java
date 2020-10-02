@@ -11,14 +11,14 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
-    private Card chosenCard;
+    private Card choosenCard;
 
     public Player(int id) {
         this.id = id;
     }
 
     public String toString() {
-        return "Player " + id + " wins.";
+        return "Player " + id ;
     }
 
     public Card chooseCard(Inventory inv) {
@@ -38,36 +38,18 @@ public class Player {
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
     }
 
-
-    protected Resource[] missingResources(Inventory inv, Card c) {
-        Resource[] missing = new Resource[4];
-        int i = 0;
+    protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
+        ArrayList<Resource> missing = new ArrayList<Resource>();
         if (c.getRequiredResources() == null){
-            return new Resource[]{null};
+            return null;
         }
         for (Resource r : c.getRequiredResources()) {
             if (inv.getAvailableResources()[r.getIndex()] == 0) {
-                missing[i] = r;
-                i++;
+                missing.add(r);
             }
         }
         return missing;
     }
-
-    /*private void updateAvailableResources(Card playedCard) {
-        System.out.println("\tA : "
-                + availableResources[Resource.BOIS.getIndex()] + " | B : "
-                + availableResources[Resource.ARGILE.getIndex()] + " | P : "
-                + availableResources[Resource.PIERRE.getIndex()] + " | M : "
-                + availableResources[Resource.MINERAI.getIndex()] + " | V : "
-                + availableResources[Resource.VERRE.getIndex()] + " | P : "
-                + availableResources[Resource.PAPYRUS.getIndex()] + " | T : "
-                + availableResources[Resource.TISSU.getIndex()] + " | B : "
-                + availableResources[Resource.BOUCLIER.getIndex()] + " | # "
-                + getScore()
-        );
-    }*/
-
 
     //Getters and setters
     public int getId() {

@@ -9,7 +9,6 @@ import gameelements.enums.Symbol;
 import java.util.ArrayList;
 
 public class Action {
-
     public static final int NOMBRE_CARTES = 7;
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
@@ -35,8 +34,6 @@ public class Action {
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
         //System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers while neighbor has " + neighborBoucliersCount);
-
-
         if (playerBoucliersCount > neighborBoucliersCount) {
             invPlayer.updateConflictPoints(conflictPoints);
             //System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");

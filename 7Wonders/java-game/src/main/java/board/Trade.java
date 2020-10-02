@@ -3,14 +3,11 @@ package board;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 
+import java.util.ArrayList;
+
 public class Trade {
-    String outputText;
 
-    public Trade() {
-        outputText = "";
-    }
-
-    protected boolean saleResources(Resource[] missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
+    protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
         Inventory[] playersWithResources = new Inventory[4];
         Inventory neighbor;
@@ -22,7 +19,6 @@ public class Trade {
                     if (neighbor == null) {// check if one of the neigbor has the resource
                         break;
                     } else {
-                        System.out.println("*the player  can buy the resource " + r);
                         playersWithResources[k] = neighbor;
                         k++;
                     }
@@ -47,17 +43,13 @@ public class Trade {
 
     protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
         Inventory neighborInv = null;
-        outputText = "";
         if (rightNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-            outputText = " from the right neighbor the resource " + missingResource;
-            neighborInv = rightNeighborInv;
+            neighborInv = leftNeighborInv;
         } else {
             if (leftNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-                outputText += " from the left neighbor the resource " + missingResource;
-                neighborInv = leftNeighborInv;
+                neighborInv = rightNeighborInv;
             }
         }
-        System.out.println(outputText);
         return neighborInv;
     }
 }
