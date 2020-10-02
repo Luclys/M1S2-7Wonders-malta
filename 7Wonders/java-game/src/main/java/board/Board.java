@@ -85,12 +85,18 @@ public class Board {
                 for (Player p : playerList) {
                     Inventory trueInv = playerInventoryList.get(p.getId());
                     p.ChooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    System.out.println(playerInventoryList.get(p.getId()).getCardsInHand());
                     sout.chosenCards(p.getId(), p.getChoosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
+                if((age == 0 || age == 2)){
+                    action.leftRotation();
+                }else {
+                    action.rightRotation();
+                }
                 this.turn++;
             }
             // At the end of the 6th turn, we discard the remaining card

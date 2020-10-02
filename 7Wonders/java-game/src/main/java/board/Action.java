@@ -14,22 +14,30 @@ public class Action {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
 
+    protected void leftRotation(){
+        ArrayList<Inventory> tmpList= new ArrayList<>(playerInventoryList);
+        int leftNeighborId ;
+        ArrayList<Card> cards = playerInventoryList.get(playerInventoryList.size()-1).getCardsInHand();
+        for(Inventory i : playerInventoryList){
+            leftNeighborId = playerList.get(i.getPlayerId()).getLeftNeighborId();
+            tmpList.get(leftNeighborId).setCardsInHand(playerInventoryList.get(i.getPlayerId()).getCardsInHand());
+        }
+        tmpList.get(tmpList.size()-2).setCardsInHand(cards);
+        playerInventoryList = tmpList;
+    }
 
-/*    private void leftRotation() {
-        ArrayList<Card> CardOfTheFirstPlayer = playerInventoryList.get(playerList.get(0).getId()).getCards();
-        int leftNeighborId;
-        Player leftNeighbor, lastPlayerOnList, p;
-        int i = 0;
-        while (i < playerList.size() - 1) {
-            p = playerList.get(i);
-            leftNeighborId = p.getLeftNeighborId();
-            leftNeighbor = playerList.get(leftNeighborId);
-            leftNeighbor.setCards(p.getCards());
+    protected void rightRotation(){
+        ArrayList<Card> temp, last;
+        Inventory courant;
+        int i =0 ;
+        last = playerInventoryList.get(0).getCardsInHand();
+        while (i < playerInventoryList.size()){
+            temp = playerInventoryList.get(playerList.get(i).getRightNeighborId()).getCardsInHand();
+            playerInventoryList.get(playerList.get(i).getRightNeighborId()).setCardsInHand(last);
+            last = temp;
             i++;
         }
-        lastPlayerOnList = playerList.get(playerList.size() - 2);
-        lastPlayerOnList.setCards(CardOfTheFirstPlayer);
-    }*/
+    }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int conflictPoints) { // conflictPoints depends on Age
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
