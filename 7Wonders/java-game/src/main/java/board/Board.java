@@ -3,6 +3,7 @@ package board;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
+import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +12,7 @@ public class Board {
     public static final int PLAYERS_NUMBER = 3;
     public static final int AGES = 1;
 
-    private final Action action;
+    private final PlayersManager playersManager;
     private final Trade commerce;
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
@@ -20,22 +21,22 @@ public class Board {
     private final ArrayList<Card> discardedDeckCardList;
     private int turn;
     private final SoutConsole sout;
+    private final CardManager cardManager;
 
-    public Board(int nbPlayers) {
+    public Board(int nbPlayers, Boolean boolPrint) {
         commerce = new Trade();
-        action = new Action();
-
+        playersManager = new PlayersManager();
         // Setup Players and their inventories
-        playerList = action.generatePlayers(nbPlayers);
-        playerInventoryList = action.getPlayerInventoryList();
-
+        playerList = playersManager.generatePlayers(nbPlayers);
+        playerInventoryList = playersManager.getPlayerInventoryList();
+        cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
-        currentDeckCardList = action.initiateCards(nbPlayers);
+        currentDeckCardList = cardManager.initiateCards(nbPlayers);
         Collections.shuffle(currentDeckCardList);
 
         //display
-        sout = new SoutConsole(true);
+        sout = new SoutConsole(boolPrint);
     }
 
     public static void main(String[] args) {
@@ -51,9 +52,13 @@ public class Board {
             boolPrint = Boolean.parseBoolean(args[2]);
         }
 
-        Board board = new Board(nbPlayers); // We won't code the 2p version.
+        Board board = new Board(nbPlayers, boolPrint); // We won't code the 2p version.
         board.play();
         board.scores();
+    }
+
+    public CardManager getCardManager() {
+        return cardManager;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -73,8 +78,9 @@ public class Board {
     }
 
     public void play() {
+        playerInventoryList.forEach(this::chooseWonderBoard);
         for (int age = 0; age < AGES; age++) {
-            sout.beginingOfAge(age+1);
+            sout.beginingOfAge(age + 1);
             // Card dealing
             playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
@@ -83,19 +89,17 @@ public class Board {
                 // Each player plays a card on each turn
                 sout.play();
                 for (Player p : playerList) {
-                    Inventory trueInv = playerInventoryList.get(p.getId());
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
-                    System.out.println(playerInventoryList.get(p.getId()).getCardsInHand());
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
-                if(age == 1){
-                    action.rightRotation();
-                }else {
-                    action.leftRotation();
+                if (age == 1) {
+                    cardManager.rightRotation();
+                } else {
+                    cardManager.leftRotation();
                 }
                 this.turn++;
             }
@@ -104,8 +108,14 @@ public class Board {
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
             resolveWarConflict();
-            sout.endOfAge(age+1);
+            sout.endOfAge(age + 1);
         }
+    }
+
+    private void chooseWonderBoard(Inventory inventory) {
+        // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
+        WonderBoard colossus = playersManager.initiateColossus();
+        colossus.claimBoard(inventory);
     }
 
     protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
@@ -115,7 +125,7 @@ public class Board {
         if (choosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = player.missingResources(fakeInv, choosenCard);
+            ArrayList<Resource> s = getManager().missingResources(fakeInv, choosenCard);
             sout.checkMissingResources(choosenCard);
             if (s != null) {
                 sout.missingResources(s);
@@ -136,8 +146,8 @@ public class Board {
         }
     }
 
-    public Action getAction() {
-        return action;
+    public PlayersManager getManager() {
+        return playersManager;
     }
 
     public Trade getCommerce() {
@@ -149,8 +159,8 @@ public class Board {
             Player player = playerList.get(i);
             int getRightNeighborId = player.getRightNeighborId();
             int getLeftNeighborId = player.getLeftNeighborId();
-            action.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
-            action.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
         }
     }
 
@@ -174,6 +184,7 @@ public class Board {
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
         sout.endOfGame();
+        sout.booleanPrint = true;
         sout.FinalResults();
         for (Inventory p : playerInventoryList) {
             sout.informationOfPlayer(p);

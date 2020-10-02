@@ -2,7 +2,6 @@ package board;
 
 import gameelements.Card;
 import gameelements.Inventory;
-import gameelements.enums.Resource;
 
 import java.util.ArrayList;
 
@@ -39,18 +38,6 @@ public class Player {
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
     }
 
-    protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
-        ArrayList<Resource> missing = new ArrayList<Resource>();
-        if (c.getRequiredResources() == null) {
-            return null;
-        }
-        for (Resource r : c.getRequiredResources()) {
-            if (inv.getAvailableResources()[r.getIndex()] == 0) {
-                missing.add(r);
-            }
-        }
-        return missing;
-    }
 
     //Getters and setters
     public int getId() {

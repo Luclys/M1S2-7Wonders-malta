@@ -44,10 +44,10 @@ public class Trade {
     protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
         Inventory neighborInv = null;
         if (rightNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-            neighborInv = leftNeighborInv;
+            neighborInv = rightNeighborInv;
         } else {
             if (leftNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-                neighborInv = rightNeighborInv;
+                neighborInv = leftNeighborInv;
             }
         }
         return neighborInv;

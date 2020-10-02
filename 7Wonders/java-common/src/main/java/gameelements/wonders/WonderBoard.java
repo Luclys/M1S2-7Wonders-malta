@@ -20,6 +20,7 @@ public class WonderBoard {
     }
 
     public void claimBoard(Inventory inv) {
+        inv.setWonderBoard(this);
         this.baseEffect.activateEffect(inv);
         this.associatedInv = inv;
     }

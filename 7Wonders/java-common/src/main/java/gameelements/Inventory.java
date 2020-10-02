@@ -2,6 +2,7 @@ package gameelements;
 
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 
@@ -11,42 +12,18 @@ public class Inventory {
     private final int[] availableSymbols;
     private ArrayList<Card> cardsInHand;
     private ArrayList<Card> playedCards;
-    private int score;
+    private WonderBoard wonderBoard;
 
+    private int score;
     private int conflictPoints;
     private int coins;
     private int priceLeft;
     private int priceRight;
 
-    public Inventory(
-            int playerId,
-            int[] availableResources,
-            int[] availableSymbols,
-            ArrayList<Card> cardsInHand,
-            ArrayList<Card> playedCards,
-            int score,
-            int conflictPoints,
-            int coins,
-            int priceLeft,
-            int priceRight
-    ) {
-        this.playerId = playerId;
-
-        this.availableResources = availableResources;
-        this.availableSymbols = availableSymbols;
-        this.conflictPoints = conflictPoints;
-        this.cardsInHand = cardsInHand;
-        this.playedCards = playedCards;
-        this.score = score;
-        this.coins = coins;
-        this.priceLeft = priceLeft;
-        this.priceRight = priceRight;
-    }
-
     public Inventory(int playerId) {
         this.playerId = playerId;
         this.cardsInHand = new ArrayList<>(7);
-        this.playedCards = new ArrayList<>(7*3);
+        this.playedCards = new ArrayList<>(7 * 3);
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
         this.coins = 3;
@@ -63,6 +40,7 @@ public class Inventory {
         this.availableSymbols = inventory.availableSymbols;
         this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
+        this.wonderBoard = inventory.wonderBoard;
         this.score = inventory.score;
         this.conflictPoints = inventory.conflictPoints;
         this.coins = inventory.coins;
@@ -111,7 +89,7 @@ public class Inventory {
     }
 
 
-    // GETTERS & SETTERS
+    // TWEAKED GETTERS
     public int getSymbCount(Symbol symbol) {
         return this.availableSymbols[symbol.getIndex()];
     }
@@ -120,6 +98,7 @@ public class Inventory {
         return this.availableResources[resource.getIndex()];
     }
 
+    // GETTERS & SETTERS
     public int getPlayerId() {
         return playerId;
     }
@@ -128,14 +107,32 @@ public class Inventory {
         return availableResources;
     }
 
+    public int[] getAvailableSymbols() {
+        return availableSymbols;
+    }
+
     public ArrayList<Card> getCardsInHand() {
         return cardsInHand;
     }
 
-    public ArrayList<Card> getPlayedCards() { return playedCards; }
-
     public void setCardsInHand(ArrayList<Card> cardsInHand) {
         this.cardsInHand = cardsInHand;
+    }
+
+    public ArrayList<Card> getPlayedCards() {
+        return playedCards;
+    }
+
+    public void setPlayedCards(ArrayList<Card> playedCards) {
+        this.playedCards = playedCards;
+    }
+
+    public WonderBoard getWonderBoard() {
+        return wonderBoard;
+    }
+
+    public void setWonderBoard(WonderBoard wonderBoard) {
+        this.wonderBoard = wonderBoard;
     }
 
     public int getScore() {
@@ -176,9 +173,5 @@ public class Inventory {
 
     public void setPriceRight(int priceRight) {
         this.priceRight = priceRight;
-    }
-
-    public int[] getAvailableSymbols() {
-        return this.availableSymbols;
     }
 }

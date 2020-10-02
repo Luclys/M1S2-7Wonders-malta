@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class ChoiceOfCardStepDefs implements En {
     Player player;
     Inventory inventory;
-    Board board = new Board(1);
+    Board board = new Board(1, false);
     Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;

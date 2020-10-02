@@ -15,7 +15,7 @@ public class TradeTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3);
+        board = new Board(3, false);
         card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
     }
 
@@ -29,7 +29,7 @@ public class TradeTest {
                 Resource.BOIS,
                 board.getPlayerInventoryList().get(rightNeighbor.getId()),
                 board.getPlayerInventoryList().get(leftNeighbor.getId()));
-        // assertEquals(board.getPlayerInventoryList().get(rightNeighbor.getId()), neighbourInv);
+         assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
     }
 
     @Test

@@ -27,7 +27,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3);
+        board = new Board(3, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
@@ -116,12 +116,7 @@ public class PlayerTest {
         inv.updateInventory(player.chooseCard(inv));
     }
 
-    @Test
-    void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, new Resource[]{Resource.BOIS}, Category.BATIMENT_CIVIL);
-        ArrayList<Resource> m = player.missingResources(inv, c);
-        assertEquals(Resource.BOIS, m.get(0));
-    }
+
 
     @Test
     void UpdatePlayer() {

@@ -16,7 +16,7 @@ public class ResolvingConflictsStepDefs implements En {
         Given("^a player (\\d+) has (\\d+) shields$", (Integer arg0, Integer arg1) -> {
             p1 = new Player(arg0);
             p2 = new Player(arg1);
-            board = new Board(3);
+            board = new Board(3, false);
             i1.setConflictPoints(3);
             i2.setConflictPoints(2);
         });
