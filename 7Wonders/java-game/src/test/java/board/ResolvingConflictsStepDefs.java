@@ -3,7 +3,7 @@ package board;
 import gameelements.Inventory;
 import io.cucumber.java8.En;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResolvingConflictsStepDefs implements En {
     Player p1;

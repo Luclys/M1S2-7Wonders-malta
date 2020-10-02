@@ -2,7 +2,7 @@ package gameelements;
 
 public abstract class Effect {
     String name = null;
-    // 0 = instantaneous, 1 = end of the game
+    // 0 = instantaneous, 1 = end of the game, 2 = whenever player wants
     int delay = 0;
     // 0 = once, 1 every turn, 2 every Age
     int repeat = 0;

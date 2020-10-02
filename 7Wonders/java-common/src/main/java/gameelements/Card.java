@@ -4,8 +4,8 @@ import gameelements.enums.Resource;
 
 public class Card {
     private final String name;
-    private Effect[] effects;
     private final Resource[] requiredResources;
+    private Effect[] effects;
 
     public Card(String name, Effect[] effects, Resource[] requiredResources) {
         this.name = name;

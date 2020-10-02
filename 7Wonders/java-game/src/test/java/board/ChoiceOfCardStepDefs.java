@@ -2,9 +2,7 @@ package board;
 
 import effects.CoinEffect;
 import gameelements.Card;
-import gameelements.Effect;
 import gameelements.Inventory;
-import gameelements.enums.Resource;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;

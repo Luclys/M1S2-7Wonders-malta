@@ -18,7 +18,7 @@ public class Player {
     }
 
     public String toString() {
-        return "Player " + id ;
+        return "Player " + id;
     }
 
     public Card chooseCard(Inventory inv) {
@@ -40,7 +40,7 @@ public class Player {
 
     protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
         ArrayList<Resource> missing = new ArrayList<Resource>();
-        if (c.getRequiredResources() == null){
+        if (c.getRequiredResources() == null) {
             return null;
         }
         for (Resource r : c.getRequiredResources()) {

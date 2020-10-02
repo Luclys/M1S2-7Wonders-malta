@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +29,7 @@ public class PlayerTest {
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("",Resource.BOIS, 1)}, null));
+            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null));
         }
         inv.setCards(cards);
     }
