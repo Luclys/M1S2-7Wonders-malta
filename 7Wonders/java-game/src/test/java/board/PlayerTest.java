@@ -1,5 +1,6 @@
 package board;
 
+import effects.CoinEffect;
 import effects.ResourceEffect;
 import effects.ScoreEffect;
 import effects.SymbolEffect;
@@ -35,7 +36,6 @@ public class PlayerTest {
         inv.setCardsInHand(cards);
     }
 
-/*
     @Test
     public void playCardTest() {
         assertEquals(0, inv.getScore());
@@ -46,13 +46,12 @@ public class PlayerTest {
 
 
         //test if player can't build two identical buildings
-        Card taverne = new Card("TAVERNE", new Resource[0], new Resource[0], Category.BATIMENT_COMMERCIEAU);
-        player.updatePlayerWithPlayedCard(taverne);
+        Card taverne = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
         inv.getCardsInHand().set(0, taverne);
-        player.playCard();
-        assertEquals(inv.getCardsInHand().get(0), taverne);
+        inv.updateInventory(player.chooseCard(inv));
+        inv.getCardsInHand().set(0, taverne);
+        assertNotEquals(player.chooseCard(inv), taverne);
     }
-*/
 
     @Test
     public void updateAvailableResourcesTest() {

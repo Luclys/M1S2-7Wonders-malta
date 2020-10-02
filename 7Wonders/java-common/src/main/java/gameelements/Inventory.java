@@ -132,6 +132,8 @@ public class Inventory {
         return cardsInHand;
     }
 
+    public ArrayList<Card> getPlayedCards() { return playedCards; }
+
     public void setCardsInHand(ArrayList<Card> cardsInHand) {
         this.cardsInHand = cardsInHand;
     }

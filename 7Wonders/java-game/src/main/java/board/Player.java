@@ -31,8 +31,9 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        ArrayList<Card> cards = inv.getCardsInHand();
-        chosenCard = cards.get(0);
+        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
+        cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBatiment());
+        chosenCard = cardsAvailableToPlay.get(0);
 
         return chosenCard;
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
