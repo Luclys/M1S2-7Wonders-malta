@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 public class BoardTest {
     @Test
     public void playTest() {
-        Board board = new Board(3);
+        Board board = new Board(3, false);
         board.play();
         assertEquals(6, board.getTurn());
     }
@@ -27,7 +27,7 @@ public class BoardTest {
     @Test
     public void testInitializedDeckCardList() {
         int nbPlayers = 7;
-        Board board = new Board(nbPlayers);
+        Board board = new Board(nbPlayers, false);
         int deckCardsCount = board.getCurrentDeckCardList().size();
         assertEquals(nbPlayers * 7, deckCardsCount);
     }
@@ -36,7 +36,7 @@ public class BoardTest {
     @Test
     public void drawCardsTest() {
         int nbPlayers = 3;
-        Board board = new Board(nbPlayers);
+        Board board = new Board(nbPlayers, false);
 
         int nbToDraw = 1;
         ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
@@ -50,7 +50,7 @@ public class BoardTest {
     @Test
     void claimBoard() {
         // We claim a test Board, then test if we got the base resource.
-        Board board = new Board(3);
+        Board board = new Board(3, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         ArrayList<Step> listSteps = new ArrayList<>();

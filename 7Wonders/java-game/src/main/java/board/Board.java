@@ -23,7 +23,7 @@ public class Board {
     private final SoutConsole sout;
     private final CardManager cardManager;
 
-    public Board(int nbPlayers) {
+    public Board(int nbPlayers, Boolean boolPrint) {
         commerce = new Trade();
         playersManager = new PlayersManager();
         // Setup Players and their inventories
@@ -36,7 +36,7 @@ public class Board {
         Collections.shuffle(currentDeckCardList);
 
         //display
-        sout = new SoutConsole(false);
+        sout = new SoutConsole(boolPrint);
     }
 
     public static void main(String[] args) {
@@ -52,7 +52,7 @@ public class Board {
             boolPrint = Boolean.parseBoolean(args[2]);
         }
 
-        Board board = new Board(nbPlayers); // We won't code the 2p version.
+        Board board = new Board(nbPlayers, boolPrint); // We won't code the 2p version.
         board.play();
         board.scores();
     }

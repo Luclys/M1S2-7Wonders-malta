@@ -15,7 +15,7 @@ public class TradeTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3);
+        board = new Board(3, false);
         card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
     }
 
