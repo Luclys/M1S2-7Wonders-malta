@@ -117,10 +117,10 @@ public class SoutConsole {
                 + p.getAvailableResources()[Resource.TISSU.getIndex()] + " TISSU ";
         String s = "";
 
-        s +=       p.getSymbCount(Symbol.BOUCLIER) + " BOUCLIER , "
-                + p.getSymbCount(Symbol.COMPAS) + " COMPAS , "
-                + p.getSymbCount(Symbol.ROUAGE) + " PIERRE , "
-                + p.getSymbCount(Symbol.STELE) + " MINERAI ";
+        s +=       p.getAvailableResources()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
+                + p.getAvailableResources()[Symbol.COMPAS.getIndex()] + " COMPAS , "
+                + p.getAvailableResources()[Symbol.ROUAGE.getIndex()]  + " PIERRE , "
+                + p.getAvailableResources()[Symbol.STELE.getIndex()]  + " MINERAI ";
 
         System.out.println( "{" +
                 "player : " + p.getPlayerId() +

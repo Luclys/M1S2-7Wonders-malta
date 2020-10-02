@@ -3,6 +3,8 @@ package board;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 
+import java.util.ArrayList;
+
 public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
