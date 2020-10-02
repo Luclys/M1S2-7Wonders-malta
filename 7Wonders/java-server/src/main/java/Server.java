@@ -51,13 +51,4 @@ public class Server {
         System.out.println("Une connexion est arrivée, on arrête.");
         server.stop();
     }
-
-    public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.1");
-        configuration.setPort(10101);
-
-        Server server = new Server(configuration);
-        server.start();
-    }
 }
