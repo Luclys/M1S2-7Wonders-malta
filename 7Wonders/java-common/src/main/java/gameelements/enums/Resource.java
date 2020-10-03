@@ -1,4 +1,4 @@
-package gameelements;
+package gameelements.enums;
 
 public enum Resource {
     ARGILE(0),
@@ -8,19 +8,13 @@ public enum Resource {
     VERRE(4),
     TISSU(5),
     PAPYRUS(6),
-    BOUCLIER(7),
-    COMPAS(8),
-    ROUAGE(9),
-    STELE(10),
     ARGENT(12);
 
     private final int index;
 
-
     Resource(int index) {
         this.index = index;
     }
-
 
     public int getIndex() {
         return index;

@@ -1,37 +1,65 @@
 package board;
 
+import client.Client;
 import gameelements.Card;
-import gameelements.Resource;
+import gameelements.Inventory;
+import gameelements.enums.Resource;
+import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Board {
+    public static final int PLAYERS_NUMBER = 3;
+    public static final int AGES = 1;
+
+    private final PlayersManager playersManager;
+    private final Trade commerce;
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
+    private final ArrayList<Inventory> playerInventoryList;
     private final ArrayList<Card> currentDeckCardList;
-    private ArrayList<Card> discardedCardList;
+    private final ArrayList<Card> discardedDeckCardList;
     private int turn;
-    private final Action action;
-    private final Trade commerce;
-    private String outputText;
+    private final SoutConsole sout;
+    private final CardManager cardManager;
 
-    public Board(int nbPlayers) {
-        action = new Action();
-        playerList = action.generetePlayers(nbPlayers);
-        discardedCardList = new ArrayList<>(nbPlayers * 3);
-        currentDeckCardList = action.initiateCards(nbPlayers);
-        Collections.shuffle(currentDeckCardList);
+    public Board(int nbPlayers, Boolean boolPrint) {
         commerce = new Trade();
-        outputText ="";
+        playersManager = new PlayersManager();
+        // Setup Players and their inventories
+        playerList = playersManager.generatePlayers(nbPlayers);
+        playerInventoryList = playersManager.getPlayerInventoryList();
+        cardManager = new CardManager(playerList, playerInventoryList);
+        // Setup Decks
+        discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
+        currentDeckCardList = cardManager.initiateCards(nbPlayers);
+        Collections.shuffle(currentDeckCardList);
+
+        //display
+        sout = new SoutConsole(boolPrint);
     }
 
     public static void main(String[] args) {
-        System.out.println("~Starting a new game of 7 Wonders~\n");
-        Board board = new Board(3); // We won't code the 2p version.
+        //Default settings
+        int nbPlayers = PLAYERS_NUMBER; //Default = 4
+        int nbGame = 1; //Default = 1
+        boolean boolPrint = true; //Default = true
+
+        //Maven's arguments
+        if (args.length >= 3) {
+            nbPlayers = Integer.parseInt(args[0]);
+            nbGame = Integer.parseInt(args[1]);
+            boolPrint = Boolean.parseBoolean(args[2]);
+        }
+
+        Board board = new Board(nbPlayers, boolPrint); // We won't code the 2p version.
         board.play();
         board.scores();
+    }
+
+    public CardManager getCardManager() {
+        return cardManager;
     }
 
     public ArrayList<Player> getPlayerList() {
@@ -46,80 +74,112 @@ public class Board {
         return this.turn;
     }
 
-    public void play() {
-        boolean result;
-        for (int age = 0; age < 1; age++) {
-            // Card dealing
-            playerList.forEach(player -> player.setCards(drawCards(NOMBRE_CARTES)));
-            Card playedCard;
-            // Each player plays a card on each turn
-            for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
-                for (Player p : playerList) {
-                    outputText += "\nCoins of the player " + p.getCoins() ;
-                    outputText += "\nResources of the player " + Arrays.toString(p.getAvailableResources())+"\n";
-                    playedCard = p.playCard();
-                    if(playedCard != null){
-                        outputText += "Card that the player wants to play : " + playedCard.getName() + "\n \t resource required to play this card :" + Arrays.toString(playedCard.getRequiredResources())+"\n";
-                        outputText += "\n** verify if the player has the required resources: ";
-                        Resource[] s = p.missingResources(playedCard);
-                        if (s[0] != null) {
-                            outputText += "\n*** Missing resource to play the card " + Arrays.toString(s);
-                            outputText += "\n**** Verify if the player can buy missing resources ";
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
+    }
 
-                            Player rightNeighbor = playerList.get(p.getRightNeighborId());
-                            Player leftNeighbor = playerList.get(p.getLeftNeighborId());
-                            result = commerce.saleResources(s,p,rightNeighbor, leftNeighbor);
-                        } else {
-                            outputText += "\n*** No resource is required ";
-                            result = true;
-                        }
-                        if (!result) {
-                            outputText += "\nThe player can't use the card so card"+ playedCard.getName() +" is discord";
-                            discardedCardList.add(playedCard);
-                            p.saleCard();
-                        } else {
-                            outputText += "\nThe player got the resources of the played card";
-                            p.updatePlayer(playedCard);
-                        }
-                        outputText += "\nCoins of the player " + p.getCoins() + "\n Resources of the player " + Arrays.toString(p.getAvailableResources())+"\n";
-                        outputText += "\n********************************************************************";
-                    }
+    public void play() {
+        playerInventoryList.forEach(this::chooseWonderBoard);
+        for (int age = 0; age < AGES; age++) {
+            sout.beginingOfAge(age + 1);
+            // Card dealing
+            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
+
+            for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
+                sout.newTurn(currentTurn + 1);
+                // Each player plays a card on each turn
+                sout.play();
+                for (Player p : playerList) {
+                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    sout.chosenCards(p.getId(), p.getChosenCard());
                 }
-                outputText += "\n############################################################################";
+                for (int i = 0; i < playerList.size(); i++) {
+                    playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
+                }
                 // The players exchange cards according to the Age's sens.
-                /*if(getTurn()<6){
-                    leftRotation();
-                }*/
+                if (age == 1) {
+                    cardManager.rightRotation();
+                } else {
+                    cardManager.leftRotation();
+                }
                 this.turn++;
             }
-            display();
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.
-            playerList.forEach(player -> discardedCardList.add(player.discardLastCard()));
+            playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
-            playerList.forEach(this::resolveWarConflict);
+            resolveWarConflict();
+            // On envoie l'inventaire du gagnant au serveur
+            Inventory winnerInventory = getPlayerInventoryList().get(0);
+            for (Inventory inv: getPlayerInventoryList()) {
+                if (inv.getScore() > winnerInventory.getScore()) {
+                    winnerInventory = inv;
+                }
+            }
+            Client client = new Client("http://127.0.0.1:10101");
+            //The handshake succeeds in local but is deactivated for it makes
+            // the CI wait for connection to an non existing server while testing
+            //client.handshake();
+            sout.endOfAge(age + 1);
         }
     }
 
-    public Action getAction() {
-        return action;
+    private void chooseWonderBoard(Inventory inventory) {
+        // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
+        WonderBoard colossus = playersManager.initiateColossus();
+        colossus.claimBoard(inventory);
+    }
+
+    protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
+        boolean result;
+        Card choosenCard = player.getChosenCard();
+
+        if (choosenCard != null) {
+            sout.action(player.getId());
+            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
+            ArrayList<Resource> s = getManager().missingResources(fakeInv, choosenCard);
+            sout.checkMissingResources(choosenCard);
+            if (s != null) {
+                sout.missingResources(s);
+                result = commerce.saleResources(s, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+            } else {
+                sout.noRequiredResources(choosenCard);
+                result = true;
+            }
+            if (!result) {
+                sout.cantBuyMissingResources();
+                discardedDeckCardList.add(choosenCard);
+                trueInv.sellCard(choosenCard);
+            } else {
+                sout.gotMissingResources();
+                trueInv.updateInventory(choosenCard);
+            }
+            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
+        }
+    }
+
+    public PlayersManager getManager() {
+        return playersManager;
     }
 
     public Trade getCommerce() {
         return commerce;
     }
 
-    private void resolveWarConflict(Player player) {
-        player.fightWithNeighbor(playerList.get(player.getRightNeighborId()), 1);
-        player.fightWithNeighbor(playerList.get(player.getLeftNeighborId()), 1);
+    public void resolveWarConflict() {
+        for (int i = 0; i < playerInventoryList.size(); i++) {
+            Player player = playerList.get(i);
+            int getRightNeighborId = player.getRightNeighborId();
+            int getLeftNeighborId = player.getLeftNeighborId();
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
+        }
     }
 
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
-        outputText += "\nNB CARTES : " + currentDeckCardList.size();
         this.currentDeckCardList.removeAll(playerDeck);
-        outputText += "\nNB CARTES APRES : " + currentDeckCardList.size();
         return playerDeck;
     }
 
@@ -135,13 +195,11 @@ public class Board {
          *
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        outputText += "End of the game";
-        for (Player p : playerList) {
-            outputText += p;
+        sout.endOfGame();
+        sout.booleanPrint = true;
+        sout.FinalResults();
+        for (Inventory p : playerInventoryList) {
+            sout.informationOfPlayer(p);
         }
-    }
-
-    public void display(){
-        System.out.println(outputText);
     }
 }
