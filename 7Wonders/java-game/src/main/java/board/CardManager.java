@@ -1,6 +1,6 @@
 package board;
 
-import effects.*;
+import gameelements.effects.*;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Category;

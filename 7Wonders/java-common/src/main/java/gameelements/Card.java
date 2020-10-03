@@ -8,12 +8,14 @@ public class Card {
     private Effect[] effects;
     private final Resource[] requiredResources;
     private final Category category;
+    private int cost;
 
     public Card(String name, Effect[] effects, Resource[] requiredResources, Category category) {
         this.name = name;
         this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
+        this.cost = 0;
     }
 
     public Card(String name, Effect effect, Resource[] requiredResources, Category category) {
@@ -21,6 +23,23 @@ public class Card {
         this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
+        this.cost = 0;
+    }
+
+    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, int cost) {
+        this.name = name;
+        this.effects = effects;
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = cost;
+    }
+
+    public Card(String name, Effect effect, Resource[] requiredResources, Category category, int cost) {
+        this.name = name;
+        this.effects = new Effect[]{effect};
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = cost;
     }
 
     public boolean isBatiment() {

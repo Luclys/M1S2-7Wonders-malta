@@ -1,7 +1,7 @@
 package board;
 
-import effects.ResourceEffect;
-import effects.SymbolEffect;
+import gameelements.effects.ResourceEffect;
+import gameelements.effects.SymbolEffect;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Category;

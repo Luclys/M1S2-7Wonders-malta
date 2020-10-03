@@ -1,4 +1,4 @@
-package effects;
+package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;

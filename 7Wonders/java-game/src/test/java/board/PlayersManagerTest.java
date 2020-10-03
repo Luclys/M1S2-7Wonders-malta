@@ -1,7 +1,7 @@
 package board;
 
-import effects.ResourceEffect;
-import effects.ScoreEffect;
+import gameelements.effects.ResourceEffect;
+import gameelements.effects.ScoreEffect;
 import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;

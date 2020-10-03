@@ -1,9 +1,9 @@
 package board;
 
-import effects.CoinEffect;
-import effects.ResourceEffect;
-import effects.ScoreEffect;
-import effects.SymbolEffect;
+import gameelements.effects.CoinEffect;
+import gameelements.effects.ResourceEffect;
+import gameelements.effects.ScoreEffect;
+import gameelements.effects.SymbolEffect;
 import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;

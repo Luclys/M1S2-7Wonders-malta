@@ -1,6 +1,6 @@
 package board;
 
-import effects.CoinEffect;
+import gameelements.effects.CoinEffect;
 import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Category;
