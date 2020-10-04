@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.CardsSet;
 import gameelements.effects.CoinEffect;
 import gameelements.effects.ResourceEffect;
 import gameelements.effects.ScoreEffect;
@@ -31,7 +32,7 @@ public class PlayerTest {
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
+            cards.add(new Card("DUMMY", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
         }
         inv.setCardsInHand(cards);
     }
@@ -46,7 +47,7 @@ public class PlayerTest {
 
 
         //test if player can't build two identical buildings
-        Card taverne = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
+        Card taverne = CardsSet.TAVERNE;
         inv.getCardsInHand().set(0, taverne);
         inv.updateInventory(player.chooseCard(inv));
         inv.getCardsInHand().set(0, taverne);
@@ -90,7 +91,7 @@ public class PlayerTest {
 
     @Test
     public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new SymbolEffect("", Symbol.BOUCLIER, 1), null, Category.BATIMENT_MILITAIRE);
+        Card bouclierCard = CardsSet.PALISSADE;
 
         Player rightNeighbour = board.getPlayerList().get(player.getRightNeighborId());
         Inventory rightNeighbourInv = board.getPlayerInventoryList().get(rightNeighbour.getId());

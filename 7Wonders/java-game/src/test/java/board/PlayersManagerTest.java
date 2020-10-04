@@ -1,11 +1,8 @@
 package board;
 
-import gameelements.effects.ResourceEffect;
-import gameelements.effects.ScoreEffect;
 import gameelements.Card;
-import gameelements.Effect;
+import gameelements.CardsSet;
 import gameelements.Inventory;
-import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,15 +25,14 @@ public class PlayersManagerTest {
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
+            cards.add(CardsSet.CHANTIER);
         }
         inv.setCardsInHand(cards);
     }
 
-
     @Test
     void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, new Resource[]{Resource.BOIS}, Category.BATIMENT_CIVIL);
+        Card c = CardsSet.PALISSADE;
         ArrayList<Resource> m = board.getManager().missingResources(inv, c);
         assertEquals(Resource.BOIS, m.get(0));
     }
@@ -63,6 +59,4 @@ public class PlayersManagerTest {
         assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
         assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
     }
-
-
 }
