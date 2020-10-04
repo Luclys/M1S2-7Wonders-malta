@@ -13,7 +13,7 @@ public class AgeI implements Age {
         return conflictPoints;
     }
 
-    public static boolean isIsLeftRotation() {
+    public static boolean isLeftRotation() {
         return isLeftRotation;
     }
 

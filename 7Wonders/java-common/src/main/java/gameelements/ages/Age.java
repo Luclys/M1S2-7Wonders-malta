@@ -9,7 +9,7 @@ interface Age {
         return 0;
     }
 
-    static boolean isIsLeftRotation() {
+    static boolean isLeftRotation() {
         return false;
     }
 

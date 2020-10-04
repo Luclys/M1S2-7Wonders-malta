@@ -47,17 +47,17 @@ public class Board {
         switch (age) {
             case 1:
                 currentDeckCardList = AgeI.initiateCards(playerList.size());
-                isLeftRotation = AgeI.isIsLeftRotation();
+                isLeftRotation = AgeI.isLeftRotation();
                 conflictPoints = AgeI.getConflictPoints();
                 break;
             case 2:
                 currentDeckCardList = AgeII.initiateCards(playerList.size());
-                isLeftRotation = AgeII.isIsLeftRotation();
+                isLeftRotation = AgeII.isLeftRotation();
                 conflictPoints = AgeII.getConflictPoints();
                 break;
             case 3:
                 currentDeckCardList = AgeIII.initiateCards(playerList.size());
-                isLeftRotation = AgeIII.isIsLeftRotation();
+                isLeftRotation = AgeIII.isLeftRotation();
                 conflictPoints = AgeIII.getConflictPoints();
                 break;
             default:
