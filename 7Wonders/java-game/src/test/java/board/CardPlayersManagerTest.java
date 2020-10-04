@@ -10,26 +10,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CardPlayersManagerTest {
 
     @Test
-    public void leftRotationTest(){
+    public void leftRotationTest() {
         Board board = new Board(3, false);
         ArrayList<Card> cardsFirstPlayer = board.getPlayerInventoryList().get(0).getCardsInHand();
         board.getCardManager().leftRotation();
-        assertEquals(cardsFirstPlayer,board.getPlayerInventoryList().get(board.getPlayerInventoryList().size()-1).getCardsInHand());
+        assertEquals(cardsFirstPlayer, board.getPlayerInventoryList().get(board.getPlayerInventoryList().size() - 1).getCardsInHand());
     }
 
     @Test
-    public void RightRotationTest(){
+    public void RightRotationTest() {
         Board board = new Board(3, false);
         ArrayList<Card> cardsFirstPlayer = board.getPlayerInventoryList().get(0).getCardsInHand();
         board.getCardManager().rightRotation();
-        assertEquals(cardsFirstPlayer,board.getPlayerInventoryList().get(1).getCardsInHand());
-    }
-
-    @Test
-    public void initiateCardsTest() {
-        int nbPlayers = 3;
-        Board board = new Board(nbPlayers, false);
-        int resSize = board.getCardManager().initiateCards(nbPlayers).size();
-        assertEquals(7 * nbPlayers, resSize);
+        assertEquals(cardsFirstPlayer, board.getPlayerInventoryList().get(1).getCardsInHand());
     }
 }

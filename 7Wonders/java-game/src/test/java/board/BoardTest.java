@@ -25,17 +25,10 @@ public class BoardTest {
     }
 
     @Test
-    public void testInitializedDeckCardList() {
-        int nbPlayers = 7;
-        Board board = new Board(nbPlayers, false);
-        int deckCardsCount = board.getCurrentDeckCardList().size();
-        assertEquals(nbPlayers * 7, deckCardsCount);
-    }
-
-    @Test
     public void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(nbPlayers, false);
+        board.ageSetUp(1);
 
         int nbToDraw = 1;
         ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();

@@ -5,10 +5,23 @@ import gameelements.CardsSet;
 
 import java.util.ArrayList;
 
-public class AgeI extends Age {
-    public static final int conflictPoints = 1;
+public class AgeI implements Age {
+    private static final int conflictPoints = 1;
+    private static final boolean isLeftRotation = true;
 
-    ArrayList<Card> initiateCards(int playersCount) {
+    public static int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public static boolean isIsLeftRotation() {
+        return isLeftRotation;
+    }
+
+    public static ArrayList<Card> initiateCards(int playersCount) {
+        if (playersCount <= 2 || playersCount > 7) {
+            throw new IllegalStateException("Unexpected playersCount value: " + playersCount);
+        }
+
         ArrayList<Card> cards = new ArrayList<>();
 
         //Brown
@@ -97,7 +110,7 @@ public class AgeI extends Age {
             cards.add(CardsSet.MARCHÉ);
         }
 
-        if (playersCount >= 7 ) {
+        if (playersCount == 7 ) {
             //Blue
             cards.add(CardsSet.PRÊTEUR_SUR_GAGES);
             cards.add(CardsSet.BAINS);

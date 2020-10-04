@@ -105,7 +105,7 @@ public class PlayerTest {
         leftNeighbourInv.setCardsInHand(cards);
         leftNeighbourInv.updateInventory(leftNeighbour.chooseCard(inv));
 
-        board.resolveWarConflict();
+        board.resolveWarConflict(1);
         assertEquals(-2, inv.getConflictPoints());
         assertEquals(1, leftNeighbourInv.getConflictPoints());
         assertEquals(1, rightNeighbourInv.getConflictPoints());

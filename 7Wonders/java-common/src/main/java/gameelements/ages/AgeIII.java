@@ -6,10 +6,23 @@ import gameelements.CardsSet;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AgeIII extends Age {
-    public static final int conflictPoints = 5;
+public class AgeIII implements Age {
+    private static final int conflictPoints = 5;
+    private static final boolean isLeftRotation = true;
 
-    ArrayList<Card> initiateCards(int playersCount) {
+    public static int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public static boolean isIsLeftRotation() {
+        return isLeftRotation;
+    }
+
+    public static ArrayList<Card> initiateCards(int playersCount) {
+        if (playersCount <= 2 || playersCount > 7) {
+            throw new IllegalStateException("Unexpected playersCount value: " + playersCount);
+        }
+
         ArrayList<Card> cards = new ArrayList<>();
 
         //Blue
@@ -105,7 +118,7 @@ public class AgeIII extends Age {
         return cards;
     }
 
-    private ArrayList<Card> initiateGuilds(int playersCount) {
+    private static ArrayList<Card> initiateGuilds(int playersCount) {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(CardsSet.GUILDE_DES_TRAVAILLEURS);
         cards.add(CardsSet.GUILDE_DES_ARTISANS);
@@ -119,7 +132,7 @@ public class AgeIII extends Age {
         cards.add(CardsSet.GUILDE_DES_BÂTISSEURS);
 
         Collections.shuffle(cards);
-        int lastIndex = Math.min(playersCount + 1, cards.size() - 1);
+        int lastIndex = Math.min(playersCount + 2, cards.size() - 1);
         return new ArrayList<>(cards.subList(0, lastIndex));
     }
 }

@@ -1,6 +1,19 @@
 package gameelements.ages;
 
-abstract class Age {
-    public static final int conflictPoints = 1;
-    boolean isRightRotation = true;
+import gameelements.Card;
+
+import java.util.ArrayList;
+
+interface Age {
+    static int getConflictPoints() {
+        return 0;
+    }
+
+    static boolean isIsLeftRotation() {
+        return false;
+    }
+
+    static ArrayList<Card> initiateCards(int playersCount) {
+        return null;
+    }
 }
