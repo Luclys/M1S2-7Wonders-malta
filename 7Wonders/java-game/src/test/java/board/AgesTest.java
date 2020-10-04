@@ -16,6 +16,7 @@ public class AgesTest {
         playersCount = 4;
         board = new Board(4, false);
         board.ageSetUp(1);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.EXCAVATION));
         assertTrue(board.isLeftRotation());
@@ -24,6 +25,7 @@ public class AgesTest {
         playersCount = 5;
         board = new Board(playersCount, false);
         board.ageSetUp(1);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.GISEMENT));
         assertTrue(board.isLeftRotation());
@@ -32,6 +34,7 @@ public class AgesTest {
         playersCount = 6;
         board = new Board(playersCount, false);
         board.ageSetUp(1);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.CASERNE)).count(), 2);
         assertTrue(board.isLeftRotation());
@@ -43,6 +46,7 @@ public class AgesTest {
         playersCount = 4;
         board = new Board(playersCount, false);
         board.ageSetUp(2);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.BAZAR));
         assertFalse(board.isLeftRotation());
@@ -51,6 +55,7 @@ public class AgesTest {
         playersCount = 5;
         board = new Board(playersCount, false);
         board.ageSetUp(2);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.TRIBUNAL)).count(), 2);
         assertFalse(board.isLeftRotation());
@@ -59,6 +64,7 @@ public class AgesTest {
         playersCount = 7;
         board = new Board(playersCount, false);
         board.ageSetUp(2);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.FORUM)).count(), 3);
         assertFalse(board.isLeftRotation());
@@ -70,6 +76,7 @@ public class AgesTest {
         playersCount = 4;
         board = new Board(playersCount, false);
         board.ageSetUp(3);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.CHAMBRE_DE_COMMERCE)).count(), 1);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.JARDINS)).count(), 2);
@@ -80,6 +87,7 @@ public class AgesTest {
         playersCount = 7;
         board = new Board(playersCount, false);
         board.ageSetUp(3);
+        assertEquals(board.getTurn(), 0);
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.OBSERVATOIRE)).count(), 2);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.ARÈNE)).count(), 3);

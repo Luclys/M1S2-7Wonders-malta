@@ -14,7 +14,7 @@ import java.util.Collections;
 
 public class Board {
     public static final int PLAYERS_NUMBER = 3;
-    public static final int AGES = 1;
+    public static final int AGES = 3;
 
     private final PlayersManager playersManager;
     private final Trade commerce;
@@ -39,7 +39,6 @@ public class Board {
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
-        //ageSetUp(1);
         //display
         sout = new SoutConsole(boolPrint);
     }
@@ -65,6 +64,7 @@ public class Board {
                 throw new IllegalStateException("Unexpected age value: " + age);
         }
         Collections.shuffle(currentDeckCardList);
+        turn = 0;
     }
 
     public static void main(String[] args) {
