@@ -13,7 +13,7 @@ public class WonderBoard {
     private final String name;
     private final Effect baseEffect;
     private final ArrayList<Step> steps;
-    private int currentStep = 0;
+    private int currentStepIndex = 0;
     private Inventory associatedInv;
 
     public WonderBoard(String name, Effect baseEffect, ArrayList<Step> steps) {
@@ -29,12 +29,16 @@ public class WonderBoard {
     }
 
     public void buyNextStep(Card card) {
-        if (currentStep != steps.size()) {
-            steps.get(currentStep).build(associatedInv, card);
-            currentStep++;
+        if (currentStepIndex != steps.size()) {
+            steps.get(currentStepIndex).build(associatedInv, card);
+            currentStepIndex++;
         } else {
             throw new Error("Every steps already built.");
         }
+    }
+
+    public Step getCurrentStep() {
+        return steps.get(currentStepIndex);
     }
 
     static public WonderBoard initiateColossus() {

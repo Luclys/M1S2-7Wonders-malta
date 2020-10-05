@@ -5,6 +5,7 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Inventory {
     private final int playerId;
@@ -75,6 +76,18 @@ public class Inventory {
         cardsInHand.remove(0);
     }
 
+    public boolean canBuild(Resource[] requiredResources) {
+        int [] neededResources = new int[Resource.values().length];
+        for (Resource resource: requiredResources) {
+            neededResources[resource.getIndex()]++;
+        }
+        for (int i = 0; i < neededResources.length; i++) {
+            if (neededResources[i] >= availableResources[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void updateConflictPoints(int conflictPoints) {
         this.conflictPoints += conflictPoints;
