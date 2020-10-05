@@ -21,6 +21,5 @@ public class ScoreAndCoinsForCategoryEffect extends Effect  {
         int cardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         playersInv.addScore(cardsCount*score);
         playersInv.addCoins(cardsCount*nbCoins);
-        changeStatus();
     }
 }

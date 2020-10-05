@@ -14,6 +14,5 @@ public class ScoreForNeighborsDefeatJetonsEffet extends Effect {
     public void activateEffect(Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         super.activateEffect(playersInv);
         playersInv.addScore((leftNeighborInv.getDefeatJetonsCount() + rightNeighborInv.getDefeatJetonsCount()) * score);
-        changeStatus();
     }
 }

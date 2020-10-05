@@ -17,6 +17,5 @@ public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
       int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStep();
       int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStep();
       playersInv.addScore((stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * score);
-      changeStatus();
   }
 }

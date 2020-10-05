@@ -23,6 +23,5 @@ public class ScoreForCategoriesEffet extends Effect {
         super.activateEffect(playersInv);
         int cardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> categories.contains(card.getCategory())).count();
         playersInv.addScore(cardsCount*score);
-        changeStatus();
     }
 }
