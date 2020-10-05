@@ -45,6 +45,10 @@ public class WonderBoard {
         return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA);
     }
 
+    public int getCurrentStep() {
+        return currentStep;
+    }
+
     protected ArrayList<WonderBoard> initiateWonders() {
         ArrayList<WonderBoard> res = new ArrayList<>(14);
 
