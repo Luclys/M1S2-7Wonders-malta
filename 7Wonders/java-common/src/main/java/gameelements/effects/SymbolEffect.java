@@ -8,8 +8,7 @@ public class SymbolEffect extends Effect {
     Symbol symbol;
     int nb;
 
-    public SymbolEffect(String name, Symbol symbol, int nb) {
-        super(name);
+    public SymbolEffect(Symbol symbol, int nb) {
         // Instantaneous and only once
         this.symbol = symbol;
         this.nb = nb;

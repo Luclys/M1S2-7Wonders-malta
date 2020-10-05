@@ -5,8 +5,8 @@ import gameelements.Inventory;
 
 public class CopyNeighborGuildEffect extends Effect {
 
-    public CopyNeighborGuildEffect(String name) {
-        super(name, 1, 0);
+    public CopyNeighborGuildEffect() {
+        super(1, 0);
     }
 
     public void activateEffect(Inventory inv) {

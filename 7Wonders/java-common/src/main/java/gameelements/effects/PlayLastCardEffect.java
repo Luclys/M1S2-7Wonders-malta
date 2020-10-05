@@ -5,8 +5,8 @@ import gameelements.Inventory;
 
 public class PlayLastCardEffect extends Effect {
 
-    public PlayLastCardEffect(String name) {
-        super(name, 0, 2);
+    public PlayLastCardEffect() {
+        super(0, 2);
     }
 
     public void activateEffect(Inventory inv) {

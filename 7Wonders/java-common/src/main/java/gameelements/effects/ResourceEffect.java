@@ -8,8 +8,7 @@ public class ResourceEffect extends Effect {
     Resource resource;
     int nb;
 
-    public ResourceEffect(String name, Resource resource, int nb) {
-        super(name);
+    public ResourceEffect(Resource resource, int nb) {
         this.resource = resource;
         this.nb = nb;
     }

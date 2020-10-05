@@ -1,22 +1,18 @@
 package gameelements;
 
 public abstract class Effect {
-    String name = null;
     // 0 = instantaneous, 1 = end of the game, 2 = whenever player wants
     int delay = 0;
     // 0 = once, 1 every turn, 2 every Age
     int repeat = 0;
 
 
-    public Effect(String name, int delay, int repeat) {
-        this.name = name;
+    public Effect(int delay, int repeat) {
         this.delay = delay;
         this.repeat = repeat;
     }
 
-    public Effect(String name) {
-        this.name = name;
-    }
+    public Effect() {}
 
     // Needed : 2 neighbors, and Player Inventories
     public void activateEffect(Inventory inv) {
