@@ -22,6 +22,5 @@ public class ChoiceAllTypeResourceEffect extends Effect {
         }
 
         // TODO : ask Player which resource he chooses
-        changeStatus();
     }
 }

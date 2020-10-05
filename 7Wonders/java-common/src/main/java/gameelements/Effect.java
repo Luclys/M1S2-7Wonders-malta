@@ -6,8 +6,6 @@ public abstract class Effect {
     int delay = 0;
     // 0 = once, 1 every turn, 2 every Age
     int repeat = 0;
-    // Change to true if already activated.
-    boolean status = false;
 
 
     public Effect(String name, int delay, int repeat) {
@@ -24,14 +22,7 @@ public abstract class Effect {
     public void activateEffect(Inventory inv) {
 /*
         if (delay == 0 && repeat == 0) {
-            if (!status) {
-                throw new Error("Effect already executed.");
-            }
         }
 */
-    }
-
-    protected void changeStatus() {
-        this.status = !this.status;
     }
 }

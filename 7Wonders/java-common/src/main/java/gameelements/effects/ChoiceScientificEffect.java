@@ -12,6 +12,5 @@ public class ChoiceScientificEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         // TODO : At the end game, ask Player which scientific he chooses.
-        changeStatus();
     }
 }

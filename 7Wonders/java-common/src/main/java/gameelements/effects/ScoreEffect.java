@@ -14,6 +14,5 @@ public class ScoreEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         inv.setScore(inv.getScore() + nb);
-        changeStatus();
     }
 }

@@ -69,7 +69,7 @@ public class Board {
 
     public static void main(String[] args) {
         //Default settings
-        int nbPlayers = PLAYERS_NUMBER; //Default = 4
+        int nbPlayers = PLAYERS_NUMBER; //Default = 3
         int nbGame = 1; //Default = 1
         boolean boolPrint = true; //Default = true
 

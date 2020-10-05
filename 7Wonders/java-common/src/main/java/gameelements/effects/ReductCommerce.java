@@ -16,7 +16,6 @@ public class ReductCommerce extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // TODO : Compléter pour mettre le prix à 1.
-        changeStatus();
+        // TODO : Compléter pour mettre le prix à 1 selon .
     }
 }

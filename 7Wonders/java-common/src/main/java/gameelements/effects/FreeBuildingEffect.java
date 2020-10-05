@@ -12,6 +12,5 @@ public class FreeBuildingEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         // TODO : Allow 1 free construction whenever Player wants
-        changeStatus();
     }
 }

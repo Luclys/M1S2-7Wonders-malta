@@ -14,6 +14,5 @@ public class CoinEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         inv.addCoins(nb);
-        changeStatus();
     }
 }

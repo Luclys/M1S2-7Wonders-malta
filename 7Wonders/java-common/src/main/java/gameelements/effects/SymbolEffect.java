@@ -18,6 +18,5 @@ public class SymbolEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         inv.getAvailableSymbols()[symbol.getIndex()] += nb;
-        changeStatus();
     }
 }

@@ -18,6 +18,5 @@ public class ResourceEffect extends Effect {
         super.activateEffect(inv);
         inv.getAvailableResources()[resource.getIndex()] += nb;
 
-        changeStatus();
-    }
+        }
 }

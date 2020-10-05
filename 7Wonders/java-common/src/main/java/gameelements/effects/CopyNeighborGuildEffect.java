@@ -12,6 +12,5 @@ public class CopyNeighborGuildEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         // TODO : At the end game, ask Player to choose a guild card from one of his neighbor (if there is one).
-        changeStatus();
     }
 }
