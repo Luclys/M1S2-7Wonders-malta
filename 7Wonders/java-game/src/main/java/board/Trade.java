@@ -27,18 +27,34 @@ public class Trade {
                 break;
             }
         }
-        if (k == 10) {// neighbors have all the missing resources
+
+        if (k == missingResources.size()) {// neighbors have all the missing resources
+            boolean right;
             for (int i = 0; i < 10; i++) {// buy  resources from neighbors
-                buyFromNeighbor(playerInv, playersWithResources[i]);
+                if(playersWithResources[i]!=null){
+                    if(playersWithResources[i].equals(rightNeighborInv)){
+                        right = true;
+                    }else{
+                        right = false;
+                    }
+                    buyFromNeighbor(playerInv, playersWithResources[i], right);
+                }
             }
             result = true;
         }
         return result;
     }
 
-    protected void buyFromNeighbor(Inventory playerInv, Inventory neighborInv) {// add that the neighbor can't use the adding coins till next turn
-        neighborInv.addCoins(2);
-        playerInv.removeCoins(2);
+    protected void buyFromNeighbor(Inventory playerInv, Inventory neighborInv, Boolean rightNeighbor) {// add that the neighbor can't use the adding coins till next turn
+        int price = 2;
+        //check which neighbor to determinate price
+      /*  if(rightNeighbor){
+            price = rightPrice
+        }else{
+            price = leftPrice
+        }*/
+        neighborInv.setAddedCoins(price);
+        playerInv.removeCoins(price);
     }
 
     protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
