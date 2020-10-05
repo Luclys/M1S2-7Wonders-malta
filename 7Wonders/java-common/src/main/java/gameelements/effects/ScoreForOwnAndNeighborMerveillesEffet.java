@@ -15,9 +15,9 @@ public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
 
   public void activateEffect(Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
       super.activateEffect(playersInv);
-      int stepsCount = playersInv.getWonderBoard().getCurrentStep();
-      int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStep();
-      int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStep();
+      int stepsCount = playersInv.getWonderBoard().getCurrentStepIndex();
+      int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStepIndex();
+      int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStepIndex();
       playersInv.addScore((stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * score);
   }
 }

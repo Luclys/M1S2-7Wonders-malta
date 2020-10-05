@@ -34,7 +34,7 @@ public class Player {
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBatiment());
         chosenCard = cardsAvailableToPlay.get(0);
-        boolean canBuildWonderStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
+        /*boolean canBuildWonderStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
 
         if (canBuildWonderStep) {
             //Player chooses a card he cannot build
@@ -43,7 +43,7 @@ public class Player {
         else {
             //Player chooses a card he can build
             chosenCard = cardsAvailableToPlay.get(0);
-        }
+        }*/
 
         return chosenCard;
         // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
