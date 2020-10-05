@@ -2,12 +2,14 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 
 public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
     int score;
 
   public ScoreForOwnAndNeighborMerveillesEffet(int score) {
-      super();
+      super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
       this.score = score;
   }
 

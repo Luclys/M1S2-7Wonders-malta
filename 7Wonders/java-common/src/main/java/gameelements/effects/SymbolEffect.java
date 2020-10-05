@@ -2,6 +2,8 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 import gameelements.enums.Symbol;
 
 public class SymbolEffect extends Effect {
@@ -9,7 +11,7 @@ public class SymbolEffect extends Effect {
     int nb;
 
     public SymbolEffect(Symbol symbol, int nb) {
-        // Instantaneous and only once
+        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
         this.symbol = symbol;
         this.nb = nb;
     }

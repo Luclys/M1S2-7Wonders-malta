@@ -2,6 +2,8 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 
 public class ReductCommerceEffect extends Effect {
     // 0 = Left, 1 = Right, 2 = Both.
@@ -9,6 +11,7 @@ public class ReductCommerceEffect extends Effect {
     Boolean primaryRessources;
 
     public ReductCommerceEffect(int whichNeighbor, Boolean primaryRessources) {
+        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
         this.whichNeighbor = whichNeighbor;
         this.primaryRessources = primaryRessources;
     }
