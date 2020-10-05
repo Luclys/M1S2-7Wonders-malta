@@ -15,18 +15,18 @@ public class PlayersManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
 
-    protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int conflictPoints) { // conflictPoints depends on Age
+    protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
         //System.out.println("[RESOLVING WAR CONFLICTS] Player has " + playerBoucliersCount + " boucliers while neighbor has " + neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
-            invPlayer.updateConflictPoints(conflictPoints);
-            //System.out.println("[RESOLVING WAR CONFLICTS] " + conflictPoints + " conflict points added");
+            invPlayer.addVictoryJetonsScore(victoryJetonValue);
+            //System.out.println("[RESOLVING WAR CONFLICTS] " + victoryJetonValue + " conflict points added");
         } else if (playerBoucliersCount < neighborBoucliersCount) {
-            invPlayer.updateConflictPoints(-1);
+            invPlayer.addDefeatJeton();
             //System.out.println("[RESOLVING WAR CONFLICTS] Defeat jeton (-1 conflict point) added");
         }
-        //System.out.println("[RESOLVING WAR CONFLICTS] Total player conflict points: " + this.getConflictPoints());
+        //System.out.println("[RESOLVING WAR CONFLICTS] Total player victory jeton score: " + invPlayer.getVictoryJetonsScore() + ", defeat jetons count: " + invPlayer.getDefeatJetonsCount());
     }
 
     protected ArrayList<Player> generatePlayers(int nbPlayers) {

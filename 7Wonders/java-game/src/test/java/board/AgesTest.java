@@ -20,7 +20,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.EXCAVATION));
         assertTrue(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 1);
+        assertEquals(board.getJetonVictoryValue(), 1);
 
         playersCount = 5;
         board = new Board(playersCount, false);
@@ -29,7 +29,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.GISEMENT));
         assertTrue(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 1);
+        assertEquals(board.getJetonVictoryValue(), 1);
 
         playersCount = 6;
         board = new Board(playersCount, false);
@@ -38,7 +38,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.CASERNE)).count(), 2);
         assertTrue(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 1);
+        assertEquals(board.getJetonVictoryValue(), 1);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertTrue(board.getCurrentDeckCardList().contains(CardsSet.BAZAR));
         assertFalse(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 3);
+        assertEquals(board.getJetonVictoryValue(), 3);
 
         playersCount = 5;
         board = new Board(playersCount, false);
@@ -59,7 +59,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.TRIBUNAL)).count(), 2);
         assertFalse(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 3);
+        assertEquals(board.getJetonVictoryValue(), 3);
 
         playersCount = 7;
         board = new Board(playersCount, false);
@@ -68,7 +68,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().size(), playersCount * Board.NOMBRE_CARTES);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.FORUM)).count(), 3);
         assertFalse(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 3);
+        assertEquals(board.getJetonVictoryValue(), 3);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.JARDINS)).count(), 2);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.getCategory().equals(Category.GUILDE)).count(), playersCount + 2);
         assertTrue(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 5);
+        assertEquals(board.getJetonVictoryValue(), 5);
 
         playersCount = 7;
         board = new Board(playersCount, false);
@@ -93,6 +93,6 @@ public class AgesTest {
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.equals(CardsSet.ARÈNE)).count(), 3);
         assertEquals(board.getCurrentDeckCardList().stream().filter(card -> card.getCategory().equals(Category.GUILDE)).count(), playersCount + 2);
         assertTrue(board.isLeftRotation());
-        assertEquals(board.getConflictPoints(), 5);
+        assertEquals(board.getJetonVictoryValue(), 5);
     }
 }

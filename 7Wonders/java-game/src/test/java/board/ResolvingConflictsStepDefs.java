@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.CardsSet;
 import gameelements.Inventory;
 import io.cucumber.java8.En;
 
@@ -17,10 +18,9 @@ public class ResolvingConflictsStepDefs implements En {
             p1 = new Player(arg0);
             p2 = new Player(arg1);
             board = new Board(3, false);
-            i1.setConflictPoints(3);
-            i2.setConflictPoints(2);
+            i1.getPlayedCards().set(0, CardsSet.PALISSADE);
         });
         When("^the two players engage in the conflict$", () -> board.resolveWarConflict(1));
-        Then("^player (\\d+) should win (\\d+) conflict point$", (Integer arg0, Integer arg1) -> assertEquals(1, i1.getConflictPoints()));
+        Then("^player (\\d+) should win (\\d+) victory jeton$", (Integer arg0, Integer arg1) -> assertEquals(1, i1.getVictoryJetonsScore()));
     }
 }

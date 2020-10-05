@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AgeIII implements Age {
-    private static final int conflictPoints = 5;
+    private static final int victoryJetonValue = 5;
     private static final boolean isLeftRotation = true;
 
-    public static int getConflictPoints() {
-        return conflictPoints;
+    public static int getVictoryJetonValue() {
+        return victoryJetonValue;
     }
 
     public static boolean isLeftRotation() {

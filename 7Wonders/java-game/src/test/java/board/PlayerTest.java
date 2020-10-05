@@ -106,9 +106,14 @@ public class PlayerTest {
         leftNeighbourInv.updateInventory(leftNeighbour.chooseCard(inv));
 
         board.resolveWarConflict(1);
-        assertEquals(-2, inv.getConflictPoints());
-        assertEquals(1, leftNeighbourInv.getConflictPoints());
-        assertEquals(1, rightNeighbourInv.getConflictPoints());
+        assertEquals(0, inv.getVictoryJetonsScore());
+        assertEquals(2, inv.getDefeatJetonsCount());
+
+        assertEquals(1, leftNeighbourInv.getVictoryJetonsScore());
+        assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
+
+        assertEquals(1, rightNeighbourInv.getVictoryJetonsScore());
+        assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
     }
 
     private void addCardAndPlayIt(Player player, Card card) {

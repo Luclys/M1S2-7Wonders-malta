@@ -6,11 +6,11 @@ import gameelements.CardsSet;
 import java.util.ArrayList;
 
 public class AgeI implements Age {
-    private static final int conflictPoints = 1;
+    private static final int victoryJetonValue = 1;
     private static final boolean isLeftRotation = true;
 
-    public static int getConflictPoints() {
-        return conflictPoints;
+    public static int getVictoryJetonValue() {
+        return victoryJetonValue;
     }
 
     public static boolean isLeftRotation() {

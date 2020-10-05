@@ -15,7 +15,8 @@ public class Inventory {
     private WonderBoard wonderBoard;
 
     private int score;
-    private int conflictPoints;
+    private int victoryJetonsScore;
+    private int defeatJetonsCount;
     private int coins;
     private int priceLeft;
     private int priceRight;
@@ -29,8 +30,8 @@ public class Inventory {
         this.coins = 3;
         this.priceRight = 2;
         this.priceLeft = 2;
-        this.conflictPoints = 0;
-
+        this.victoryJetonsScore = 0;
+        this.defeatJetonsCount = 0;
     }
 
     public Inventory(Inventory inventory) {
@@ -42,7 +43,8 @@ public class Inventory {
         this.playedCards = inventory.playedCards;
         this.wonderBoard = inventory.wonderBoard;
         this.score = inventory.score;
-        this.conflictPoints = inventory.conflictPoints;
+        this.victoryJetonsScore = inventory.victoryJetonsScore;
+        this.defeatJetonsCount = inventory.defeatJetonsCount;
         this.coins = inventory.coins;
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
@@ -75,9 +77,20 @@ public class Inventory {
         cardsInHand.remove(0);
     }
 
+    public int getVictoryJetonsScore() {
+        return victoryJetonsScore;
+    }
 
-    public void updateConflictPoints(int conflictPoints) {
-        this.conflictPoints += conflictPoints;
+    public int getDefeatJetonsCount() {
+        return defeatJetonsCount;
+    }
+
+    public void addVictoryJetonsScore(int victoryJetonsScore) {
+        this.victoryJetonsScore += victoryJetonsScore;
+    }
+
+    public void addDefeatJeton() {
+        this.defeatJetonsCount++;
     }
 
     public void removeCoins(int coins) {
@@ -141,14 +154,6 @@ public class Inventory {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getConflictPoints() {
-        return conflictPoints;
-    }
-
-    public void setConflictPoints(int conflictPoints) {
-        this.conflictPoints = conflictPoints;
     }
 
     public int getCoins() {
