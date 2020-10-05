@@ -9,7 +9,7 @@ public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
-        Inventory[] playersWithResources = new Inventory[10];
+        ArrayList<Inventory> playersWithResources = new ArrayList<Inventory>();
         Inventory neighbor;
         int k = 0;
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
@@ -19,7 +19,7 @@ public class Trade {
                     if (neighbor == null) {// check if one of the neigbor has the resource
                         break;
                     } else {
-                        playersWithResources[k] = neighbor;
+                        playersWithResources.add(neighbor);
                         k++;
                     }
                 }
@@ -30,15 +30,13 @@ public class Trade {
 
         if (k == missingResources.size()) {// neighbors have all the missing resources
             boolean right;
-            for (int i = 0; i < 10; i++) {// buy  resources from neighbors
-                if(playersWithResources[i]!=null){
-                    if(playersWithResources[i].equals(rightNeighborInv)){
-                        right = true;
-                    }else{
-                        right = false;
-                    }
-                    buyFromNeighbor(playerInv, playersWithResources[i], right);
+            for(Inventory inv :playersWithResources ){
+                if(inv.equals(rightNeighborInv)){
+                    right = true;
+                }else{
+                    right = false;
                 }
+                buyFromNeighbor(playerInv, inv, right);
             }
             result = true;
         }
