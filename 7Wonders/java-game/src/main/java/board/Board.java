@@ -162,33 +162,33 @@ public class Board {
 
     private void chooseWonderBoard(Inventory inventory) {
         // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
-        WonderBoard colossus = playersManager.initiateColossus();
+        WonderBoard colossus = WonderBoard.initiateColossus();
         colossus.claimBoard(inventory);
     }
 
     protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
         boolean result;
-        Card choosenCard = player.getChosenCard();
+        Card chosenCard = player.getChosenCard();
 
-        if (choosenCard != null) {
+        if (chosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = getManager().missingResources(fakeInv, choosenCard);
-            sout.checkMissingResources(choosenCard);
+            ArrayList<Resource> s = getManager().missingResources(fakeInv, chosenCard);
+            sout.checkMissingResources(chosenCard);
             if (s != null) {
                 sout.missingResources(s);
                 result = commerce.saleResources(s, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
             } else {
-                sout.noRequiredResources(choosenCard);
+                sout.noRequiredResources(chosenCard);
                 result = true;
             }
             if (!result) {
                 sout.cantBuyMissingResources();
-                discardedDeckCardList.add(choosenCard);
-                trueInv.sellCard(choosenCard);
+                discardedDeckCardList.add(chosenCard);
+                trueInv.sellCard(chosenCard);
             } else {
                 sout.gotMissingResources();
-                trueInv.updateInventory(choosenCard);
+                trueInv.updateInventory(chosenCard);
             }
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
         }
