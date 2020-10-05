@@ -2,12 +2,14 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 
 public class ChoiceAllTypeResourceEffect extends Effect {
     Boolean PrimaryResource;
 
-    public ChoiceAllTypeResourceEffect(String name, Boolean PrimaryResource) {
-        super(name, 0, 1);
+    public ChoiceAllTypeResourceEffect(Boolean PrimaryResource) {
+        super(EffectDelay.INSTANTANEOUS, EffectFrequency.EVERY_TURN);
         this.PrimaryResource = PrimaryResource;
     }
 
@@ -22,6 +24,5 @@ public class ChoiceAllTypeResourceEffect extends Effect {
         }
 
         // TODO : ask Player which resource he chooses
-        changeStatus();
     }
 }

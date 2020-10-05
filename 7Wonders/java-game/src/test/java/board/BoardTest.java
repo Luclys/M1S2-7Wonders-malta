@@ -46,10 +46,10 @@ public class BoardTest {
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         ArrayList<Step> listSteps = new ArrayList<>();
-        listSteps.add(new Step(null, new ResourceEffect("", Resource.BOIS, 1)));
-        listSteps.add(new Step(null, new ResourceEffect("", Resource.PIERRE, 2)));
-        listSteps.add(new Step(null, new SymbolEffect("", Symbol.STELE, 1)));
-        WonderBoard TESTBOARD = new WonderBoard("TEST", new ResourceEffect("", Resource.BOIS, 1), listSteps);
+        listSteps.add(new Step(null, new ResourceEffect(Resource.BOIS, 1)));
+        listSteps.add(new Step(null, new ResourceEffect(Resource.PIERRE, 2)));
+        listSteps.add(new Step(null, new SymbolEffect(Symbol.STELE, 1)));
+        WonderBoard TESTBOARD = new WonderBoard("TEST", new ResourceEffect(Resource.BOIS, 1), listSteps);
 
         TESTBOARD.claimBoard(inv);
 

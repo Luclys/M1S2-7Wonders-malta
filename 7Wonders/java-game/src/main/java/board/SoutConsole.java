@@ -130,7 +130,8 @@ public class SoutConsole {
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
                 " },\n\t score=" + p.getScore() +
-                ", \n\t conflictPoints=" + p.getConflictPoints() +
+                ", \n\t victory jetons score = " + p.getVictoryJetonsScore() +
+                ", \n\t defeat jetons count = " + p.getDefeatJetonsCount() +
                 ", \n\t coins" + p.getCoins() +
                 "\n}");
     }

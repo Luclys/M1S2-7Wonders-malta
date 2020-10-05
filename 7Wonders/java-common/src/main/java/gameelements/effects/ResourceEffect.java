@@ -2,14 +2,16 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 import gameelements.enums.Resource;
 
 public class ResourceEffect extends Effect {
     Resource resource;
     int nb;
 
-    public ResourceEffect(String name, Resource resource, int nb) {
-        super(name);
+    public ResourceEffect(Resource resource, int nb) {
+        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
         this.resource = resource;
         this.nb = nb;
     }
@@ -18,6 +20,5 @@ public class ResourceEffect extends Effect {
         super.activateEffect(inv);
         inv.getAvailableResources()[resource.getIndex()] += nb;
 
-        changeStatus();
-    }
+        }
 }

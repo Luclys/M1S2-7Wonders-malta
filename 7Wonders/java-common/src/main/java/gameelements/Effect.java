@@ -1,37 +1,23 @@
 package gameelements;
 
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
+
 public abstract class Effect {
-    String name = null;
-    // 0 = instantaneous, 1 = end of the game, 2 = whenever player wants
-    int delay = 0;
-    // 0 = once, 1 every turn, 2 every Age
-    int repeat = 0;
-    // Change to true if already activated.
-    boolean status = false;
+    EffectDelay delay;
+    EffectFrequency repeat;
 
 
-    public Effect(String name, int delay, int repeat) {
-        this.name = name;
+    public Effect(EffectDelay delay, EffectFrequency repeat) {
         this.delay = delay;
         this.repeat = repeat;
-    }
-
-    public Effect(String name) {
-        this.name = name;
     }
 
     // Needed : 2 neighbors, and Player Inventories
     public void activateEffect(Inventory inv) {
 /*
         if (delay == 0 && repeat == 0) {
-            if (!status) {
-                throw new Error("Effect already executed.");
-            }
         }
 */
-    }
-
-    protected void changeStatus() {
-        this.status = !this.status;
     }
 }

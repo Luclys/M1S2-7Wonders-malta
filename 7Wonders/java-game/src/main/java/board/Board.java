@@ -28,7 +28,7 @@ public class Board {
 
     private ArrayList<Card> currentDeckCardList;
     private boolean isLeftRotation;
-    private int conflictPoints;
+    private int jetonVictoryValue;
 
     public Board(int nbPlayers, Boolean boolPrint) {
         commerce = new Trade();
@@ -48,17 +48,17 @@ public class Board {
             case 1:
                 currentDeckCardList = AgeI.initiateCards(playerList.size());
                 isLeftRotation = AgeI.isLeftRotation();
-                conflictPoints = AgeI.getConflictPoints();
+                jetonVictoryValue = AgeI.getVictoryJetonValue();
                 break;
             case 2:
                 currentDeckCardList = AgeII.initiateCards(playerList.size());
                 isLeftRotation = AgeII.isLeftRotation();
-                conflictPoints = AgeII.getConflictPoints();
+                jetonVictoryValue = AgeII.getVictoryJetonValue();
                 break;
             case 3:
                 currentDeckCardList = AgeIII.initiateCards(playerList.size());
                 isLeftRotation = AgeIII.isLeftRotation();
-                conflictPoints = AgeIII.getConflictPoints();
+                jetonVictoryValue = AgeIII.getVictoryJetonValue();
                 break;
             default:
                 throw new IllegalStateException("Unexpected age value: " + age);
@@ -69,7 +69,7 @@ public class Board {
 
     public static void main(String[] args) {
         //Default settings
-        int nbPlayers = PLAYERS_NUMBER; //Default = 4
+        int nbPlayers = PLAYERS_NUMBER; //Default = 3
         int nbGame = 1; //Default = 1
         boolean boolPrint = true; //Default = true
 
@@ -97,8 +97,8 @@ public class Board {
         return this.currentDeckCardList;
     }
 
-    public int getConflictPoints() {
-        return conflictPoints;
+    public int getJetonVictoryValue() {
+        return jetonVictoryValue;
     }
 
     public boolean isLeftRotation() {
@@ -139,12 +139,13 @@ public class Board {
                     cardManager.rightRotation();
                 }
                 this.turn++;
+                playersManager.updateCoins();
             }
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
-            resolveWarConflict(conflictPoints);
+            resolveWarConflict(jetonVictoryValue);
             // On envoie l'inventaire du gagnant au serveur
             Inventory winnerInventory = getPlayerInventoryList().get(0);
             for (Inventory inv : getPlayerInventoryList()) {
@@ -202,13 +203,13 @@ public class Board {
         return commerce;
     }
 
-    public void resolveWarConflict(int conflictPoints) {
+    public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
             int getRightNeighborId = player.getRightNeighborId();
             int getLeftNeighborId = player.getLeftNeighborId();
-            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), conflictPoints);
-            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), conflictPoints);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), victoryJetonValue);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), victoryJetonValue);
         }
     }
 
@@ -237,5 +238,9 @@ public class Board {
         for (Inventory p : playerInventoryList) {
             sout.informationOfPlayer(p);
         }
+    }
+
+    public PlayersManager getPlayersManager() {
+        return playersManager;
     }
 }

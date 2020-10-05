@@ -2,15 +2,16 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.EffectDelay;
+import gameelements.enums.EffectFrequency;
 import gameelements.enums.Symbol;
 
 public class SymbolEffect extends Effect {
     Symbol symbol;
     int nb;
 
-    public SymbolEffect(String name, Symbol symbol, int nb) {
-        super(name);
-        // Instantaneous and only once
+    public SymbolEffect(Symbol symbol, int nb) {
+        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
         this.symbol = symbol;
         this.nb = nb;
     }
@@ -18,6 +19,5 @@ public class SymbolEffect extends Effect {
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
         inv.getAvailableSymbols()[symbol.getIndex()] += nb;
-        changeStatus();
     }
 }

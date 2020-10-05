@@ -16,10 +16,12 @@ public class Inventory {
     private WonderBoard wonderBoard;
 
     private int score;
-    private int conflictPoints;
+    private int victoryJetonsScore;
+    private int defeatJetonsCount;
     private int coins;
     private int priceLeft;
     private int priceRight;
+    private int addedCoins;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
@@ -30,8 +32,9 @@ public class Inventory {
         this.coins = 3;
         this.priceRight = 2;
         this.priceLeft = 2;
-        this.conflictPoints = 0;
-
+        this.victoryJetonsScore = 0;
+        this.defeatJetonsCount = 0;
+        this.addedCoins = 0;
     }
 
     public Inventory(Inventory inventory) {
@@ -43,7 +46,8 @@ public class Inventory {
         this.playedCards = inventory.playedCards;
         this.wonderBoard = inventory.wonderBoard;
         this.score = inventory.score;
-        this.conflictPoints = inventory.conflictPoints;
+        this.victoryJetonsScore = inventory.victoryJetonsScore;
+        this.defeatJetonsCount = inventory.defeatJetonsCount;
         this.coins = inventory.coins;
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
@@ -88,9 +92,20 @@ public class Inventory {
         }
         return true;
     }
+    public int getVictoryJetonsScore() {
+        return victoryJetonsScore;
+    }
 
-    public void updateConflictPoints(int conflictPoints) {
-        this.conflictPoints += conflictPoints;
+    public int getDefeatJetonsCount() {
+        return defeatJetonsCount;
+    }
+
+    public void addVictoryJetonsScore(int victoryJetonsScore) {
+        this.victoryJetonsScore += victoryJetonsScore;
+    }
+
+    public void addDefeatJeton() {
+        this.defeatJetonsCount++;
     }
 
     public void removeCoins(int coins) {
@@ -156,14 +171,9 @@ public class Inventory {
         this.score = score;
     }
 
-    public int getConflictPoints() {
-        return conflictPoints;
+    public void addScore(int score) {
+        this.score += score;
     }
-
-    public void setConflictPoints(int conflictPoints) {
-        this.conflictPoints = conflictPoints;
-    }
-
     public int getCoins() {
         return coins;
     }
@@ -186,5 +196,13 @@ public class Inventory {
 
     public void setPriceRight(int priceRight) {
         this.priceRight = priceRight;
+    }
+
+    public int getAddedCoins() {
+        return addedCoins;
+    }
+
+    public void setAddedCoins(int addedCoins) {
+        this.addedCoins = addedCoins;
     }
 }

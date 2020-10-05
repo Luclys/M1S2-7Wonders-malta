@@ -1,14 +1,15 @@
 package board;
 
-import gameelements.effects.ResourceEffect;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.effects.ResourceEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TradeTest {
     private Card card;
     private Board board;
@@ -16,7 +17,7 @@ public class TradeTest {
     @BeforeEach
     public void setUp() {
         board = new Board(3, false);
-        card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
+        card = new Card("DUMMY", new ResourceEffect(Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
     }
 
     @Test
@@ -29,13 +30,15 @@ public class TradeTest {
                 Resource.BOIS,
                 board.getPlayerInventoryList().get(rightNeighbor.getId()),
                 board.getPlayerInventoryList().get(leftNeighbor.getId()));
-         assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
+        assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
     }
 
     @Test
     void buyFromNeighborTest() {
-        board.getCommerce().buyFromNeighbor(board.getPlayerInventoryList().get(0), board.getPlayerInventoryList().get(1));
+        board.getCommerce().buyFromNeighbor(board.getPlayerInventoryList().get(0), board.getPlayerInventoryList().get(1), true);
         assertEquals(1, board.getPlayerInventoryList().get(0).getCoins());
+        assertEquals(3, board.getPlayerInventoryList().get(1).getCoins());
+        board.getPlayersManager().updateCoins();
         assertEquals(5, board.getPlayerInventoryList().get(1).getCoins());
     }
 }

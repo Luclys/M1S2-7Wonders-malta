@@ -1,8 +1,8 @@
 package board;
 
-import gameelements.effects.CoinEffect;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.effects.CoinEffect;
 import gameelements.enums.Category;
 import io.cucumber.java8.En;
 
@@ -15,7 +15,7 @@ public class ChoiceOfCardStepDefs implements En {
     Player player;
     Inventory inventory;
     Board board = new Board(1, false);
-    Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
+    Card tavern = new Card("TAVERNE", new CoinEffect(5), null, Category.BATIMENT_COMMERCIEAU);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 

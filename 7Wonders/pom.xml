@@ -26,7 +26,8 @@
         <json.version>20200518</json.version>
         <jackson.databind.version>2.9.10.6</jackson.databind.version>
 
-        <maven.compiler.source>${java.version}</maven.compiler.source> <!-- version de java (sdk) utilisée pour le développement -->
+        <maven.compiler.source>${java.version}
+        </maven.compiler.source> <!-- version de java (sdk) utilisée pour le développement -->
         <maven.compiler.target>${java.version}</maven.compiler.target> <!-- version de java pour l'utilisateur -->
     </properties>
 

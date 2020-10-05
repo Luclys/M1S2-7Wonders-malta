@@ -5,7 +5,7 @@ import gameelements.Card;
 import java.util.ArrayList;
 
 interface Age {
-    static int getConflictPoints() {
+    static int getVictoryJetonValue() {
         return 0;
     }
 

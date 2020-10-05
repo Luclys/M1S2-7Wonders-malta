@@ -9,7 +9,7 @@ public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
-        Inventory[] playersWithResources = new Inventory[4];
+        ArrayList<Inventory> playersWithResources = new ArrayList<Inventory>();
         Inventory neighbor;
         int k = 0;
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
@@ -19,7 +19,7 @@ public class Trade {
                     if (neighbor == null) {// check if one of the neigbor has the resource
                         break;
                     } else {
-                        playersWithResources[k] = neighbor;
+                        playersWithResources.add(neighbor);
                         k++;
                     }
                 }
@@ -27,18 +27,32 @@ public class Trade {
                 break;
             }
         }
-        if (k == 4) {// neighbors have all the missing resources
-            for (int i = 0; i < 4; i++) {// buy  resources from neighbors
-                buyFromNeighbor(playerInv, playersWithResources[i]);
+
+        if (k == missingResources.size()) {// neighbors have all the missing resources
+            boolean right;
+            for(Inventory inv :playersWithResources ){
+                if(inv.equals(rightNeighborInv)){
+                    right = true;
+                }else{
+                    right = false;
+                }
+                buyFromNeighbor(playerInv, inv, right);
             }
             result = true;
         }
         return result;
     }
 
-    protected void buyFromNeighbor(Inventory playerInv, Inventory neighborInv) {// add that the neighbor can't use the adding coins till next turn
-        neighborInv.addCoins(2);
-        playerInv.removeCoins(2);
+    protected void buyFromNeighbor(Inventory playerInv, Inventory neighborInv, Boolean rightNeighbor) {// add that the neighbor can't use the adding coins till next turn
+        int price = 2;
+        //check which neighbor to determinate price
+      /*  if(rightNeighbor){
+            price = rightPrice
+        }else{
+            price = leftPrice
+        }*/
+        neighborInv.setAddedCoins(price);
+        playerInv.removeCoins(price);
     }
 
     protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
