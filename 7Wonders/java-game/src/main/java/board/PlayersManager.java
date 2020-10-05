@@ -1,14 +1,9 @@
 package board;
 
 import gameelements.Card;
-import gameelements.Effect;
 import gameelements.Inventory;
-import gameelements.effects.*;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
-import gameelements.wonders.Step;
-import gameelements.wonders.WonderBoard;
-
 import java.util.ArrayList;
 
 public class PlayersManager {
