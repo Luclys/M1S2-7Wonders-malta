@@ -1,9 +1,9 @@
 package board;
 
-import effects.*;
 import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.effects.*;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;

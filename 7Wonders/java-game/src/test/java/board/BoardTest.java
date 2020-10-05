@@ -1,10 +1,10 @@
 package board;
 
-import effects.ResourceEffect;
-import effects.SymbolEffect;
 import gameelements.Card;
+import gameelements.CardsSet;
 import gameelements.Inventory;
-import gameelements.enums.Category;
+import gameelements.effects.ResourceEffect;
+import gameelements.effects.SymbolEffect;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
@@ -25,18 +25,10 @@ public class BoardTest {
     }
 
     @Test
-    public void testInitializedDeckCardList() {
-        int nbPlayers = 7;
-        Board board = new Board(nbPlayers, false);
-        int deckCardsCount = board.getCurrentDeckCardList().size();
-        assertEquals(nbPlayers * 7, deckCardsCount);
-    }
-
-
-    @Test
     public void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(nbPlayers, false);
+        board.ageSetUp(1);
 
         int nbToDraw = 1;
         ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
@@ -64,7 +56,7 @@ public class BoardTest {
         assertEquals(1, inv.getResCount(Resource.BOIS));
 
         // We claim a test Board, then test if when buying a step, we get the resource.
-        Card card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), null, Category.MATIERE_PREMIERE);
+        Card card = CardsSet.CHANTIER;
         TESTBOARD.buyNextStep(card);
 
         assertEquals(2, inv.getResCount(Resource.BOIS));
@@ -77,42 +69,6 @@ public class BoardTest {
 
         //assertThrows(Error, TESTBOARD.buyNextStep(card));
     }
-
-    /*@Test
-    public void fightWithNeighborTest() {
-        Card bouclierCard = new Card("BOUCLIER", new SymbolEffect("", Symbol.BOUCLIER, 1), null);
-        Card boisCard = new Card("BOIS", new ResourceEffect("", Resource.BOIS, 1), null);
-
-        Player neighbor = new Player(2);
-        Inventory neighborInv = new Inventory(2);
-
-        cards.set(0, bouclierCard);
-        neighborInv.setCards(cards);
-        neighborInv.updateInventory(neighbor.playCard(inv)); //Neighbor has 1 bouclier
-
-        //Player has less boucliers than his neighbor
-        player = new Player(3);
-        addCardAndPlayIt(player, boisCard); //Player has no boucliers
-
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(inv.getConflictPoints(), -1);
-
-        //Player has same amount of boucliers than his neighbor
-        player = new Player(4);
-        addCardAndPlayIt(player, bouclierCard); //Player has 1 bouclier
-
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(inv.getConflictPoints(), 0);
-
-        //Player has more boucliers than his neighbor
-        player = new Player(5);
-        addCardAndPlayIt(player, bouclierCard); //Player has 1 bouclier
-        addCardAndPlayIt(player, bouclierCard); //Player has 2 boucliers
-
-        player.fightWithNeighbor(neighbor, 3);
-        assertEquals(inv.getConflictPoints(), 3);
-    }*/
-
 }
 
 

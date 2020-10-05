@@ -3,6 +3,9 @@ package board;
 import client.Client;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.ages.AgeI;
+import gameelements.ages.AgeII;
+import gameelements.ages.AgeIII;
 import gameelements.enums.Resource;
 import gameelements.wonders.WonderBoard;
 
@@ -11,18 +14,21 @@ import java.util.Collections;
 
 public class Board {
     public static final int PLAYERS_NUMBER = 3;
-    public static final int AGES = 1;
+    public static final int AGES = 3;
 
     private final PlayersManager playersManager;
     private final Trade commerce;
     public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
     private final ArrayList<Inventory> playerInventoryList;
-    private final ArrayList<Card> currentDeckCardList;
     private final ArrayList<Card> discardedDeckCardList;
     private int turn;
     private final SoutConsole sout;
     private final CardManager cardManager;
+
+    private ArrayList<Card> currentDeckCardList;
+    private boolean isLeftRotation;
+    private int conflictPoints;
 
     public Board(int nbPlayers, Boolean boolPrint) {
         commerce = new Trade();
@@ -33,11 +39,32 @@ public class Board {
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
-        currentDeckCardList = cardManager.initiateCards(nbPlayers);
-        Collections.shuffle(currentDeckCardList);
-
         //display
         sout = new SoutConsole(boolPrint);
+    }
+
+    public void ageSetUp(int age) {
+        switch (age) {
+            case 1:
+                currentDeckCardList = AgeI.initiateCards(playerList.size());
+                isLeftRotation = AgeI.isLeftRotation();
+                conflictPoints = AgeI.getConflictPoints();
+                break;
+            case 2:
+                currentDeckCardList = AgeII.initiateCards(playerList.size());
+                isLeftRotation = AgeII.isLeftRotation();
+                conflictPoints = AgeII.getConflictPoints();
+                break;
+            case 3:
+                currentDeckCardList = AgeIII.initiateCards(playerList.size());
+                isLeftRotation = AgeIII.isLeftRotation();
+                conflictPoints = AgeIII.getConflictPoints();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected age value: " + age);
+        }
+        Collections.shuffle(currentDeckCardList);
+        turn = 0;
     }
 
     public static void main(String[] args) {
@@ -70,6 +97,14 @@ public class Board {
         return this.currentDeckCardList;
     }
 
+    public int getConflictPoints() {
+        return conflictPoints;
+    }
+
+    public boolean isLeftRotation() {
+        return isLeftRotation;
+    }
+
     public int getTurn() {
         return this.turn;
     }
@@ -80,8 +115,9 @@ public class Board {
 
     public void play() {
         playerInventoryList.forEach(this::chooseWonderBoard);
-        for (int age = 0; age < AGES; age++) {
-            sout.beginingOfAge(age + 1);
+        for (int age = 1; age <= AGES; age++) {
+            ageSetUp(age);
+            sout.beginingOfAge(age);
             // Card dealing
             playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
@@ -97,10 +133,10 @@ public class Board {
                     playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
-                if (age == 1) {
-                    cardManager.rightRotation();
-                } else {
+                if (isLeftRotation) {
                     cardManager.leftRotation();
+                } else {
+                    cardManager.rightRotation();
                 }
                 this.turn++;
             }
@@ -108,10 +144,10 @@ public class Board {
             // ⚠ The discarded cards must remembered.
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
-            resolveWarConflict();
+            resolveWarConflict(conflictPoints);
             // On envoie l'inventaire du gagnant au serveur
             Inventory winnerInventory = getPlayerInventoryList().get(0);
-            for (Inventory inv: getPlayerInventoryList()) {
+            for (Inventory inv : getPlayerInventoryList()) {
                 if (inv.getScore() > winnerInventory.getScore()) {
                     winnerInventory = inv;
                 }
@@ -120,7 +156,7 @@ public class Board {
             //The handshake succeeds in local but is deactivated for it makes
             // the CI wait for connection to an non existing server while testing
             //client.handshake();
-            sout.endOfAge(age + 1);
+            sout.endOfAge(age);
         }
     }
 
@@ -166,13 +202,13 @@ public class Board {
         return commerce;
     }
 
-    public void resolveWarConflict() {
+    public void resolveWarConflict(int conflictPoints) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
             int getRightNeighborId = player.getRightNeighborId();
             int getLeftNeighborId = player.getLeftNeighborId();
-            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), 1);
-            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), 1);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), conflictPoints);
+            playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), conflictPoints);
         }
     }
 
