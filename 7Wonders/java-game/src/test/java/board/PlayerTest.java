@@ -1,16 +1,13 @@
 package board;
 
-import gameelements.CardsSet;
-import gameelements.effects.CoinEffect;
-import gameelements.effects.ResourceEffect;
-import gameelements.effects.ScoreEffect;
-import gameelements.effects.SymbolEffect;
 import gameelements.Card;
+import gameelements.CardsSet;
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.effects.ResourceEffect;
+import gameelements.effects.ScoreEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
-import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +29,7 @@ public class PlayerTest {
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
-            cards.add(new Card("DUMMY", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
+            cards.add(new Card("DUMMY", new Effect[]{new ScoreEffect(1), new ResourceEffect(Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
         }
         inv.setCardsInHand(cards);
     }
@@ -121,7 +118,6 @@ public class PlayerTest {
         inv.setCardsInHand(cards);
         inv.updateInventory(player.chooseCard(inv));
     }
-
 
 
     @Test

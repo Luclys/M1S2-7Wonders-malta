@@ -5,8 +5,8 @@ import gameelements.Inventory;
 
 public class FreeDiscardedBuildingEffect extends Effect {
 
-    public FreeDiscardedBuildingEffect(String name) {
-        super(name, 0, 0);
+    public FreeDiscardedBuildingEffect() {
+        super(0, 0);
     }
 
     public void activateEffect(Inventory inv) {

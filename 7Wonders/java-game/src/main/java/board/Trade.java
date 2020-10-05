@@ -9,7 +9,7 @@ public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
-        Inventory[] playersWithResources = new Inventory[4];
+        Inventory[] playersWithResources = new Inventory[10];
         Inventory neighbor;
         int k = 0;
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
@@ -27,8 +27,8 @@ public class Trade {
                 break;
             }
         }
-        if (k == 4) {// neighbors have all the missing resources
-            for (int i = 0; i < 4; i++) {// buy  resources from neighbors
+        if (k == 10) {// neighbors have all the missing resources
+            for (int i = 0; i < 10; i++) {// buy  resources from neighbors
                 buyFromNeighbor(playerInv, playersWithResources[i]);
             }
             result = true;

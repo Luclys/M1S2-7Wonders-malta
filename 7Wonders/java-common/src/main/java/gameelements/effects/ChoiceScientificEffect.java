@@ -5,8 +5,8 @@ import gameelements.Inventory;
 
 public class ChoiceScientificEffect extends Effect {
 
-    public ChoiceScientificEffect(String name) {
-        super(name, 1, 0);
+    public ChoiceScientificEffect() {
+        super(1, 0);
     }
 
     public void activateEffect(Inventory inv) {

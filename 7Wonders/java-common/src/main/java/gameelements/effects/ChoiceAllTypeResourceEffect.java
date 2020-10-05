@@ -6,8 +6,8 @@ import gameelements.Inventory;
 public class ChoiceAllTypeResourceEffect extends Effect {
     Boolean PrimaryResource;
 
-    public ChoiceAllTypeResourceEffect(String name, Boolean PrimaryResource) {
-        super(name, 0, 1);
+    public ChoiceAllTypeResourceEffect(Boolean PrimaryResource) {
+        super(0, 1);
         this.PrimaryResource = PrimaryResource;
     }
 

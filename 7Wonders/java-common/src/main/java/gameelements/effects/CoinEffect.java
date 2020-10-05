@@ -6,8 +6,7 @@ import gameelements.Inventory;
 public class CoinEffect extends Effect {
     int nb;
 
-    public CoinEffect(String name, int nb) {
-        super(name);
+    public CoinEffect(int nb) {
         this.nb = nb;
     }
 

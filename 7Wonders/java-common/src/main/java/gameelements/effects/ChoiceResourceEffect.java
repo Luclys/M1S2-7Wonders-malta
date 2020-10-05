@@ -8,8 +8,8 @@ public class ChoiceResourceEffect extends Effect {
     Resource[] resources;
     int nb;
 
-    public ChoiceResourceEffect(String name, Resource[] resources, int nb) {
-        super(name, 0, 1);
+    public ChoiceResourceEffect(Resource[] resources, int nb) {
+        super( 0, 1);
         this.resources = resources;
         this.nb = nb;
     }

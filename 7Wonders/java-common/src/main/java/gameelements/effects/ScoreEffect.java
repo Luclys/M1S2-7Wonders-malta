@@ -6,8 +6,7 @@ import gameelements.Inventory;
 public class ScoreEffect extends Effect {
     int nb;
 
-    public ScoreEffect(String name, int nb) {
-        super(name);
+    public ScoreEffect(int nb) {
         this.nb = nb;
     }
 
