@@ -139,6 +139,7 @@ public class Board {
                     cardManager.rightRotation();
                 }
                 this.turn++;
+                playersManager.updateCoins();
             }
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.
@@ -237,5 +238,9 @@ public class Board {
         for (Inventory p : playerInventoryList) {
             sout.informationOfPlayer(p);
         }
+    }
+
+    public PlayersManager getPlayersManager() {
+        return playersManager;
     }
 }

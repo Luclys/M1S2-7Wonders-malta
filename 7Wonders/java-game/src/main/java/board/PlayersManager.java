@@ -15,6 +15,15 @@ public class PlayersManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
 
+    protected void updateCoins(){
+        Inventory inv;
+        for(Player player:playerList){
+            inv = playerInventoryList.get(player.getId());
+            inv.addCoins(inv.getAddedCoins());
+            inv.setAddedCoins(0);
+        }
+    }
+
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);

@@ -20,6 +20,7 @@ public class Inventory {
     private int coins;
     private int priceLeft;
     private int priceRight;
+    private int addedCoins;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
@@ -32,6 +33,7 @@ public class Inventory {
         this.priceLeft = 2;
         this.victoryJetonsScore = 0;
         this.defeatJetonsCount = 0;
+        this.addedCoins = 0;
     }
 
     public Inventory(Inventory inventory) {
@@ -178,5 +180,13 @@ public class Inventory {
 
     public void setPriceRight(int priceRight) {
         this.priceRight = priceRight;
+    }
+
+    public int getAddedCoins() {
+        return addedCoins;
+    }
+
+    public void setAddedCoins(int addedCoins) {
+        this.addedCoins = addedCoins;
     }
 }
