@@ -34,6 +34,7 @@ public class Player {
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBatiment());
         chosenCard = cardsAvailableToPlay.get(0);
+        //Les tests ne passent plus car l'inventaire ne connaît pas encore la merveille --> mock object
         /*boolean canBuildWonderStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
 
         if (canBuildWonderStep) {
@@ -42,11 +43,11 @@ public class Player {
         }
         else {
             //Player chooses a card he can build
-            chosenCard = cardsAvailableToPlay.get(0);
+            chosenCard = cardsAvailableToPlay.get(1);
         }*/
 
         return chosenCard;
-        // return the played card to the board so that the board can decide which decession to make(buy ressource or discard)
+        // return the played card to the board so that the board can decide which decision to make(buy resource or discard)
     }
 
 
