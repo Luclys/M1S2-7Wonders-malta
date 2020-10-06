@@ -13,6 +13,6 @@ public class PlayLastCardEffect extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // TODO : Allow Player to play the last card instead of discarding it.
+        inv.setCanPlayLastCard(true);
     }
 }

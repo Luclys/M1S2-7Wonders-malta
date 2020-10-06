@@ -4,6 +4,7 @@ import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.effects.*;
+import gameelements.enums.Neighbor;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
@@ -29,7 +30,7 @@ public class WonderBoard {
     }
 
     public void buyNextStep(Card card) {
-        if (currentStepIndex != steps.size()) {
+        if (currentStepIndex < steps.size()) {
             steps.get(currentStepIndex).build(associatedInv, card);
             currentStepIndex++;
         } else {
@@ -128,7 +129,7 @@ public class WonderBoard {
 
         // Face B
         ArrayList<Step> ZeusB = new ArrayList<>();
-        ZeusB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new Effect[]{new ReductCommerceEffect( 2, true), new CoinEffect(3)}));
+        ZeusB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new Effect[]{new ReductCommerceEffect( Neighbor.BOTH, true), new CoinEffect(3)}));
         ZeusB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ScoreEffect( 5)));
         ZeusB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(7)));
         res.add(new WonderBoard("La statue de Zeus à Olympie B", new ResourceEffect( Resource.BOIS, 1), ZeusB));
