@@ -8,6 +8,7 @@ import gameelements.effects.ResourceEffect;
 import gameelements.effects.ScoreEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        playerList = new ArrayList<>(3);
+        playerList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
             playerList.add(player);
@@ -54,7 +55,7 @@ public class PlayerTest {
         inv.getCardsInHand().set(0, taverne);
         inv.updateInventory(player.chooseCard(inv));
         inv.getCardsInHand().set(0, taverne);
-        assertNotEquals(player.chooseCard(inv), taverne);
+        assertNotEquals(taverne,player.chooseCard(inv));
     }
 
     @Test
@@ -89,7 +90,7 @@ public class PlayerTest {
     public void removeCoinsTest() {
         inv.setCoins(5);
         inv.removeCoins(3);
-        assertEquals(inv.getCoins(), 2);
+        assertEquals(2, inv.getCoins());
     }
 
     @Test
@@ -119,15 +120,8 @@ public class PlayerTest {
         assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
     }
 
-    private void addCardAndPlayIt(Player player, Card card) {
-        cards.set(0, card);
-        inv.setCardsInHand(cards);
-        inv.updateInventory(player.chooseCard(inv));
-    }
-
-
     @Test
-    void UpdatePlayer() {
+    void updateInventoryTest() {
         assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         inv.updateInventory(player.chooseCard(inv));
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);

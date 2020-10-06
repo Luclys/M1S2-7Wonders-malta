@@ -5,7 +5,6 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Inventory {
     private final int playerId;
@@ -87,7 +86,7 @@ public class Inventory {
             effect.activateEffect(this);
         }
         playedCards.add(playedCard);
-        cardsInHand.remove(0);
+        cardsInHand.remove(playedCard);
     }
 
     public boolean canBuild(Resource[] requiredResources) {
