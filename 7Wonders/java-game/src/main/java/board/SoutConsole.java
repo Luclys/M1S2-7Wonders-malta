@@ -137,23 +137,44 @@ public class SoutConsole {
     }
 
     public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer){
+        if (!booleanPrint) {
+            return;
+        }
         System.out.println("================= [RESOLVING WAR CONFLICTS] =================");
         System.out.println("Conflicts between PLAYER "+invPlayer.getPlayerId()+" and his neighbor PLAYER "+invNeighborPlayer.getPlayerId());
     }
     public void checkBoucliers(int playerBoucliersCount,int neighborBoucliersCount){
+        if (!booleanPrint) {
+            return;
+        }
         System.out.println("Player has " + playerBoucliersCount + " boucliers while neighbor has " + neighborBoucliersCount);
     }
     public void addConflictsPoint(int victoryJetonValue){
+        if (!booleanPrint) {
+            return;
+        }
         System.out.println(victoryJetonValue + " conflict points added");
     }
 
     public void defeatJeton(){
+        if (!booleanPrint) {
+            return;
+        }
         System.out.println("Defeat jeton (-1 conflict point) added");
     }
 
     public void resolvedConflicts(Inventory invPlayer){
+        if (!booleanPrint) {
+            return;
+        }
         System.out.println("Total player victory jeton score: " + invPlayer.getVictoryJetonsScore() + ", defeat jetons count: " + invPlayer.getDefeatJetonsCount());
     }
 
+    public void display(String msg){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println(msg);
+    }
 
 }

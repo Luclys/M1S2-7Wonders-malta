@@ -31,8 +31,9 @@ public class Board {
     private int jetonVictoryValue;
 
     public Board(int nbPlayers, Boolean boolPrint) {
-        commerce = new Trade();
-        playersManager = new PlayersManager();
+        sout = new SoutConsole(boolPrint);
+        commerce = new Trade(sout);
+        playersManager = new PlayersManager(sout);
         // Setup Players and their inventories
         playerList = playersManager.generatePlayers(nbPlayers);
         playerInventoryList = playersManager.getPlayerInventoryList();
@@ -40,7 +41,6 @@ public class Board {
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
         //display
-        sout = new SoutConsole(boolPrint);
     }
 
     public void ageSetUp(int age) {

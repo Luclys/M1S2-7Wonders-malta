@@ -9,7 +9,11 @@ import java.util.ArrayList;
 public class PlayersManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
-    SoutConsole sout = new SoutConsole(true);
+    SoutConsole sout ;
+
+    public PlayersManager(SoutConsole sout) {
+        this.sout = sout;
+    }
 
     protected void updateCoins(){
         Inventory inv;
