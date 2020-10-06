@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Card;
+import gameelements.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

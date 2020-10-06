@@ -1,5 +1,7 @@
 package board;
 
+import gameelements.Player;
+
 import java.util.ArrayList;
 
 public class SevenWondersLauncher {

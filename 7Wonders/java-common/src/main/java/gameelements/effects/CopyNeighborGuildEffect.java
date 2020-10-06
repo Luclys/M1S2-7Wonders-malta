@@ -1,9 +1,14 @@
 package gameelements.effects;
 
+import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
+import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
+
+import java.util.ArrayList;
 
 public class CopyNeighborGuildEffect extends Effect {
 
@@ -11,8 +16,18 @@ public class CopyNeighborGuildEffect extends Effect {
         super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
-        // TODO : At the end game, ask Player to choose a guild card from one of his neighbor (if there is one).
+    public void activateEffect(Inventory playerInv, Inventory leftNeighborInv, Inventory rightNeighborInv, Player player) {
+        super.activateEffect(playerInv);
+
+        ArrayList<Card> list = new ArrayList<>();
+        list.addAll(rightNeighborInv.getPlayedCards());
+        list.addAll(leftNeighborInv.getPlayedCards());
+        list.removeIf(card -> card.getCategory() != Category.GUILDE);
+
+        if (list.size() != 0) {
+            Card card = player.chooseGuildCard(list, new Inventory(playerInv));
+            playerInv.updateInventory(card);
+        }
+
     }
 }

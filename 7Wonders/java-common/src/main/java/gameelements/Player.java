@@ -1,7 +1,6 @@
-package board;
+package gameelements;
 
-import gameelements.Card;
-import gameelements.Inventory;
+import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
 
@@ -50,6 +49,14 @@ public class Player {
         // return the played card to the board so that the board can decide which decision to make(buy resource or discard)
     }
 
+    public Card chooseGuildCard(ArrayList<Card> list, Inventory inv) {
+        return list.get(0);
+    }
+
+    public Symbol chooseScientific(int[] currentSymbols) {
+        //foreach(nb same Scientific²) + min(nb same scientific) * 7
+        return Symbol.COMPAS;
+    }
 
     //Getters and setters
     public int getId() {
@@ -77,4 +84,5 @@ public class Player {
     public void setLeftNeighborId(int id) {
         this.leftNeighborId = id;
     }
+
 }

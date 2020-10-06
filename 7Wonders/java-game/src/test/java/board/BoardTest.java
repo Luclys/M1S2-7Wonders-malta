@@ -2,12 +2,10 @@ package board;
 
 import gameelements.Card;
 import gameelements.CardsSet;
-import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.effects.ResourceEffect;
-import gameelements.effects.ScoreEffect;
 import gameelements.effects.SymbolEffect;
-import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;

@@ -1,9 +1,6 @@
 package board;
 
-import gameelements.Card;
-import gameelements.CardsSet;
-import gameelements.Effect;
-import gameelements.Inventory;
+import gameelements.*;
 import gameelements.effects.ResourceEffect;
 import gameelements.effects.ScoreEffect;
 import gameelements.enums.Category;

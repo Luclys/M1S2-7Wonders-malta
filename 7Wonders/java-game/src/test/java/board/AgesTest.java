@@ -1,9 +1,8 @@
 package board;
 
 import gameelements.CardsSet;
+import gameelements.Player;
 import gameelements.enums.Category;
-import io.cucumber.java8.Ar;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

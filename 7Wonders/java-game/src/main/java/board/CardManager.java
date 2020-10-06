@@ -2,6 +2,7 @@ package board;
 
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.Player;
 
 import java.util.ArrayList;
 

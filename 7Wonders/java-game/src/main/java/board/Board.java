@@ -3,6 +3,7 @@ package board;
 import client.Client;
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;

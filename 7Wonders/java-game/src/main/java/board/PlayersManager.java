@@ -2,8 +2,10 @@ package board;
 
 import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+
 import java.util.ArrayList;
 
 public class PlayersManager {

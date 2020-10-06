@@ -2,6 +2,7 @@ package board;
 
 import gameelements.CardsSet;
 import gameelements.Inventory;
+import gameelements.Player;
 import io.cucumber.java8.En;
 import org.junit.jupiter.api.BeforeEach;
 
