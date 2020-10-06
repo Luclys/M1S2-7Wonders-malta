@@ -29,7 +29,7 @@ public class WonderBoard {
     }
 
     public void buyNextStep(Card card) {
-        if (currentStepIndex != steps.size()) {
+        if (currentStepIndex < steps.size()) {
             steps.get(currentStepIndex).build(associatedInv, card);
             currentStepIndex++;
         } else {
