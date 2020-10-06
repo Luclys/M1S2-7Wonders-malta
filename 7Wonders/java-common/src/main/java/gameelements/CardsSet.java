@@ -2,6 +2,7 @@ package gameelements;
 
 import gameelements.effects.*;
 import gameelements.enums.Category;
+import gameelements.enums.Neighbor;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
@@ -54,9 +55,9 @@ public class CardsSet {
     //=========================================================================BATIMENT_COMMERCIEAU(Yellow)=========================================================================
     //Age I
     public final static Card TAVERNE = new Card("TAVERNE", new CoinEffect(5), null, gameelements.enums.Category.BATIMENT_COMMERCIEAU);
-    public final static Card COMPTOIR_EST = new Card("COMPTOIR EST", new ReductCommerceEffect(1, true), null, Category.BATIMENT_COMMERCIEAU);
-    public final static Card COMPTOIR_OUEST = new Card("COMPTOIR OUEST", new ReductCommerceEffect(0, true), null, Category.BATIMENT_COMMERCIEAU);
-    public final static Card MARCHÉ = new Card("MARCHÉ", new ReductCommerceEffect(2, false), null, Category.BATIMENT_COMMERCIEAU);
+    public final static Card COMPTOIR_EST = new Card("COMPTOIR EST", new ReductCommerceEffect(Neighbor.RIGHT, true), null, Category.BATIMENT_COMMERCIEAU);
+    public final static Card COMPTOIR_OUEST = new Card("COMPTOIR OUEST", new ReductCommerceEffect(Neighbor.LEFT, true), null, Category.BATIMENT_COMMERCIEAU);
+    public final static Card MARCHÉ = new Card("MARCHÉ", new ReductCommerceEffect(Neighbor.BOTH, false), null, Category.BATIMENT_COMMERCIEAU);
 
     //Age II
     public final static Card FORUM = new Card("FORUM", new ChoiceResourceEffect(new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}, 1), new Resource[]{Resource.ARGILE, Resource.ARGILE}, Category.BATIMENT_COMMERCIEAU);
