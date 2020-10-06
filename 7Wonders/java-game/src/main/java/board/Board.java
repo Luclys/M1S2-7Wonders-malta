@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Board {
-    public static final int PLAYERS_NUMBER = 3;
     public static final int AGES = 3;
 
     private final PlayersManager playersManager;
@@ -67,57 +66,6 @@ public class Board {
         turn = 0;
     }
 
-    public static void main(String[] args) {
-        //Default settings
-        int nbPlayers = PLAYERS_NUMBER; //Default = 3
-        int nbGame = 1; //Default = 1
-        boolean boolPrint = true; //Default = true
-
-        //Maven's arguments
-        if (args.length >= 3) {
-            nbPlayers = Integer.parseInt(args[0]);
-            nbGame = Integer.parseInt(args[1]);
-            boolPrint = Boolean.parseBoolean(args[2]);
-        }
-
-        ArrayList<Player> playerList = new ArrayList<>(nbPlayers);
-        for (int i = 0; i < nbPlayers; i++) {
-            Player player = new Player(i);
-            playerList.add(player);
-        }
-
-        Board board = new Board(playerList, boolPrint); // We won't code the 2p version.
-        board.play();
-        board.scores();
-    }
-
-    public CardManager getCardManager() {
-        return cardManager;
-    }
-
-    public ArrayList<Player> getPlayerList() {
-        return this.playerList;
-    }
-
-    public ArrayList<Card> getCurrentDeckCardList() {
-        return this.currentDeckCardList;
-    }
-
-    public int getJetonVictoryValue() {
-        return jetonVictoryValue;
-    }
-
-    public boolean isLeftRotation() {
-        return isLeftRotation;
-    }
-
-    public int getTurn() {
-        return this.turn;
-    }
-
-    public ArrayList<Inventory> getPlayerInventoryList() {
-        return playerInventoryList;
-    }
 
     public void play() {
         playerInventoryList.forEach(this::chooseWonderBoard);
@@ -152,19 +100,22 @@ public class Board {
             playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
             // Resolving war conflicts
             resolveWarConflict(jetonVictoryValue);
-            // On envoie l'inventaire du gagnant au serveur
-            Inventory winnerInventory = getPlayerInventoryList().get(0);
-            for (Inventory inv : getPlayerInventoryList()) {
-                if (inv.getScore() > winnerInventory.getScore()) {
-                    winnerInventory = inv;
-                }
-            }
-            Client client = new Client("http://127.0.0.1:10101");
-            //The handshake succeeds in local but is deactivated for it makes
-            // the CI wait for connection to an non existing server while testing
-            //client.handshake();
             sout.endOfAge(age);
         }
+
+        scores();
+        // We send data to the server
+        Inventory winnerInventory = getPlayerInventoryList().get(0);
+        for (Inventory inv : getPlayerInventoryList()) {
+            if (inv.getScore() > winnerInventory.getScore()) {
+                winnerInventory = inv;
+            }
+        }
+        Client client = new Client("http://127.0.0.1:10101");
+        //The handshake succeeds in local but is deactivated for it makes
+        // the CI wait for connection to an non existing server while testing
+        //client.handshake();
+
     }
 
     private void chooseWonderBoard(Inventory inventory) {
@@ -201,14 +152,6 @@ public class Board {
         }
     }
 
-    public PlayersManager getManager() {
-        return playersManager;
-    }
-
-    public Trade getCommerce() {
-        return commerce;
-    }
-
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
@@ -218,7 +161,6 @@ public class Board {
             playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), victoryJetonValue);
         }
     }
-
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
@@ -246,7 +188,42 @@ public class Board {
         }
     }
 
-    public PlayersManager getPlayersManager() {
+    // GETTERS & SETTERS
+    public PlayersManager getManager() {
         return playersManager;
     }
+
+    public Trade getCommerce() {
+        return commerce;
+    }
+
+    public CardManager getCardManager() {
+        return cardManager;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return this.playerList;
+    }
+
+    public ArrayList<Card> getCurrentDeckCardList() {
+        return this.currentDeckCardList;
+    }
+
+    public int getJetonVictoryValue() {
+        return jetonVictoryValue;
+    }
+
+    public boolean isLeftRotation() {
+        return isLeftRotation;
+    }
+
+    public int getTurn() {
+        return this.turn;
+    }
+
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
+    }
+
+
 }

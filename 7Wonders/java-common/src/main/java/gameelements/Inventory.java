@@ -5,7 +5,6 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Inventory {
     private final int playerId;
@@ -58,9 +57,10 @@ public class Inventory {
         this.coins = inventory.coins;
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
-        this.possibleFreeBuildingsCount = 0;
-        this.possibleFreeDiscardedBuildingsCount = 0;
-        this.canPlayLastCard = false;
+        this.addedCoins = inventory.addedCoins;
+        this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
+        this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
+        this.canPlayLastCard = inventory.canPlayLastCard;
     }
 
     public Card discardLastCard() {

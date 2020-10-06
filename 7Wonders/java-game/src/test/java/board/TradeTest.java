@@ -45,7 +45,7 @@ public class TradeTest {
         board.getCommerce().buyFromNeighbor(board.getPlayerInventoryList().get(0), board.getPlayerInventoryList().get(1), true);
         assertEquals(1, board.getPlayerInventoryList().get(0).getCoins());
         assertEquals(3, board.getPlayerInventoryList().get(1).getCoins());
-        board.getPlayersManager().updateCoins();
+        board.getManager().updateCoins();
         assertEquals(5, board.getPlayerInventoryList().get(1).getCoins());
     }
 }
