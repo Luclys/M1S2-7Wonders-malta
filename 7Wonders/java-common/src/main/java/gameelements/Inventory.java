@@ -25,6 +25,7 @@ public class Inventory {
 
     int possibleFreeBuildingsCount;
     int possibleFreeDiscardedBuildingsCount;
+    boolean canPlayLastCard;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
@@ -40,6 +41,7 @@ public class Inventory {
         this.addedCoins = 0;
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
+        this.canPlayLastCard = false;
     }
 
     public Inventory(Inventory inventory) {
@@ -58,6 +60,7 @@ public class Inventory {
         this.priceRight = inventory.priceRight;
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
+        this.canPlayLastCard = false;
     }
 
     public Card discardLastCard() {
@@ -227,5 +230,13 @@ public class Inventory {
 
     public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
         this.possibleFreeDiscardedBuildingsCount+= possibleFreeDiscardedBuildingsCount;
+    }
+
+    public boolean isCanPlayLastCard() {
+        return canPlayLastCard;
+    }
+
+    public void setCanPlayLastCard(boolean canPlayLastCard) {
+        this.canPlayLastCard = canPlayLastCard;
     }
 }
