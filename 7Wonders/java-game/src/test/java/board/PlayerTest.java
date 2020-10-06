@@ -22,10 +22,16 @@ public class PlayerTest {
     private Player player;
     private Inventory inv;
     private Board board;
+    private ArrayList<Player> playerList;
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3, false);
+        playerList = new ArrayList<>(3);
+        for (int i = 0; i < 3; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+        board = new Board(playerList, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {

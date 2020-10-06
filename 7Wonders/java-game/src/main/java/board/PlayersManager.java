@@ -39,28 +39,26 @@ public class PlayersManager {
         sout.resolvedConflicts(invPlayer);
     }
 
-    protected ArrayList<Player> generatePlayers(int nbPlayers) {
-        playerList = new ArrayList<>(nbPlayers);
-        playerInventoryList = new ArrayList<>(nbPlayers);
-        for (int i = 0; i < nbPlayers; i++) {
-            Player player = new Player(i);
+    protected ArrayList<Player> associateNeighbor(ArrayList<Player> players) {
+        playerInventoryList = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) {
             Inventory inv = new Inventory(i);
             // To make a sure we bind the first's left to last id
             if (i == 0) {
-                player.setLeftNeighborId(nbPlayers - 1);
+                players.get(i).setLeftNeighborId(players.size() - 1);
             } else {
-                player.setLeftNeighborId(i - 1);
+                players.get(i).setLeftNeighborId(i - 1);
             }
             // To make a sure we bind the last's right to first id
-            if (i == nbPlayers - 1) {
-                player.setRightNeighborId(0);
+            if (i == players.size() - 1) {
+                players.get(i).setRightNeighborId(0);
             } else {
-                player.setRightNeighborId(i + 1);
+                players.get(i).setRightNeighborId(i + 1);
             }
-            playerList.add(player);
             playerInventoryList.add(inv);
         }
-        return playerList;
+        playerList = players;
+        return players;
     }
 
     public ArrayList<Inventory> getPlayerInventoryList() {

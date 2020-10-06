@@ -8,15 +8,22 @@ import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TradeTest {
     private Card card;
     private Board board;
-
+    private ArrayList<Player> playerList;
     @BeforeEach
     public void setUp() {
-        board = new Board(3, false);
+        playerList = new ArrayList<>(3);
+        for (int i = 0; i < 3; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+        board = new Board(playerList, false);
         card = new Card("DUMMY", new ResourceEffect(Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
     }
 

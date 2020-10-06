@@ -30,16 +30,16 @@ public class Board {
     private boolean isLeftRotation;
     private int jetonVictoryValue;
 
-    public Board(int nbPlayers, Boolean boolPrint) {
+    public Board(ArrayList<Player> playerList, Boolean boolPrint) {
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
         // Setup Players and their inventories
-        playerList = playersManager.generatePlayers(nbPlayers);
+        this.playerList = playersManager.associateNeighbor(playerList);
         playerInventoryList = playersManager.getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
-        discardedDeckCardList = new ArrayList<>(nbPlayers * 7);
+        discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
         //display
     }
 
@@ -80,7 +80,13 @@ public class Board {
             boolPrint = Boolean.parseBoolean(args[2]);
         }
 
-        Board board = new Board(nbPlayers, boolPrint); // We won't code the 2p version.
+        ArrayList<Player> playerList = new ArrayList<>(nbPlayers);
+        for (int i = 0; i < nbPlayers; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+
+        Board board = new Board(playerList, boolPrint); // We won't code the 2p version.
         board.play();
         board.scores();
     }

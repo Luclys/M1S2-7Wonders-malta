@@ -18,10 +18,16 @@ public class PlayersManagerTest {
     private Player player;
     private Inventory inv;
     private Board board;
+    private ArrayList<Player>  playerList;
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3, false);
+        playerList = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+        board = new Board(playerList, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
         for (int i = 0; i < 7; i++) {
@@ -38,10 +44,10 @@ public class PlayersManagerTest {
     }
 
     @Test
-    public void generetePlayersTest() {
+    public void associateNeighborTest() {
         int nbPlayers = 7;
 
-        Board board = new Board(nbPlayers, false);
+        Board board = new Board(playerList, false);
         ArrayList<Player> playerList = board.getPlayerList();
 
         int playersCount = playerList.size();

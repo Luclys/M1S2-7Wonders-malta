@@ -2,13 +2,17 @@ package board;
 
 import gameelements.Card;
 import gameelements.CardsSet;
+import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.effects.ResourceEffect;
+import gameelements.effects.ScoreEffect;
 import gameelements.effects.SymbolEffect;
+import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,9 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class BoardTest {
+    ArrayList<Player> playerList;
+    @BeforeEach
+    public void setUp() {
+        playerList = new ArrayList<>(3);
+        for (int i = 0; i < 3; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+    }
     @Test
     public void playTest() {
-        Board board = new Board(3, false);
+        Board board = new Board(playerList, false);
         board.play();
         assertEquals(6, board.getTurn());
     }
@@ -27,7 +40,7 @@ public class BoardTest {
     @Test
     public void drawCardsTest() {
         int nbPlayers = 3;
-        Board board = new Board(nbPlayers, false);
+        Board board = new Board(playerList, false);
         board.ageSetUp(1);
 
         int nbToDraw = 1;
@@ -42,7 +55,7 @@ public class BoardTest {
     @Test
     void claimBoard() {
         // We claim a test Board, then test if we got the base resource.
-        Board board = new Board(3, false);
+        Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         ArrayList<Step> listSteps = new ArrayList<>();
