@@ -23,7 +23,8 @@ public class Inventory {
     private int priceRight;
     private int addedCoins;
 
-    int possibleFreeBuildingsCount = 0;
+    int possibleFreeBuildingsCount;
+    int possibleFreeDiscardedBuildingsCount;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
@@ -38,6 +39,7 @@ public class Inventory {
         this.defeatJetonsCount = 0;
         this.addedCoins = 0;
         this.possibleFreeBuildingsCount = 0;
+        this.possibleFreeDiscardedBuildingsCount = 0;
     }
 
     public Inventory(Inventory inventory) {
@@ -55,6 +57,7 @@ public class Inventory {
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
         this.possibleFreeBuildingsCount = 0;
+        this.possibleFreeDiscardedBuildingsCount = 0;
     }
 
     public Card discardLastCard() {
@@ -216,5 +219,13 @@ public class Inventory {
 
     public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
         this.possibleFreeBuildingsCount+= possibleFreeBuildingsCount;
+    }
+
+    public int getPossibleFreeDiscardedBuildingsCount() {
+        return possibleFreeDiscardedBuildingsCount;
+    }
+
+    public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
+        this.possibleFreeDiscardedBuildingsCount+= possibleFreeDiscardedBuildingsCount;
     }
 }
