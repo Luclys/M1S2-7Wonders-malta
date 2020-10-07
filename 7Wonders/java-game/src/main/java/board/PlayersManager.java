@@ -30,13 +30,13 @@ public class PlayersManager {
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
         sout.conflicts(invPlayer,invNeighbor);
-        sout.checkBoucliers(playerBoucliersCount,neighborBoucliersCount);
+        sout.checkShields(playerBoucliersCount,neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
             invPlayer.addVictoryJetonsScore(victoryJetonValue);
             sout.addConflictsPoint(victoryJetonValue);
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             invPlayer.addDefeatJeton();
-            sout.defeatJeton();
+            sout.defeatChip();
         }
         sout.resolvedConflicts(invPlayer);
     }

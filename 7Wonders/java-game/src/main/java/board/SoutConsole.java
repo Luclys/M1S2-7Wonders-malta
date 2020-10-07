@@ -14,7 +14,7 @@ public class SoutConsole {
         this.booleanPrint = booleanPrint;
     }
 
-    public void beginingOfAge(int i) {
+    public void beginningOfAge(int i) {
         if (!booleanPrint) {
             return;
         }
@@ -71,18 +71,18 @@ public class SoutConsole {
         System.out.printf("\n\n============ The action of PLAYER %d ===============\n\n", i);
     }
 
-    public void checkMissingResources(Card choosenCard) {
+    public void checkMissingResources(Card chosenCard) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n*Check if player has the required resources to build  %s \n", choosenCard);
+        System.out.printf("\n*Check if player has the required resources to build  %s \n", chosenCard);
     }
 
-    public void noRequiredResources(Card choosenCard) {
+    public void noRequiredResources(Card chosenCard) {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n**No resource is required to play  %s  \n", choosenCard);
+        System.out.printf("\n**No resource is required to play  %s  \n", chosenCard);
     }
 
     public void missingResources(ArrayList<Resource> r) {
@@ -96,14 +96,14 @@ public class SoutConsole {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n***The player cannot buy resources, so he sells the card for 3 coins.\n\n");
+        System.out.print("\n***The player cannot buy resources, so he sells the card for 3 coins.\n\n");
     }
 
     public void gotMissingResources() {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n***The player got resources so he gets the effects of this card.\n\n");
+        System.out.print("\n***The player got resources so he gets the effects of this card.\n\n");
     }
 
     public void informationOfPlayer(Inventory p) {
@@ -130,8 +130,8 @@ public class SoutConsole {
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
                 " },\n\t score=" + p.getScore() +
-                ", \n\t victory jetons score = " + p.getVictoryJetonsScore() +
-                ", \n\t defeat jetons count = " + p.getDefeatJetonsCount() +
+                ", \n\t victory chips score = " + p.getVictoryChipsScore() +
+                ", \n\t defeat chips count = " + p.getDefeatChipsCount() +
                 ", \n\t coins" + p.getCoins() +
                 "\n}");
     }
@@ -143,31 +143,31 @@ public class SoutConsole {
         System.out.println("================= [RESOLVING WAR CONFLICTS] =================");
         System.out.println("Conflicts between PLAYER "+invPlayer.getPlayerId()+" and his neighbor PLAYER "+invNeighborPlayer.getPlayerId());
     }
-    public void checkBoucliers(int playerBoucliersCount,int neighborBoucliersCount){
+    public void checkShields(int playerShieldsCount, int neighborShieldsCount){
         if (!booleanPrint) {
             return;
         }
-        System.out.println("Player has " + playerBoucliersCount + " boucliers while neighbor has " + neighborBoucliersCount);
+        System.out.println("Player has " + playerShieldsCount + " shields while neighbor has " + neighborShieldsCount);
     }
-    public void addConflictsPoint(int victoryJetonValue){
+    public void addConflictsPoint(int victoryChipValue){
         if (!booleanPrint) {
             return;
         }
-        System.out.println(victoryJetonValue + " conflict points added");
+        System.out.println(victoryChipValue + " conflict points added");
     }
 
-    public void defeatJeton(){
+    public void defeatChip(){
         if (!booleanPrint) {
             return;
         }
-        System.out.println("Defeat jeton (-1 conflict point) added");
+        System.out.println("Defeat chip (-1 conflict point) added");
     }
 
     public void resolvedConflicts(Inventory invPlayer){
         if (!booleanPrint) {
             return;
         }
-        System.out.println("Total player victory jeton score: " + invPlayer.getVictoryJetonsScore() + ", defeat jetons count: " + invPlayer.getDefeatJetonsCount());
+        System.out.println("Total player victory chip score: " + invPlayer.getVictoryChipsScore() + ", defeat chip count: " + invPlayer.getDefeatChipsCount());
     }
 
     public void display(String msg){

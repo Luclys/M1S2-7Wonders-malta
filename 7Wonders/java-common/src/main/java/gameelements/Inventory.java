@@ -15,29 +15,32 @@ public class Inventory {
     private WonderBoard wonderBoard;
 
     private int score;
-    private int victoryJetonsScore;
-    private int defeatJetonsCount;
+    private int victoryChipsScore;
+    private int defeatChipsCount;
     private int coins;
-    private int priceLeft;
-    private int priceRight;
     private int addedCoins;
 
+    private int priceLeft;
+    private int priceRight;
     int possibleFreeBuildingsCount;
     int possibleFreeDiscardedBuildingsCount;
     boolean canPlayLastCard;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
-        this.cardsInHand = new ArrayList<>(7);
-        this.playedCards = new ArrayList<>(7 * 3);
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
+        this.cardsInHand = new ArrayList<>(7);
+        this.playedCards = new ArrayList<>(7 * 3);
+
+        this.score = 0;
+        this.victoryChipsScore = 0;
+        this.defeatChipsCount = 0;
         this.coins = 3;
-        this.priceRight = 2;
-        this.priceLeft = 2;
-        this.victoryJetonsScore = 0;
-        this.defeatJetonsCount = 0;
         this.addedCoins = 0;
+
+        this.priceLeft = 2;
+        this.priceRight = 2;
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
@@ -46,18 +49,20 @@ public class Inventory {
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
         this.playerId = inventory.playerId;
-        this.availableResources = inventory.availableResources;
+        this.availableResources = inventory.availableResources;;
         this.availableSymbols = inventory.availableSymbols;
         this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
         this.wonderBoard = inventory.wonderBoard;
+
         this.score = inventory.score;
-        this.victoryJetonsScore = inventory.victoryJetonsScore;
-        this.defeatJetonsCount = inventory.defeatJetonsCount;
+        this.victoryChipsScore = inventory.victoryChipsScore;
+        this.defeatChipsCount = inventory.defeatChipsCount;
         this.coins = inventory.coins;
+        this.addedCoins = inventory.addedCoins;
+
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
-        this.addedCoins = inventory.addedCoins;
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
@@ -102,20 +107,21 @@ public class Inventory {
         }
         return true;
     }
-    public int getVictoryJetonsScore() {
-        return victoryJetonsScore;
+
+    public int getVictoryChipsScore() {
+        return victoryChipsScore;
     }
 
-    public int getDefeatJetonsCount() {
-        return defeatJetonsCount;
+    public int getDefeatChipsCount() {
+        return defeatChipsCount;
     }
 
     public void addVictoryJetonsScore(int victoryJetonsScore) {
-        this.victoryJetonsScore += victoryJetonsScore;
+        this.victoryChipsScore += victoryJetonsScore;
     }
 
     public void addDefeatJeton() {
-        this.defeatJetonsCount++;
+        this.defeatChipsCount++;
     }
 
     public void removeCoins(int coins) {

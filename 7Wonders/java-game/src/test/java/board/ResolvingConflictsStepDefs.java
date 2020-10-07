@@ -36,6 +36,6 @@ public class ResolvingConflictsStepDefs implements En {
             i1.getPlayedCards().set(0, CardsSet.PALISSADE);
         });
         When("^the two players engage in the conflict$", () -> board.resolveWarConflict(1));
-        Then("^player (\\d+) should win (\\d+) victory jeton$", (Integer arg0, Integer arg1) -> assertEquals(1, i1.getVictoryJetonsScore()));
+        Then("^player (\\d+) should win (\\d+) victory jeton$", (Integer arg0, Integer arg1) -> assertEquals(1, i1.getVictoryChipsScore()));
     }
 }

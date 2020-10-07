@@ -72,7 +72,7 @@ public class Board {
         playerInventoryList.forEach(this::chooseWonderBoard);
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
-            sout.beginingOfAge(age);
+            sout.beginningOfAge(age);
             // Card dealing
             playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
 
