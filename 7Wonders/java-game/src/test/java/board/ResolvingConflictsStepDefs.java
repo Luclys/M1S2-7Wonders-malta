@@ -1,8 +1,8 @@
 package board;
 
-import gameelements.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.CardsSet;
 import io.cucumber.java8.En;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -1,6 +1,6 @@
 package gameelements.ages;
 
-import gameelements.Card;
+import gameelements.cards.Card;
 
 import java.util.ArrayList;
 

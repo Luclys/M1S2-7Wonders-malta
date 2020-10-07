@@ -1,8 +1,8 @@
 package board;
 
-import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 

@@ -1,7 +1,7 @@
 package board;
 
-import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
@@ -25,7 +25,7 @@ public class SoutConsole {
         if (!booleanPrint) {
             return;
         }
-        System.out.println("LAST CARDS ARE DEFEAT");
+        System.out.println("LAST CARDS ARE DISCARDED");
         System.out.printf("\n\n\n========================= END AGE N° %d =======================\n\n\n", i);
     }
 
@@ -129,11 +129,11 @@ public class SoutConsole {
                 "player : " + p.getPlayerId() +
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
-                " },\n\t score=" + p.getScore() +
+                " },\n\t score = " + p.getScore() +
                 ", \n\t victory chips score = " + p.getVictoryChipsScore() +
                 ", \n\t defeat chips count = " + p.getDefeatChipsCount() +
-                ", \n\t coins" + p.getCoins() +
-                "\n}");
+                ", \n\t coins = " + p.getCoins() +
+                ".\n}");
     }
 
     public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer){

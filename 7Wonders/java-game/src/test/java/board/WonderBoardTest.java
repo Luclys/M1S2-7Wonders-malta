@@ -1,9 +1,9 @@
 package board;
 
-import gameelements.Card;
-import gameelements.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 import gameelements.effects.ResourceEffect;
 import gameelements.effects.SymbolEffect;
 import gameelements.enums.Resource;

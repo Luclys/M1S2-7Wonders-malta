@@ -1,5 +1,6 @@
-package gameelements;
+package gameelements.cards;
 
+import gameelements.Effect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
 
@@ -8,7 +9,7 @@ public class Card {
     private Effect[] effects;
     private final Resource[] requiredResources;
     private final Category category;
-    private int cost;
+    private final int cost;
 
     public Card(String name, Effect[] effects, Resource[] requiredResources, Category category) {
         this.name = name;
@@ -45,9 +46,9 @@ public class Card {
     public boolean isBatiment() {
         return (
                 this.category == Category.BATIMENT_CIVIL ||
-                this.category == Category.BATIMENT_SCIENTIFIQUE ||
-                this.category == Category.BATIMENT_COMMERCIEAU ||
-                this.category == Category.BATIMENT_MILITAIRE
+                        this.category == Category.BATIMENT_SCIENTIFIQUE ||
+                        this.category == Category.BATIMENT_COMMERCIAL ||
+                        this.category == Category.BATIMENT_MILITAIRE
         );
     }
 

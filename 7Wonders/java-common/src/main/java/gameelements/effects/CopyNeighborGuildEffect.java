@@ -1,9 +1,9 @@
 package gameelements.effects;
 
-import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.Card;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;

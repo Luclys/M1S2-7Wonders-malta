@@ -1,6 +1,4 @@
-package gameelements;
-
-import java.util.ArrayList;
+package gameelements.cards;
 
 public enum Category {
     MATIERE_PREMIERE(0),

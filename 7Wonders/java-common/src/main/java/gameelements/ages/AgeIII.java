@@ -1,7 +1,7 @@
 package gameelements.ages;
 
-import gameelements.Card;
-import gameelements.CardsSet;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 
 import java.util.ArrayList;
 import java.util.Collections;

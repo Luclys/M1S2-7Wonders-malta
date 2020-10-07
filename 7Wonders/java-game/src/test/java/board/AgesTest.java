@@ -1,7 +1,7 @@
 package board;
 
-import gameelements.CardsSet;
 import gameelements.Player;
+import gameelements.cards.CardsSet;
 import gameelements.enums.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

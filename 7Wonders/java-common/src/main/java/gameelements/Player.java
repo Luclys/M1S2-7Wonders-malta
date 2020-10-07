@@ -1,5 +1,6 @@
 package gameelements;
 
+import gameelements.cards.Card;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
