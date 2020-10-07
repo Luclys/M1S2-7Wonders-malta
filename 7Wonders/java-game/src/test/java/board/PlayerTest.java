@@ -5,11 +5,9 @@ import gameelements.effects.ResourceEffect;
 import gameelements.effects.ScoreEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
-import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -23,14 +21,10 @@ public class PlayerTest {
     private Player player;
     private Inventory inv;
     private Board board;
-    private ArrayList<Player> playerList;
-
-    @Mock
-    Inventory inventory;
 
     @BeforeEach
     public void setUp() {
-        playerList = new ArrayList<>(3);
+        ArrayList<Player> playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
             playerList.add(player);
@@ -38,8 +32,6 @@ public class PlayerTest {
         board = new Board(playerList, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
-        WonderBoard colossus = WonderBoard.initiateColossus();
-        colossus.claimBoard(inv);
         for (int i = 0; i < 7; i++) {
             cards.add(new Card("DUMMY", new Effect[]{new ScoreEffect(1), new ResourceEffect(Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
         }
@@ -123,13 +115,6 @@ public class PlayerTest {
         assertEquals(1, rightNeighbourInv.getVictoryChipsScore());
         assertEquals(0, leftNeighbourInv.getDefeatChipsCount());
     }
-
-    private void addCardAndPlayIt(Player player, Card card) {
-        cards.set(0, card);
-        inv.setCardsInHand(cards);
-        inv.updateInventory(player.chooseCard(inv));
-    }
-
 
     @Test
     void UpdatePlayer() {

@@ -2,7 +2,7 @@ package gameelements;
 
 import gameelements.enums.Symbol;
 import gameelements.strategy.PlayingStrategy;
-import gameelements.strategy.ResourceStrategy;
+import gameelements.strategy.FirstCardStrategy;
 
 import java.util.ArrayList;
 
@@ -11,12 +11,16 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
     private PlayingStrategy strategy;
-
     private Card chosenCard;
 
     public Player(int id) {
         this.id = id;
-        this.strategy = new ResourceStrategy();
+        this.strategy = new FirstCardStrategy();
+    }
+
+    public Player(int id, PlayingStrategy strategy) {
+        this.id = id;
+        this.strategy = strategy;
     }
 
     public String toString() {

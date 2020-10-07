@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Player;
+import gameelements.strategy.ResourceStrategy;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class SevenWondersLauncher {
     private static ArrayList<Player> fetchPlayers(int nbPlayers) {
         ArrayList<Player> playerList = new ArrayList<>(nbPlayers);
         for (int i = 0; i < nbPlayers; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, new ResourceStrategy());
             playerList.add(player);
         }
         return playerList;
