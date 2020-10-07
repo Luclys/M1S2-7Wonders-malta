@@ -3,6 +3,7 @@ package gameelements.wonders;
 import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.effects.*;
 import gameelements.enums.Neighbor;
 import gameelements.enums.Resource;
@@ -23,15 +24,15 @@ public class WonderBoard {
         this.steps = steps;
     }
 
-    public void claimBoard(Inventory inv) {
+    public void claimBoard(Player player, Inventory inv) {
         inv.setWonderBoard(this);
-        this.baseEffect.activateEffect(inv);
+        this.baseEffect.activateEffect(player, inv, null, null);
         this.associatedInv = inv;
     }
 
-    public void buyNextStep(Card card) {
+    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         if (currentStepIndex < steps.size()) {
-            steps.get(currentStepIndex).build(associatedInv, card);
+            steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
             currentStepIndex++;
         } else {
             throw new Error("Every steps already built.");

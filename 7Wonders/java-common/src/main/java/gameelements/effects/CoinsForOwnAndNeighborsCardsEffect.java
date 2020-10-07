@@ -2,6 +2,7 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
@@ -16,8 +17,8 @@ public class CoinsForOwnAndNeighborsCardsEffect extends Effect {
         this.category = category;
     }
 
-    public void activateEffect(Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(playersInv);
+    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
         int ownCardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();

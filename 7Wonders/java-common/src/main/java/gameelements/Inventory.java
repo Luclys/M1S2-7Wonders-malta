@@ -55,7 +55,7 @@ public class Inventory {
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
         this.playerId = inventory.playerId;
-        this.availableResources = inventory.availableResources;;
+        this.availableResources = inventory.availableResources;
         this.availableSymbols = inventory.availableSymbols;
         this.pairResChoice = inventory.pairResChoice;
         this.cardsInHand = inventory.cardsInHand;
@@ -96,9 +96,9 @@ public class Inventory {
         }
     }
 
-    public void updateInventory(Card playedCard) {
+    public void updateInventory(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         for (Effect effect : playedCard.getEffects()) {
-            effect.activateEffect(this);
+            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
         cardsInHand.remove(0);

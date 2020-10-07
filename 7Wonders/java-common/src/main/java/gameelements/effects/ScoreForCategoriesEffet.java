@@ -2,6 +2,7 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
@@ -21,9 +22,9 @@ public class ScoreForCategoriesEffet extends Effect {
         categories.add(Category.GUILDE);
     }
 
-    public void activateEffect(Inventory playersInv) {
-        super.activateEffect(playersInv);
+    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
         int cardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> categories.contains(card.getCategory())).count();
-        playersInv.addScore(cardsCount*score);
+        playersInv.addScore(cardsCount * score);
     }
 }

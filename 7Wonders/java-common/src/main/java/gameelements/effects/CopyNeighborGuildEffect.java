@@ -17,7 +17,7 @@ public class CopyNeighborGuildEffect extends Effect {
     }
 
     public void activateEffect(Inventory playerInv, Inventory leftNeighborInv, Inventory rightNeighborInv, Player player) {
-        super.activateEffect(playerInv);
+        super.activateEffect(player, playerInv, leftNeighborInv, rightNeighborInv);
 
         ArrayList<Card> list = new ArrayList<>();
         list.addAll(rightNeighborInv.getPlayedCards());
@@ -26,7 +26,7 @@ public class CopyNeighborGuildEffect extends Effect {
 
         if (list.size() != 0) {
             Card card = player.chooseGuildCard(list, new Inventory(playerInv));
-            playerInv.updateInventory(card);
+            playerInv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
         }
 
     }

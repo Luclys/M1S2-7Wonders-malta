@@ -2,6 +2,7 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
 
@@ -13,8 +14,8 @@ public class ScoreForNeighborsDefeatJetonsEffet extends Effect {
         this.score = score;
     }
 
-    public void activateEffect(Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(playersInv);
+    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
         playersInv.addScore((leftNeighborInv.getDefeatChipsCount() + rightNeighborInv.getDefeatChipsCount()) * score);
     }
 }

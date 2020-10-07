@@ -41,7 +41,7 @@ public class PlayerTest {
     public void playCardTest() {
         assertEquals(0, inv.getScore());
         Card playedCard = player.chooseCard(inv);
-        inv.updateInventory(playedCard);
+        inv.updateInventory(playedCard, player, null, null);
         assertEquals(1, inv.getScore());
         assertNotEquals(inv.getCardsInHand().size(), new Inventory(2).getCardsInHand().size());
 
@@ -49,7 +49,7 @@ public class PlayerTest {
         //test if player can't build two identical buildings
         Card taverne = CardsSet.TAVERNE;
         inv.getCardsInHand().set(0, taverne);
-        inv.updateInventory(player.chooseCard(inv));
+        inv.updateInventory(player.chooseCard(inv), player, null, null);
         inv.getCardsInHand().set(0, taverne);
         assertNotEquals(player.chooseCard(inv), taverne);
     }
@@ -58,7 +58,7 @@ public class PlayerTest {
     public void updateAvailableResourcesTest() {
         assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         inv.setCardsInHand(cards);
-        inv.updateInventory(player.chooseCard(inv));
+        inv.updateInventory(player.chooseCard(inv), player, null, null);
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
@@ -67,7 +67,7 @@ public class PlayerTest {
     public void discardLastCardTest() {
         assertThrows(Error.class, () -> inv.discardLastCard());
         while (inv.getCardsInHand().size() > 1) {
-            inv.updateInventory(player.chooseCard(inv));
+            inv.updateInventory(player.chooseCard(inv), player, null, null);
         }
         Card lastCard = inv.getCardsInHand().get(0);
         assertSame(lastCard, inv.discardLastCard());
@@ -100,10 +100,10 @@ public class PlayerTest {
 
         cards.set(0, bouclierCard);
         rightNeighbourInv.setCardsInHand(cards);
-        rightNeighbourInv.updateInventory(rightNeighbour.chooseCard(inv)); //Neighbor has 1 bouclier
+        rightNeighbourInv.updateInventory(rightNeighbour.chooseCard(inv), player, null, null); //Neighbor has 1 bouclier
         cards.set(0, bouclierCard);
         leftNeighbourInv.setCardsInHand(cards);
-        leftNeighbourInv.updateInventory(leftNeighbour.chooseCard(inv));
+        leftNeighbourInv.updateInventory(leftNeighbour.chooseCard(inv), player, null, null);
 
         board.resolveWarConflict(1);
         assertEquals(0, inv.getVictoryChipsScore());
@@ -119,14 +119,14 @@ public class PlayerTest {
     private void addCardAndPlayIt(Player player, Card card) {
         cards.set(0, card);
         inv.setCardsInHand(cards);
-        inv.updateInventory(player.chooseCard(inv));
+        inv.updateInventory(player.chooseCard(inv), player, null, null);
     }
 
 
     @Test
     void UpdatePlayer() {
         assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
-        inv.updateInventory(player.chooseCard(inv));
+        inv.updateInventory(player.chooseCard(inv), player, null, null);
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
     }
 }

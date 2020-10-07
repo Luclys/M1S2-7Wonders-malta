@@ -30,14 +30,15 @@ public class TradeTest {
 
     @Test
     public void findSellerTest() {
-        Player rightNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getRightNeighborId());
-        Player leftNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getLeftNeighborId());
-        board.getPlayerInventoryList().get(rightNeighbor.getId()).getCardsInHand().add(card);
-        board.getPlayerInventoryList().get(rightNeighbor.getId()).updateInventory(card);
-        Inventory neighbourInv = board.getCommerce().findSeller(
-                Resource.BOIS,
-                board.getPlayerInventoryList().get(rightNeighbor.getId()),
-                board.getPlayerInventoryList().get(leftNeighbor.getId()));
+        Player player = board.getPlayerList().get(0);
+        Player rightNeighbor = board.getPlayerList().get(player.getRightNeighborId());
+        Player leftNeighbor = board.getPlayerList().get(player.getLeftNeighborId());
+        Inventory rightNeighborInv = board.getPlayerInventoryList().get(rightNeighbor.getId());
+        Inventory leftNeighborInv = board.getPlayerInventoryList().get(leftNeighbor.getId());
+
+        rightNeighborInv.getCardsInHand().add(card);
+        rightNeighborInv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
+        Inventory neighbourInv = board.getCommerce().findSeller(Resource.BOIS, rightNeighborInv, leftNeighborInv);
         assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
     }
 

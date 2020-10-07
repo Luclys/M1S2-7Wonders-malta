@@ -60,8 +60,8 @@ public class CardsSet {
     public final static Card MARCHÉ = new Card("MARCHÉ", new ReductCommerceEffect(Neighbor.BOTH, false), null, Category.BATIMENT_COMMERCIEAU);
 
     //Age II
-    public final static Card FORUM = new Card("FORUM", new ChoiceResourceEffect(new Resource[]{Resource.TISSU, Resource.VERRE, Resource.PAPYRUS}, 1), new Resource[]{Resource.ARGILE, Resource.ARGILE}, Category.BATIMENT_COMMERCIEAU);
-    public final static Card CARAVANSÉRAIL = new Card("CARAVANSÉRAIL", new ChoiceResourceEffect(new Resource[]{Resource.ARGILE, Resource.PIERRE, Resource.MINERAI, Resource.BOIS}, 1), new Resource[]{Resource.BOIS, Resource.BOIS}, Category.BATIMENT_COMMERCIEAU);
+    public final static Card FORUM = new Card("FORUM", new ChoiceAllTypeResourceEffect(false), new Resource[]{Resource.ARGILE, Resource.ARGILE}, Category.BATIMENT_COMMERCIEAU);
+    public final static Card CARAVANSÉRAIL = new Card("CARAVANSÉRAIL", new ChoiceAllTypeResourceEffect(true), new Resource[]{Resource.BOIS, Resource.BOIS}, Category.BATIMENT_COMMERCIEAU);
     public final static Card VIGNOBLE = new Card("VIGNOBLE", new CoinsForOwnAndNeighborsCardsEffect(1, Category.MATIERE_PREMIERE), null, Category.BATIMENT_COMMERCIEAU);
     public final static Card BAZAR = new Card("BAZAR", new CoinsForOwnAndNeighborsCardsEffect(1, Category.PRODUIT_MANUFACTURE), null, Category.BATIMENT_COMMERCIEAU);
 
@@ -69,7 +69,7 @@ public class CardsSet {
     public final static Card PORT = new Card("PORT", new Effect[]{new ScoreForCategoryEffet(1, Category.MATIERE_PREMIERE), new CoinsForCategoryEffet(1, Category.MATIERE_PREMIERE)}, new Resource[]{Resource.TISSU, Resource.MINERAI, Resource.BOIS}, Category.BATIMENT_COMMERCIEAU);
     public final static Card PHARE = new Card("PHARE", new Effect[]{new ScoreForCategoryEffet(1, Category.BATIMENT_COMMERCIEAU), new CoinsForCategoryEffet(1, Category.BATIMENT_COMMERCIEAU)}, new Resource[]{Resource.VERRE, Resource.PIERRE}, Category.BATIMENT_COMMERCIEAU);
     public final static Card CHAMBRE_DE_COMMERCE = new Card("CHAMBRE DE COMMERCE", new Effect[]{new ScoreForCategoryEffet(2, Category.PRODUIT_MANUFACTURE), new CoinsForCategoryEffet(2, Category.PRODUIT_MANUFACTURE)}, new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.PAPYRUS}, Category.BATIMENT_COMMERCIEAU);
-    public final static Card ARÈNE = new Card("ARÈNE",  new Effect[]{new ScoreForMerveilleEffect(1), new CoinsForMerveilleEffect(3)}, new Resource[]{Resource.MINERAI, Resource.PIERRE, Resource.PIERRE}, Category.BATIMENT_COMMERCIEAU);
+    public final static Card ARÈNE = new Card("ARÈNE", new Effect[]{new ScoreForMerveilleEffect(1), new CoinsForMerveilleEffect(3)}, new Resource[]{Resource.MINERAI, Resource.PIERRE, Resource.PIERRE}, Category.BATIMENT_COMMERCIEAU);
 
     //=========================================================================BATIMENT_MILITAIRE(Red)=========================================================================
     //Age I

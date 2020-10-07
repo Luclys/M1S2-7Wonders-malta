@@ -2,6 +2,7 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
 import gameelements.enums.Neighbor;
@@ -16,8 +17,8 @@ public class ReductCommerceEffect extends Effect {
         this.primaryRessources = primaryRessources;
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
         if (whichNeighbor.equals(Neighbor.LEFT)) {
             inv.setPriceLeft(1);
         } else if (whichNeighbor.equals(Neighbor.RIGHT)) {

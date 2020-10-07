@@ -13,8 +13,8 @@ public class ChoiceScientificEffect extends Effect {
         super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
     }
 
-    public void activateEffect(Inventory inv, Player player) {
-        super.activateEffect(inv);
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
         Symbol symbol = player.chooseScientific(inv.getAvailableSymbols().clone());
         inv.getAvailableSymbols()[symbol.getIndex()]++;
     }

@@ -38,7 +38,7 @@ public class ChoiceOfCardStepDefs implements En {
 
         When("player chooses TAVERNE", () -> {
             initialCoinsCount = inventory.getCoins();
-            board.playCard(inventory, inventory, player);
+            board.playCard(player, inventory, inventory);
         });
         Then("5 coins added to player", () -> {
             assertEquals(inventory.getCoins(), (initialCoinsCount + 5));

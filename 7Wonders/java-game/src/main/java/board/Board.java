@@ -69,7 +69,7 @@ public class Board {
 
 
     public void play() {
-        playerInventoryList.forEach(this::chooseWonderBoard);
+        playerInventoryList.forEach(inventory -> chooseWonderBoard(playerList.get(inventory.getPlayerId()), inventory));
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
             sout.beginningOfAge(age);
@@ -85,7 +85,7 @@ public class Board {
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
-                    playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
+                    playCard(playerList.get(i), playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)));
                 }
                 // The players exchange cards according to the Age's sens.
                 if (isLeftRotation) {
@@ -119,13 +119,13 @@ public class Board {
 
     }
 
-    private void chooseWonderBoard(Inventory inventory) {
+    private void chooseWonderBoard(Player player, Inventory inventory) {
         // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
         WonderBoard colossus = WonderBoard.initiateColossus();
-        colossus.claimBoard(inventory);
+        colossus.claimBoard(player, inventory);
     }
 
-    protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
+    protected void playCard(Player player, Inventory trueInv, Inventory fakeInv) {
         boolean result;
         Card chosenCard = player.getChosenCard();
 
@@ -147,7 +147,7 @@ public class Board {
                 trueInv.sellCard(chosenCard);
             } else {
                 sout.gotMissingResources();
-                trueInv.updateInventory(chosenCard);
+                trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
             }
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
         }

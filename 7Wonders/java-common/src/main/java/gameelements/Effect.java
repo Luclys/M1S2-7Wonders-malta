@@ -14,7 +14,8 @@ public abstract class Effect {
     }
 
     // Needed : 2 neighbors, and Player Inventories
-    public void activateEffect(Inventory inv) {
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+
 /*
         if (delay == 0 && repeat == 0) {
         }
