@@ -18,6 +18,8 @@ public class ChoiceResourceEffect extends Effect {
 
     public void activateEffect(Inventory inv) {
         super.activateEffect(inv);
-        // TODO : allow Player to choose resource
+        if (resources.length == 2) {
+            inv.addPairResChoice(resources);
+        }
     }
 }

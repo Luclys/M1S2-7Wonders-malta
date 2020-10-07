@@ -10,6 +10,7 @@ public class Inventory {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
+    private final ArrayList<Resource[]> pairResChoice;
     private ArrayList<Card> cardsInHand;
     private ArrayList<Card> playedCards;
     private WonderBoard wonderBoard;
@@ -20,16 +21,19 @@ public class Inventory {
     private int coins;
     private int addedCoins;
 
+    private int allResPremChoice;
+    private int allResManuChoice;
     private int priceLeft;
     private int priceRight;
-    int possibleFreeBuildingsCount;
-    int possibleFreeDiscardedBuildingsCount;
-    boolean canPlayLastCard;
+    private int possibleFreeBuildingsCount;
+    private int possibleFreeDiscardedBuildingsCount;
+    private boolean canPlayLastCard;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
+        this.pairResChoice = new ArrayList<>() ;
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
 
@@ -39,6 +43,8 @@ public class Inventory {
         this.coins = 3;
         this.addedCoins = 0;
 
+        allResPremChoice = 0;
+        allResManuChoice = 0;
         this.priceLeft = 2;
         this.priceRight = 2;
         this.possibleFreeBuildingsCount = 0;
@@ -51,6 +57,7 @@ public class Inventory {
         this.playerId = inventory.playerId;
         this.availableResources = inventory.availableResources;;
         this.availableSymbols = inventory.availableSymbols;
+        this.pairResChoice = inventory.pairResChoice;
         this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
         this.wonderBoard = inventory.wonderBoard;
@@ -61,6 +68,8 @@ public class Inventory {
         this.coins = inventory.coins;
         this.addedCoins = inventory.addedCoins;
 
+        this.allResPremChoice = inventory.allResPremChoice;
+        this.allResManuChoice = inventory.allResManuChoice;
         this.priceLeft = inventory.priceLeft;
         this.priceRight = inventory.priceRight;
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
@@ -106,6 +115,18 @@ public class Inventory {
             }
         }
         return true;
+    }
+
+    public void addPairResChoice(Resource[] resources) {
+        this.pairResChoice.add(resources);
+    }
+
+    public void incAllResChoice(Boolean PrimaryResource) {
+        if (PrimaryResource) {
+            this.allResPremChoice++;
+        } else {
+            this.allResManuChoice++;
+        }
     }
 
     public int getVictoryChipsScore() {
