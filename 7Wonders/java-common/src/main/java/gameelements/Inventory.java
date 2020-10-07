@@ -20,6 +20,9 @@ public class Inventory {
     private int victoryChipsScore;
     private int defeatChipsCount;
     private int coins;
+    private int matieresPremieresPriceLeft;
+    private int matieresPremieresPriceRight;
+    private int produitsManifacturesPrice;
     private int addedCoins;
 
     private int allResPremChoice;
@@ -42,6 +45,9 @@ public class Inventory {
         this.victoryChipsScore = 0;
         this.defeatChipsCount = 0;
         this.coins = 3;
+        this.matieresPremieresPriceRight = 2;
+        this.matieresPremieresPriceLeft = 2;
+        this.produitsManifacturesPrice = 2;
         this.addedCoins = 0;
 
         allResPremChoice = 0;
@@ -67,12 +73,12 @@ public class Inventory {
         this.victoryChipsScore = inventory.victoryChipsScore;
         this.defeatChipsCount = inventory.defeatChipsCount;
         this.coins = inventory.coins;
-        this.addedCoins = inventory.addedCoins;
-
         this.allResPremChoice = inventory.allResPremChoice;
         this.allResManuChoice = inventory.allResManuChoice;
-        this.priceLeft = inventory.priceLeft;
-        this.priceRight = inventory.priceRight;
+        this.matieresPremieresPriceLeft = inventory.matieresPremieresPriceLeft;
+        this.matieresPremieresPriceRight = inventory.matieresPremieresPriceRight;
+        this.produitsManifacturesPrice = inventory.produitsManifacturesPrice;
+        this.addedCoins = inventory.addedCoins;
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
@@ -221,20 +227,29 @@ public class Inventory {
         this.coins = coins;
     }
 
-    public int getPriceLeft() {
-        return priceLeft;
+    public int getMatieresPremieresPriceLeft() {
+        return matieresPremieresPriceLeft;
     }
 
-    public void setPriceLeft(int priceLeft) {
-        this.priceLeft = priceLeft;
+    public void setMatieresPremieresPriceLeft(int matieresPremieresPriceLeft) {
+        this.matieresPremieresPriceLeft = matieresPremieresPriceLeft;
     }
 
-    public int getPriceRight() {
-        return priceRight;
+    public int getMatieresPremieresPriceRight() {
+        return matieresPremieresPriceRight;
     }
 
-    public void setPriceRight(int priceRight) {
-        this.priceRight = priceRight;
+    public void setMatieresPremieresPriceRight(int matieresPremieresPriceRight) {
+        this.matieresPremieresPriceRight = matieresPremieresPriceRight;
+    }
+
+
+    public int getProduitsManifacturesPrice() {
+        return produitsManifacturesPrice;
+    }
+
+    public void setProduitsManifacturesPrice(int produitsManifacturesPrice) {
+        this.produitsManifacturesPrice = produitsManifacturesPrice;
     }
 
     public int getAddedCoins() {
