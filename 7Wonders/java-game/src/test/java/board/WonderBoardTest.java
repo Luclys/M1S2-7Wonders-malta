@@ -5,7 +5,9 @@ import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.effects.ResourceEffect;
+import gameelements.effects.ScoreEffect;
 import gameelements.effects.SymbolEffect;
+import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
@@ -29,7 +31,6 @@ public class WonderBoardTest {
             playerList.add(player);
         }
     }
-
     @Test
     public void playTest() {
         Board board = new Board(playerList, false);

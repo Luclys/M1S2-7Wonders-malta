@@ -102,7 +102,7 @@ public class Inventory {
             effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
-        cardsInHand.remove(0);
+        cardsInHand.remove(playedCard);
     }
 
     public boolean canBuild(Resource[] requiredResources) {
@@ -267,4 +267,7 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
+
+
+
 }
