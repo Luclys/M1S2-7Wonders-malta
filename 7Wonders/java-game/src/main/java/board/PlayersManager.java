@@ -11,26 +11,38 @@ import java.util.ArrayList;
 public class PlayersManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
-    SoutConsole sout ;
+    SoutConsole sout;
 
     public PlayersManager(SoutConsole sout) {
         this.sout = sout;
     }
 
-    protected void updateCoins(){
-        Inventory inv;
-        for(Player player:playerList){
-            inv = playerInventoryList.get(player.getId());
+    protected void updateCoins() {
+        for (Inventory inv : playerInventoryList) {
             inv.addCoins(inv.getAddedCoins());
             inv.setAddedCoins(0);
+        }
+    }
+
+    protected void freeBuildFromDiscarded(ArrayList<Card> discardedDeckCardList) {
+        for (Inventory inv : playerInventoryList) {
+            if (discardedDeckCardList.size() == 0) {
+                return;
+            }
+            if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
+                Player player = playerList.get(inv.getPlayerId());
+                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
+                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
+                inv.addPossibleFreeDiscardedBuildingsCount(-1);
+            }
         }
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
         int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
-        sout.conflicts(invPlayer,invNeighbor);
-        sout.checkShields(playerBoucliersCount,neighborBoucliersCount);
+        sout.conflicts(invPlayer, invNeighbor);
+        sout.checkShields(playerBoucliersCount, neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
             invPlayer.addVictoryJetonsScore(victoryJetonValue);
             sout.addConflictsPoint(victoryJetonValue);

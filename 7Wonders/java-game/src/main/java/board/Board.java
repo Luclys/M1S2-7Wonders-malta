@@ -78,8 +78,9 @@ public class Board {
 
             for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);
-                // Each player plays a card on each turn
                 sout.play();
+
+                // Each player plays a card on each turn
                 for (Player p : playerList) {
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     sout.chosenCards(p.getId(), p.getChosenCard());
@@ -87,14 +88,12 @@ public class Board {
                 for (int i = 0; i < playerList.size(); i++) {
                     playCard(playerList.get(i), playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)));
                 }
-                // The players exchange cards according to the Age's sens.
-                if (isLeftRotation) {
-                    cardManager.leftRotation();
-                } else {
-                    cardManager.rightRotation();
-                }
-                this.turn++;
+
                 playersManager.updateCoins();
+                playersManager.freeBuildFromDiscarded(discardedDeckCardList);
+
+                cardManager.playersCardsRotation(isLeftRotation);
+                this.turn++;
             }
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.

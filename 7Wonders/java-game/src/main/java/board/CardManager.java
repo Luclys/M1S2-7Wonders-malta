@@ -39,4 +39,12 @@ public class CardManager {
             i++;
         }
     }
+
+    public void playersCardsRotation(boolean isLeftRotation) {
+        if (isLeftRotation) {
+            leftRotation();
+        } else {
+            rightRotation();
+        }
+    }
 }

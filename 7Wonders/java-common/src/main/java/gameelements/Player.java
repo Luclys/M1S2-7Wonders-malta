@@ -59,6 +59,11 @@ public class Player {
         return Symbol.COMPAS;
     }
 
+    public Card chooseDiscardedCardToBuild(Inventory inventory, ArrayList<Card> discardedDeckCardList) {
+        return discardedDeckCardList.get(0);
+    }
+
+
     //Getters and setters
     public int getId() {
         return id;
