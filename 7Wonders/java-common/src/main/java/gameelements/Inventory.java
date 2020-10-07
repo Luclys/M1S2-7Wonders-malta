@@ -96,13 +96,15 @@ public class Inventory {
     }
 
     public boolean canBuild(Resource[] requiredResources) {
-        int [] neededResources = new int[Resource.values().length];
-        for (Resource resource: requiredResources) {
-            neededResources[resource.getIndex()]++;
-        }
-        for (int i = 0; i < neededResources.length; i++) {
-            if (neededResources[i] >= availableResources[i]) {
-                return false;
+        if (requiredResources != null) {
+            int[] neededResources = new int[Resource.values().length];
+            for (Resource resource : requiredResources) {
+                neededResources[resource.getIndex()]++;
+            }
+            for (int i = 0; i < neededResources.length; i++) {
+                if (neededResources[i] >= availableResources[i]) {
+                    return false;
+                }
             }
         }
         return true;

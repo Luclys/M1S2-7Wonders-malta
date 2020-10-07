@@ -5,14 +5,18 @@ import gameelements.effects.ResourceEffect;
 import gameelements.effects.ScoreEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
+import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@ExtendWith(MockitoExtension.class)
 public class PlayerTest {
 
     final ArrayList<Card> cards = new ArrayList<>(7);
@@ -20,6 +24,9 @@ public class PlayerTest {
     private Inventory inv;
     private Board board;
     private ArrayList<Player> playerList;
+
+    @Mock
+    Inventory inventory;
 
     @BeforeEach
     public void setUp() {
@@ -31,6 +38,8 @@ public class PlayerTest {
         board = new Board(playerList, false);
         player = board.getPlayerList().get(0);
         inv = board.getPlayerInventoryList().get(player.getId());
+        WonderBoard colossus = WonderBoard.initiateColossus();
+        colossus.claimBoard(inv);
         for (int i = 0; i < 7; i++) {
             cards.add(new Card("DUMMY", new Effect[]{new ScoreEffect(1), new ResourceEffect(Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
         }
@@ -60,7 +69,6 @@ public class PlayerTest {
         inv.setCardsInHand(cards);
         inv.updateInventory(player.chooseCard(inv));
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
-        assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
 
     @Test
