@@ -11,7 +11,7 @@ public class ResourceEffect extends Effect {
     int nb;
 
     public ResourceEffect(Resource resource, int nb) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS);
+        super(EffectDelay.INSTANTANEOUS);
         this.resource = resource;
         this.nb = nb;
     }

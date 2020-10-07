@@ -11,7 +11,7 @@ public class ReductCommerceEffect extends Effect {
     Boolean primaryRessources;
 
     public ReductCommerceEffect(Neighbor whichNeighbor, Boolean primaryRessources) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS);
+        super(EffectDelay.INSTANTANEOUS);
         this.whichNeighbor = whichNeighbor;
         this.primaryRessources = primaryRessources;
     }
