@@ -238,4 +238,7 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
+
+
+
 }

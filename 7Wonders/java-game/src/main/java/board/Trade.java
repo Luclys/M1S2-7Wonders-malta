@@ -25,7 +25,7 @@ public class Trade {
 
                 if (playerInv.getCoins() - (2 * k) > 1) {
                     neighbor = findSeller(r, rightNeighborInv, leftNeighborInv);
-                    if (neighbor == null) {// check if one of the neigbor has the resource
+                    if (neighbor == null) {// check if one of the neighbor has the resource
                         break;
                     } else {
                         sout.display("Neighbor "+neighbor.getPlayerId()+" can sell "+ r +" to player "+playerInv.getPlayerId());
