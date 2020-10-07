@@ -68,32 +68,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void discardLastCardTest() {
-        assertThrows(Error.class, () -> inv.discardLastCard());
-        while (inv.getCardsInHand().size() > 1) {
-            inv.updateInventory(player.chooseCard(inv));
-        }
-        Card lastCard = inv.getCardsInHand().get(0);
-        assertSame(lastCard, inv.discardLastCard());
-        assertTrue(inv.getCardsInHand().isEmpty());
-    }
-
-
-    @Test
-    public void addCoinsTest() {
-        inv.setCoins(0);
-        inv.addCoins(5);
-        assertEquals(5, inv.getCoins());
-    }
-
-    @Test
-    public void removeCoinsTest() {
-        inv.setCoins(5);
-        inv.removeCoins(3);
-        assertEquals(2, inv.getCoins());
-    }
-
-    @Test
     public void fightWithNeighborTest() {
         Card bouclierCard = CardsSet.PALISSADE;
 
@@ -118,12 +92,5 @@ public class PlayerTest {
 
         assertEquals(1, rightNeighbourInv.getVictoryJetonsScore());
         assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
-    }
-
-    @Test
-    void updateInventoryTest() {
-        assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
-        inv.updateInventory(player.chooseCard(inv));
-        assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
     }
 }

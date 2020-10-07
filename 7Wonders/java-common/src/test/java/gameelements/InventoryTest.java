@@ -1,13 +1,11 @@
 package gameelements;
 
-import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InventoryTest {
     Inventory inventory;
@@ -23,7 +21,8 @@ public class InventoryTest {
         assertThrows(Error.class, () -> inventory.discardLastCard());
         // test if the number of cards is 1
         setCards();
-        assertEquals(inventory.getCardsInHand().get(0), inventory.discardLastCard());
+        assertSame(inventory.getCardsInHand().get(0), inventory.discardLastCard());
+        assertTrue(inventory.getCardsInHand().isEmpty());
     }
 
     @Test
@@ -45,10 +44,23 @@ public class InventoryTest {
         assertEquals(0, inventory.getCardsInHand().size());
         assertEquals(CardsSet.CHANTIER, inventory.getPlayedCards().get(0));
     }
+    @Test
+    public void addCoinsTest() {
+        inventory.setCoins(0);
+        inventory.addCoins(5);
+        assertEquals(5, inventory.getCoins());
+    }
 
+    @Test
+    public void removeCoinsTest() {
+        inventory.setCoins(5);
+        inventory.removeCoins(3);
+        assertEquals(2, inventory.getCoins());
+    }
     void setCards(){
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(CardsSet.CHANTIER);
         inventory.setCardsInHand(cards);
     }
+
 }
