@@ -1,16 +1,13 @@
 package gameelements;
 
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public abstract class Effect {
     EffectDelay delay;
-    EffectFrequency repeat;
 
 
-    public Effect(EffectDelay delay, EffectFrequency repeat) {
+    public Effect(EffectDelay delay) {
         this.delay = delay;
-        this.repeat = repeat;
     }
 
     // Needed : 2 neighbors, and Player Inventories

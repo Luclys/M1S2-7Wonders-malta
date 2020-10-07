@@ -5,7 +5,6 @@ import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class ScoreForCategoriesEffet extends Effect {
     ArrayList<Category> categories;
 
     public ScoreForCategoriesEffet(int score) {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
+        super(EffectDelay.END_OF_THE_GAME);
         this.score = score;
         categories = new ArrayList<>();
         categories.add(Category.MATIERE_PREMIERE);

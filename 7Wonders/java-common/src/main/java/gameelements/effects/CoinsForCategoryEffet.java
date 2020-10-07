@@ -5,14 +5,13 @@ import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class CoinsForCategoryEffet extends Effect {
     int nbCoins;
     Category category;
 
     public CoinsForCategoryEffet(int nbCoins, Category category) {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
+        super(EffectDelay.INSTANTANEOUS);
         this.nbCoins = nbCoins;
         this.category = category;
     }

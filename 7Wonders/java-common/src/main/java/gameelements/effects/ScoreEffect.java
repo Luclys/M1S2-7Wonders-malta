@@ -4,13 +4,12 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class ScoreEffect extends Effect {
     int nb;
 
     public ScoreEffect(int nb) {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
+        super(EffectDelay.INSTANTANEOUS);
         this.nb = nb;
     }
 

@@ -4,13 +4,12 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
     int score;
 
     public ScoreForOwnAndNeighborMerveillesEffet(int score) {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
+        super(EffectDelay.END_OF_THE_GAME);
         this.score = score;
     }
 

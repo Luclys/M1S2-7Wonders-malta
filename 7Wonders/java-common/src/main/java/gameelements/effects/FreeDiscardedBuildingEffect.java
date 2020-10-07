@@ -4,12 +4,11 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class FreeDiscardedBuildingEffect extends Effect {
 
     public FreeDiscardedBuildingEffect() {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
+        super(EffectDelay.INSTANTANEOUS);
     }
 
     public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {

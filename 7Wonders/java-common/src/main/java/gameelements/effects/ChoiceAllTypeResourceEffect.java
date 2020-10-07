@@ -4,13 +4,12 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class ChoiceAllTypeResourceEffect extends Effect {
     Boolean primaryResource;
 
     public ChoiceAllTypeResourceEffect(Boolean primaryResource) {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.INSTANTANEOUS);
         this.primaryResource = primaryResource;
     }
 

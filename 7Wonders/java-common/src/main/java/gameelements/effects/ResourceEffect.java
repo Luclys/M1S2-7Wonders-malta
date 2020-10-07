@@ -4,7 +4,6 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 import gameelements.enums.Resource;
 
 public class ResourceEffect extends Effect {
@@ -12,7 +11,7 @@ public class ResourceEffect extends Effect {
     int nb;
 
     public ResourceEffect(Resource resource, int nb) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.WHENEVER_PLAYER_WANTS);
         this.resource = resource;
         this.nb = nb;
     }

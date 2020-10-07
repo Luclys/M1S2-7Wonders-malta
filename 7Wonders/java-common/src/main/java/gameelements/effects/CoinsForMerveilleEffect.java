@@ -4,13 +4,12 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class CoinsForMerveilleEffect extends Effect {
     int nbCoins;
 
     public CoinsForMerveilleEffect(int nbCoins) {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
+        super(EffectDelay.INSTANTANEOUS);
         this.nbCoins = nbCoins;
     }
 

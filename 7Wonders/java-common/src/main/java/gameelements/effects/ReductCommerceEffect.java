@@ -4,7 +4,6 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 import gameelements.enums.Neighbor;
 
 public class ReductCommerceEffect extends Effect {
@@ -12,7 +11,7 @@ public class ReductCommerceEffect extends Effect {
     Boolean primaryRessources;
 
     public ReductCommerceEffect(Neighbor whichNeighbor, Boolean primaryRessources) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.WHENEVER_PLAYER_WANTS);
         this.whichNeighbor = whichNeighbor;
         this.primaryRessources = primaryRessources;
     }

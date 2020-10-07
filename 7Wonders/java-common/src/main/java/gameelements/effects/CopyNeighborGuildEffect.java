@@ -6,14 +6,13 @@ import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 import java.util.ArrayList;
 
 public class CopyNeighborGuildEffect extends Effect {
 
     public CopyNeighborGuildEffect() {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
+        super(EffectDelay.END_OF_THE_GAME);
     }
 
     public void activateEffect(Inventory playerInv, Inventory leftNeighborInv, Inventory rightNeighborInv, Player player) {
