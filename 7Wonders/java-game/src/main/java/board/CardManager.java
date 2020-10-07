@@ -10,7 +10,7 @@ public class CardManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
 
-    public CardManager(){
+    public CardManager() {
         playerInventoryList = new ArrayList<>();
         playerList = new ArrayList<>();
     }

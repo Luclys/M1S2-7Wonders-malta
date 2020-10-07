@@ -1,9 +1,9 @@
-package board;
+package gameelements.ages;
 
 import board.Board;
-import board.Player;
-import gameelements.Card;
-import gameelements.CardsSet;
+import gameelements.Player;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 import gameelements.enums.Category;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -21,7 +21,7 @@ public class AgesTest {
 
 
     @Test
-    public void initiateCardsTest(){
+    public void initiateCardsTest() {
         assertThrows(Error.class, () -> AgeI.initiateCards(2));
         ArrayList<Card> cards = AgeI.initiateCards(3);
         assertTrue(cards.contains(CardsSet.PALISSADE));
@@ -42,7 +42,8 @@ public class AgesTest {
         assertTrue(cards.contains(CardsSet.OBSERVATOIRE));
 
     }
-@Disabled
+
+    @Disabled
 
 
     @Test
@@ -77,6 +78,7 @@ public class AgesTest {
         Assertions.assertTrue(board.isLeftRotation());
         assertEquals(board.getJetonVictoryValue(), 1);
     }
+
     @Disabled
     @Test
     public void AgeIISetUpTest() {
@@ -110,6 +112,7 @@ public class AgesTest {
         Assertions.assertFalse(board.isLeftRotation());
         assertEquals(board.getJetonVictoryValue(), 3);
     }
+
     @Disabled
     @Test
     public void AgeIIISetUpTest() {

@@ -34,7 +34,7 @@ public class Inventory {
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
-        this.pairResChoice = new ArrayList<>() ;
+        this.pairResChoice = new ArrayList<>();
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
 
@@ -106,8 +106,8 @@ public class Inventory {
     }
 
     public boolean canBuild(Resource[] requiredResources) {
-        int [] neededResources = new int[Resource.values().length];
-        for (Resource resource: requiredResources) {
+        int[] neededResources = new int[Resource.values().length];
+        for (Resource resource : requiredResources) {
             neededResources[resource.getIndex()]++;
         }
         for (int i = 0; i < neededResources.length; i++) {
@@ -212,6 +212,7 @@ public class Inventory {
     public void addScore(int score) {
         this.score += score;
     }
+
     public int getCoins() {
         return coins;
     }
@@ -249,7 +250,7 @@ public class Inventory {
     }
 
     public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount+= possibleFreeBuildingsCount;
+        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
     }
 
     public int getPossibleFreeDiscardedBuildingsCount() {
@@ -257,7 +258,7 @@ public class Inventory {
     }
 
     public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
-        this.possibleFreeDiscardedBuildingsCount+= possibleFreeDiscardedBuildingsCount;
+        this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
     }
 
     public boolean isCanPlayLastCard() {
@@ -267,7 +268,6 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
-
 
 
 }

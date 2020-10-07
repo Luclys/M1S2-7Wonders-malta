@@ -1,8 +1,10 @@
 package board;
 
-import gameelements.Card;
-import gameelements.CardsSet;
+
 import gameelements.Inventory;
+import gameelements.Player;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,20 +42,20 @@ public class CardManagerTest {
 
     @Test
     public void leftRotationTest() {
-        ArrayList<Card> cards =  cardManager.playerInventoryList.get(0).getCardsInHand();
+        ArrayList<Card> cards = cardManager.playerInventoryList.get(0).getCardsInHand();
         cardManager.leftRotation();
-        assertEquals(cards,cardManager.playerInventoryList.get(2).getCardsInHand());
+        assertEquals(cards, cardManager.playerInventoryList.get(2).getCardsInHand());
         cardManager.leftRotation();
-        assertEquals(cards,cardManager.playerInventoryList.get(1).getCardsInHand());
+        assertEquals(cards, cardManager.playerInventoryList.get(1).getCardsInHand());
     }
 
 
     @Test
     public void RightRotationTest() {
-        ArrayList<Card> cards =  cardManager.playerInventoryList.get(0).getCardsInHand();
+        ArrayList<Card> cards = cardManager.playerInventoryList.get(0).getCardsInHand();
         cardManager.rightRotation();
-        assertEquals(cards,cardManager.playerInventoryList.get(1).getCardsInHand());
+        assertEquals(cards, cardManager.playerInventoryList.get(1).getCardsInHand());
         cardManager.rightRotation();
-        assertEquals(cards,cardManager.playerInventoryList.get(2).getCardsInHand());
+        assertEquals(cards, cardManager.playerInventoryList.get(2).getCardsInHand());
     }
 }

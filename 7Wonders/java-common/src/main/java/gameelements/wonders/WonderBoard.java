@@ -49,7 +49,7 @@ public class WonderBoard {
 
     static public WonderBoard initiateColossus() {
         ArrayList<Step> colosseStepsA = new ArrayList<>();
-        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect( 3)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
         colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
         colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
         return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA);
@@ -61,17 +61,17 @@ public class WonderBoard {
         // Le Colosse de Rhodes
         // Face A
         ArrayList<Step> colosseStepsA = new ArrayList<>();
-        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect( 3)));
-        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect( Symbol.BOUCLIER, 2)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
         colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
-        res.add(new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect( Resource.MINERAI, 1), colosseStepsA));
+        res.add(new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA));
 
         // Face B
         ArrayList<Step> colosseStepsB = new ArrayList<>();
         colosseStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE},
-                new Effect[]{new SymbolEffect( Symbol.BOUCLIER, 1), new ScoreEffect( 3), new CoinEffect( 3)}));
+                new Effect[]{new SymbolEffect(Symbol.BOUCLIER, 1), new ScoreEffect(3), new CoinEffect(3)}));
         colosseStepsB.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI},
-                new Effect[]{new SymbolEffect(Symbol.BOUCLIER, 1), new ScoreEffect( 4), new CoinEffect( 4)}));
+                new Effect[]{new SymbolEffect(Symbol.BOUCLIER, 1), new ScoreEffect(4), new CoinEffect(4)}));
         res.add(new WonderBoard("Le Colosse de Rhodes B", new ResourceEffect(Resource.MINERAI, 1), colosseStepsB));
 
         // Le phare d’Alexandrie
@@ -79,12 +79,12 @@ public class WonderBoard {
         ArrayList<Step> alexandrieStepsA = new ArrayList<>();
         alexandrieStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
         alexandrieStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ChoiceAllTypeResourceEffect(true)));
-        alexandrieStepsA.add(new Step(new Resource[]{Resource.VERRE, Resource.VERRE}, new ScoreEffect( 7)));
-        res.add(new WonderBoard("Le phare d’Alexandrie A", new ResourceEffect( Resource.VERRE, 1), alexandrieStepsA));
+        alexandrieStepsA.add(new Step(new Resource[]{Resource.VERRE, Resource.VERRE}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Le phare d’Alexandrie A", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsA));
 
         // Face B
         ArrayList<Step> alexandrieStepsB = new ArrayList<>();
-        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAllTypeResourceEffect( true)));
+        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAllTypeResourceEffect(true)));
         alexandrieStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ChoiceAllTypeResourceEffect(false)));
         alexandrieStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le phare d’Alexandrie B", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsB));
@@ -92,25 +92,25 @@ public class WonderBoard {
         // Le temple d’Artémis à Ephèse
         // Face A
         ArrayList<Step> ArtemisStepsA = new ArrayList<>();
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect( 3)));
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new CoinEffect( 9)));
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.PAPYRUS}, new ScoreEffect( 7)));
-        res.add(new WonderBoard("Le temple d’Artémis à Ephèse A", new ResourceEffect( Resource.PAPYRUS, 1), ArtemisStepsA));
+        ArtemisStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
+        ArtemisStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new CoinEffect(9)));
+        ArtemisStepsA.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.PAPYRUS}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Le temple d’Artémis à Ephèse A", new ResourceEffect(Resource.PAPYRUS, 1), ArtemisStepsA));
 
         // Face B
         ArrayList<Step> ArtemisStepsB = new ArrayList<>();
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new Effect[]{new ScoreEffect( 2), new CoinEffect( 4)}));
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ScoreEffect( 3), new CoinEffect(4)}));
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.TISSU, Resource.VERRE}, new Effect[]{new ScoreEffect( 5), new CoinEffect( 4)}));
-        res.add(new WonderBoard("Le temple d’Artémis à Ephèse B", new ResourceEffect( Resource.PAPYRUS, 1), ArtemisStepsB));
+        ArtemisStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new Effect[]{new ScoreEffect(2), new CoinEffect(4)}));
+        ArtemisStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ScoreEffect(3), new CoinEffect(4)}));
+        ArtemisStepsB.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.TISSU, Resource.VERRE}, new Effect[]{new ScoreEffect(5), new CoinEffect(4)}));
+        res.add(new WonderBoard("Le temple d’Artémis à Ephèse B", new ResourceEffect(Resource.PAPYRUS, 1), ArtemisStepsB));
 
         // Les jardins suspendus de Babylone
         // Face A
         ArrayList<Step> BabyloneA = new ArrayList<>();
-        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect( 3)));
+        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
         BabyloneA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ChoiceScientificEffect()));
-        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect( 7)));
-        res.add(new WonderBoard("Les jardins suspendus de Babylone A", new ResourceEffect( Resource.ARGILE, 1), BabyloneA));
+        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Les jardins suspendus de Babylone A", new ResourceEffect(Resource.ARGILE, 1), BabyloneA));
 
         // Face B
         ArrayList<Step> BabyloneB = new ArrayList<>();
@@ -162,10 +162,10 @@ public class WonderBoard {
         // Face B
         ArrayList<Step> GizehB = new ArrayList<>();
         GizehB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
-        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect( 5)));
-        GizehB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect( 5)));
-        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PAPYRUS}, new ScoreEffect( 7)));
-        res.add(new WonderBoard("La grande pyramide de Gizeh B", new ResourceEffect( Resource.PIERRE, 1), GizehB));
+        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(5)));
+        GizehB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(5)));
+        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PAPYRUS}, new ScoreEffect(7)));
+        res.add(new WonderBoard("La grande pyramide de Gizeh B", new ResourceEffect(Resource.PIERRE, 1), GizehB));
 
 
         return res;

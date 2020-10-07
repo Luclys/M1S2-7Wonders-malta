@@ -181,7 +181,6 @@ public class Board {
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
         sout.endOfGame();
-        sout.booleanPrint = true;
         sout.FinalResults();
         for (Inventory p : playerInventoryList) {
             sout.informationOfPlayer(p);

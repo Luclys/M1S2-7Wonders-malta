@@ -136,41 +136,43 @@ public class SoutConsole {
                 ".\n}");
     }
 
-    public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer){
+    public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("================= [RESOLVING WAR CONFLICTS] =================");
-        System.out.println("Conflicts between PLAYER "+invPlayer.getPlayerId()+" and his neighbor PLAYER "+invNeighborPlayer.getPlayerId());
+        System.out.println("Conflicts between PLAYER " + invPlayer.getPlayerId() + " and his neighbor PLAYER " + invNeighborPlayer.getPlayerId());
     }
-    public void checkShields(int playerShieldsCount, int neighborShieldsCount){
+
+    public void checkShields(int playerShieldsCount, int neighborShieldsCount) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Player has " + playerShieldsCount + " shields while neighbor has " + neighborShieldsCount);
     }
-    public void addConflictsPoint(int victoryChipValue){
+
+    public void addConflictsPoint(int victoryChipValue) {
         if (!booleanPrint) {
             return;
         }
         System.out.println(victoryChipValue + " conflict points added");
     }
 
-    public void defeatChip(){
+    public void defeatChip() {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Defeat chip (-1 conflict point) added");
     }
 
-    public void resolvedConflicts(Inventory invPlayer){
+    public void resolvedConflicts(Inventory invPlayer) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Total player victory chip score: " + invPlayer.getVictoryChipsScore() + ", defeat chip count: " + invPlayer.getDefeatChipsCount());
     }
 
-    public void display(String msg){
+    public void display(String msg) {
         if (!booleanPrint) {
             return;
         }

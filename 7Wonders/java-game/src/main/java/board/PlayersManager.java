@@ -16,11 +16,13 @@ public class PlayersManager {
     public PlayersManager(SoutConsole sout) {
         this.sout = sout;
     }
+
     public PlayersManager() {
         this.sout = new SoutConsole(false);
         playerList = new ArrayList<>();
         playerInventoryList = new ArrayList<>();
     }
+
     protected void updateCoins() {
         for (Inventory inv : playerInventoryList) {
             inv.addCoins(inv.getAddedCoins());

@@ -1,17 +1,9 @@
 package board;
 
-import gameelements.Effect;
-import gameelements.Card;
-import gameelements.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
-import gameelements.effects.ResourceEffect;
-import gameelements.effects.ScoreEffect;
-import gameelements.enums.Category;
-import gameelements.enums.Resource;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -23,20 +15,22 @@ public class PlayerTest {
 
     final ArrayList<Card> cards = new ArrayList<>(7);
     private Player player;
-    private Inventory inv;
+    private Inventory inv, playerRightNeighbor, playerLeftNeighbor;
 
 
     @Test
-    public void chooseCardTest(){
-         player = new Player(0);
-         inv = new Inventory(0);
-         cards.add(CardsSet.BIBLIOTHÈQUE);
-         cards.add(CardsSet.BIBLIOTHÈQUE);
-         cards.add(CardsSet.THÉÂTRE);
-         inv.setCardsInHand(cards);
-         assertEquals(CardsSet.BIBLIOTHÈQUE,player.chooseCard(inv));
-         inv.updateInventory(CardsSet.BIBLIOTHÈQUE);
-         assertEquals(CardsSet.THÉÂTRE,player.chooseCard(inv));
+    public void chooseCardTest() {
+        player = new Player(0);
+        inv = new Inventory(0);
+        playerRightNeighbor = new Inventory(1);
+        playerLeftNeighbor = new Inventory(2);
+        cards.add(CardsSet.BIBLIOTHÈQUE);
+        cards.add(CardsSet.BIBLIOTHÈQUE);
+        cards.add(CardsSet.THÉÂTRE);
+        inv.setCardsInHand(cards);
+        assertEquals(CardsSet.BIBLIOTHÈQUE, player.chooseCard(inv));
+        inv.updateInventory(CardsSet.BIBLIOTHÈQUE, player, playerRightNeighbor, playerLeftNeighbor);
+        assertEquals(CardsSet.THÉÂTRE, player.chooseCard(inv));
     }
 
     /*

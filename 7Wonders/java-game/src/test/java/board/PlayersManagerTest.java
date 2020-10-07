@@ -1,9 +1,7 @@
 package board;
 
-import gameelements.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
@@ -20,7 +18,7 @@ public class PlayersManagerTest {
 
     @BeforeEach
     public void setUp() {
-        playersManager  = new PlayersManager();
+        playersManager = new PlayersManager();
         for (int i = 0; i < 3; i++) {
             playersManager.playerList.add(new Player(i));
             playersManager.playerInventoryList.add(new Inventory(i));
@@ -28,30 +26,30 @@ public class PlayersManagerTest {
     }
 
     @Test
-    public void updateCoinsTest(){
-        assertEquals(0,playersManager.playerInventoryList.get(0).getAddedCoins());
-        assertEquals(3,playersManager.playerInventoryList.get(0).getCoins());
+    public void updateCoinsTest() {
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
         playersManager.playerInventoryList.get(0).setAddedCoins(2);
-        assertEquals(2,playersManager.playerInventoryList.get(0).getAddedCoins());
-        assertEquals(3,playersManager.playerInventoryList.get(0).getCoins());
+        assertEquals(2, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
         playersManager.updateCoins();
-        assertEquals(0,playersManager.playerInventoryList.get(0).getAddedCoins());
-        assertEquals(5,playersManager.playerInventoryList.get(0).getCoins());
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(5, playersManager.playerInventoryList.get(0).getCoins());
     }
 
     @Test
-    public void fightWithNeighborTest(){
+    public void fightWithNeighborTest() {
         Inventory inv = playersManager.playerInventoryList.get(0);
         Inventory invNeighbor = playersManager.playerInventoryList.get(2);
         inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
-        int victoryPoint = inv.getVictoryJetonsScore();
-        playersManager.fightWithNeighbor(inv,invNeighbor,1);
-        assertEquals(victoryPoint+1,inv.getVictoryJetonsScore());
+        int victoryPoint = inv.getVictoryChipsScore();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 1);
+        assertEquals(victoryPoint + 1, inv.getVictoryChipsScore());
         invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
         invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
-        int defeatJetonsCount = inv.getDefeatJetonsCount();
-        playersManager.fightWithNeighbor(inv,invNeighbor,5);
-        assertEquals(defeatJetonsCount+1,inv.getDefeatJetonsCount());
+        int defeatJetonsCount = inv.getDefeatChipsCount();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 5);
+        assertEquals(defeatJetonsCount + 1, inv.getDefeatChipsCount());
     }
 
     @Test

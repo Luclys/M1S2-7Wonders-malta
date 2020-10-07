@@ -4,7 +4,6 @@ import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class ScoreForMerveilleEffect extends Effect {
     int score;

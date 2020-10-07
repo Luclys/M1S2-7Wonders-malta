@@ -110,7 +110,7 @@ public class AgeI implements Age {
             cards.add(CardsSet.MARCHÉ);
         }
 
-        if (playersCount == 7 ) {
+        if (playersCount == 7) {
             //Blue
             cards.add(CardsSet.PRÊTEUR_SUR_GAGES);
             cards.add(CardsSet.BAINS);
