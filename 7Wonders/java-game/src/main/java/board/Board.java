@@ -205,10 +205,6 @@ public class Board {
         return playersManager;
     }
 
-    public Trade getCommerce() {
-        return commerce;
-    }
-
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
@@ -218,7 +214,6 @@ public class Board {
             playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), victoryJetonValue);
         }
     }
-
 
     ArrayList<Card> drawCards(int nbCards) {
         ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));

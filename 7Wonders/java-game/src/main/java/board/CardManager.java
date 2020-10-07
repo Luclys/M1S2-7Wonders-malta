@@ -9,6 +9,11 @@ public class CardManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
 
+    public CardManager(){
+        playerInventoryList = new ArrayList<>();
+        playerList = new ArrayList<>();
+    }
+
     public CardManager(ArrayList<Player> playerList, ArrayList<Inventory> playerInventoryList) {
         this.playerList = playerList;
         this.playerInventoryList = playerInventoryList;

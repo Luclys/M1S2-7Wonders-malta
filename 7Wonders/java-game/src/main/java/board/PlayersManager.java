@@ -4,6 +4,7 @@ import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+
 import java.util.ArrayList;
 
 public class PlayersManager {
@@ -14,7 +15,11 @@ public class PlayersManager {
     public PlayersManager(SoutConsole sout) {
         this.sout = sout;
     }
-
+    public PlayersManager() {
+        this.sout = new SoutConsole(false);
+        playerList = new ArrayList<>();
+        playerInventoryList = new ArrayList<>();
+    }
     protected void updateCoins(){
         Inventory inv;
         for(Player player:playerList){

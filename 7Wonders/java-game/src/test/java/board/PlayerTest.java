@@ -2,19 +2,12 @@ package board;
 
 import gameelements.Card;
 import gameelements.CardsSet;
-import gameelements.Effect;
 import gameelements.Inventory;
-import gameelements.effects.ResourceEffect;
-import gameelements.effects.ScoreEffect;
-import gameelements.enums.Category;
-import gameelements.enums.Resource;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class PlayerTest {
@@ -22,9 +15,22 @@ public class PlayerTest {
     final ArrayList<Card> cards = new ArrayList<>(7);
     private Player player;
     private Inventory inv;
-    private Board board;
-    private ArrayList<Player> playerList;
 
+
+    @Test
+    public void chooseCardTest(){
+         player = new Player(0);
+         inv = new Inventory(0);
+         cards.add(CardsSet.BIBLIOTHÈQUE);
+         cards.add(CardsSet.BIBLIOTHÈQUE);
+         cards.add(CardsSet.THÉÂTRE);
+         inv.setCardsInHand(cards);
+         assertEquals(CardsSet.BIBLIOTHÈQUE,player.chooseCard(inv));
+         inv.updateInventory(CardsSet.BIBLIOTHÈQUE);
+         assertEquals(CardsSet.THÉÂTRE,player.chooseCard(inv));
+    }
+
+    /*
     @BeforeEach
     public void setUp() {
         playerList = new ArrayList<>();
@@ -66,31 +72,5 @@ public class PlayerTest {
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
-
-    @Test
-    public void fightWithNeighborTest() {
-        Card bouclierCard = CardsSet.PALISSADE;
-
-        Player rightNeighbour = board.getPlayerList().get(player.getRightNeighborId());
-        Inventory rightNeighbourInv = board.getPlayerInventoryList().get(rightNeighbour.getId());
-        Player leftNeighbour = board.getPlayerList().get(player.getLeftNeighborId());
-        Inventory leftNeighbourInv = board.getPlayerInventoryList().get(leftNeighbour.getId());
-
-        cards.set(0, bouclierCard);
-        rightNeighbourInv.setCardsInHand(cards);
-        rightNeighbourInv.updateInventory(rightNeighbour.chooseCard(inv)); //Neighbor has 1 bouclier
-        cards.set(0, bouclierCard);
-        leftNeighbourInv.setCardsInHand(cards);
-        leftNeighbourInv.updateInventory(leftNeighbour.chooseCard(inv));
-
-        board.resolveWarConflict(1);
-        assertEquals(0, inv.getVictoryJetonsScore());
-        assertEquals(2, inv.getDefeatJetonsCount());
-
-        assertEquals(1, leftNeighbourInv.getVictoryJetonsScore());
-        assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
-
-        assertEquals(1, rightNeighbourInv.getVictoryJetonsScore());
-        assertEquals(0, leftNeighbourInv.getDefeatJetonsCount());
-    }
+*/
 }

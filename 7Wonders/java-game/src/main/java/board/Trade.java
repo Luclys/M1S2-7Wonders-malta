@@ -14,10 +14,10 @@ public class Trade {
 
     protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
-        ArrayList<Inventory> playersWithResources = new ArrayList<Inventory>();
+        ArrayList<Inventory> playersWithResources = new ArrayList<>();
         Inventory neighbor;
         int k = 0;
-        sout.display("Check if player "+playerInv.getPlayerId()+ " has enough coins .");
+        sout.display("Check if player " + playerInv.getPlayerId() + " has enough coins .");
         sout.display("Search for neighbors whom have the missing resources ");
 
         for (Resource r : missingResources) {// check if the player has enough coins to buy resource
@@ -28,7 +28,7 @@ public class Trade {
                     if (neighbor == null) {// check if one of the neighbor has the resource
                         break;
                     } else {
-                        sout.display("Neighbor "+neighbor.getPlayerId()+" can sell "+ r +" to player "+playerInv.getPlayerId());
+                        sout.display("Neighbor " + neighbor.getPlayerId() + " can sell " + r + " to player " + playerInv.getPlayerId());
                         playersWithResources.add(neighbor);
                         k++;
                     }
@@ -41,17 +41,13 @@ public class Trade {
         if (k == missingResources.size()) {// neighbors have all the missing resources
             boolean right;
             sout.display("The player can buy all missing resources");
-            for(Inventory inv :playersWithResources ){
-                if(inv.equals(rightNeighborInv)){
-                    right = true;
-                }else{
-                    right = false;
-                }
+            for (Inventory inv : playersWithResources) {
+                right = inv.equals(rightNeighborInv);
                 buyFromNeighbor(playerInv, inv, right);
             }
             result = true;
-        }else{
-            sout.display("Player "+playerInv.getPlayerId()+ "can't buy all resources");
+        } else {
+            sout.display("Player " + playerInv.getPlayerId() + "can't buy all resources");
         }
         return result;
     }
@@ -64,7 +60,7 @@ public class Trade {
         }else{
             price = leftPrice
         }*/
-        sout.display("Player "+playerInv.getPlayerId()+"buy from his");
+        sout.display("Player " + playerInv.getPlayerId() + "buy from his");
         neighborInv.setAddedCoins(price);
         playerInv.removeCoins(price);
     }

@@ -1,8 +1,8 @@
 package gameelements.effects;
 
-import gameelements.enums.Category;
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.EffectFrequency;
 
@@ -11,7 +11,7 @@ public class ScoreForNeighborsCardsEffect extends Effect {
     Category category;
 
     public ScoreForNeighborsCardsEffect(int nb, Category category) {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);;
+        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
         this.nb = nb;
         this.category = category;
     }

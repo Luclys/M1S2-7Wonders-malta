@@ -5,7 +5,6 @@ import gameelements.Inventory;
 import gameelements.effects.CoinEffect;
 import gameelements.enums.Category;
 import io.cucumber.java8.En;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 

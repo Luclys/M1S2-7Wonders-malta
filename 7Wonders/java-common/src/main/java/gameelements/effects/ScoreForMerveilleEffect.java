@@ -15,7 +15,7 @@ public class ScoreForMerveilleEffect extends Effect {
 
     public void activateEffect(Inventory playersInv) {
         super.activateEffect(playersInv);
-        int stepsCount = playersInv.getWonderBoard().getCurrentStepIndex();;
+        int stepsCount = playersInv.getWonderBoard().getCurrentStepIndex();
         playersInv.addScore(score * stepsCount);
     }
 }
