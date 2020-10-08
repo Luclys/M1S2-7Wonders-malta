@@ -14,26 +14,10 @@
     <version>1</version>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
-        <testSourceDirectory>../java-common/src/test/java</testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>Server</mainClass>
-                </configuration>
-            </plugin>
-
-        </plugins>
+        <sourceDirectory>src/main/java
+        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <testSourceDirectory>/src/test/java
+        </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
     </build>
 
 

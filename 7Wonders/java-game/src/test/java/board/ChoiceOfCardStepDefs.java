@@ -1,8 +1,9 @@
 package board;
 
-import effects.CoinEffect;
-import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.Player;
+import gameelements.cards.Card;
+import gameelements.effects.CoinEffect;
 import gameelements.enums.Category;
 import io.cucumber.java8.En;
 
@@ -14,12 +15,18 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class ChoiceOfCardStepDefs implements En {
     Player player;
     Inventory inventory;
-    Board board = new Board(1, false);
-    Card tavern = new Card("TAVERNE", new CoinEffect("", 5), null, Category.BATIMENT_COMMERCIEAU);
+    Board board;
+    Card tavern = new Card("TAVERNE", new CoinEffect(5), null, Category.BATIMENT_COMMERCIAL);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
 
     public ChoiceOfCardStepDefs() {
+        ArrayList<Player> playerList = new ArrayList<>(3);
+        for (int i = 0; i < 3; i++) {
+            Player player = new Player(i);
+            playerList.add(player);
+        }
+        board = new Board(playerList, false);
         Given("a player with id {int}", (Integer playerId) -> {
             inventory = new Inventory(playerId);
             player = new Player(playerId);
@@ -31,7 +38,7 @@ public class ChoiceOfCardStepDefs implements En {
 
         When("player chooses TAVERNE", () -> {
             initialCoinsCount = inventory.getCoins();
-            board.playCard(inventory, inventory, player);
+            board.playCard(player, inventory, inventory);
         });
         Then("5 coins added to player", () -> {
             assertEquals(inventory.getCoins(), (initialCoinsCount + 5));

@@ -1,41 +1,105 @@
 package board;
 
-import effects.ResourceEffect;
-import gameelements.Card;
 import gameelements.Inventory;
-import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TradeTest {
-    private Card card;
-    private Board board;
+    private Trade trade;
+    private ArrayList<Resource> list = new ArrayList<>();
+    private Inventory player, rightNeighbor, leftNeighbor;
+
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3, false);
-        card = new Card("DUMMY", new ResourceEffect("", Resource.BOIS, 1), new Resource[]{Resource.BOIS}, Category.MATIERE_PREMIERE);
+        trade = new Trade(new SoutConsole(false));
+        player = new Inventory(0);
+        rightNeighbor = new Inventory(1);
+        leftNeighbor = new Inventory(2);
     }
 
     @Test
+    public void saleResourcesTest() {
+
+        trade.saleResources(list, player, rightNeighbor, leftNeighbor);
+
+        assertEquals(3, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+        assertEquals(3, leftNeighbor.getCoins());
+
+        list.add(Resource.ARGILE);
+        list.add(Resource.VERRE);
+
+        trade.saleResources(list, player, rightNeighbor, leftNeighbor);
+
+        assertEquals(3, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+        assertEquals(3, leftNeighbor.getCoins());
+
+        leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+
+        trade.saleResources(list, player, rightNeighbor, leftNeighbor);
+
+        assertEquals(3, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+        assertEquals(3, leftNeighbor.getCoins());
+
+        rightNeighbor.getAvailableResources()[Resource.VERRE.getIndex()]++;
+
+        player.addCoins(1);
+
+        trade.saleResources(list, player, rightNeighbor, leftNeighbor);
+
+        assertNotEquals(4, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+        assertEquals(3, leftNeighbor.getCoins());
+        assertNotEquals(0, leftNeighbor.getAddedCoins());
+        assertNotEquals(0, rightNeighbor.getAddedCoins());
+    }
+
+
+    @Test
     public void findSellerTest() {
-        Player rightNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getRightNeighborId());
-        Player leftNeighbor = board.getPlayerList().get(board.getPlayerList().get(0).getLeftNeighborId());
-        board.getPlayerInventoryList().get(rightNeighbor.getId()).getCardsInHand().add(card);
-        board.getPlayerInventoryList().get(rightNeighbor.getId()).updateInventory(card);
-        Inventory neighbourInv = board.getCommerce().findSeller(
-                Resource.BOIS,
-                board.getPlayerInventoryList().get(rightNeighbor.getId()),
-                board.getPlayerInventoryList().get(leftNeighbor.getId()));
-         assertEquals(rightNeighbor.getId(), neighbourInv.getPlayerId());
+        Inventory neighbor = trade.findSeller(Resource.ARGILE, rightNeighbor, leftNeighbor);
+
+        assertNull(neighbor);
+
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+
+        neighbor = trade.findSeller(Resource.ARGILE, rightNeighbor, leftNeighbor);
+
+        assertEquals(rightNeighbor, neighbor);
+
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]--;
+        leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        neighbor = trade.findSeller(Resource.ARGILE, rightNeighbor, leftNeighbor);
+
+        assertEquals(leftNeighbor, neighbor);
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        neighbor = trade.findSeller(Resource.ARGILE, rightNeighbor, leftNeighbor);
+
+        assertEquals(rightNeighbor, neighbor);
     }
 
     @Test
     void buyFromNeighborTest() {
-        board.getCommerce().buyFromNeighbor(board.getPlayerInventoryList().get(0), board.getPlayerInventoryList().get(1));
-        assertEquals(1, board.getPlayerInventoryList().get(0).getCoins());
-        assertEquals(5, board.getPlayerInventoryList().get(1).getCoins());
+        assertEquals(3, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+
+        assertEquals(0, player.getAddedCoins());
+        assertEquals(0, rightNeighbor.getAddedCoins());
+
+        trade.buyFromNeighbor(player, rightNeighbor, true);
+
+        assertEquals(1, player.getCoins());
+        assertEquals(3, rightNeighbor.getCoins());
+
+        assertEquals(0, player.getAddedCoins());
+        assertEquals(2, rightNeighbor.getAddedCoins());
     }
 }
