@@ -7,9 +7,7 @@ public enum Resource {
     BOIS(3),
     VERRE(4),
     TISSU(5),
-    PAPYRUS(6),
-    ARGENT(12);
-
+    PAPYRUS(6);
     private final int index;
 
     Resource(int index) {

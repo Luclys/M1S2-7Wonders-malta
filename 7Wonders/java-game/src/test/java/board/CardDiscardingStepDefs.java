@@ -1,8 +1,9 @@
 package board;
 
-import effects.ResourceEffect;
-import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.Player;
+import gameelements.cards.Card;
+import gameelements.effects.ResourceEffect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import io.cucumber.java8.En;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CardDiscardingStepDefs implements En {
     Player player;
     Inventory inv;
-    Card card = new Card("CAVITÉ", new ResourceEffect("", Resource.PIERRE, 1), null, Category.MATIERE_PREMIERE);
+    Card card = new Card("CAVITÉ", new ResourceEffect(Resource.PIERRE, 1), null, Category.MATIERE_PREMIERE);
     ArrayList<Card> cards = new ArrayList<>(7);
     int initialCoinsCount = 0;
     int initialCardsCount = 0;

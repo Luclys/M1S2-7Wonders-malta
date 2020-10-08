@@ -1,59 +1,77 @@
 package board;
 
-import effects.ResourceEffect;
-import effects.ScoreEffect;
-import gameelements.Card;
-import gameelements.Effect;
 import gameelements.Inventory;
-import gameelements.enums.Category;
+import gameelements.Player;
+import gameelements.cards.CardsSet;
 import gameelements.enums.Resource;
+import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayersManagerTest {
 
-    final ArrayList<Card> cards = new ArrayList<>(7);
-    private Player player;
-    private Inventory inv;
-    private Board board;
+    private PlayersManager playersManager;
 
     @BeforeEach
     public void setUp() {
-        board = new Board(3, false);
-        player = board.getPlayerList().get(0);
-        inv = board.getPlayerInventoryList().get(player.getId());
-        for (int i = 0; i < 7; i++) {
-            cards.add(new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, null, Category.BATIMENT_CIVIL));
+        playersManager = new PlayersManager();
+        for (int i = 0; i < 3; i++) {
+            playersManager.playerList.add(new Player(i));
+            playersManager.playerInventoryList.add(new Inventory(i));
         }
-        inv.setCardsInHand(cards);
     }
 
+    @Test
+    public void updateCoinsTest() {
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
+        playersManager.playerInventoryList.get(0).setAddedCoins(2);
+        assertEquals(2, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
+        playersManager.updateCoins();
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(5, playersManager.playerInventoryList.get(0).getCoins());
+    }
+
+    @Test
+    public void fightWithNeighborTest() {
+        Inventory inv = playersManager.playerInventoryList.get(0);
+        Inventory invNeighbor = playersManager.playerInventoryList.get(2);
+        inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        int victoryPoint = inv.getVictoryChipsScore();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 1);
+        assertEquals(victoryPoint + 1, inv.getVictoryChipsScore());
+        invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        int defeatJetonsCount = inv.getDefeatChipsCount();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 5);
+        assertEquals(defeatJetonsCount + 1, inv.getDefeatChipsCount());
+    }
 
     @Test
     void missingResourcesTest() {
-        Card c = new Card("CHANTIER", new Effect[]{new ScoreEffect("", 1), new ResourceEffect("", Resource.BOIS, 1)}, new Resource[]{Resource.BOIS}, Category.BATIMENT_CIVIL);
-        ArrayList<Resource> m = board.getManager().missingResources(inv, c);
-        assertEquals(Resource.BOIS, m.get(0));
+        Inventory inv = playersManager.playerInventoryList.get(0);
+        inv.getAvailableResources()[Resource.BOIS.getIndex()] = 0;
+        ArrayList<Resource> m = playersManager.missingResources(inv, CardsSet.PALISSADE);
+        assertTrue(m.contains(Resource.BOIS));
+        inv.getAvailableResources()[Resource.BOIS.getIndex()]++;
+        m = playersManager.missingResources(inv, CardsSet.PALISSADE);
+        assertFalse(m.contains(Resource.BOIS));
     }
 
     @Test
-    public void generetePlayersTest() {
-        int nbPlayers = 7;
-
-        Board board = new Board(nbPlayers, false);
-        ArrayList<Player> playerList = board.getPlayerList();
-
+    public void associateNeighborTest() {
+        ArrayList<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
         int playersCount = playerList.size();
-        assertEquals(7, playersCount);
+        assertEquals(3, playersCount);
 
         Player firstPlayer = playerList.get(0);
         Player secondPlayer = playerList.get(1);
-        Player lastPlayer = playerList.get(nbPlayers - 1);
+        Player lastPlayer = playerList.get(playersCount - 1);
 
         // We test the neighborhood tor to the left then to the right
         assertSame(playerList.get(firstPlayer.getLeftNeighborId()), lastPlayer);
@@ -63,6 +81,4 @@ public class PlayersManagerTest {
         assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
         assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
     }
-
-
 }

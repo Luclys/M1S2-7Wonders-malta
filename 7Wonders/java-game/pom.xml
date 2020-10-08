@@ -14,8 +14,10 @@
     <version>1</version>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
-        <testSourceDirectory>src/test/java</testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
+        <sourceDirectory>src/main/java
+        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <testSourceDirectory>src/test/java
+        </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -29,7 +31,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>board.Board</mainClass>
+                    <mainClass>board.SevenWondersLauncher</mainClass>
                 </configuration>
             </plugin>
 

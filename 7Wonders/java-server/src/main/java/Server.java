@@ -2,7 +2,6 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import gameelements.Inventory;
 
@@ -18,7 +17,7 @@ public class Server {
         server.addConnectListener(socketIOClient -> System.out.println("Connexion de " + socketIOClient.getRemoteAddress()));
 
         // Réception d'un inventaire et déclaration du gagnant
-        server.addEventListener("inventory", Inventory.class, new DataListener<Inventory>() {
+        server.addEventListener("inventory", Inventory.class, new DataListener<>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Inventory inventory, AckRequest ackRequest) throws Exception {
                 System.out.println("Le joueur gagnant est " + inventory.getPlayerId() + " !");
@@ -26,7 +25,7 @@ public class Server {
         });
 
         // Test
-        server.addEventListener("test", String.class, new DataListener<String>() {
+        server.addEventListener("test", String.class, new DataListener<>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 System.out.println(s);
