@@ -23,21 +23,21 @@ public class AgesTest {
 
     @Test
     public void initiateCardsTest() {
-        assertThrows(Error.class, () -> AgeI.initiateCards(2));
+        assertThrows(IllegalStateException.class, () -> AgeI.initiateCards(2));
         ArrayList<Card> cards = AgeI.initiateCards(3);
         assertTrue(cards.contains(CardsSet.PALISSADE));
         cards = AgeI.initiateCards(4);
         assertTrue(cards.contains(CardsSet.EXCAVATION));
         assertFalse(cards.contains(CardsSet.MINE));
 
-        assertThrows(Error.class, () -> AgeII.initiateCards(8));
+        assertThrows(IllegalStateException.class, () -> AgeII.initiateCards(8));
         cards = AgeII.initiateCards(3);
         assertTrue(cards.contains(CardsSet.FONDERIE));
         assertFalse(cards.contains(CardsSet.BAZAR));
         cards = AgeII.initiateCards(4);
         assertTrue(cards.contains(CardsSet.BAZAR));
 
-        assertThrows(Error.class, () -> AgeIII.initiateCards(8));
+        assertThrows(IllegalStateException.class, () -> AgeIII.initiateCards(8));
         cards = AgeIII.initiateCards(4);
         assertTrue(cards.contains(CardsSet.PORT));
         assertTrue(cards.contains(CardsSet.OBSERVATOIRE));
