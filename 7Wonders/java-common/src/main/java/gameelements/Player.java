@@ -50,12 +50,13 @@ public class Player {
         // return the played card to the board so that the board can decide which decision to make(buy resource or discard)
     }
 
-    public Card chooseGuildCard(ArrayList<Card> list, Inventory inv) {
+    public Card chooseGuildCard(ArrayList<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         return list.get(0);
     }
 
     public Symbol chooseScientific(int[] currentSymbols) {
-        //foreach(nb same Scientific²) + min(nb same scientific) * 7
+        // scientific score rule :
+        // foreach(nb same Scientific²) + min(nb same scientific) * 7
         return Symbol.COMPAS;
     }
 
