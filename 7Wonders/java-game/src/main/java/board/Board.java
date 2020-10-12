@@ -195,7 +195,7 @@ public class Board {
             list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
 
             Integer min = Collections.min(list);
-            int nbSameScientific = min * min;
+            int nbSameScientific = min;
 
             list.forEach(integer -> inv.addScore(integer * integer));
             inv.addScore(nbSameScientific * 7);

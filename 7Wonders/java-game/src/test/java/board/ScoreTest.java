@@ -1,24 +1,31 @@
 package board;
 
+import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
-import gameelements.cards.CardsSet;
-import gameelements.effects.ResourceEffect;
+import gameelements.effects.ChoiceScientificEffect;
 import gameelements.effects.SymbolEffect;
-import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
-import gameelements.wonders.Step;
-import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class ScoreTest {
     ArrayList<Player> playerList;
+
+    @Mock
+    Player playerMocked;
 
     @BeforeEach
     public void setUp() {
@@ -29,39 +36,167 @@ public class ScoreTest {
         }
     }
 
+    /*
+     * We test that when the player is given the guild of scientific card,
+     * the symbol is added only at the end of the game -> Inventory@scores()
+     * the symbol chosen by the player is accounted when calculating scores.
+     * */
+    @Disabled
     @Test
-    void claimBoard() {
+    void guildChooseScientificScoreTest() {
+        Board board = new Board(playerList, false);
+        Inventory inv = board.getPlayerInventoryList().get(0);
+
+        //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
+        //  TODO : REPAIR MOCK !
+        //when(playerMocked.chooseScientific(inv.getAvailableSymbols())).thenReturn(Symbol.COMPAS, Symbol.COMPAS);
+        doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific(null);
+
+        Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
+        Card card2ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.STELE, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
+        inv.setCoins(0);
+
+        inv.updateInventory(card2ScientificSymbol, null, null, null);
+        inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
+        assertEquals(0, inv.getSymbCount(Symbol.COMPAS));
+
+        board.scores();
+        assertEquals(10, inv.getScore());
+    }
+
+    /*
+     * Testing that multiple end effects are rightfully accounted into score.
+     * */
+    @Disabled
+    @Test
+    void multipleEndEffectScoreTest() {
+        Board board = new Board(playerList, false);
+        Inventory inv = board.getPlayerInventoryList().get(0);
+
+        when(playerMocked.chooseScientific(null)).thenReturn(Symbol.STELE, Symbol.STELE);
+        //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
+        //  TODO : REPAIR MOCK !
+
+        Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
+        Card card2ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
+        inv.setCoins(0);
+
+        inv.updateInventory(card2ScientificSymbol, null, null, null);
+        inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
+        inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
+
+        board.scores();
+        assertEquals(13, inv.getScore());
+    }
+
+    @Test
+    void conflictScoreTest() {
         // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
-        Player player = playerList.get(0);
         Inventory inv = board.getPlayerInventoryList().get(0);
-        Inventory leftNeighborInv = board.getPlayerInventoryList().get(player.getLeftNeighborId());
-        Inventory rightNeighborInv = board.getPlayerInventoryList().get(player.getRightNeighborId());
 
-        ArrayList<Step> listSteps = new ArrayList<>();
-        listSteps.add(new Step(null, new ResourceEffect(Resource.BOIS, 1)));
-        listSteps.add(new Step(null, new ResourceEffect(Resource.PIERRE, 2)));
-        listSteps.add(new Step(null, new SymbolEffect(Symbol.STELE, 1)));
-        WonderBoard TESTBOARD = new WonderBoard("TEST", new ResourceEffect(Resource.BOIS, 1), listSteps);
+        inv.setCoins(0);
+        inv.setVictoryChipsScore(5);
+        inv.setDefeatChipsCount(1);
 
-        TESTBOARD.claimBoard(player, inv);
+        board.scores();
+        assertEquals(4, inv.getScore());
+        inv.setScore(0);
 
-        assertEquals(1, inv.getResCount(Resource.BOIS));
+        inv.setVictoryChipsScore(2);
+        inv.setDefeatChipsCount(5);
 
-        // We claim a test Board, then test if when buying a step, we get the resource.
-        Card card = CardsSet.CHANTIER;
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
-
-        assertEquals(2, inv.getResCount(Resource.BOIS));
-
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
-        assertEquals(2, inv.getResCount(Resource.PIERRE));
-
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
-        assertEquals(1, inv.getSymbCount(Symbol.STELE));
-
-        //assertThrows(Error, TESTBOARD.buyNextStep(card));
+        board.scores();
+        assertEquals(-3, inv.getScore());
     }
+
+    @Test
+    void coinScoreTest() {
+        // We claim a test Board, then test if we got the base resource.
+        Board board = new Board(playerList, false);
+        Inventory inv = board.getPlayerInventoryList().get(0);
+
+        inv.setCoins(0);
+        board.scores();
+        assertEquals(0, inv.getScore());
+        inv.setScore(0);
+
+        inv.setCoins(3);
+        board.scores();
+        assertEquals(1, inv.getScore());
+        inv.setScore(0);
+
+        inv.setCoins(4);
+        board.scores();
+        assertEquals(1, inv.getScore());
+        inv.setScore(0);
+
+        inv.setCoins(9);
+        board.scores();
+        assertEquals(3, inv.getScore());
+        inv.setScore(0);
+    }
+
+    @Test
+    void sameScientificScoreTest() {
+        // We claim a test Board, then test if we got the base resource.
+        Board board = new Board(playerList, false);
+        Inventory inv = board.getPlayerInventoryList().get(0);
+
+        /*
+         * 1 seul symbole : 1 point de victoire
+         * 2 symboles identiques : 4 points de victoire
+         * 3 symboles identiques : 9 points de victoire
+         * 4 symboles identiques : 16 points de victoire
+         * */
+
+        Card card1Compas = new Card("", new SymbolEffect(Symbol.COMPAS, 1), null, null);
+        Card card2Compas = new Card("", new SymbolEffect(Symbol.COMPAS, 2), null, null);
+        inv.setCoins(0);
+
+        inv.updateInventory(card1Compas, null, null, null);
+        board.scores();
+        assertEquals(1, inv.getScore());
+        inv.setScore(0);
+
+        inv.updateInventory(card1Compas, null, null, null);
+        board.scores();
+        assertEquals(4, inv.getScore());
+        inv.setScore(0);
+
+        inv.updateInventory(card2Compas, null, null, null);
+        board.scores();
+        assertEquals(16, inv.getScore());
+
+    }
+
+    @Test
+    void tripleScientificScoreTest() {
+        // We claim a test Board, then test if we got the base resource.
+        Board board = new Board(playerList, false);
+        Inventory inv = board.getPlayerInventoryList().get(0);
+
+        Card card3ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.STELE, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
+        inv.setCoins(0);
+
+        inv.updateInventory(card3ScientificSymbol, null, null, null);
+        board.scores();
+        assertEquals(10, inv.getScore());
+        inv.setScore(0);
+
+        inv.updateInventory(card3ScientificSymbol, null, null, null);
+        board.scores();
+        assertEquals(26, inv.getScore());
+        inv.setScore(0);
+
+        Card card1Compas = new Card("", new SymbolEffect(Symbol.COMPAS, 1), null, null);
+        inv.updateInventory(card1Compas, null, null, null);
+        board.scores();
+        assertEquals(31, inv.getScore());
+        inv.setScore(0);
+    }
+
+
 }
 
 

@@ -19,7 +19,6 @@ public class ChoiceScientificEffect extends Effect {
             return;
         }
 
-        System.out.println("Activating effect !! héhé, I'm delay :  " + this.delay);
         Symbol symbol = player.chooseScientific(inv.getAvailableSymbols().clone());
         inv.getAvailableSymbols()[symbol.getIndex()]++;
     }
