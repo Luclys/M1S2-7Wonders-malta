@@ -48,7 +48,7 @@ public class ScoreTest {
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
-        //  TODO : REPAIR MOCK !!
+        //  TODO : REPAIR MOCK !
         //when(playerMocked.chooseScientific(inv.getAvailableSymbols())).thenReturn(Symbol.COMPAS, Symbol.COMPAS);
         doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific(null);
 
