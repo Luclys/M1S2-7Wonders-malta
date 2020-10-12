@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ScoreTest {
@@ -31,8 +30,7 @@ public class ScoreTest {
     public void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-            Player player = new Player(i);
-            playerList.add(player);
+            playerList.add(playerMocked);
         }
     }
 
@@ -73,15 +71,16 @@ public class ScoreTest {
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
-        when(playerMocked.chooseScientific(null)).thenReturn(Symbol.STELE, Symbol.STELE);
+        // doAnswer(invocationOnMock -> Symbol.STELE).when(playerMocked).chooseScientific(new int[]{0, 1, 1, 0});
+        // when(playerMocked.chooseScientific(null)).thenReturn(Symbol.STELE, Symbol.STELE);
         //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
         //  TODO : REPAIR MOCK !
 
-        Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
         Card card2ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
+        Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
         inv.setCoins(0);
 
-        inv.updateInventory(card2ScientificSymbol, null, null, null);
+        inv.updateInventory(card2ScientificSymbol, playerMocked, null, null);
         inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
         inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
 
