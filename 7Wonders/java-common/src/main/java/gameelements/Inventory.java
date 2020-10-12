@@ -135,14 +135,6 @@ public class Inventory {
         }
     }
 
-    public int getVictoryChipsScore() {
-        return victoryChipsScore;
-    }
-
-    public int getDefeatChipsCount() {
-        return defeatChipsCount;
-    }
-
     public void addVictoryJetonsScore(int victoryJetonsScore) {
         this.victoryChipsScore += victoryJetonsScore;
     }
@@ -156,13 +148,24 @@ public class Inventory {
     }
 
     public void removeCoins(int coins) {
-        setCoins(this.coins - coins);
+        this.coins -= coins;
     }
 
     public void addCoins(int coins) {
         this.coins += coins;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    }
+
+    public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
+        this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
+    }
 
     // TWEAKED GETTERS
     public int getSymbCount(Symbol symbol) {
@@ -186,6 +189,10 @@ public class Inventory {
         return availableSymbols;
     }
 
+    public ArrayList<Resource[]> getPairResChoice() {
+        return pairResChoice;
+    }
+
     public ArrayList<Card> getCardsInHand() {
         return cardsInHand;
     }
@@ -194,16 +201,16 @@ public class Inventory {
         this.cardsInHand = cardsInHand;
     }
 
-    public ArrayList<Effect> getEndGameEffects() {
-        return endGameEffects;
-    }
-
     public ArrayList<Card> getPlayedCards() {
         return playedCards;
     }
 
     public void setPlayedCards(ArrayList<Card> playedCards) {
         this.playedCards = playedCards;
+    }
+
+    public ArrayList<Effect> getEndGameEffects() {
+        return endGameEffects;
     }
 
     public WonderBoard getWonderBoard() {
@@ -222,8 +229,20 @@ public class Inventory {
         this.score = score;
     }
 
-    public void addScore(int score) {
-        this.score += score;
+    public int getVictoryChipsScore() {
+        return victoryChipsScore;
+    }
+
+    public void setVictoryChipsScore(int victoryChipsScore) {
+        this.victoryChipsScore = victoryChipsScore;
+    }
+
+    public int getDefeatChipsCount() {
+        return defeatChipsCount;
+    }
+
+    public void setDefeatChipsCount(int defeatChipsCount) {
+        this.defeatChipsCount = defeatChipsCount;
     }
 
     public int getCoins() {
@@ -250,7 +269,6 @@ public class Inventory {
         this.matieresPremieresPriceRight = matieresPremieresPriceRight;
     }
 
-
     public int getProduitsManifacturesPrice() {
         return produitsManifacturesPrice;
     }
@@ -267,20 +285,36 @@ public class Inventory {
         this.addedCoins = addedCoins;
     }
 
+    public int getAllResPremChoice() {
+        return allResPremChoice;
+    }
+
+    public void setAllResPremChoice(int allResPremChoice) {
+        this.allResPremChoice = allResPremChoice;
+    }
+
+    public int getAllResManuChoice() {
+        return allResManuChoice;
+    }
+
+    public void setAllResManuChoice(int allResManuChoice) {
+        this.allResManuChoice = allResManuChoice;
+    }
+
     public int getPossibleFreeBuildingsCount() {
         return possibleFreeBuildingsCount;
     }
 
-    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    public void setPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildingsCount = possibleFreeBuildingsCount;
     }
 
     public int getPossibleFreeDiscardedBuildingsCount() {
         return possibleFreeDiscardedBuildingsCount;
     }
 
-    public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
-        this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
+    public void setPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
+        this.possibleFreeDiscardedBuildingsCount = possibleFreeDiscardedBuildingsCount;
     }
 
     public boolean isCanPlayLastCard() {
@@ -290,5 +324,4 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
-
 }
