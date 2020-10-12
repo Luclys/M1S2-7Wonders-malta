@@ -12,10 +12,13 @@ public abstract class Effect {
 
     // Needed : 2 neighbors, and Player Inventories
     public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+    }
 
-/*
-        if (delay == 0 && repeat == 0) {
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
         }
-*/
     }
 }

@@ -14,6 +14,7 @@ public class Inventory {
     private final ArrayList<Resource[]> pairResChoice;
     private ArrayList<Card> cardsInHand;
     private ArrayList<Card> playedCards;
+    private final ArrayList<Effect> endGameEffects;
     private WonderBoard wonderBoard;
 
     private int score;
@@ -27,8 +28,6 @@ public class Inventory {
 
     private int allResPremChoice;
     private int allResManuChoice;
-    private int priceLeft;
-    private int priceRight;
     private int possibleFreeBuildingsCount;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
@@ -40,6 +39,7 @@ public class Inventory {
         this.pairResChoice = new ArrayList<>();
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
+        this.endGameEffects = new ArrayList<>(7 * 3);
 
         this.score = 0;
         this.victoryChipsScore = 0;
@@ -52,8 +52,6 @@ public class Inventory {
 
         allResPremChoice = 0;
         allResManuChoice = 0;
-        this.priceLeft = 2;
-        this.priceRight = 2;
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
@@ -67,6 +65,7 @@ public class Inventory {
         this.pairResChoice = inventory.pairResChoice;
         this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
+        this.endGameEffects = inventory.endGameEffects;
         this.wonderBoard = inventory.wonderBoard;
 
         this.score = inventory.score;
@@ -148,6 +147,10 @@ public class Inventory {
         this.victoryChipsScore += victoryJetonsScore;
     }
 
+    public void addEndGameEffect(Effect effect) {
+        this.endGameEffects.add(effect);
+    }
+
     public void addDefeatJeton() {
         this.defeatChipsCount++;
     }
@@ -189,6 +192,10 @@ public class Inventory {
 
     public void setCardsInHand(ArrayList<Card> cardsInHand) {
         this.cardsInHand = cardsInHand;
+    }
+
+    public ArrayList<Effect> getEndGameEffects() {
+        return endGameEffects;
     }
 
     public ArrayList<Card> getPlayedCards() {
@@ -283,6 +290,5 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
-
 
 }
