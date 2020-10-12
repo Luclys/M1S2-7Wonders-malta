@@ -15,4 +15,9 @@ public class FreeBuildingEffect extends Effect {
         super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
         inv.addPossibleFreeBuildingsCount(1);
     }
+
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+
+    }
 }

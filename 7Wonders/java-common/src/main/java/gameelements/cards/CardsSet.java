@@ -88,7 +88,7 @@ public class CardsSet {
     public final static Card FORTIFICATIONS = new Card("FORTIFICATIONS", new SymbolEffect(Symbol.BOUCLIER, 3), new Resource[]{Resource.PIERRE, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, Category.BATIMENT_MILITAIRE);
     public final static Card CIRQUE = new Card("FORTIFICATIONS", new SymbolEffect(Symbol.BOUCLIER, 3), new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.MINERAI}, Category.BATIMENT_MILITAIRE);
     public final static Card ARSENAL = new Card("ARSENAL", new SymbolEffect(Symbol.BOUCLIER, 3), new Resource[]{Resource.MINERAI, Resource.BOIS, Resource.BOIS, Resource.TISSU}, Category.BATIMENT_MILITAIRE);
-    public final static Card ATELIER_DE_SIÈGE = new Card("ATELIER_DE_SIÈGE", new SymbolEffect(Symbol.BOUCLIER, 3), new Resource[]{Resource.BOIS, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, Category.BATIMENT_MILITAIRE);
+    public final static Card ATELIER_DE_SIÈGE = new Card("ATELIER DE SIÈGE", new SymbolEffect(Symbol.BOUCLIER, 3), new Resource[]{Resource.BOIS, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, Category.BATIMENT_MILITAIRE);
 
     //=========================================================================BATIMENT_SCIENTIFIQUE(Green)=========================================================================
     //Age I
@@ -106,7 +106,7 @@ public class CardsSet {
     public final static Card LOGE = new Card("LOGE", new SymbolEffect(Symbol.COMPAS, 1), new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.TISSU, Resource.PAPYRUS}, Category.BATIMENT_SCIENTIFIQUE);
     public final static Card OBSERVATOIRE = new Card("OBSERVATOIRE", new SymbolEffect(Symbol.ROUAGE, 1), new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.VERRE, Resource.TISSU}, Category.BATIMENT_SCIENTIFIQUE);
     public final static Card UNIVERSITÉ = new Card("UNIVERSITÉ", new SymbolEffect(Symbol.STELE, 1), new Resource[]{Resource.BOIS, Resource.BOIS, Resource.PAPYRUS, Resource.VERRE}, Category.BATIMENT_SCIENTIFIQUE);
-    public final static Card ACADEMIE = new Card("ACADEMIE", new SymbolEffect(Symbol.COMPAS, 1), new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.VERRE}, Category.BATIMENT_SCIENTIFIQUE);
+    public final static Card ACADEMIE = new Card("ACADÉMIE", new SymbolEffect(Symbol.COMPAS, 1), new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.VERRE}, Category.BATIMENT_SCIENTIFIQUE);
     public final static Card ÉTUDE = new Card("ÉTUDE", new SymbolEffect(Symbol.ROUAGE, 1), new Resource[]{Resource.BOIS, Resource.PAPYRUS, Resource.TISSU}, Category.BATIMENT_SCIENTIFIQUE);
 
     //=========================================================================GUILDE(Purple)=========================================================================
@@ -118,7 +118,7 @@ public class CardsSet {
     public final static Card GUILDE_DES_ESPIONS = new Card("GUILDE DES ESPIONS", new ScoreForNeighborsCardsEffect(1, Category.BATIMENT_MILITAIRE), new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.VERRE}, Category.GUILDE);
     public final static Card GUILDE_DES_STRATÈGES = new Card("GUILDE DES STRATÈGES", new ScoreForNeighborsDefeatJetonsEffet(1), new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.PIERRE, Resource.TISSU}, Category.GUILDE);
     public final static Card GUILDE_DES_ARMATEURS = new Card("GUILDE DES ARMATEURS", new ScoreForCategoriesEffet(1), new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS, Resource.PAPYRUS, Resource.VERRE}, Category.GUILDE);
-    public final static Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DESSCIENTIFIQUES", new ChoiceScientificEffect(), new Resource[]{Resource.BOIS, Resource.BOIS, Resource.MINERAI, Resource.MINERAI, Resource.PAPYRUS}, Category.GUILDE);
+    public final static Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES", new ChoiceScientificEffect(), new Resource[]{Resource.BOIS, Resource.BOIS, Resource.MINERAI, Resource.MINERAI, Resource.PAPYRUS}, Category.GUILDE);
     public final static Card GUILDE_DES_MAGISTRATS = new Card("GUILDE DES MAGISTRATS", new ScoreForNeighborsCardsEffect(1, Category.BATIMENT_CIVIL), new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS, Resource.PIERRE, Resource.TISSU}, Category.GUILDE);
     public final static Card GUILDE_DES_BÂTISSEURS = new Card("GUILDE DES BÂTISSEURS", new ScoreForOwnAndNeighborMerveillesEffet(1), new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.ARGILE, Resource.ARGILE, Resource.VERRE}, Category.GUILDE);
 }

@@ -8,6 +8,7 @@ import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
 import gameelements.cards.Card;
 import gameelements.enums.Resource;
+import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class Board {
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
-                    playCard(playerList.get(i), playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)));
+                    playCard(playerList.get(i), playerInventoryList.get(i));
                 }
 
                 playersManager.updateCoins();
@@ -124,14 +125,14 @@ public class Board {
         colossus.claimBoard(player, inventory);
     }
 
-    protected void playCard(Player player, Inventory trueInv, Inventory fakeInv) {
+    protected void playCard(Player player, Inventory trueInv) {
         boolean result;
         Card chosenCard = player.getChosenCard();
 
         if (chosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = getManager().missingResources(fakeInv, chosenCard);
+            ArrayList<Resource> s = getManager().missingResources(trueInv, chosenCard);
             sout.checkMissingResources(chosenCard);
             if (s != null) {
                 sout.missingResources(s);
@@ -169,21 +170,37 @@ public class Board {
     }
 
     public void scores() {
+        sout.endOfGame();
         /*The player's score is calculated by doing :
-         * Sum of Conflict Points
-         * + (Sum coins / 3) -> each 3 coins grant 1 score point
-         * + Sum of Wonders Points
-         * + Sum of construction Points
-         * + foreach(nb same Scientific²) + min(nb same scientific) * 7
-         * + trading buildings (specific)
-         * + guilds buildings (specific)
-         *
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        sout.endOfGame();
         sout.FinalResults();
-        for (Inventory p : playerInventoryList) {
-            sout.informationOfPlayer(p);
+        for (Inventory inv : playerInventoryList) {
+            // End Game Effects (guilds buildings)
+            Player player = playerList.get(inv.getPlayerId());
+            Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
+            Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+            inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+
+            // Sum of Conflict Points
+            inv.addScore(inv.getVictoryChipsScore() - inv.getDefeatChipsCount());
+
+            // (Sum coins / 3) -> each 3 coins grant 1 score point
+            inv.addScore(inv.getCoins() / 3);
+
+            //foreach(nb same Scientific²) + min(nb same scientific) * 7
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
+            list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
+            list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
+
+            Integer min = Collections.min(list);
+            int nbSameScientific = min;
+
+            list.forEach(integer -> inv.addScore(integer * integer));
+            inv.addScore(nbSameScientific * 7);
+
+            sout.informationOfPlayer(inv);
         }
     }
 
