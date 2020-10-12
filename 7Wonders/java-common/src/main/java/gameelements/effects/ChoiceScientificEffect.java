@@ -12,8 +12,14 @@ public class ChoiceScientificEffect extends Effect {
         super(EffectDelay.END_OF_THE_GAME);
     }
 
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+
+        System.out.println("Activating effect !! héhé, I'm delay :  " + this.delay);
         Symbol symbol = player.chooseScientific(inv.getAvailableSymbols().clone());
         inv.getAvailableSymbols()[symbol.getIndex()]++;
     }

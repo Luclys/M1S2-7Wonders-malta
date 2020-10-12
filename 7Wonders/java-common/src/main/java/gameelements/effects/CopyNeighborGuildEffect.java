@@ -15,17 +15,20 @@ public class CopyNeighborGuildEffect extends Effect {
         super(EffectDelay.END_OF_THE_GAME);
     }
 
-    public void activateEffect(Inventory playerInv, Inventory leftNeighborInv, Inventory rightNeighborInv, Player player) {
-        super.activateEffect(player, playerInv, leftNeighborInv, rightNeighborInv);
-
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         ArrayList<Card> list = new ArrayList<>();
         list.addAll(rightNeighborInv.getPlayedCards());
         list.addAll(leftNeighborInv.getPlayedCards());
         list.removeIf(card -> card.getCategory() != Category.GUILDE);
 
         if (list.size() != 0) {
-            Card card = player.chooseGuildCard(list, new Inventory(playerInv));
-            playerInv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
+            Card card = player.chooseGuildCard(list, new Inventory(inv));
+            inv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
         }
 
     }

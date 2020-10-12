@@ -16,8 +16,12 @@ public class ReductCommerceEffect extends Effect {
         this.primaryRessources = primaryRessources;
     }
 
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         if (primaryRessources) {
             if (whichNeighbor.equals(Neighbor.LEFT)) {
                 inv.setMatieresPremieresPriceLeft(1);

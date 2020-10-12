@@ -13,9 +13,13 @@ public class ScoreForMerveilleEffect extends Effect {
         this.score = score;
     }
 
-    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
-        int stepsCount = playersInv.getWonderBoard().getCurrentStepIndex();
-        playersInv.addScore(score * stepsCount);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
+        inv.addScore(score * stepsCount);
     }
 }
