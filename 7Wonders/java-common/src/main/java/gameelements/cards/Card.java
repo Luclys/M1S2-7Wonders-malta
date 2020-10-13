@@ -54,9 +54,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card{" +
-                name + '\'' +
-                '}';
+        return "Card{\"" + name + "\"}";
     }
 
     // GETTERS & SETTERS

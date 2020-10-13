@@ -16,11 +16,16 @@ public class CoinsForOwnAndNeighborsCardsEffect extends Effect {
         this.category = category;
     }
 
-    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
-        int ownCardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        int ownCardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
-        playersInv.addCoins((ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * nb);
+        inv.addCoins((ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * nb);
+
     }
 }

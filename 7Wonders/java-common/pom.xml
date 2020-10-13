@@ -13,13 +13,18 @@
     <artifactId>java-common</artifactId> <!-- et le nom du projet -->
     <version>1</version>
 
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
     <build>
         <sourceDirectory>src/main/java
         </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
         <testSourceDirectory>/src/test/java
         </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
     </build>
-
 
     <dependencies>
     </dependencies>

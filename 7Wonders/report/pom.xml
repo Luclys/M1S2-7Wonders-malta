@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>Lamac</groupId>
+        <artifactId>Global</artifactId>
+        <version>1</version>
+    </parent>
+
+    <artifactId>report</artifactId>
+    <version>1</version>
+
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-game</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-common</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-server</artifactId>
+            <version>1</version>
+        </dependency>
+
+        <!-- etc. TOUS LES MODULES DOIVENT ETRE INCLUS ICI
+        -->
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.6</version>
+
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

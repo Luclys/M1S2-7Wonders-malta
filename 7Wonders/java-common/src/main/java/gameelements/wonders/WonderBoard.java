@@ -142,14 +142,14 @@ public class WonderBoard {
         HalicarnasseA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
         HalicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeBuildingEffect()));
         HalicarnasseA.add(new Step(new Resource[]{Resource.TISSU, Resource.TISSU}, new ScoreEffect(7)));
-        res.add(new WonderBoard("La statue de Zeus à Olympie A", new ResourceEffect(Resource.TISSU, 1), HalicarnasseA));
+        res.add(new WonderBoard("Le mausolée d’Halicarnasse A", new ResourceEffect(Resource.TISSU, 1), HalicarnasseA));
 
         // Face B
         ArrayList<Step> HalicarnasseB = new ArrayList<>();
         HalicarnasseB.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new Effect[]{new ScoreEffect(2), new FreeDiscardedBuildingEffect()}));
         HalicarnasseB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new Effect[]{new ScoreEffect(1), new FreeDiscardedBuildingEffect()}));
         HalicarnasseB.add(new Step(new Resource[]{Resource.VERRE, Resource.PAPYRUS, Resource.TISSU}, new FreeDiscardedBuildingEffect()));
-        res.add(new WonderBoard("La statue de Zeus à Olympie A", new ResourceEffect(Resource.TISSU, 1), HalicarnasseB));
+        res.add(new WonderBoard("Le mausolée d’Halicarnasse B", new ResourceEffect(Resource.TISSU, 1), HalicarnasseB));
 
         // La grande pyramide de Gizeh
         // Face A

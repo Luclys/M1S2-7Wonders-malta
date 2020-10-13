@@ -16,9 +16,12 @@ public class ResourceEffect extends Effect {
         this.nb = nb;
     }
 
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (delay == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         inv.getAvailableResources()[resource.getIndex()] += nb;
-
     }
 }

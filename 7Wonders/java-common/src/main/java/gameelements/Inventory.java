@@ -14,6 +14,7 @@ public class Inventory {
     private final ArrayList<Resource[]> pairResChoice;
     private ArrayList<Card> cardsInHand;
     private ArrayList<Card> playedCards;
+    private final ArrayList<Effect> endGameEffects;
     private WonderBoard wonderBoard;
 
     private int score;
@@ -27,8 +28,6 @@ public class Inventory {
 
     private int allResPremChoice;
     private int allResManuChoice;
-    private int priceLeft;
-    private int priceRight;
     private int possibleFreeBuildingsCount;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
@@ -40,6 +39,7 @@ public class Inventory {
         this.pairResChoice = new ArrayList<>();
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
+        this.endGameEffects = new ArrayList<>(7 * 3);
 
         this.score = 0;
         this.victoryChipsScore = 0;
@@ -52,8 +52,6 @@ public class Inventory {
 
         allResPremChoice = 0;
         allResManuChoice = 0;
-        this.priceLeft = 2;
-        this.priceRight = 2;
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
@@ -67,6 +65,7 @@ public class Inventory {
         this.pairResChoice = inventory.pairResChoice;
         this.cardsInHand = inventory.cardsInHand;
         this.playedCards = inventory.playedCards;
+        this.endGameEffects = inventory.endGameEffects;
         this.wonderBoard = inventory.wonderBoard;
 
         this.score = inventory.score;
@@ -136,16 +135,12 @@ public class Inventory {
         }
     }
 
-    public int getVictoryChipsScore() {
-        return victoryChipsScore;
-    }
-
-    public int getDefeatChipsCount() {
-        return defeatChipsCount;
-    }
-
     public void addVictoryJetonsScore(int victoryJetonsScore) {
         this.victoryChipsScore += victoryJetonsScore;
+    }
+
+    public void addEndGameEffect(Effect effect) {
+        this.endGameEffects.add(effect);
     }
 
     public void addDefeatJeton() {
@@ -153,13 +148,24 @@ public class Inventory {
     }
 
     public void removeCoins(int coins) {
-        setCoins(this.coins - coins);
+        this.coins -= coins;
     }
 
     public void addCoins(int coins) {
         this.coins += coins;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    }
+
+    public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
+        this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
+    }
 
     // TWEAKED GETTERS
     public int getSymbCount(Symbol symbol) {
@@ -183,6 +189,10 @@ public class Inventory {
         return availableSymbols;
     }
 
+    public ArrayList<Resource[]> getPairResChoice() {
+        return pairResChoice;
+    }
+
     public ArrayList<Card> getCardsInHand() {
         return cardsInHand;
     }
@@ -197,6 +207,10 @@ public class Inventory {
 
     public void setPlayedCards(ArrayList<Card> playedCards) {
         this.playedCards = playedCards;
+    }
+
+    public ArrayList<Effect> getEndGameEffects() {
+        return endGameEffects;
     }
 
     public WonderBoard getWonderBoard() {
@@ -215,8 +229,20 @@ public class Inventory {
         this.score = score;
     }
 
-    public void addScore(int score) {
-        this.score += score;
+    public int getVictoryChipsScore() {
+        return victoryChipsScore;
+    }
+
+    public void setVictoryChipsScore(int victoryChipsScore) {
+        this.victoryChipsScore = victoryChipsScore;
+    }
+
+    public int getDefeatChipsCount() {
+        return defeatChipsCount;
+    }
+
+    public void setDefeatChipsCount(int defeatChipsCount) {
+        this.defeatChipsCount = defeatChipsCount;
     }
 
     public int getCoins() {
@@ -243,7 +269,6 @@ public class Inventory {
         this.matieresPremieresPriceRight = matieresPremieresPriceRight;
     }
 
-
     public int getProduitsManifacturesPrice() {
         return produitsManifacturesPrice;
     }
@@ -260,20 +285,36 @@ public class Inventory {
         this.addedCoins = addedCoins;
     }
 
+    public int getAllResPremChoice() {
+        return allResPremChoice;
+    }
+
+    public void setAllResPremChoice(int allResPremChoice) {
+        this.allResPremChoice = allResPremChoice;
+    }
+
+    public int getAllResManuChoice() {
+        return allResManuChoice;
+    }
+
+    public void setAllResManuChoice(int allResManuChoice) {
+        this.allResManuChoice = allResManuChoice;
+    }
+
     public int getPossibleFreeBuildingsCount() {
         return possibleFreeBuildingsCount;
     }
 
-    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    public void setPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildingsCount = possibleFreeBuildingsCount;
     }
 
     public int getPossibleFreeDiscardedBuildingsCount() {
         return possibleFreeDiscardedBuildingsCount;
     }
 
-    public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
-        this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
+    public void setPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
+        this.possibleFreeDiscardedBuildingsCount = possibleFreeDiscardedBuildingsCount;
     }
 
     public boolean isCanPlayLastCard() {
@@ -283,6 +324,4 @@ public class Inventory {
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
     }
-
-
 }

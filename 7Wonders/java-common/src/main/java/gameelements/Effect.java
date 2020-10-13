@@ -3,7 +3,7 @@ package gameelements;
 import gameelements.enums.EffectDelay;
 
 public abstract class Effect {
-    EffectDelay delay;
+    public EffectDelay delay;
 
 
     public Effect(EffectDelay delay) {
@@ -12,10 +12,8 @@ public abstract class Effect {
 
     // Needed : 2 neighbors, and Player Inventories
     public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-
-/*
-        if (delay == 0 && repeat == 0) {
-        }
-*/
+        activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
     }
+
+    public abstract void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame);
 }

@@ -6,15 +6,15 @@ import gameelements.cards.CardsSet;
 import java.util.ArrayList;
 
 public class AgeI implements Age {
-    private static final int victoryJetonValue = 1;
-    private static final boolean isLeftRotation = true;
+    private static final int VICTORY_JETON_VALUE = 1;
+    private static final boolean IS_LEFT_ROTATION = true;
 
     public static int getVictoryJetonValue() {
-        return victoryJetonValue;
+        return VICTORY_JETON_VALUE;
     }
 
     public static boolean isLeftRotation() {
-        return isLeftRotation;
+        return IS_LEFT_ROTATION;
     }
 
     public static ArrayList<Card> initiateCards(int playersCount) {
