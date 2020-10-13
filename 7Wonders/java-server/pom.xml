@@ -13,6 +13,12 @@
     <artifactId>java-server</artifactId> <!-- et le nom du projet -->
     <version>1</version>
 
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
     <build>
         <sourceDirectory>src/main/java
         </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
@@ -37,11 +43,6 @@
 
         </plugins>
     </build>
-
-    <properties>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
 
     <dependencies>
         <dependency>

@@ -31,7 +31,8 @@
         </maven.compiler.source> <!-- version de java (sdk) utilisée pour le développement -->
         <maven.compiler.target>${java.version}</maven.compiler.target> <!-- version de java pour l'utilisateur -->
 
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
