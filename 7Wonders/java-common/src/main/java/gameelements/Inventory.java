@@ -70,7 +70,6 @@ public class Inventory {
 
     public Card discardLastCard() {
         if (cardsInHand.size() == 1) {
-            //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             return cardsInHand.remove(0);
         } else {
             throw new Error("There is more than 1 card left.");
@@ -79,7 +78,6 @@ public class Inventory {
 
     public void sellCard(Card card) {
         if (cardsInHand.contains(card)) {
-            //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
             cardsInHand.remove(0);
         } else {
@@ -110,6 +108,17 @@ public class Inventory {
         return true;
     }
 
+    // TWEAKED GETTERS
+    public int getSymbolCount(Symbol symbol) {
+        return this.availableSymbols[symbol.getIndex()];
+    }
+
+    public int getResCount(Resource resource) {
+        return this.availableResources[resource.getIndex()];
+    }
+
+    // GETTERS & SETTERS
+
     public int getVictoryChipsScore() {
         return victoryChipsScore;
     }
@@ -134,17 +143,6 @@ public class Inventory {
         this.coins += coins;
     }
 
-
-    // TWEAKED GETTERS
-    public int getSymbCount(Symbol symbol) {
-        return this.availableSymbols[symbol.getIndex()];
-    }
-
-    public int getResCount(Resource resource) {
-        return this.availableResources[resource.getIndex()];
-    }
-
-    // GETTERS & SETTERS
     public int getPlayerId() {
         return playerId;
     }

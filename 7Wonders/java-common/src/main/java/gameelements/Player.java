@@ -1,5 +1,6 @@
 package gameelements;
 
+import gameelements.enums.Action;
 import gameelements.enums.Symbol;
 import gameelements.strategy.PlayingStrategy;
 import gameelements.strategy.FirstCardStrategy;
@@ -83,4 +84,7 @@ public class Player {
         this.leftNeighborId = id;
     }
 
+    public Action getAction() {
+        return strategy.getAction();
+    }
 }

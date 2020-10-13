@@ -7,6 +7,7 @@ import gameelements.Player;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
+import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.wonders.WonderBoard;
 
@@ -85,7 +86,7 @@ public class Board {
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
-                    playCard(playerInventoryList.get(i), new Inventory(playerInventoryList.get(i)), playerList.get(i));
+                    executePlayerAction(playerInventoryList.get(i), playerList.get(i));
                 }
                 // The players exchange cards according to the Age's sens.
                 if (isLeftRotation) {
@@ -125,14 +126,29 @@ public class Board {
         colossus.claimBoard(inventory);
     }
 
-    protected void playCard(Inventory trueInv, Inventory fakeInv, Player player) {
-        boolean result;
+    protected void executePlayerAction(Inventory trueInv, Player player) {
         Card chosenCard = player.getChosenCard();
+        Action action = player.getAction();
+
+        switch (action) {
+            case BUILDING:
+                buildCard(trueInv, chosenCard, player);
+
+            case WONDER:
+                //todo
+
+            case SELL:
+                //todo
+        }
+    }
+
+    private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
+        boolean result;
 
         if (chosenCard != null) {
             sout.action(player.getId());
-            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = getManager().missingResources(fakeInv, chosenCard);
+            sout.playerInformation(playerInventoryList.get(player.getId()));
+            ArrayList<Resource> s = getManager().missingResources(trueInv, chosenCard);
             sout.checkMissingResources(chosenCard);
             if (s != null) {
                 sout.missingResources(s);
@@ -149,7 +165,7 @@ public class Board {
                 sout.gotMissingResources();
                 trueInv.updateInventory(chosenCard);
             }
-            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
+            sout.playerInformation(playerInventoryList.get(player.getId()));
         }
     }
 
@@ -185,7 +201,7 @@ public class Board {
         sout.booleanPrint = true;
         sout.FinalResults();
         for (Inventory p : playerInventoryList) {
-            sout.informationOfPlayer(p);
+            sout.playerInformation(p);
         }
     }
 

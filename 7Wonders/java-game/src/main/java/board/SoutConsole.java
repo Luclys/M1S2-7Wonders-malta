@@ -106,7 +106,7 @@ public class SoutConsole {
         System.out.print("\n***The player got resources so he gets the effects of this card.\n\n");
     }
 
-    public void informationOfPlayer(Inventory p) {
+    public void playerInformation(Inventory p) {
         if (!booleanPrint) {
             return;
         }

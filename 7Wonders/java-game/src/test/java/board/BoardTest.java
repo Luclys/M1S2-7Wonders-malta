@@ -76,7 +76,7 @@ public class BoardTest {
         assertEquals(2, inv.getResCount(Resource.PIERRE));
 
         TESTBOARD.buyNextStep(card);
-        assertEquals(1, inv.getSymbCount(Symbol.STELE));
+        assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
         //assertThrows(Error, TESTBOARD.buyNextStep(card));
     }

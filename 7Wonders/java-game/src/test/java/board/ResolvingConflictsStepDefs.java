@@ -14,7 +14,6 @@ public class ResolvingConflictsStepDefs implements En {
     Player p1;
     Player p2;
     Inventory i1;
-    Inventory i2;
     Board board;
 
     private ArrayList<Player> playerList;

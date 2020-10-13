@@ -27,8 +27,8 @@ public class PlayersManager {
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
-        int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
-        int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
+        int playerBoucliersCount = invPlayer.getSymbolCount(Symbol.BOUCLIER);
+        int neighborBoucliersCount = invNeighbor.getSymbolCount(Symbol.BOUCLIER);
         sout.conflicts(invPlayer,invNeighbor);
         sout.checkShields(playerBoucliersCount,neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
