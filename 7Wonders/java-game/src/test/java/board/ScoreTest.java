@@ -8,7 +8,6 @@ import gameelements.effects.ChoiceScientificEffect;
 import gameelements.effects.SymbolEffect;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,7 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ScoreTest {
@@ -39,16 +40,12 @@ public class ScoreTest {
      * the symbol is added only at the end of the game -> Inventory@scores()
      * the symbol chosen by the player is accounted when calculating scores.
      * */
-    @Disabled
     @Test
     void guildChooseScientificScoreTest() {
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
-        //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
-        //  TODO : REPAIR MOCK !
-        //when(playerMocked.chooseScientific(inv.getAvailableSymbols())).thenReturn(Symbol.COMPAS, Symbol.COMPAS);
-        doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific(null);
+        doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific(any());
 
         Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
         Card card2ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.STELE, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
@@ -65,16 +62,12 @@ public class ScoreTest {
     /*
      * Testing that multiple end effects are rightfully accounted into score.
      * */
-    @Disabled
     @Test
     void multipleEndEffectScoreTest() {
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
-        // doAnswer(invocationOnMock -> Symbol.STELE).when(playerMocked).chooseScientific(new int[]{0, 1, 1, 0});
-        // when(playerMocked.chooseScientific(null)).thenReturn(Symbol.STELE, Symbol.STELE);
-        //  MOCKITO IS NOT RESPONDING THE WAY I WANT ?!
-        //  TODO : REPAIR MOCK !
+        when(playerMocked.chooseScientific(any())).thenReturn(Symbol.STELE, Symbol.STELE);
 
         Card card2ScientificSymbol = new Card("", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
         Card GUILDE_DES_SCIENTIFIQUES = new Card("GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
@@ -90,7 +83,6 @@ public class ScoreTest {
 
     @Test
     void conflictScoreTest() {
-        // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
@@ -109,9 +101,11 @@ public class ScoreTest {
         assertEquals(-3, inv.getScore());
     }
 
+    /**
+     * Testing that every 3 coins grants 1 score point.
+     */
     @Test
     void coinScoreTest() {
-        // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
@@ -136,18 +130,16 @@ public class ScoreTest {
         inv.setScore(0);
     }
 
+    /* Testing the scores according to the nb of symbols
+     * 1 singe symbol : 1 victory point.
+     * 2 symbols identical : 4 victory point.
+     * 3 symbols identical : 9 victory point.
+     * 4 symbols identical : 16 victory point.
+     * */
     @Test
     void sameScientificScoreTest() {
-        // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
-
-        /*
-         * 1 seul symbole : 1 point de victoire
-         * 2 symboles identiques : 4 points de victoire
-         * 3 symboles identiques : 9 points de victoire
-         * 4 symboles identiques : 16 points de victoire
-         * */
 
         Card card1Compas = new Card("", new SymbolEffect(Symbol.COMPAS, 1), null, null);
         Card card2Compas = new Card("", new SymbolEffect(Symbol.COMPAS, 2), null, null);
@@ -169,9 +161,11 @@ public class ScoreTest {
 
     }
 
+    /*
+     * Testing that each group of 3 symbol grants 7 victory points.
+     * */
     @Test
     void tripleScientificScoreTest() {
-        // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
