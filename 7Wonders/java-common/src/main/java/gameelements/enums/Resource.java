@@ -17,4 +17,12 @@ public enum Resource {
     public int getIndex() {
         return index;
     }
+
+    public Category getCategory() {
+        if (this.equals(ARGILE) || this.equals(PIERRE) || this.equals(MINERAI) || this.equals(BOIS)) {
+            return Category.MATIERE_PREMIERE;
+        } else {
+            return Category.PRODUIT_MANUFACTURE;
+        }
+    }
 }
