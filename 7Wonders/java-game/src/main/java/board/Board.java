@@ -126,47 +126,81 @@ public class Board {
         colossus.claimBoard(inventory);
     }
 
-    protected void executePlayerAction(Inventory trueInv, Player player) {
+    protected void executePlayerAction(Inventory inv, Player player) {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
 
         switch (action) {
             case BUILDING:
-                buildCard(trueInv, chosenCard, player);
+                Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
+                if (inv.payIfPossible(chosenCard.getCost())) {
+                    if (inv.canBuild(chosenCardRequiredResources) ){
+                        buildCard(inv, chosenCard, player);
+                    }
+                    else {
+                        if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
+                            buildCard(inv, chosenCard, player);
+                        }
+                        else {
+                            sellCard(inv, chosenCard);
+                        }
+                    }
+                }
+                else {
+                    sellCard(inv, chosenCard);
+                }
+                break;
 
             case WONDER:
-                //todo
+                Resource[] wonderRequiredResources = inv.getWonderRequiredResources();
+                if (inv.canBuild(wonderRequiredResources)){
+                    buildWonder(inv, chosenCard, player);
+                }
+                else {
+                    if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
+                        buildWonder(inv, chosenCard, player);
+                    }
+                    else {
+                        sellCard(inv, chosenCard);
+                    }
+                }
+                break;
 
-            case SELL:
-                //todo
+            default:
+                sellCard(inv, chosenCard);
+                break;
         }
     }
 
-    private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
-        boolean result;
+    private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
+        boolean canBuy;
+        ArrayList<Resource> missingResources = trueInv.missingResources(requiredResources);
+        sout.missingResources(missingResources);
+        canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        if (canBuy) {
+            sout.gotMissingResources();
+        }
+        else {
+            sout.cantBuyMissingResources();
+        }
+        return canBuy;
+    }
 
+    private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
             sout.action(player.getId());
             sout.playerInformation(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = getManager().missingResources(trueInv, chosenCard);
-            sout.checkMissingResources(chosenCard);
-            if (s != null) {
-                sout.missingResources(s);
-                result = commerce.saleResources(s, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
-            } else {
-                sout.noRequiredResources(chosenCard);
-                result = true;
-            }
-            if (!result) {
-                sout.cantBuyMissingResources();
-                discardedDeckCardList.add(chosenCard);
-                trueInv.sellCard(chosenCard);
-            } else {
-                sout.gotMissingResources();
-                trueInv.updateInventory(chosenCard);
-            }
-            sout.playerInformation(playerInventoryList.get(player.getId()));
+            trueInv.updateInventory(chosenCard);
         }
+    }
+
+    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
+        WonderBoard wonder = trueInv.getWonderBoard();
+        wonder.buyNextStep(chosenCard);
+    }
+
+    private void sellCard(Inventory trueInv, Card chosenCard) {
+        trueInv.sellCard(chosenCard);
     }
 
     public void resolveWarConflict(int victoryJetonValue) {

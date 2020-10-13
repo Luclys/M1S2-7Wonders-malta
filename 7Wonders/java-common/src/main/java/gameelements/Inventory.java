@@ -108,6 +108,19 @@ public class Inventory {
         return true;
     }
 
+    public ArrayList<Resource> missingResources(Resource[] requiredResources) {
+        ArrayList<Resource> missing = new ArrayList<>();
+        if (requiredResources == null) {
+            return null;
+        }
+        for (Resource r : requiredResources) {
+            if (getAvailableResources()[r.getIndex()] == 0) {
+                missing.add(r);
+            }
+        }
+        return missing;
+    }
+
     // TWEAKED GETTERS
     public int getSymbolCount(Symbol symbol) {
         return this.availableSymbols[symbol.getIndex()];
@@ -115,6 +128,10 @@ public class Inventory {
 
     public int getResCount(Resource resource) {
         return this.availableResources[resource.getIndex()];
+    }
+
+    public Resource[] getWonderRequiredResources() {
+        return wonderBoard.getCurrentStepRequiredResources();
     }
 
     // GETTERS & SETTERS
@@ -244,5 +261,14 @@ public class Inventory {
 
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
+    }
+
+    public boolean payIfPossible(int cost) {
+        boolean canPay = false;
+        if(this.getCoins() >= cost) {
+            removeCoins(cost);
+            canPay = true;
+        }
+        return canPay;
     }
 }

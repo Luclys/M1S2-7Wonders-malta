@@ -40,7 +40,7 @@ public class PlayersManagerTest {
     @Test
     void missingResourcesTest() {
         Card c = CardsSet.PALISSADE;
-        ArrayList<Resource> m = board.getManager().missingResources(inv, c);
+        ArrayList<Resource> m = inv.missingResources(c.getRequiredResources());
         assertEquals(Resource.BOIS, m.get(0));
     }
 

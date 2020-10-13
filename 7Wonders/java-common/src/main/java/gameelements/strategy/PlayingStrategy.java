@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface PlayingStrategy {
     Card chooseCard(Inventory inventory, ArrayList<Card> availableCards);
 
-    public Action getAction();
+    Action getAction();
 }

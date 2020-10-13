@@ -34,7 +34,7 @@ public class WonderBoard {
             steps.get(currentStepIndex).build(associatedInv, card);
             currentStepIndex++;
         } else {
-            throw new Error("Every steps already built.");
+            throw new Error("No step left to build");
         }
     }
 
@@ -168,5 +168,9 @@ public class WonderBoard {
 
 
         return res;
+    }
+
+    public Resource[] getCurrentStepRequiredResources() {
+        return steps.get(currentStepIndex).getRequiredResources();
     }
 }

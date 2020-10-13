@@ -12,7 +12,7 @@ public class Trade {
         this.sout = sout;
     }
 
-    protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
+    protected boolean buyResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean result = false;
         ArrayList<Inventory> playersWithResources = new ArrayList<Inventory>();
         Inventory neighbor;
@@ -42,11 +42,7 @@ public class Trade {
             boolean right;
             sout.display("The player can buy all missing resources");
             for(Inventory inv :playersWithResources ){
-                if(inv.equals(rightNeighborInv)){
-                    right = true;
-                }else{
-                    right = false;
-                }
+                right = inv.equals(rightNeighborInv);
                 buyFromNeighbor(playerInv, inv, right);
             }
             result = true;

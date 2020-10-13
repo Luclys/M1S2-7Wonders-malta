@@ -66,17 +66,4 @@ public class PlayersManager {
     public ArrayList<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
-
-    protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
-        ArrayList<Resource> missing = new ArrayList<>();
-        if (c.getRequiredResources() == null) {
-            return null;
-        }
-        for (Resource r : c.getRequiredResources()) {
-            if (inv.getAvailableResources()[r.getIndex()] == 0) {
-                missing.add(r);
-            }
-        }
-        return missing;
-    }
 }

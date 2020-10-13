@@ -63,6 +63,10 @@ public class Card {
         return name;
     }
 
+    public int getCost() {
+        return cost;
+    }
+
     public Effect[] getEffects() {
         return effects;
     }
