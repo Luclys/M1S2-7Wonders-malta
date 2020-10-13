@@ -1,5 +1,5 @@
 package gameelements.ages;
-
+/*
 import board.Board;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -143,3 +143,4 @@ public class AgesTest {
         assertEquals(board.getJetonVictoryValue(), 5);
     }
 }
+*/

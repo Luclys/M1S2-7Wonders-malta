@@ -52,4 +52,12 @@ public class CardManager {
             rightRotation();
         }
     }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public ArrayList<Inventory> getPlayerInventoryList() {
+        return playerInventoryList;
+    }
 }
