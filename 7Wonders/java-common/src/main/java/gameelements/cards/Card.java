@@ -10,6 +10,7 @@ public class Card {
     private final Resource[] requiredResources;
     private final Category category;
     private final int cost;
+    private final Card[] requiredBuildingsToBuildForFree;
 
     public Card(String name, Effect[] effects, Resource[] requiredResources, Category category) {
         this.name = name;
@@ -17,6 +18,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
+        this.requiredBuildingsToBuildForFree = null;
     }
 
     public Card(String name, Effect effect, Resource[] requiredResources, Category category) {
@@ -25,6 +27,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
+        this.requiredBuildingsToBuildForFree = null;
     }
 
     public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, int cost) {
@@ -33,6 +36,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
+        this.requiredBuildingsToBuildForFree = null;
     }
 
     public Card(String name, Effect effect, Resource[] requiredResources, Category category, int cost) {
@@ -41,9 +45,46 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
+        this.requiredBuildingsToBuildForFree = null;
     }
 
-    public boolean isBatiment() {
+    public Card(String name, Effect effect, Resource[] requiredResources, Category category, Card[] requiredBuildingsToBuildForFree) {
+        this.name = name;
+        this.effects = new Effect[]{effect};
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = 0;
+        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+    }
+
+    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, Card[] requiredBuildingsToBuildForFree) {
+        this.name = name;
+        this.effects = effects;
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = 0;
+        this.requiredBuildingsToBuildForFree =requiredBuildingsToBuildForFree;
+    }
+
+    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, int cost, Card[] requiredBuildingsToBuildForFree) {
+        this.name = name;
+        this.effects = effects;
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = cost;
+        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+    }
+
+    public Card(String name, Effect effect, Resource[] requiredResources, Category category, int cost, Card[] requiredBuildingsToBuildForFree) {
+        this.name = name;
+        this.effects = new Effect[]{effect};
+        this.requiredResources = requiredResources;
+        this.category = category;
+        this.cost = cost;
+        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+    }
+
+    public boolean isBuilding() {
         return (
                 this.category == Category.BATIMENT_CIVIL ||
                         this.category == Category.BATIMENT_SCIENTIFIQUE ||
