@@ -1,9 +1,9 @@
-package board;
+package gameelements;
 
-import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 
@@ -177,6 +177,19 @@ public class SoutConsole {
             return;
         }
         System.out.println(msg);
+    }
+
+    public static void display(String msg,boolean booleanPrint){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println(msg);
+    }
+    public void chooseWonderBoard(int id, WonderBoard wb){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println("The player "+id+" choose "+wb.getName()+" wonder");
     }
 
 }

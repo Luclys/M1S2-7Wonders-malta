@@ -31,8 +31,9 @@ public class Inventory {
     private int possibleFreeBuildingsCount;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
-
+    private final SoutConsole sout;
     public Inventory(int playerId) {
+        this.sout = new SoutConsole(true);
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
@@ -55,9 +56,12 @@ public class Inventory {
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
+
+
     }
 
     public Inventory(Inventory inventory) {
+        this.sout = new SoutConsole(true);
         // Consider implementing Cloneable instead...
         this.playerId = inventory.playerId;
         this.availableResources = inventory.availableResources;
@@ -81,7 +85,9 @@ public class Inventory {
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
+
     }
+
 
     public Card discardLastCard() {
         if (cardsInHand.size() == 1) {
@@ -127,8 +133,8 @@ public class Inventory {
         this.pairResChoice.add(resources);
     }
 
-    public void incAllResChoice(Boolean PrimaryResource) {
-        if (PrimaryResource) {
+    public void incAllResChoice(Boolean primaryResource) {
+        if (Boolean.TRUE.equals(primaryResource)) {
             this.allResPremChoice++;
         } else {
             this.allResManuChoice++;

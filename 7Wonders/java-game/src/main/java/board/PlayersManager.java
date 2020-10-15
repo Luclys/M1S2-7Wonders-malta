@@ -2,6 +2,7 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.SoutConsole;
 import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;

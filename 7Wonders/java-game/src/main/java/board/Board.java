@@ -3,6 +3,8 @@ package board;
 import client.Client;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.SoutConsole;
+import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
@@ -16,20 +18,18 @@ import java.util.Collections;
 
 public class Board {
     public static final int AGES = 3;
-
+    public static final int CARDS_NUMBER = 7;
     private final PlayersManager playersManager;
     private final Trade commerce;
-    public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
     private final ArrayList<Inventory> playerInventoryList;
     private final ArrayList<Card> discardedDeckCardList;
     private int turn;
-    private final SoutConsole sout;
     private final CardManager cardManager;
-
     private ArrayList<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
+    private final SoutConsole sout;
 
     public Board(ArrayList<Player> playerList, Boolean boolPrint) {
         sout = new SoutConsole(boolPrint);
@@ -44,26 +44,26 @@ public class Board {
         //display
     }
 
-    public void ageSetUp(int age) {
-        switch (age) {
+    public void ageSetUp(int numAge) {
+        Age age = null;
+        switch (numAge) {
             case 1:
-                currentDeckCardList = AgeI.initiateCards(playerList.size());
-                isLeftRotation = AgeI.isLeftRotation();
-                jetonVictoryValue = AgeI.getVictoryJetonValue();
+                age = new AgeI();
                 break;
             case 2:
-                currentDeckCardList = AgeII.initiateCards(playerList.size());
-                isLeftRotation = AgeII.isLeftRotation();
-                jetonVictoryValue = AgeII.getVictoryJetonValue();
+                age = new AgeII();
                 break;
             case 3:
-                currentDeckCardList = AgeIII.initiateCards(playerList.size());
-                isLeftRotation = AgeIII.isLeftRotation();
-                jetonVictoryValue = AgeIII.getVictoryJetonValue();
+                age = new AgeIII();
                 break;
             default:
-                throw new IllegalStateException("Unexpected age value: " + age);
+                throw new IllegalStateException("Unexpected age value: " + numAge);
         }
+        currentDeckCardList = age.initiateCards(playerList.size());
+        isLeftRotation = age.isLeftRotation();
+        jetonVictoryValue = age.getVictoryJetonValue();
+
+
         Collections.shuffle(currentDeckCardList);
         turn = 0;
     }
@@ -75,9 +75,9 @@ public class Board {
             ageSetUp(age);
             sout.beginningOfAge(age);
             // Card dealing
-            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
+            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(CARDS_NUMBER)));
 
-            for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
+            for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);
                 sout.play();
 
@@ -122,6 +122,7 @@ public class Board {
     private void chooseWonderBoard(Player player, Inventory inventory) {
         // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
         WonderBoard colossus = WonderBoard.initiateColossus();
+        sout.chooseWonderBoard(player.getId(),colossus);
         colossus.claimBoard(player, inventory);
     }
 

@@ -170,4 +170,8 @@ public class WonderBoard {
 
         return res;
     }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Inventory;
+import gameelements.SoutConsole;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -5,19 +5,18 @@ import gameelements.cards.CardsSet;
 
 import java.util.ArrayList;
 
-public class AgeI implements Age {
+public class AgeI extends Age {
     private static final int VICTORY_JETON_VALUE = 1;
     private static final boolean IS_LEFT_ROTATION = true;
-
-    public static int getVictoryJetonValue() {
+    public  int getVictoryJetonValue() {
         return VICTORY_JETON_VALUE;
     }
 
-    public static boolean isLeftRotation() {
+    public  boolean isLeftRotation() {
         return IS_LEFT_ROTATION;
     }
 
-    public static ArrayList<Card> initiateCards(int playersCount) {
+    public  ArrayList<Card> initiateCards(int playersCount) {
         if (playersCount <= 2 || playersCount > 7) {
             throw new IllegalStateException("Unexpected playersCount value: " + playersCount);
         }

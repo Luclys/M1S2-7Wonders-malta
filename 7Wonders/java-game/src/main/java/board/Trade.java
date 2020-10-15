@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.Inventory;
+import gameelements.SoutConsole;
 import gameelements.enums.Resource;
 
 import java.util.ArrayList;
