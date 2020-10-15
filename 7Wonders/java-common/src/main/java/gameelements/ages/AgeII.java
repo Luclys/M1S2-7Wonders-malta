@@ -5,7 +5,7 @@ import gameelements.cards.CardsSet;
 
 import java.util.ArrayList;
 
-public class AgeII extends Age {
+public class AgeII implements Age {
     private static final int VICTORY_JETON_VALUE = 3;
     private static final boolean IS_LEFT_ROTATION = false;
 
