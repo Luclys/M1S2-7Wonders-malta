@@ -5,83 +5,101 @@ import gameelements.enums.Category;
 import gameelements.enums.Resource;
 
 public class Card {
+    private final int id;
     private final String name;
     private Effect[] effects;
     private final Resource[] requiredResources;
     private final Category category;
     private final int cost;
-    private final Card[] requiredBuildingsToBuildForFree;
+    private final int[] requiredBuildingIdsToBuildForFree;
+    private final int[] buildingIdsCanBeBuiltForFree;
 
-    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category) {
+    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category) {
+        this.id = id;
         this.name = name;
         this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingsToBuildForFree = null;
+        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingIdsCanBeBuiltForFree = null;
     }
 
-    public Card(String name, Effect effect, Resource[] requiredResources, Category category) {
+    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category) {
+        this.id = id;
         this.name = name;
         this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingsToBuildForFree = null;
+        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingIdsCanBeBuiltForFree = null;
     }
 
-    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, int cost) {
+    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int cost) {
+        this.id = id;
         this.name = name;
         this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingsToBuildForFree = null;
+        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingIdsCanBeBuiltForFree = null;
     }
 
-    public Card(String name, Effect effect, Resource[] requiredResources, Category category, int cost) {
+    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int cost) {
+        this.id = id;
         this.name = name;
         this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingsToBuildForFree = null;
+        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingIdsCanBeBuiltForFree = null;
     }
 
-    public Card(String name, Effect effect, Resource[] requiredResources, Category category, Card[] requiredBuildingsToBuildForFree) {
+    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
+        this.id = id;
         this.name = name;
         this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
-    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, Card[] requiredBuildingsToBuildForFree) {
+    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
+        this.id = id;
         this.name = name;
         this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingsToBuildForFree =requiredBuildingsToBuildForFree;
+        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
-    public Card(String name, Effect[] effects, Resource[] requiredResources, Category category, int cost, Card[] requiredBuildingsToBuildForFree) {
+    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int cost, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
+        this.id = id;
         this.name = name;
         this.effects = effects;
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
-    public Card(String name, Effect effect, Resource[] requiredResources, Category category, int cost, Card[] requiredBuildingsToBuildForFree) {
+    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int cost, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
+        this.id = id;
         this.name = name;
         this.effects = new Effect[]{effect};
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
     public boolean isBuilding() {

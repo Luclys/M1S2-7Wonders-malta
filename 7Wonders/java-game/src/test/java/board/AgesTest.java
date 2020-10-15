@@ -20,7 +20,6 @@ public class AgesTest {
     private Board board;
     private ArrayList<Player> playerList;
 
-
     @Test
     public void initiateCardsTest() {
         assertThrows(IllegalStateException.class, () -> AgeI.initiateCards(2));
