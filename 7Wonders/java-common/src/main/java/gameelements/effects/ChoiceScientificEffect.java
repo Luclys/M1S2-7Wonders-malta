@@ -19,7 +19,7 @@ public class ChoiceScientificEffect extends Effect {
             return;
         }
 
-        Symbol symbol = player.chooseScientific(inv.getAvailableSymbols().clone());
+        Symbol symbol = player.chooseScientific();
         inv.getAvailableSymbols()[symbol.getIndex()]++;
     }
 }

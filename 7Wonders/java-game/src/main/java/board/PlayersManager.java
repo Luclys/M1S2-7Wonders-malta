@@ -37,7 +37,7 @@ public class PlayersManager {
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
-                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
+                Card card = player.chooseDiscardedCardToBuild(discardedDeckCardList);
                 inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
             }
