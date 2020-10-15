@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PlayersManager {
     ArrayList<Player> playerList;
     ArrayList<Inventory> playerInventoryList;
-    SoutConsole sout ;
+    SoutConsole sout;
 
     public PlayersManager(SoutConsole sout) {
         this.sout = sout;
