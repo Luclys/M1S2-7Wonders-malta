@@ -34,7 +34,6 @@ public class Board {
     private final SoutConsole sout;
 
     public Board(List<Player> playerList, Boolean boolPrint) {
-        boolPrint = true;
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
