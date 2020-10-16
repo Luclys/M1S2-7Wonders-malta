@@ -5,7 +5,7 @@ import gameelements.cards.Card;
 import gameelements.enums.Action;
 import java.util.ArrayList;
 
-public class ResourceStrategy implements PlayingStrategy {
+public class WonderStrategy implements PlayingStrategy {
     Action action;
 
     @Override
