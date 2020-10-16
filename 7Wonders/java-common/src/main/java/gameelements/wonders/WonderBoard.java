@@ -48,7 +48,7 @@ public class WonderBoard {
         return currentStepIndex;
     }
 
-    static public WonderBoard initiateColossus() {
+    public static WonderBoard initiateColossus() {
         List<Step> colosseStepsA = new ArrayList<>();
         colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
         colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
