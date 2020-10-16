@@ -22,8 +22,8 @@ public class Trade {
         int rightTotal = 0;
         Inventory neighbor;
 
-        int [] rightAvailableResources = rightNeighborInv.getAvailableResources();
-        int [] leftAvailableResources = leftNeighborInv.getAvailableResources();
+        int [] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
+        int [] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
 
         for (Resource missingResource : missingResources) {
             if (missingResource.getCategory().equals(Category.MATIERE_PREMIERE)) {
