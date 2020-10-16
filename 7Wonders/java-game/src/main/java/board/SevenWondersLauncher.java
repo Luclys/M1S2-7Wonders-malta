@@ -5,17 +5,12 @@ import gameelements.Player;
 import java.util.ArrayList;
 
 public class SevenWondersLauncher {
-    static int NB_PLAYERS = 3;
-    static int NB_GAMES = 1;
-    static boolean BOOL_PRINT = true;
+    static int nbPlayers = 3;
+    static int nbGames = 1;
+    static boolean boolPrint = true;
 
 
     public static void main(String[] args) {
-        //Default settings
-        int nbPlayers = NB_PLAYERS; //Default = 3
-        int nbGames = NB_GAMES; //Default = 1
-        boolean boolPrint = BOOL_PRINT; //Default = true
-
         //Maven's arguments
         if (args.length >= 3) {
             nbPlayers = Integer.parseInt(args[0]);

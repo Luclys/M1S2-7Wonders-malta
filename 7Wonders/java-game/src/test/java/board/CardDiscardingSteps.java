@@ -6,18 +6,19 @@ import gameelements.cards.CardsSet;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CardDiscardingSteps implements En {
-    Card card = CardsSet.CAVITÉ;
+    Card card = CardsSet.CAVITE;
     Inventory inv = new Inventory(0);
     int initialCoinsCount;
     int initialCardsCount;
-    public CardDiscardingSteps(){
+     public CardDiscardingSteps(){
         Given("Inventory has a card", () -> {
-            ArrayList<Card> cards = new ArrayList<>();
+            List<Card> cards = new ArrayList<>();
             cards.add(card);
             inv.setCardsInHand(cards);
         });

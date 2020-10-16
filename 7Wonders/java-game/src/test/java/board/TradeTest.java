@@ -7,17 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TradeTest {
+class TradeTest {
     private Trade trade;
-    private ArrayList<Resource> list = new ArrayList<>();
+    private List<Resource> list = new ArrayList<>();
     private Inventory player, rightNeighbor, leftNeighbor;
 
 
     @BeforeEach
-    public void setUp() {
+     void setUp() {
         trade = new Trade(new SoutConsole(false));
         player = new Inventory(0);
         rightNeighbor = new Inventory(1);
@@ -30,7 +31,7 @@ public class TradeTest {
      * @result saleResources must return false and the coins of all players must remain unchanged
      */
     @Test
-    public void saleResourcesWhenNoResourcesTest() {
+     void saleResourcesWhenNoResourcesTest() {
         list.add(Resource.ARGILE);
 
         int playerInitialCoins = player.getCoins();
@@ -49,7 +50,7 @@ public class TradeTest {
      * leftNeighbor's coins are unchanged
      */
     @Test
-    public void saleResourcesFromRightNeighborTest() {
+     void saleResourcesFromRightNeighborTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         player.setMatieresPremieresPriceRight(3);
@@ -73,7 +74,7 @@ public class TradeTest {
      * rightPlayer's coins are unchanged
      */
     @Test
-    public void saleResourcesFromNeighborWithLessCoinsTest() {
+     void saleResourcesFromNeighborWithLessCoinsTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -103,7 +104,7 @@ public class TradeTest {
      * rightPlayer's coins are unchanged
      */
     @Test
-    public void saleResourcesFromDefaultNeighborTest() {
+     void saleResourcesFromDefaultNeighborTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -132,7 +133,7 @@ public class TradeTest {
      * leftPlayer's coins are unchanged
      */
     @Test
-    public void saleResourcesFromNeighborWithLessPriceTest() {
+     void saleResourcesFromNeighborWithLessPriceTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -161,7 +162,7 @@ public class TradeTest {
      * leftPlayer's must have more coins
      */
     @Test
-    public void saleResourcesOneFromEachNeighborPriceTest() {
+     void saleResourcesOneFromEachNeighborPriceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -191,7 +192,7 @@ public class TradeTest {
      * @result saleResources must return false, the coins of all players must remain unchanged
      */
     @Test
-    public void saleResourcesNotEnoughCoinsForSecondResourceTest() {
+     void saleResourcesNotEnoughCoinsForSecondResourceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -222,7 +223,7 @@ public class TradeTest {
      * leftNeighbor has more coins (1 resource sold)
      */
     @Test
-    public void saleResourcesSeveralResourcesWithOneNeighborChoiceByPriceTest() {
+     void saleResourcesSeveralResourcesWithOneNeighborChoiceByPriceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.MINERAI);
@@ -257,7 +258,7 @@ public class TradeTest {
      * leftNeighbor has more coins (1 Produit Manifacture sold)
      */
     @Test
-    public void saleResourcesSeveralResourcesWithChoiceByPriceAndChoiceByCoinsTest() {
+     void saleResourcesSeveralResourcesWithChoiceByPriceAndChoiceByCoinsTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.TISSU);
@@ -294,7 +295,7 @@ public class TradeTest {
      * @result saleResources must return false, the coins of all players must remain unchanged
      */
     @Test
-    public void saleResourcesSeveralResourcesNotEnoughMoneyForProduitManifactureTest() {
+     void saleResourcesSeveralResourcesNotEnoughMoneyForProduitManifactureTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.TISSU);
@@ -327,7 +328,7 @@ public class TradeTest {
      * @result chooseNeighbor must return rightNeighbor
      */
     @Test
-    public void chooseNeighborRightHasLessCoinsTest() {
+     void chooseNeighborRightHasLessCoinsTest() {
         rightNeighbor.setCoins(5);
         leftNeighbor.setCoins(7);
         assertEquals(trade.chooseNeighbor(rightNeighbor, leftNeighbor), rightNeighbor);
@@ -338,7 +339,7 @@ public class TradeTest {
      * @result chooseNeighbor must return leftNeighbor
      */
     @Test
-    public void chooseNeighborLeftHasLessCoinsTest() {
+     void chooseNeighborLeftHasLessCoinsTest() {
         rightNeighbor.setCoins(8);
         leftNeighbor.setCoins(7);
         assertEquals(trade.chooseNeighbor(rightNeighbor, leftNeighbor), leftNeighbor);
@@ -349,7 +350,7 @@ public class TradeTest {
      * @result chooseNeighbor must return leftNeighbor
      */
     @Test
-    public void chooseNeighborNeighborsHaveSameCoinsTest() {
+     void chooseNeighborNeighborsHaveSameCoinsTest() {
         rightNeighbor.setCoins(6);
         leftNeighbor.setCoins(6);
         assertEquals(trade.chooseNeighbor(rightNeighbor, leftNeighbor), leftNeighbor);

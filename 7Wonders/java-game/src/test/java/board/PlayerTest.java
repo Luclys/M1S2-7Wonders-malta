@@ -7,35 +7,36 @@ import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class PlayerTest {
+class PlayerTest {
 
-    final ArrayList<Card> cards = new ArrayList<>(7);
+    final List<Card> cards = new ArrayList<>(7);
     private Player player;
     private Inventory inv, playerRightNeighbor, playerLeftNeighbor;
 
 
     @Test
-    public void chooseCardTest() {
+     void chooseCardTest() {
         player = new Player(0);
         inv = new Inventory(0);
         playerRightNeighbor = new Inventory(1);
         playerLeftNeighbor = new Inventory(2);
-        cards.add(CardsSet.BIBLIOTHÈQUE);
-        cards.add(CardsSet.BIBLIOTHÈQUE);
-        cards.add(CardsSet.THÉÂTRE);
+        cards.add(CardsSet.BIBLIOTHEQUE);
+        cards.add(CardsSet.BIBLIOTHEQUE);
+        cards.add(CardsSet.THEATRE);
         inv.setCardsInHand(cards);
-        assertEquals(CardsSet.BIBLIOTHÈQUE, player.chooseCard(inv));
-        inv.updateInventory(CardsSet.BIBLIOTHÈQUE, player, playerRightNeighbor, playerLeftNeighbor);
-        assertEquals(CardsSet.THÉÂTRE, player.chooseCard(inv));
+        assertEquals(CardsSet.BIBLIOTHEQUE, player.chooseCard(inv));
+        inv.updateInventory(CardsSet.BIBLIOTHEQUE, player, playerRightNeighbor, playerLeftNeighbor);
+        assertEquals(CardsSet.THEATRE, player.chooseCard(inv));
     }
 
     /*
     @BeforeEach
-    public void setUp() {
+     void setUp() {
         playerList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
@@ -51,7 +52,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void playCardTest() {
+     void playCardTest() {
         assertEquals(0, inv.getScore());
         Card playedCard = player.chooseCard(inv);
         inv.updateInventory(playedCard, player, null, null);
@@ -68,7 +69,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void updateAvailableResourcesTest() {
+     void updateAvailableResourcesTest() {
         assertEquals(0, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
         inv.setCardsInHand(cards);
         inv.updateInventory(player.chooseCard(inv));

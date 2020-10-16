@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,14 +22,14 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ScoreTest {
-    ArrayList<Player> playerList;
+class ScoreTest {
+    List<Player> playerList;
 
     @Mock
     Player playerMocked;
 
     @BeforeEach
-    public void setUp() {
+     void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             playerList.add(playerMocked);

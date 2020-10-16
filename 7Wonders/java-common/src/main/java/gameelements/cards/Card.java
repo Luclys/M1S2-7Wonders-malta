@@ -7,12 +7,12 @@ import gameelements.enums.Resource;
 public class Card {
     private final int id;
     private final String name;
-    private Effect[] effects;
     private final Resource[] requiredResources;
     private final Category category;
     private final int cost;
     private final int[] requiredBuildingIdsToBuildForFree;
     private final int[] buildingIdsCanBeBuiltForFree;
+    private Effect[] effects;
 
     public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category) {
         this.id = id;

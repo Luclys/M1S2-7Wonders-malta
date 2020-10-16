@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CardTest {
 
     @Test
-    public void isBatiment() {
-        Card card = CardsSet.PRÊTEUR_SUR_GAGES;
+    void isBatiment() {
+        Card card = CardsSet.PRETEUR_SUR_GAGES;
         assertTrue(card.isBuilding());
         card = CardsSet.SCIERIE;
         assertFalse(card.isBuilding());

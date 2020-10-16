@@ -7,14 +7,15 @@ import gameelements.cards.CardsSet;
 import io.cucumber.java8.En;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RotationSteps implements En {
     CardManager cardManager;
-    ArrayList<Card> initalCardPlayer0;
-    ArrayList<Card> initalCardPlayer1;
-    ArrayList<Card> initalCardPlayer2;
+    List<Card> initalCardPlayer0;
+    List<Card> initalCardPlayer1;
+    List<Card> initalCardPlayer2;
     public RotationSteps(){
         Given("Inventories have cards", () -> {
             cardManager = new CardManager();
@@ -22,20 +23,20 @@ public class RotationSteps implements En {
                 cardManager.getPlayerList().add(new Player(i));
                 cardManager.getPlayerInventoryList().add(new Inventory(i));
             }
-            ArrayList<Card> cards = new ArrayList<>();
-            cards.add(CardsSet.BIBLIOTHÈQUE);
-            cards.add(CardsSet.ARÈNE);
+            List<Card> cards = new ArrayList<>();
+            cards.add(CardsSet.BIBLIOTHEQUE);
+            cards.add(CardsSet.ARENE);
             cards.add(CardsSet.ACADEMIE);
             cardManager.getPlayerInventoryList().get(0).setCardsInHand(cards);
             cards.clear();
-            cards.add(CardsSet.ARÈNE);
-            cards.add(CardsSet.CARRIÈRE);
-            cards.add(CardsSet.UNIVERSITÉ);
+            cards.add(CardsSet.ARENE);
+            cards.add(CardsSet.CARRIERE);
+            cards.add(CardsSet.UNIVERSITE);
             cardManager.getPlayerInventoryList().get(1).setCardsInHand(cards);
             cards.clear();
-            cards.add(CardsSet.THÉÂTRE);
+            cards.add(CardsSet.THEATRE);
             cards.add(CardsSet.CASERNE);
-            cards.add(CardsSet.THÉÂTRE);
+            cards.add(CardsSet.THEATRE);
             cardManager.getPlayerInventoryList().get(2).setCardsInHand(cards);
         });
 

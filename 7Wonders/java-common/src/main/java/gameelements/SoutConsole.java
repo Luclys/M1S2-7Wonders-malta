@@ -5,7 +5,7 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SoutConsole {
     boolean booleanPrint;
@@ -18,7 +18,7 @@ public class SoutConsole {
         if (!booleanPrint) {
             return;
         }
-        String.format("\n\n\n========================= START AGE N° %d ===========================\n\n\n", i);
+        System.out.printf("\n\n\n========================= START AGE N° %d ===========================\n\n\n", i);
     }
 
     public void endOfAge(int i) {
@@ -85,7 +85,7 @@ public class SoutConsole {
         System.out.printf("\n**No resource is required to play  %s  \n", chosenCard);
     }
 
-    public void missingResources(ArrayList<Resource> r) {
+    public void missingResources(List<Resource> r) {
         if (!booleanPrint) {
             return;
         }

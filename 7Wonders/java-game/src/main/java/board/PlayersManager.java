@@ -8,10 +8,12 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PlayersManager {
-    ArrayList<Player> playerList;
-    ArrayList<Inventory> playerInventoryList;
+    List<Player> playerList;
+    List<Inventory> playerInventoryList;
     SoutConsole sout;
 
     public PlayersManager(SoutConsole sout) {
@@ -31,9 +33,9 @@ public class PlayersManager {
         }
     }
 
-    protected void freeBuildFromDiscarded(ArrayList<Card> discardedDeckCardList) {
+    protected void freeBuildFromDiscarded(List<Card> discardedDeckCardList) {
         for (Inventory inv : playerInventoryList) {
-            if (discardedDeckCardList.size() == 0) {
+            if (discardedDeckCardList.isEmpty()) {
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
@@ -60,7 +62,7 @@ public class PlayersManager {
         sout.resolvedConflicts(invPlayer);
     }
 
-    protected ArrayList<Player> associateNeighbor(ArrayList<Player> players) {
+    protected List<Player> associateNeighbor(List<Player> players) {
         playerInventoryList = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             Inventory inv = new Inventory(i);
@@ -82,14 +84,14 @@ public class PlayersManager {
         return players;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
+    public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
 
-    protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
-        ArrayList<Resource> missing = new ArrayList<>();
+    protected List<Resource> missingResources(Inventory inv, Card c) {
+        List<Resource> missing = new ArrayList<>();
         if (c.getRequiredResources() == null) {
-            return null;
+            return Collections.emptyList();
         }
         for (Resource r : c.getRequiredResources()) {
             if (inv.getAvailableResources()[r.getIndex()] == 0) {

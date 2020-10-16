@@ -5,17 +5,18 @@ import gameelements.Player;
 import gameelements.cards.Card;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CardManager {
-    ArrayList<Player> playerList;
-    ArrayList<Inventory> playerInventoryList;
+    List<Player> playerList;
+    List<Inventory> playerInventoryList;
 
     public CardManager() {
         playerInventoryList = new ArrayList<>();
         playerList = new ArrayList<>();
     }
 
-    public CardManager(ArrayList<Player> playerList, ArrayList<Inventory> playerInventoryList) {
+    public CardManager(List<Player> playerList, List<Inventory> playerInventoryList) {
         this.playerList = playerList;
         this.playerInventoryList = playerInventoryList;
     }
@@ -23,7 +24,7 @@ public class CardManager {
     protected void leftRotation() {
         ArrayList<Inventory> tmpList = new ArrayList<>(playerInventoryList);
         int leftNeighborId;
-        ArrayList<Card> cards = playerInventoryList.get(playerInventoryList.size() - 1).getCardsInHand();
+        List<Card> cards = playerInventoryList.get(playerInventoryList.size() - 1).getCardsInHand();
         for (Inventory i : playerInventoryList) {
             leftNeighborId = playerList.get(i.getPlayerId()).getLeftNeighborId();
             tmpList.get(leftNeighborId).setCardsInHand(playerInventoryList.get(i.getPlayerId()).getCardsInHand());
@@ -34,7 +35,8 @@ public class CardManager {
 
 
     protected void rightRotation() {
-        ArrayList<Card> temp, last;
+        List<Card> temp;
+        List<Card> last;
         int i = 0;
         last = playerInventoryList.get(0).getCardsInHand();
         while (i < playerInventoryList.size()) {
@@ -53,11 +55,11 @@ public class CardManager {
         }
     }
 
-    public ArrayList<Player> getPlayerList() {
+    public List<Player> getPlayerList() {
         return playerList;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
+    public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
 }

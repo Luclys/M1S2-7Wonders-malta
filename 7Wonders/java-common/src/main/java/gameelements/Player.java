@@ -4,6 +4,7 @@ import gameelements.cards.Card;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private final int id;
@@ -30,7 +31,7 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
+        List<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
         chosenCard = cardsAvailableToPlay.get(0);
@@ -50,7 +51,7 @@ public class Player {
         // return the played card to the board so that the board can decide which decision to make(buy resource or discard)
     }
 
-    public Card chooseGuildCard(ArrayList<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+    public Card chooseGuildCard(List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         return list.get(0);
     }
 
@@ -60,7 +61,7 @@ public class Player {
         return Symbol.COMPAS;
     }
 
-    public Card chooseDiscardedCardToBuild(Inventory inventory, ArrayList<Card> discardedDeckCardList) {
+    public Card chooseDiscardedCardToBuild(Inventory inventory, List<Card> discardedDeckCardList) {
         return discardedDeckCardList.get(0);
     }
 

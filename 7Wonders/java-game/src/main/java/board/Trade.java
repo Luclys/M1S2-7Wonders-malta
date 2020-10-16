@@ -1,10 +1,11 @@
 package board;
 
 import gameelements.Inventory;
+import gameelements.SoutConsole;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Trade {
     SoutConsole sout;
@@ -13,7 +14,7 @@ public class Trade {
         this.sout = sout;
     }
 
-    protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
+    protected boolean saleResources(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean canBuyAllResources = true;
         int rightPrice;
         int leftPrice;
@@ -112,7 +113,7 @@ public class Trade {
     }
 
     protected Inventory chooseNeighbor(Inventory rightNeighborInv, Inventory leftNeighborInv) {
-        if (rightNeighborInv.getCoins() < leftNeighborInv.getCoins()) { //TODO: Maybe AI
+        if (rightNeighborInv.getCoins() < leftNeighborInv.getCoins()) { // Maybe AI
            return rightNeighborInv;
         } else {
             return leftNeighborInv;

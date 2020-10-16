@@ -14,7 +14,7 @@ public class ConflictSteps implements En {
 
     int initialVictoryPointCount;
     int initialDefeatJetonCount;
-    public  ConflictSteps() {
+     public ConflictSteps() {
         Given("player has three shields", () -> {
             inv0.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()] = 3;
 

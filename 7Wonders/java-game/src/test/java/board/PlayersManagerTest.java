@@ -8,16 +8,16 @@ import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayersManagerTest {
+class PlayersManagerTest {
 
     private PlayersManager playersManager;
 
     @BeforeEach
-    public void setUp() {
+     void setUp() {
         playersManager = new PlayersManager();
         for (int i = 0; i < 3; i++) {
             playersManager.playerList.add(new Player(i));
@@ -26,7 +26,7 @@ public class PlayersManagerTest {
     }
 
     @Test
-    public void updateCoinsTest() {
+     void updateCoinsTest() {
         assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
         assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
         playersManager.playerInventoryList.get(0).setAddedCoins(2);
@@ -38,7 +38,7 @@ public class PlayersManagerTest {
     }
 
     @Test
-    public void fightWithNeighborTest() {
+     void fightWithNeighborTest() {
         Inventory inv = playersManager.playerInventoryList.get(0);
         Inventory invNeighbor = playersManager.playerInventoryList.get(2);
         inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
@@ -56,7 +56,7 @@ public class PlayersManagerTest {
     void missingResourcesTest() {
         Inventory inv = playersManager.playerInventoryList.get(0);
         inv.getAvailableResources()[Resource.BOIS.getIndex()] = 0;
-        ArrayList<Resource> m = playersManager.missingResources(inv, CardsSet.PALISSADE);
+        List<Resource> m = playersManager.missingResources(inv, CardsSet.PALISSADE);
         assertTrue(m.contains(Resource.BOIS));
         inv.getAvailableResources()[Resource.BOIS.getIndex()]++;
         m = playersManager.missingResources(inv, CardsSet.PALISSADE);
@@ -64,8 +64,8 @@ public class PlayersManagerTest {
     }
 
     @Test
-    public void associateNeighborTest() {
-        ArrayList<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
+     void associateNeighborTest() {
+        List<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
         int playersCount = playerList.size();
         assertEquals(3, playersCount);
 

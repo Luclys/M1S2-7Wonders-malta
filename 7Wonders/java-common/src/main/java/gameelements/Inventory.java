@@ -6,15 +6,16 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
-    private final ArrayList<Resource[]> pairResChoice;
-    private ArrayList<Card> cardsInHand;
-    private ArrayList<Card> playedCards;
-    private final ArrayList<Effect> endGameEffects;
+    private final List<Resource[]> pairResChoice;
+    private List<Card> cardsInHand;
+    private List<Card> playedCards;
+    private final List<Effect> endGameEffects;
     private WonderBoard wonderBoard;
 
     private int score;
@@ -195,27 +196,27 @@ public class Inventory {
         return availableSymbols;
     }
 
-    public ArrayList<Resource[]> getPairResChoice() {
+    public List<Resource[]> getPairResChoice() {
         return pairResChoice;
     }
 
-    public ArrayList<Card> getCardsInHand() {
+    public List<Card> getCardsInHand() {
         return cardsInHand;
     }
 
-    public void setCardsInHand(ArrayList<Card> cardsInHand) {
+    public void setCardsInHand(List<Card> cardsInHand) {
         this.cardsInHand = cardsInHand;
     }
 
-    public ArrayList<Card> getPlayedCards() {
+    public List<Card> getPlayedCards() {
         return playedCards;
     }
 
-    public void setPlayedCards(ArrayList<Card> playedCards) {
+    public void setPlayedCards(List<Card> playedCards) {
         this.playedCards = playedCards;
     }
 
-    public ArrayList<Effect> getEndGameEffects() {
+    public List<Effect> getEndGameEffects() {
         return endGameEffects;
     }
 

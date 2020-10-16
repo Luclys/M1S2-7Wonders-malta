@@ -15,6 +15,7 @@ import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Board {
     public static final int AGES = 3;
@@ -22,21 +23,21 @@ public class Board {
     private final PlayersManager playersManager;
     private final Trade commerce;
     private final ArrayList<Player> playerList;
-    private final ArrayList<Inventory> playerInventoryList;
-    private final ArrayList<Card> discardedDeckCardList;
+    private final List<Inventory> playerInventoryList;
+    private final List<Card> discardedDeckCardList;
     private int turn;
     private final CardManager cardManager;
-    private ArrayList<Card> currentDeckCardList;
+    private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
     private final SoutConsole sout;
 
-    public Board(ArrayList<Player> playerList, Boolean boolPrint) {
+    public Board(List<Player> playerList, Boolean boolPrint) {
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
         // Setup Players and their inventories
-        this.playerList = playersManager.associateNeighbor(playerList);
+        this.playerList = (ArrayList<Player>)(playersManager.associateNeighbor(playerList));
         playerInventoryList = playersManager.getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
@@ -133,7 +134,7 @@ public class Board {
         if (chosenCard != null) {
             sout.action(player.getId());
             sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            ArrayList<Resource> s = getManager().missingResources(trueInv, chosenCard);
+            List<Resource> s = getManager().missingResources(trueInv, chosenCard);
             sout.checkMissingResources(chosenCard);
             if (s != null) {
                 sout.missingResources(s);
@@ -164,8 +165,8 @@ public class Board {
         }
     }
 
-    ArrayList<Card> drawCards(int nbCards) {
-        ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+    List<Card> drawCards(int nbCards) {
+        List<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
         this.currentDeckCardList.removeAll(playerDeck);
         return playerDeck;
     }
@@ -190,7 +191,7 @@ public class Board {
             inv.addScore(inv.getCoins() / 3);
 
             //foreach(nb same Scientific²) + min(nb same scientific) * 7
-            ArrayList<Integer> list = new ArrayList<>();
+            List<Integer> list = new ArrayList<>();
             list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
             list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
             list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
@@ -218,11 +219,11 @@ public class Board {
         return cardManager;
     }
 
-    public ArrayList<Player> getPlayerList() {
+    public List<Player> getPlayerList() {
         return this.playerList;
     }
 
-    public ArrayList<Card> getCurrentDeckCardList() {
+    public List<Card> getCurrentDeckCardList() {
         return this.currentDeckCardList;
     }
 
@@ -238,7 +239,7 @@ public class Board {
         return this.turn;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
+    public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
 
