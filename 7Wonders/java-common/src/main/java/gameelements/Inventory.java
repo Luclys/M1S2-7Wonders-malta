@@ -160,6 +160,7 @@ public class Inventory {
 
     public int getVictoryChipsScore() {
         return victoryChipsScore;
+    }
     public void addPairResChoice(Resource[] resources) {
         this.pairResChoice.add(resources);
     }
@@ -204,16 +205,6 @@ public class Inventory {
         this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
     }
 
-    // TWEAKED GETTERS
-    public int getSymbCount(Symbol symbol) {
-        return this.availableSymbols[symbol.getIndex()];
-    }
-
-    public int getResCount(Resource resource) {
-        return this.availableResources[resource.getIndex()];
-    }
-
-    // GETTERS & SETTERS
     public int getPlayerId() {
         return playerId;
     }
@@ -264,10 +255,6 @@ public class Inventory {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getVictoryChipsScore() {
-        return victoryChipsScore;
     }
 
     public void setVictoryChipsScore(int victoryChipsScore) {

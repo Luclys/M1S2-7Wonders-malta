@@ -1,7 +1,7 @@
 package gameelements.strategy;
 
-import gameelements.Card;
 import gameelements.Inventory;
+import gameelements.cards.Card;
 import gameelements.enums.Action;
 import java.util.ArrayList;
 

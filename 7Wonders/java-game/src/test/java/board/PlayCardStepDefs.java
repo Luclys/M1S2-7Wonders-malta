@@ -1,6 +1,7 @@
 package board;
 
 import gameelements.*;
+import gameelements.cards.Card;
 import gameelements.enums.Category;
 import gameelements.strategy.ResourceStrategy;
 import io.cucumber.java8.Ar;
@@ -19,7 +20,7 @@ public class PlayCardStepDefs implements En {
             ArrayList<Player> playerList = new ArrayList<>();
             playerList.add(player);
             board = new Board(playerList, false);
-            Card card = new Card("DUMMY", (Effect) null, null, Category.MATIERE_PREMIERE);
+            Card card = new Card(0, "DUMMY", (Effect) null, null, Category.MATIERE_PREMIERE);
             ArrayList<Card> cardsInHand = new ArrayList<>();
             cardsInHand.add(card);
             inventory = board.getPlayerInventoryList().get(0);

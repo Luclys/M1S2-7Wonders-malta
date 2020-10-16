@@ -1,6 +1,6 @@
 package board;
 
-import gameelements.CardsSet;
+import gameelements.cards.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
 import io.cucumber.java8.En;

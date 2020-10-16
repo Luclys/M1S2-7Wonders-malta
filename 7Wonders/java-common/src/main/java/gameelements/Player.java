@@ -40,7 +40,7 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        List<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
+        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
         chosenCard = strategy.chooseCard(inv, cardsAvailableToPlay);

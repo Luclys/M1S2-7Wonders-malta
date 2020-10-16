@@ -192,13 +192,13 @@ public class Board {
         if (chosenCard != null) {
             sout.action(player.getId());
             sout.playerInformation(playerInventoryList.get(player.getId()));
-            trueInv.updateInventory(chosenCard);
+            trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
     }
 
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
         WonderBoard wonder = trueInv.getWonderBoard();
-        wonder.buyNextStep(chosenCard);
+        wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
     private void sellCard(Inventory trueInv, Card chosenCard) {
