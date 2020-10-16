@@ -1,19 +1,20 @@
 package gameelements.ages;
 
-import gameelements.Card;
+import gameelements.cards.Card;
 
-import java.util.ArrayList;
+import java.util.List;
 
-interface Age {
-    static int getVictoryJetonValue() {
-        return 0;
+public abstract class Age {
+    protected int vicoryJetonValue;
+    protected boolean isLeftRotation;
+
+    public abstract List<Card> initiateCards(int playersCount);
+
+    public int getVictoryJetonValue() {
+        return vicoryJetonValue;
     }
 
-    static boolean isLeftRotation() {
-        return false;
-    }
-
-    static ArrayList<Card> initiateCards(int playersCount) {
-        return null;
+    public boolean isLeftRotation() {
+        return isLeftRotation;
     }
 }

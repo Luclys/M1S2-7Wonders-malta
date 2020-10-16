@@ -1,11 +1,11 @@
-package board;
+package gameelements;
 
-import gameelements.Card;
-import gameelements.Inventory;
+import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.wonders.WonderBoard;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SoutConsole {
     boolean booleanPrint;
@@ -25,7 +25,7 @@ public class SoutConsole {
         if (!booleanPrint) {
             return;
         }
-        System.out.println("LAST CARDS ARE DEFEAT");
+        System.out.println("LAST CARDS ARE DISCARDED");
         System.out.printf("\n\n\n========================= END AGE N° %d =======================\n\n\n", i);
     }
 
@@ -85,7 +85,7 @@ public class SoutConsole {
         System.out.printf("\n**No resource is required to play  %s  \n", chosenCard);
     }
 
-    public void missingResources(ArrayList<Resource> r) {
+    public void missingResources(List<Resource> r) {
         if (!booleanPrint) {
             return;
         }
@@ -129,52 +129,67 @@ public class SoutConsole {
                 "player : " + p.getPlayerId() +
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
-                " },\n\t score=" + p.getScore() +
+                " },\n\t score = " + p.getScore() +
                 ", \n\t victory chips score = " + p.getVictoryChipsScore() +
                 ", \n\t defeat chips count = " + p.getDefeatChipsCount() +
-                ", \n\t coins" + p.getCoins() +
-                "\n}");
+                ", \n\t coins = " + p.getCoins() +
+                ".\n}");
     }
 
-    public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer){
+    public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("================= [RESOLVING WAR CONFLICTS] =================");
-        System.out.println("Conflicts between PLAYER "+invPlayer.getPlayerId()+" and his neighbor PLAYER "+invNeighborPlayer.getPlayerId());
+        System.out.println("Conflicts between PLAYER " + invPlayer.getPlayerId() + " and his neighbor PLAYER " + invNeighborPlayer.getPlayerId());
     }
-    public void checkShields(int playerShieldsCount, int neighborShieldsCount){
+
+    public void checkShields(int playerShieldsCount, int neighborShieldsCount) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Player has " + playerShieldsCount + " shields while neighbor has " + neighborShieldsCount);
     }
-    public void addConflictsPoint(int victoryChipValue){
+
+    public void addConflictsPoint(int victoryChipValue) {
         if (!booleanPrint) {
             return;
         }
         System.out.println(victoryChipValue + " conflict points added");
     }
 
-    public void defeatChip(){
+    public void defeatChip() {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Defeat chip (-1 conflict point) added");
     }
 
-    public void resolvedConflicts(Inventory invPlayer){
+    public void resolvedConflicts(Inventory invPlayer) {
         if (!booleanPrint) {
             return;
         }
         System.out.println("Total player victory chip score: " + invPlayer.getVictoryChipsScore() + ", defeat chip count: " + invPlayer.getDefeatChipsCount());
     }
 
-    public void display(String msg){
+    public void display(String msg) {
         if (!booleanPrint) {
             return;
         }
         System.out.println(msg);
+    }
+
+    public static void display(String msg,boolean booleanPrint){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println(msg);
+    }
+    public void chooseWonderBoard(int id, WonderBoard wb){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println("The player "+id+" choose "+wb.getName()+" wonder");
     }
 
 }

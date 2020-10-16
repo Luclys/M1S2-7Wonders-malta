@@ -2,17 +2,21 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public class FreeDiscardedBuildingEffect extends Effect {
 
     public FreeDiscardedBuildingEffect() {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.ONCE);
+        super(EffectDelay.INSTANTANEOUS);
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
-       inv.addPossibleFreeDiscardedBuildingsCount(1);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        inv.addPossibleFreeDiscardedBuildingsCount(1);
     }
 }

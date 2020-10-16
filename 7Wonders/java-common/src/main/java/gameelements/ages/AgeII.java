@@ -1,37 +1,32 @@
 package gameelements.ages;
 
-import gameelements.Card;
-import gameelements.CardsSet;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AgeII implements Age {
-    private static final int victoryJetonValue = 3;
-    private static final boolean isLeftRotation = false;
-
-    public static int getVictoryJetonValue() {
-        return victoryJetonValue;
+public class AgeII extends Age {
+    public AgeII() {
+        vicoryJetonValue = 3;
+        isLeftRotation = false;
     }
 
-    public static boolean isLeftRotation() {
-        return isLeftRotation;
-    }
-
-    public static ArrayList<Card> initiateCards(int playersCount) {
+    public List<Card> initiateCards(int playersCount) {
         if (playersCount <= 2 || playersCount > 7) {
             throw new IllegalStateException("Unexpected playersCount value: " + playersCount);
         }
 
-        ArrayList<Card> cards = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
 
         //Brown
         cards.add(CardsSet.SCIERIE);
-        cards.add(CardsSet.CARRIÈRE);
+        cards.add(CardsSet.CARRIERE);
         cards.add(CardsSet.BRIQUETERIE);
         cards.add(CardsSet.FONDERIE);
 
         //Gray
-        cards.add(CardsSet.MÉTIER_A_TISSER);
+        cards.add(CardsSet.METIER_A_TISSER);
         cards.add(CardsSet.VERRERIE);
         cards.add(CardsSet.PRESSE);
 
@@ -43,24 +38,24 @@ public class AgeII implements Age {
 
         //Yellow
         cards.add(CardsSet.FORUM);
-        cards.add(CardsSet.CARAVANSÉRAIL);
+        cards.add(CardsSet.CARAVANSERAIL);
         cards.add(CardsSet.VIGNOBLE);
 
         //Red
         cards.add(CardsSet.MURAILLE);
-        cards.add(CardsSet.ÉCURIES);
+        cards.add(CardsSet.ECURIES);
         cards.add(CardsSet.CHAMPS_DE_TIR);
 
         //Green
         cards.add(CardsSet.DISPENSAIRE);
         cards.add(CardsSet.LABORATOIRE);
-        cards.add(CardsSet.BIBLIOTHÈQUE);
-        cards.add(CardsSet.ÉCOLE);
+        cards.add(CardsSet.BIBLIOTHEQUE);
+        cards.add(CardsSet.ECOLE);
 
         if (playersCount >= 4) {
             //Brown
             cards.add(CardsSet.SCIERIE);
-            cards.add(CardsSet.CARRIÈRE);
+            cards.add(CardsSet.CARRIERE);
             cards.add(CardsSet.BRIQUETERIE);
             cards.add(CardsSet.FONDERIE);
 
@@ -76,15 +71,15 @@ public class AgeII implements Age {
 
         if (playersCount >= 5) {
             //Gray
-            cards.add(CardsSet.MÉTIER_A_TISSER);
+            cards.add(CardsSet.METIER_A_TISSER);
             cards.add(CardsSet.VERRERIE);
             cards.add(CardsSet.PRESSE);
 
             //Yellow
-            cards.add(CardsSet.CARAVANSÉRAIL);
+            cards.add(CardsSet.CARAVANSERAIL);
 
             //Red
-            cards.add(CardsSet.ÉCURIES);
+            cards.add(CardsSet.ECURIES);
 
             //Green
             cards.add(CardsSet.LABORATOIRE);
@@ -99,7 +94,7 @@ public class AgeII implements Age {
 
             //Yellow
             cards.add(CardsSet.FORUM);
-            cards.add(CardsSet.CARAVANSÉRAIL);
+            cards.add(CardsSet.CARAVANSERAIL);
             cards.add(CardsSet.VIGNOBLE);
 
             //Red
@@ -107,7 +102,7 @@ public class AgeII implements Age {
             cards.add(CardsSet.CHAMPS_DE_TIR);
 
             //Green
-            cards.add(CardsSet.BIBLIOTHÈQUE);
+            cards.add(CardsSet.BIBLIOTHEQUE);
         }
 
         if (playersCount >= 7) {
@@ -124,7 +119,7 @@ public class AgeII implements Age {
             cards.add(CardsSet.PLACE_D_ARMES);
 
             //Green
-            cards.add(CardsSet.ÉCOLE);
+            cards.add(CardsSet.ECOLE);
         }
 
         return cards;

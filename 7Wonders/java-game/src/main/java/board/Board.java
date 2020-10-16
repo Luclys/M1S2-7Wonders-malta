@@ -1,42 +1,44 @@
 package board;
 
 import client.Client;
-import gameelements.Card;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.SoutConsole;
+import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
 import gameelements.enums.Action;
+import gameelements.cards.Card;
 import gameelements.enums.Resource;
+import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Board {
     public static final int AGES = 3;
-
+    public static final int CARDS_NUMBER = 7;
     private final PlayersManager playersManager;
     private final Trade commerce;
-    public static final int NOMBRE_CARTES = 7;
     private final ArrayList<Player> playerList;
-    private final ArrayList<Inventory> playerInventoryList;
-    private final ArrayList<Card> discardedDeckCardList;
+    private final List<Inventory> playerInventoryList;
+    private final List<Card> discardedDeckCardList;
     private int turn;
-    private final SoutConsole sout;
     private final CardManager cardManager;
-
-    private ArrayList<Card> currentDeckCardList;
+    private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
+    private final SoutConsole sout;
 
-    public Board(ArrayList<Player> playerList, Boolean boolPrint) {
+    public Board(List<Player> playerList, Boolean boolPrint) {
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
         // Setup Players and their inventories
-        this.playerList = playersManager.associateNeighbor(playerList);
+        this.playerList = (ArrayList<Player>)(playersManager.associateNeighbor(playerList));
         playerInventoryList = playersManager.getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
@@ -44,43 +46,44 @@ public class Board {
         //display
     }
 
-    public void ageSetUp(int age) {
-        switch (age) {
+    public void ageSetUp(int numAge) {
+        Age age = null;
+        switch (numAge) {
             case 1:
-                currentDeckCardList = AgeI.initiateCards(playerList.size());
-                isLeftRotation = AgeI.isLeftRotation();
-                jetonVictoryValue = AgeI.getVictoryJetonValue();
+                age = new AgeI();
                 break;
             case 2:
-                currentDeckCardList = AgeII.initiateCards(playerList.size());
-                isLeftRotation = AgeII.isLeftRotation();
-                jetonVictoryValue = AgeII.getVictoryJetonValue();
+                age = new AgeII();
                 break;
             case 3:
-                currentDeckCardList = AgeIII.initiateCards(playerList.size());
-                isLeftRotation = AgeIII.isLeftRotation();
-                jetonVictoryValue = AgeIII.getVictoryJetonValue();
+                age = new AgeIII();
                 break;
             default:
-                throw new IllegalStateException("Unexpected age value: " + age);
+                throw new IllegalStateException("Unexpected age value: " + numAge);
         }
+        currentDeckCardList = age.initiateCards(playerList.size());
+        isLeftRotation = age.isLeftRotation();
+        jetonVictoryValue = age.getVictoryJetonValue();
+
+
         Collections.shuffle(currentDeckCardList);
         turn = 0;
     }
 
 
     public void play() {
-        playerInventoryList.forEach(this::chooseWonderBoard);
+        playerInventoryList.forEach(inventory -> chooseWonderBoard(playerList.get(inventory.getPlayerId()), inventory));
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
             sout.beginningOfAge(age);
             // Card dealing
-            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(NOMBRE_CARTES)));
+            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(CARDS_NUMBER)));
 
-            for (int currentTurn = 0; currentTurn < NOMBRE_CARTES - 1; currentTurn++) {
+            for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);
-                // Each player plays a card on each turn
                 sout.play();
+
+                // Each player plays a card on each turn
                 for (Player p : playerList) {
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     sout.chosenCards(p.getId(), p.getChosenCard());
@@ -88,14 +91,12 @@ public class Board {
                 for (int i = 0; i < playerList.size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), playerList.get(i));
                 }
-                // The players exchange cards according to the Age's sens.
-                if (isLeftRotation) {
-                    cardManager.leftRotation();
-                } else {
-                    cardManager.rightRotation();
-                }
-                this.turn++;
+
                 playersManager.updateCoins();
+                playersManager.freeBuildFromDiscarded(discardedDeckCardList);
+
+                cardManager.playersCardsRotation(isLeftRotation);
+                this.turn++;
             }
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.
@@ -120,10 +121,11 @@ public class Board {
 
     }
 
-    private void chooseWonderBoard(Inventory inventory) {
+    private void chooseWonderBoard(Player player, Inventory inventory) {
         // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
         WonderBoard colossus = WonderBoard.initiateColossus();
-        colossus.claimBoard(inventory);
+        sout.chooseWonderBoard(player.getId(),colossus);
+        colossus.claimBoard(player, inventory);
     }
 
     protected void executePlayerAction(Inventory inv, Player player) {
@@ -213,29 +215,44 @@ public class Board {
         }
     }
 
-    ArrayList<Card> drawCards(int nbCards) {
-        ArrayList<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
+    List<Card> drawCards(int nbCards) {
+        List<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
         this.currentDeckCardList.removeAll(playerDeck);
         return playerDeck;
     }
 
     public void scores() {
+        sout.endOfGame();
         /*The player's score is calculated by doing :
-         * Sum of Conflict Points
-         * + (Sum coins / 3) -> each 3 coins grant 1 score point
-         * + Sum of Wonders Points
-         * + Sum of construction Points
-         * + foreach(nb same Scientific²) + min(nb same scientific) * 7
-         * + trading buildings (specific)
-         * + guilds buildings (specific)
-         *
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        sout.endOfGame();
-        sout.booleanPrint = true;
         sout.FinalResults();
-        for (Inventory p : playerInventoryList) {
-            sout.playerInformation(p);
+        for (Inventory inv : playerInventoryList) {
+            // End Game Effects (guilds buildings)
+            Player player = playerList.get(inv.getPlayerId());
+            Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
+            Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+            inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+
+            // Sum of Conflict Points
+            inv.addScore(inv.getVictoryChipsScore() - inv.getDefeatChipsCount());
+
+            // (Sum coins / 3) -> each 3 coins grant 1 score point
+            inv.addScore(inv.getCoins() / 3);
+
+            //foreach(nb same Scientific²) + min(nb same scientific) * 7
+            List<Integer> list = new ArrayList<>();
+            list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
+            list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
+            list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
+
+            Integer min = Collections.min(list);
+            int nbSameScientific = min;
+
+            list.forEach(integer -> inv.addScore(integer * integer));
+            inv.addScore(nbSameScientific * 7);
+
+            sout.playerInformation(inv);
         }
     }
 
@@ -252,11 +269,11 @@ public class Board {
         return cardManager;
     }
 
-    public ArrayList<Player> getPlayerList() {
+    public List<Player> getPlayerList() {
         return this.playerList;
     }
 
-    public ArrayList<Card> getCurrentDeckCardList() {
+    public List<Card> getCurrentDeckCardList() {
         return this.currentDeckCardList;
     }
 
@@ -272,7 +289,7 @@ public class Board {
         return this.turn;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
+    public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
 

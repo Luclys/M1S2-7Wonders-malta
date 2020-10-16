@@ -7,11 +7,11 @@ public enum Neighbor {
 
     private final int index;
 
-    public int getIndex() {
-        return index;
-    }
-
     Neighbor(int index) {
         this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

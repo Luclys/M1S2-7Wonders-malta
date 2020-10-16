@@ -2,9 +2,9 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class ScoreForCategoriesEffet extends Effect {
     ArrayList<Category> categories;
 
     public ScoreForCategoriesEffet(int score) {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
+        super(EffectDelay.END_OF_THE_GAME);
         this.score = score;
         categories = new ArrayList<>();
         categories.add(Category.MATIERE_PREMIERE);
@@ -21,9 +21,13 @@ public class ScoreForCategoriesEffet extends Effect {
         categories.add(Category.GUILDE);
     }
 
-    public void activateEffect(Inventory playersInv) {
-        super.activateEffect(playersInv);
-        int cardsCount = (int) playersInv.getPlayedCards().stream().filter(card -> categories.contains(card.getCategory())).count();
-        playersInv.addScore(cardsCount*score);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        int cardsCount = (int) inv.getPlayedCards().stream().filter(card -> categories.contains(card.getCategory())).count();
+        inv.addScore(cardsCount * score);
     }
 }

@@ -1,32 +1,34 @@
 package gameelements.effects;
 
-import gameelements.Card;
 import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.Card;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 import java.util.ArrayList;
 
 public class CopyNeighborGuildEffect extends Effect {
 
     public CopyNeighborGuildEffect() {
-        super(EffectDelay.END_OF_THE_GAME, EffectFrequency.ONCE);
+        super(EffectDelay.END_OF_THE_GAME);
     }
 
-    public void activateEffect(Inventory playerInv, Inventory leftNeighborInv, Inventory rightNeighborInv, Player player) {
-        super.activateEffect(playerInv);
-
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         ArrayList<Card> list = new ArrayList<>();
         list.addAll(rightNeighborInv.getPlayedCards());
         list.addAll(leftNeighborInv.getPlayedCards());
         list.removeIf(card -> card.getCategory() != Category.GUILDE);
 
-        if (list.size() != 0) {
-            Card card = player.chooseGuildCard(list, new Inventory(playerInv));
-            playerInv.updateInventory(card);
+        if (list.isEmpty()) {
+            Card card = player.chooseGuildCard(list, new Inventory(inv), leftNeighborInv, rightNeighborInv);
+            inv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
         }
 
     }

@@ -2,8 +2,8 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 import gameelements.enums.Resource;
 
 public class ResourceEffect extends Effect {
@@ -11,14 +11,17 @@ public class ResourceEffect extends Effect {
     int nb;
 
     public ResourceEffect(Resource resource, int nb) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.INSTANTANEOUS);
         this.resource = resource;
         this.nb = nb;
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
-        inv.getAvailableResources()[resource.getIndex()] += nb;
-
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
         }
+        inv.getAvailableResources()[resource.getIndex()] += nb;
+    }
 }

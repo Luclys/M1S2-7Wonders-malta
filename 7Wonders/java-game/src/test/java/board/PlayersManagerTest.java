@@ -1,62 +1,66 @@
 package board;
 
-import gameelements.Card;
-import gameelements.CardsSet;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.CardsSet;
 import gameelements.enums.Resource;
+import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayersManagerTest {
+class PlayersManagerTest {
 
-    final ArrayList<Card> cards = new ArrayList<>(7);
-    private Player player;
-    private Inventory inv;
-    private Board board;
-    private ArrayList<Player>  playerList;
+    private PlayersManager playersManager;
 
     @BeforeEach
-    public void setUp() {
-        playerList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            Player player = new Player(i);
-            playerList.add(player);
+     void setUp() {
+        playersManager = new PlayersManager();
+        for (int i = 0; i < 3; i++) {
+            playersManager.playerList.add(new Player(i));
+            playersManager.playerInventoryList.add(new Inventory(i));
         }
-        board = new Board(playerList, false);
-        player = board.getPlayerList().get(0);
-        inv = board.getPlayerInventoryList().get(player.getId());
-        for (int i = 0; i < 7; i++) {
-            cards.add(CardsSet.CHANTIER);
-        }
-        inv.setCardsInHand(cards);
     }
 
     @Test
-    void missingResourcesTest() {
-        Card c = CardsSet.PALISSADE;
-        ArrayList<Resource> m = inv.missingResources(c.getRequiredResources());
-        assertEquals(Resource.BOIS, m.get(0));
+     void updateCoinsTest() {
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
+        playersManager.playerInventoryList.get(0).setAddedCoins(2);
+        assertEquals(2, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
+        playersManager.updateCoins();
+        assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
+        assertEquals(5, playersManager.playerInventoryList.get(0).getCoins());
     }
 
     @Test
-    public void associateNeighborTest() {
-        int nbPlayers = 7;
+     void fightWithNeighborTest() {
+        Inventory inv = playersManager.playerInventoryList.get(0);
+        Inventory invNeighbor = playersManager.playerInventoryList.get(2);
+        inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        int victoryPoint = inv.getVictoryChipsScore();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 1);
+        assertEquals(victoryPoint + 1, inv.getVictoryChipsScore());
+        invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        invNeighbor.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
+        int defeatJetonsCount = inv.getDefeatChipsCount();
+        playersManager.fightWithNeighbor(inv, invNeighbor, 5);
+        assertEquals(defeatJetonsCount + 1, inv.getDefeatChipsCount());
+    }
 
-        Board board = new Board(playerList, false);
-        ArrayList<Player> playerList = board.getPlayerList();
-
+    @Test
+     void associateNeighborTest() {
+        List<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
         int playersCount = playerList.size();
-        assertEquals(7, playersCount);
+        assertEquals(3, playersCount);
 
         Player firstPlayer = playerList.get(0);
         Player secondPlayer = playerList.get(1);
-        Player lastPlayer = playerList.get(nbPlayers - 1);
+        Player lastPlayer = playerList.get(playersCount - 1);
 
         // We test the neighborhood tor to the left then to the right
         assertSame(playerList.get(firstPlayer.getLeftNeighborId()), lastPlayer);

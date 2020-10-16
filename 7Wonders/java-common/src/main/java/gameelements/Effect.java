@@ -1,23 +1,24 @@
 package gameelements;
 
+import gameelements.cards.Card;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 
 public abstract class Effect {
-    EffectDelay delay;
-    EffectFrequency repeat;
+    private EffectDelay delay;
 
 
-    public Effect(EffectDelay delay, EffectFrequency repeat) {
+    public Effect(EffectDelay delay) {
         this.delay = delay;
-        this.repeat = repeat;
     }
 
     // Needed : 2 neighbors, and Player Inventories
-    public void activateEffect(Inventory inv) {
-/*
-        if (delay == 0 && repeat == 0) {
-        }
-*/
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+    }
+
+    public abstract void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame);
+
+    public EffectDelay getDelay() {
+        return delay;
     }
 }

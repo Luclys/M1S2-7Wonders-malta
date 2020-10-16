@@ -2,8 +2,8 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 import gameelements.enums.Neighbor;
 
 public class ReductCommerceEffect extends Effect {
@@ -11,20 +11,26 @@ public class ReductCommerceEffect extends Effect {
     Boolean primaryRessources;
 
     public ReductCommerceEffect(Neighbor whichNeighbor, Boolean primaryRessources) {
-        super(EffectDelay.WHENEVER_PLAYER_WANTS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.INSTANTANEOUS);
         this.whichNeighbor = whichNeighbor;
         this.primaryRessources = primaryRessources;
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
-        if (whichNeighbor.equals(Neighbor.LEFT)) {
-            inv.setPriceLeft(1);
-        } else if (whichNeighbor.equals(Neighbor.RIGHT)) {
-            inv.setPriceRight(1);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+
+        if (primaryRessources.equals(Boolean.TRUE)) {
+            if (whichNeighbor.equals(Neighbor.LEFT)) {
+                inv.setMatieresPremieresPriceLeft(1);
+            } else if (whichNeighbor.equals(Neighbor.RIGHT)) {
+                inv.setMatieresPremieresPriceRight(1);
+            }
         } else {
-            inv.setPriceLeft(1);
-            inv.setPriceRight(1);
+            inv.setProduitsManifacturesPrice(1);
         }
     }
 }

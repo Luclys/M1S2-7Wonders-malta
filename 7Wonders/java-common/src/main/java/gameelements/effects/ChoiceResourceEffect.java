@@ -2,8 +2,8 @@ package gameelements.effects;
 
 import gameelements.Effect;
 import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
-import gameelements.enums.EffectFrequency;
 import gameelements.enums.Resource;
 
 public class ChoiceResourceEffect extends Effect {
@@ -11,13 +11,19 @@ public class ChoiceResourceEffect extends Effect {
     int nb;
 
     public ChoiceResourceEffect(Resource[] resources, int nb) {
-        super(EffectDelay.INSTANTANEOUS, EffectFrequency.EVERY_TURN);
+        super(EffectDelay.INSTANTANEOUS);
         this.resources = resources;
         this.nb = nb;
     }
 
-    public void activateEffect(Inventory inv) {
-        super.activateEffect(inv);
-        // TODO : allow Player to choose resource
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        if (resources.length == 2) {
+            inv.addPairResChoice(resources);
+        }
     }
 }
