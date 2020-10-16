@@ -34,6 +34,7 @@ public class Board {
     private final SoutConsole sout;
 
     public Board(List<Player> playerList, Boolean boolPrint) {
+        boolPrint = true;
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
@@ -132,6 +133,8 @@ public class Board {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
 
+        sout.action(player.getId());
+        sout.playerInformation(playerInventoryList.get(player.getId()));
         switch (action) {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
@@ -141,17 +144,14 @@ public class Board {
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources) ){
                         buildCard(inv, chosenCard, player);
-                    }
-                    else {
+                    } else {
                         if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
                             buildCard(inv, chosenCard, player);
-                        }
-                        else {
+                        } else {
                             sellCard(inv, chosenCard);
                         }
                     }
-                }
-                else {
+                } else {
                     sellCard(inv, chosenCard);
                 }
                 break;
@@ -160,12 +160,10 @@ public class Board {
                 Resource[] wonderRequiredResources = inv.getWonderRequiredResources();
                 if (inv.canBuild(wonderRequiredResources)){
                     buildWonder(inv, chosenCard, player);
-                }
-                else {
+                } else {
                     if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
                         buildWonder(inv, chosenCard, player);
-                    }
-                    else {
+                    } else {
                         sellCard(inv, chosenCard);
                     }
                 }
@@ -175,6 +173,8 @@ public class Board {
                 sellCard(inv, chosenCard);
                 break;
         }
+        sout.playersNewState(inv.getPlayerId());
+        sout.playerInformation(playerInventoryList.get(player.getId()));
     }
 
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
@@ -193,18 +193,19 @@ public class Board {
 
     private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
-            sout.action(player.getId());
-            sout.playerInformation(playerInventoryList.get(player.getId()));
+            sout.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
             trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
     }
 
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
+        sout.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
     private void sellCard(Inventory trueInv, Card chosenCard) {
+        sout.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
     }
 
