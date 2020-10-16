@@ -1,5 +1,6 @@
 package gameelements;
 
+import gameelements.cards.Card;
 import gameelements.enums.EffectDelay;
 
 public abstract class Effect {

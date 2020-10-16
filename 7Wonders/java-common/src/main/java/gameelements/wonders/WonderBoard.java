@@ -92,81 +92,81 @@ public class WonderBoard {
 
         // Le temple d’Artémis à Ephèse
         // Face A
-        List<Step> ArtemisStepsA = new ArrayList<>();
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new CoinEffect(9)));
-        ArtemisStepsA.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.PAPYRUS}, new ScoreEffect(7)));
-        res.add(new WonderBoard("Le temple d’Artémis à Ephèse A", new ResourceEffect(Resource.PAPYRUS, 1), ArtemisStepsA));
+        ArrayList<Step> artemisStepsA = new ArrayList<>();
+        artemisStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
+        artemisStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new CoinEffect(9)));
+        artemisStepsA.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.PAPYRUS}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Le temple d’Artémis à Ephèse A", new ResourceEffect(Resource.PAPYRUS, 1), artemisStepsA));
 
         // Face B
-        List<Step> ArtemisStepsB = new ArrayList<>();
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new Effect[]{new ScoreEffect(2), new CoinEffect(4)}));
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ScoreEffect(3), new CoinEffect(4)}));
-        ArtemisStepsB.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.TISSU, Resource.VERRE}, new Effect[]{new ScoreEffect(5), new CoinEffect(4)}));
-        res.add(new WonderBoard("Le temple d’Artémis à Ephèse B", new ResourceEffect(Resource.PAPYRUS, 1), ArtemisStepsB));
+        ArrayList<Step> artemisStepsB = new ArrayList<>();
+        artemisStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new Effect[]{new ScoreEffect(2), new CoinEffect(4)}));
+        artemisStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ScoreEffect(3), new CoinEffect(4)}));
+        artemisStepsB.add(new Step(new Resource[]{Resource.PAPYRUS, Resource.TISSU, Resource.VERRE}, new Effect[]{new ScoreEffect(5), new CoinEffect(4)}));
+        res.add(new WonderBoard("Le temple d’Artémis à Ephèse B", new ResourceEffect(Resource.PAPYRUS, 1), artemisStepsB));
 
         // Les jardins suspendus de Babylone
         // Face A
-        List<Step> BabyloneA = new ArrayList<>();
-        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
-        BabyloneA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ChoiceScientificEffect()));
-        BabyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(7)));
-        res.add(new WonderBoard("Les jardins suspendus de Babylone A", new ResourceEffect(Resource.ARGILE, 1), BabyloneA));
+        ArrayList<Step> babyloneA = new ArrayList<>();
+        babyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
+        babyloneA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ChoiceScientificEffect()));
+        babyloneA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Les jardins suspendus de Babylone A", new ResourceEffect(Resource.ARGILE, 1), babyloneA));
 
         // Face B
-        List<Step> BabyloneB = new ArrayList<>();
-        BabyloneB.add(new Step(new Resource[]{Resource.TISSU, Resource.ARGILE}, new ScoreEffect(3)));
-        BabyloneB.add(new Step(new Resource[]{Resource.VERRE, Resource.BOIS, Resource.BOIS}, new PlayLastCardEffect()));
-        BabyloneB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.PAPYRUS}, new ChoiceScientificEffect()));
-        res.add(new WonderBoard("Les jardins suspendus de Babylone B", new ResourceEffect(Resource.ARGILE, 1), BabyloneB));
+        ArrayList<Step> babyloneB = new ArrayList<>();
+        babyloneB.add(new Step(new Resource[]{Resource.TISSU, Resource.ARGILE}, new ScoreEffect(3)));
+        babyloneB.add(new Step(new Resource[]{Resource.VERRE, Resource.BOIS, Resource.BOIS}, new PlayLastCardEffect()));
+        babyloneB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE, Resource.PAPYRUS}, new ChoiceScientificEffect()));
+        res.add(new WonderBoard("Les jardins suspendus de Babylone B", new ResourceEffect(Resource.ARGILE, 1), babyloneB));
 
 
         // La statue de Zeus à Olympie
         // Face A
-        List<Step> ZeusA = new ArrayList<>();
-        ZeusA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
-        ZeusA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new FreeBuildingEffect()));
-        ZeusA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
-        res.add(new WonderBoard("La statue de Zeus à Olympie A", new ResourceEffect(Resource.BOIS, 1), ZeusA));
+        ArrayList<Step> zeusA = new ArrayList<>();
+        zeusA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
+        zeusA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new FreeBuildingEffect()));
+        zeusA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
+        res.add(new WonderBoard("La statue de Zeus à Olympie A", new ResourceEffect(Resource.BOIS, 1), zeusA));
 
         // Face B
-        List<Step> ZeusB = new ArrayList<>();
-        ZeusB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ReductCommerceEffect(Neighbor.BOTH, true), new CoinEffect(3)}));
-        ZeusB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(5)));
-        ZeusB.add(new Step(new Resource[]{Resource.TISSU, Resource.MINERAI, Resource.MINERAI}, new CopyNeighborGuildEffect()));
-        res.add(new WonderBoard("La statue de Zeus à Olympie B", new ResourceEffect(Resource.BOIS, 1), ZeusB));
+        ArrayList<Step> zeusB = new ArrayList<>();
+        zeusB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new Effect[]{new ReductCommerceEffect(Neighbor.BOTH, true), new CoinEffect(3)}));
+        zeusB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(5)));
+        zeusB.add(new Step(new Resource[]{Resource.TISSU, Resource.MINERAI, Resource.MINERAI}, new CopyNeighborGuildEffect()));
+        res.add(new WonderBoard("La statue de Zeus à Olympie B", new ResourceEffect(Resource.BOIS, 1), zeusB));
 
 
         // Le mausolée d’Halicarnasse
         // Face A
-        List<Step> HalicarnasseA = new ArrayList<>();
-        HalicarnasseA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
-        HalicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeBuildingEffect()));
-        HalicarnasseA.add(new Step(new Resource[]{Resource.TISSU, Resource.TISSU}, new ScoreEffect(7)));
-        res.add(new WonderBoard("Le mausolée d’Halicarnasse A", new ResourceEffect(Resource.TISSU, 1), HalicarnasseA));
+        ArrayList<Step> halicarnasseA = new ArrayList<>();
+        halicarnasseA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
+        halicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeBuildingEffect()));
+        halicarnasseA.add(new Step(new Resource[]{Resource.TISSU, Resource.TISSU}, new ScoreEffect(7)));
+        res.add(new WonderBoard("Le mausolée d’Halicarnasse A", new ResourceEffect(Resource.TISSU, 1), halicarnasseA));
 
         // Face B
-        List<Step> HalicarnasseB = new ArrayList<>();
-        HalicarnasseB.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new Effect[]{new ScoreEffect(2), new FreeDiscardedBuildingEffect()}));
-        HalicarnasseB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new Effect[]{new ScoreEffect(1), new FreeDiscardedBuildingEffect()}));
-        HalicarnasseB.add(new Step(new Resource[]{Resource.VERRE, Resource.PAPYRUS, Resource.TISSU}, new FreeDiscardedBuildingEffect()));
-        res.add(new WonderBoard("Le mausolée d’Halicarnasse B", new ResourceEffect(Resource.TISSU, 1), HalicarnasseB));
+        ArrayList<Step> halicarnasseB = new ArrayList<>();
+        halicarnasseB.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new Effect[]{new ScoreEffect(2), new FreeDiscardedBuildingEffect()}));
+        halicarnasseB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new Effect[]{new ScoreEffect(1), new FreeDiscardedBuildingEffect()}));
+        halicarnasseB.add(new Step(new Resource[]{Resource.VERRE, Resource.PAPYRUS, Resource.TISSU}, new FreeDiscardedBuildingEffect()));
+        res.add(new WonderBoard("Le mausolée d’Halicarnasse B", new ResourceEffect(Resource.TISSU, 1), halicarnasseB));
 
         // La grande pyramide de Gizeh
         // Face A
-        List<Step> GizehA = new ArrayList<>();
-        GizehA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
-        GizehA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ScoreEffect(5)));
-        GizehA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(7)));
-        res.add(new WonderBoard("La grande pyramide de Gizeh A", new ResourceEffect(Resource.PIERRE, 1), GizehA));
+        ArrayList<Step> gizehA = new ArrayList<>();
+        gizehA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
+        gizehA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS, Resource.BOIS}, new ScoreEffect(5)));
+        gizehA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(7)));
+        res.add(new WonderBoard("La grande pyramide de Gizeh A", new ResourceEffect(Resource.PIERRE, 1), gizehA));
 
         // Face B
-        List<Step> GizehB = new ArrayList<>();
-        GizehB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
-        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(5)));
-        GizehB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(5)));
-        GizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PAPYRUS}, new ScoreEffect(7)));
-        res.add(new WonderBoard("La grande pyramide de Gizeh B", new ResourceEffect(Resource.PIERRE, 1), GizehB));
+        ArrayList<Step> gizehB = new ArrayList<>();
+        gizehB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
+        gizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(5)));
+        gizehB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(5)));
+        gizehB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PIERRE, Resource.PAPYRUS}, new ScoreEffect(7)));
+        res.add(new WonderBoard("La grande pyramide de Gizeh B", new ResourceEffect(Resource.PIERRE, 1), gizehB));
 
 
         return res;

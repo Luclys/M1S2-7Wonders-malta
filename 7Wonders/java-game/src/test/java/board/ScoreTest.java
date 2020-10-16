@@ -46,7 +46,7 @@ class ScoreTest {
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
-        doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific(any());
+        doReturn(Symbol.COMPAS).when(playerMocked).chooseScientific();
 
         Card GUILDE_DES_SCIENTIFIQUES = new Card(1, "GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);
         Card card2ScientificSymbol = new Card(2, "", new Effect[]{new SymbolEffect(Symbol.STELE, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
@@ -68,7 +68,7 @@ class ScoreTest {
         Board board = new Board(playerList, false);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
-        when(playerMocked.chooseScientific(any())).thenReturn(Symbol.STELE, Symbol.STELE);
+        when(playerMocked.chooseScientific()).thenReturn(Symbol.STELE, Symbol.STELE);
 
         Card card2ScientificSymbol = new Card(1, "", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null);
         Card GUILDE_DES_SCIENTIFIQUES = new Card(2, "GUILDE DES SCIENTIFIQUES TEST", new ChoiceScientificEffect(), null, null);

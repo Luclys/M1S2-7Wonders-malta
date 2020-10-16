@@ -22,7 +22,8 @@ public class ReductCommerceEffect extends Effect {
             inv.addEndGameEffect(this);
             return;
         }
-        if (primaryRessources) {
+
+        if (primaryRessources.equals(Boolean.TRUE)) {
             if (whichNeighbor.equals(Neighbor.LEFT)) {
                 inv.setMatieresPremieresPriceLeft(1);
             } else if (whichNeighbor.equals(Neighbor.RIGHT)) {
