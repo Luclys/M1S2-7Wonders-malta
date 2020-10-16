@@ -4,8 +4,14 @@ import gameelements.cards.Card;
 
 import java.util.ArrayList;
 
-public interface Age {
-    public abstract int getVictoryJetonValue();
-    public abstract boolean isLeftRotation();
+public abstract class Age {
+    protected int vicoryJetonValue;
+    protected boolean isLeftRotation;
     public abstract ArrayList<Card> initiateCards(int playersCount);
+    public  int getVictoryJetonValue() {
+        return vicoryJetonValue;
+    }
+    public  boolean isLeftRotation() {
+        return isLeftRotation;
+    }
 }

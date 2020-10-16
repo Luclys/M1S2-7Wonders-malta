@@ -18,7 +18,7 @@ public class SoutConsole {
         if (!booleanPrint) {
             return;
         }
-        System.out.printf("\n\n\n========================= START AGE N° %d ===========================\n\n\n", i);
+        String.format("\n\n\n========================= START AGE N° %d ===========================\n\n\n", i);
     }
 
     public void endOfAge(int i) {
