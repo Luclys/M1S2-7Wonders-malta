@@ -8,6 +8,7 @@ import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
+import gameelements.enums.Action;
 import gameelements.cards.Card;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
@@ -88,7 +89,7 @@ public class Board {
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
                 for (int i = 0; i < playerList.size(); i++) {
-                    playCard(playerList.get(i), playerInventoryList.get(i));
+                    executePlayerAction(playerInventoryList.get(i), playerList.get(i));
                 }
 
                 playersManager.updateCoins();
@@ -127,32 +128,81 @@ public class Board {
         colossus.claimBoard(player, inventory);
     }
 
-    protected void playCard(Player player, Inventory trueInv) {
-        boolean result;
+    protected void executePlayerAction(Inventory inv, Player player) {
         Card chosenCard = player.getChosenCard();
+        Action action = player.getAction();
 
+        switch (action) {
+            case BUILDING:
+                Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
+                if (inv.payIfPossible(chosenCard.getCost())) {
+                    if (inv.canBuild(chosenCardRequiredResources) ){
+                        buildCard(inv, chosenCard, player);
+                    }
+                    else {
+                        if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
+                            buildCard(inv, chosenCard, player);
+                        }
+                        else {
+                            sellCard(inv, chosenCard);
+                        }
+                    }
+                }
+                else {
+                    sellCard(inv, chosenCard);
+                }
+                break;
+
+            case WONDER:
+                Resource[] wonderRequiredResources = inv.getWonderRequiredResources();
+                if (inv.canBuild(wonderRequiredResources)){
+                    buildWonder(inv, chosenCard, player);
+                }
+                else {
+                    if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
+                        buildWonder(inv, chosenCard, player);
+                    }
+                    else {
+                        sellCard(inv, chosenCard);
+                    }
+                }
+                break;
+
+            default:
+                sellCard(inv, chosenCard);
+                break;
+        }
+    }
+
+    private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
+        boolean canBuy;
+        ArrayList<Resource> missingResources = trueInv.missingResources(requiredResources);
+        sout.missingResources(missingResources);
+        canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        if (canBuy) {
+            sout.gotMissingResources();
+        }
+        else {
+            sout.cantBuyMissingResources();
+        }
+        return canBuy;
+    }
+
+    private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
             sout.action(player.getId());
-            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
-            List<Resource> s = getManager().missingResources(trueInv, chosenCard);
-            sout.checkMissingResources(chosenCard);
-            if (s != null) {
-                sout.missingResources(s);
-                result = commerce.saleResources(s, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
-            } else {
-                sout.noRequiredResources(chosenCard);
-                result = true;
-            }
-            if (!result) {
-                sout.cantBuyMissingResources();
-                discardedDeckCardList.add(chosenCard);
-                trueInv.sellCard(chosenCard);
-            } else {
-                sout.gotMissingResources();
-                trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
-            }
-            sout.informationOfPlayer(playerInventoryList.get(player.getId()));
+            sout.playerInformation(playerInventoryList.get(player.getId()));
+            trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
+    }
+
+    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
+        WonderBoard wonder = trueInv.getWonderBoard();
+        wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+    }
+
+    private void sellCard(Inventory trueInv, Card chosenCard) {
+        trueInv.sellCard(chosenCard);
     }
 
     public void resolveWarConflict(int victoryJetonValue) {
@@ -202,7 +252,7 @@ public class Board {
             list.forEach(integer -> inv.addScore(integer * integer));
             inv.addScore(nbSameScientific * 7);
 
-            sout.informationOfPlayer(inv);
+            sout.playerInformation(inv);
         }
     }
 

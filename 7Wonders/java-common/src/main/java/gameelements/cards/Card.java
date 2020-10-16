@@ -136,4 +136,8 @@ public class Card {
     public Category getCategory() {
         return category;
     }
+
+    public int getCost() {
+        return this.cost;
+    }
 }

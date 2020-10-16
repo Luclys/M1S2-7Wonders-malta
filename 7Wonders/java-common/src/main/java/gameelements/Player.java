@@ -1,7 +1,10 @@
 package gameelements;
 
+import gameelements.enums.Action;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
+import gameelements.strategy.PlayingStrategy;
+import gameelements.strategy.FirstCardStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +13,17 @@ public class Player {
     private final int id;
     private int rightNeighborId;
     private int leftNeighborId;
-
+    private PlayingStrategy strategy;
     private Card chosenCard;
 
     public Player(int id) {
         this.id = id;
+        this.strategy = new FirstCardStrategy();
+    }
+
+    public Player(int id, PlayingStrategy strategy) {
+        this.id = id;
+        this.strategy = strategy;
     }
 
     public String toString() {
@@ -31,21 +40,11 @@ public class Player {
          * To do whenever there is no other choice possible
          * - sell Card : unconditionally, effect : grant  3 coins. ⚠ The discarded cards must be remembered.
          * */
-        List<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
+        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
-        chosenCard = cardsAvailableToPlay.get(0);
+        chosenCard = strategy.chooseCard(inv, cardsAvailableToPlay);
         //Les tests ne passent plus car l'inventaire ne connaît pas encore la merveille --> mock object
-        /*boolean canBuildWonderStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
-
-        if (canBuildWonderStep) {
-            //Player chooses a card he cannot build
-            chosenCard = cardsAvailableToPlay.get(0);
-        }
-        else {
-            //Player chooses a card he can build
-            chosenCard = cardsAvailableToPlay.get(1);
-        }*/
 
         return chosenCard;
         // return the played card to the board so that the board can decide which decision to make(buy resource or discard)
@@ -93,4 +92,7 @@ public class Player {
         this.leftNeighborId = id;
     }
 
+    public Action getAction() {
+        return strategy.getAction();
+    }
 }

@@ -14,7 +14,7 @@ public class Trade {
         this.sout = sout;
     }
 
-    protected boolean saleResources(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
+    protected boolean buyResources(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
         boolean canBuyAllResources = true;
         int rightPrice;
         int leftPrice;

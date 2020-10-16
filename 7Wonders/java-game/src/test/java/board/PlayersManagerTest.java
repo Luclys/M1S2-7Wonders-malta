@@ -53,17 +53,6 @@ class PlayersManagerTest {
     }
 
     @Test
-    void missingResourcesTest() {
-        Inventory inv = playersManager.playerInventoryList.get(0);
-        inv.getAvailableResources()[Resource.BOIS.getIndex()] = 0;
-        List<Resource> m = playersManager.missingResources(inv, CardsSet.PALISSADE);
-        assertTrue(m.contains(Resource.BOIS));
-        inv.getAvailableResources()[Resource.BOIS.getIndex()]++;
-        m = playersManager.missingResources(inv, CardsSet.PALISSADE);
-        assertFalse(m.contains(Resource.BOIS));
-    }
-
-    @Test
      void associateNeighborTest() {
         List<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
         int playersCount = playerList.size();
