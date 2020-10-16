@@ -14,6 +14,14 @@ public class SoutConsole {
         this.booleanPrint = booleanPrint;
     }
 
+    public void beginningOfPlay(int i) {
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.print("\n\n\n===========================================================================\n");
+        System.out.printf("========================= INITIATING PLAY N° %d ===========================\n\n\n", i);
+    }
+
     public void beginningOfAge(int i) {
         if (!booleanPrint) {
             return;

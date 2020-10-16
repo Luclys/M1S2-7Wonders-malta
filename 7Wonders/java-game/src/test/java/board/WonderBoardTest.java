@@ -34,7 +34,7 @@ class WonderBoardTest {
     @Test
      void playTest() {
         Board board = new Board(playerList, false);
-        board.play();
+        board.play(0);
         assertEquals(6, board.getTurn());
     }
 

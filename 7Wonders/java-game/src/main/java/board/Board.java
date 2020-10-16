@@ -8,8 +8,8 @@ import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
-import gameelements.enums.Action;
 import gameelements.cards.Card;
+import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
@@ -72,7 +72,8 @@ public class Board {
     }
 
 
-    public void play() {
+    public void play(int nbPlay) {
+        sout.beginningOfPlay(nbPlay);
         playerInventoryList.forEach(inventory -> chooseWonderBoard(playerList.get(inventory.getPlayerId()), inventory));
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
@@ -250,8 +251,7 @@ public class Board {
             list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
             list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
 
-            Integer min = Collections.min(list);
-            int nbSameScientific = min;
+            int nbSameScientific = Collections.min(list);
 
             list.forEach(integer -> inv.addScore(integer * integer));
             inv.addScore(nbSameScientific * 7);

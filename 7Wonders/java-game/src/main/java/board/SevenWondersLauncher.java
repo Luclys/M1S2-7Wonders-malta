@@ -21,9 +21,9 @@ public class SevenWondersLauncher {
 
         ArrayList<Player> playerList = fetchPlayers(nbPlayers);
 
-        Board board = new Board(playerList, boolPrint);
         for (int i = 1; i <= nbGames; i++) {
-            board.play();
+            Board board = new Board(playerList, boolPrint);
+            board.play(i);
         }
     }
 
