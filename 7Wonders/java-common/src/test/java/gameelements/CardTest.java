@@ -13,8 +13,8 @@ class CardTest {
     @Test
     public void isBatiment() {
         Card card = CardsSet.PRÊTEUR_SUR_GAGES;
-        assertTrue(card.isBatiment());
+        assertTrue(card.isBuilding());
         card = CardsSet.SCIERIE;
-        assertFalse(card.isBatiment());
+        assertFalse(card.isBuilding());
     }
 }

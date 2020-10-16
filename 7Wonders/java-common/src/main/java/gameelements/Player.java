@@ -32,7 +32,7 @@ public class Player {
          * */
         ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
         //We remove from playable cards the cards the player already played, you can't play the same card twice
-        cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBatiment());
+        cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
         chosenCard = cardsAvailableToPlay.get(0);
         //Les tests ne passent plus car l'inventaire ne connaît pas encore la merveille --> mock object
         /*boolean canBuildWonderStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
