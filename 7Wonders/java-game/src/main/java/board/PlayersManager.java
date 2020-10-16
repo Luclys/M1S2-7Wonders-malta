@@ -48,8 +48,8 @@ public class PlayersManager {
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
-        int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
-        int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
+        int playerBoucliersCount = invPlayer.getSymbolCount(Symbol.BOUCLIER);
+        int neighborBoucliersCount = invNeighbor.getSymbolCount(Symbol.BOUCLIER);
         sout.conflicts(invPlayer, invNeighbor);
         sout.checkShields(playerBoucliersCount, neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
@@ -86,18 +86,5 @@ public class PlayersManager {
 
     public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
-    }
-
-    protected List<Resource> missingResources(Inventory inv, Card c) {
-        List<Resource> missing = new ArrayList<>();
-        if (c.getRequiredResources() == null) {
-            return Collections.emptyList();
-        }
-        for (Resource r : c.getRequiredResources()) {
-            if (inv.getAvailableResources()[r.getIndex()] == 0) {
-                missing.add(r);
-            }
-        }
-        return missing;
     }
 }

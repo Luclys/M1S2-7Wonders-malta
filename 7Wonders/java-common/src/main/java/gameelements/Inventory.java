@@ -6,7 +6,9 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Inventory {
     private final int playerId;
@@ -86,13 +88,35 @@ public class Inventory {
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
-
     }
 
+    private List<Integer> getPlayedCardIds() {
+        return playedCards.stream().map(Card::getId).collect(Collectors.toList());
+    }
+
+    public List<String> getPlayedCardNamesByIds(int[] ids) {
+        return playedCards.stream().filter(card ->
+                Arrays.stream(ids).anyMatch(i -> i == card.getId())
+        ).map(Card::getName).collect(Collectors.toList());
+    }
+
+    public boolean canBuildCardForFree(Card card) {
+        if (card.getBuildingsWhichAllowToBuildForFree() == null) {
+            return false;
+        } else {
+            boolean result = false;
+            for (int requiredBuildingId : card.getBuildingsWhichAllowToBuildForFree()) {
+                if (getPlayedCardIds().contains(requiredBuildingId)) {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+    }
 
     public Card discardLastCard() {
         if (cardsInHand.size() == 1) {
-            //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             return cardsInHand.remove(0);
         } else {
             throw new Error("There is more than 1 card left.");
@@ -101,7 +125,6 @@ public class Inventory {
 
     public void sellCard(Card card) {
         if (cardsInHand.contains(card)) {
-            //System.out.println("Player " + id + " discard the " + cards.get(0).getName() + " card.");
             addCoins(3);
             cardsInHand.remove(0);
         } else {
@@ -118,18 +141,51 @@ public class Inventory {
     }
 
     public boolean canBuild(Resource[] requiredResources) {
-        int[] neededResources = new int[Resource.values().length];
-        for (Resource resource : requiredResources) {
-            neededResources[resource.getIndex()]++;
-        }
-        for (int i = 0; i < neededResources.length; i++) {
-            if (neededResources[i] >= availableResources[i]) {
-                return false;
+        if (requiredResources != null) {
+            int[] neededResources = new int[Resource.values().length];
+            for (Resource resource : requiredResources) {
+                neededResources[resource.getIndex()]++;
+            }
+            for (int i = 0; i < neededResources.length; i++) {
+                if (neededResources[i] >= availableResources[i]) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
+    public ArrayList<Resource> missingResources(Resource[] requiredResources) {
+        ArrayList<Resource> missing = new ArrayList<>();
+        if (requiredResources == null) {
+            return null;
+        }
+        for (Resource r : requiredResources) {
+            if (getAvailableResources()[r.getIndex()] == 0) {
+                missing.add(r);
+            }
+        }
+        return missing;
+    }
+
+    // TWEAKED GETTERS
+    public int getSymbolCount(Symbol symbol) {
+        return this.availableSymbols[symbol.getIndex()];
+    }
+
+    public int getResCount(Resource resource) {
+        return this.availableResources[resource.getIndex()];
+    }
+
+    public Resource[] getWonderRequiredResources() {
+        return wonderBoard.getCurrentStepRequiredResources();
+    }
+
+    // GETTERS & SETTERS
+
+    public int getVictoryChipsScore() {
+        return victoryChipsScore;
+    }
     public void addPairResChoice(Resource[] resources) {
         this.pairResChoice.add(resources);
     }
@@ -174,16 +230,6 @@ public class Inventory {
         this.possibleFreeDiscardedBuildingsCount += possibleFreeDiscardedBuildingsCount;
     }
 
-    // TWEAKED GETTERS
-    public int getSymbCount(Symbol symbol) {
-        return this.availableSymbols[symbol.getIndex()];
-    }
-
-    public int getResCount(Resource resource) {
-        return this.availableResources[resource.getIndex()];
-    }
-
-    // GETTERS & SETTERS
     public int getPlayerId() {
         return playerId;
     }
@@ -234,10 +280,6 @@ public class Inventory {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getVictoryChipsScore() {
-        return victoryChipsScore;
     }
 
     public void setVictoryChipsScore(int victoryChipsScore) {
@@ -330,5 +372,14 @@ public class Inventory {
 
     public void setCanPlayLastCard(boolean canPlayLastCard) {
         this.canPlayLastCard = canPlayLastCard;
+    }
+
+    public boolean payIfPossible(int cost) {
+        boolean canPay = false;
+        if(this.getCoins() >= cost) {
+            removeCoins(cost);
+            canPay = true;
+        }
+        return canPay;
     }
 }

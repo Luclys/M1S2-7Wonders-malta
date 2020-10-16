@@ -28,17 +28,17 @@ class TradeTest {
 
     /**
      * Player tries to buy resources, but none of the neighbors has it
-     * @result saleResources must return false and the coins of all players must remain unchanged
+     * @result buyResources must return false and the coins of all players must remain unchanged
      */
     @Test
-     void saleResourcesWhenNoResourcesTest() {
+     void buyResourcesWhenNoResourcesTest() {
         list.add(Resource.ARGILE);
 
         int playerInitialCoins = player.getCoins();
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertFalse(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins, player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins, leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins, rightNeighbor.getAddedCoins());
@@ -46,11 +46,11 @@ class TradeTest {
 
     /**
      * Player tries to buy resources, only right neighbor has it and player has enough coins
-     * @result saleResources must return true, player must have less coins, rightNeighbor must have more coins and
+     * @result buyResources must return true, player must have less coins, rightNeighbor must have more coins and
      * leftNeighbor's coins are unchanged
      */
     @Test
-     void saleResourcesFromRightNeighborTest() {
+     void buyResourcesFromRightNeighborTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         player.setMatieresPremieresPriceRight(3);
@@ -59,7 +59,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - player.getMatieresPremieresPriceRight(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins, leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins  + player.getMatieresPremieresPriceRight(), rightNeighbor.getAddedCoins());
@@ -70,11 +70,11 @@ class TradeTest {
      * both neighbors have it and player has enough coins,
      * leftPlayer has less coins than rightPlayer,
      * Matieres Premieres prices are equal
-     * @result saleResources must return true, player must have less coins, leftPlayer must have more coins and
+     * @result buyResources must return true, player must have less coins, leftPlayer must have more coins and
      * rightPlayer's coins are unchanged
      */
     @Test
-     void saleResourcesFromNeighborWithLessCoinsTest() {
+     void buyResourcesFromNeighborWithLessCoinsTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -88,7 +88,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - player.getMatieresPremieresPriceLeft(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins + player.getMatieresPremieresPriceLeft(), leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins, rightNeighbor.getAddedCoins());
@@ -100,11 +100,11 @@ class TradeTest {
      * player has enough coins,
      * leftPlayer and rightPlayer has the same amount of coins,
      * Matieres Premieres prices are equal
-     * @result saleResources must return true, player must have less coins, leftPlayer must have more coins and
+     * @result buyResources must return true, player must have less coins, leftPlayer must have more coins and
      * rightPlayer's coins are unchanged
      */
     @Test
-     void saleResourcesFromDefaultNeighborTest() {
+     void buyResourcesFromDefaultNeighborTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -118,7 +118,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - player.getMatieresPremieresPriceLeft(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins + player.getMatieresPremieresPriceLeft(), leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins, rightNeighbor.getAddedCoins());
@@ -129,11 +129,11 @@ class TradeTest {
      * both neighbors have it,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
-     * @result saleResources must return true, player must have less coins, rightPlayer must have more coins and
+     * @result buyResources must return true, player must have less coins, rightPlayer must have more coins and
      * leftPlayer's coins are unchanged
      */
     @Test
-     void saleResourcesFromNeighborWithLessPriceTest() {
+     void buyResourcesFromNeighborWithLessPriceTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -147,7 +147,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - player.getMatieresPremieresPriceRight(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins, leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins + player.getMatieresPremieresPriceRight(), rightNeighbor.getAddedCoins());
@@ -158,11 +158,11 @@ class TradeTest {
      * each neighbor has one,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
-     * @result saleResources must return true, player must have less coins, rightPlayer must have more coins and
+     * @result buyResources must return true, player must have less coins, rightPlayer must have more coins and
      * leftPlayer's must have more coins
      */
     @Test
-     void saleResourcesOneFromEachNeighborPriceTest() {
+     void buyResourcesOneFromEachNeighborPriceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -178,7 +178,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - player.getMatieresPremieresPriceRight() - player.getMatieresPremieresPriceLeft(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins + player.getMatieresPremieresPriceLeft(), leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins + player.getMatieresPremieresPriceRight(), rightNeighbor.getAddedCoins());
@@ -189,10 +189,10 @@ class TradeTest {
      * each neighbor has one,
      * player has enough coins only for one,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
-     * @result saleResources must return false, the coins of all players must remain unchanged
+     * @result buyResources must return false, the coins of all players must remain unchanged
      */
     @Test
-     void saleResourcesNotEnoughCoinsForSecondResourceTest() {
+     void buyResourcesNotEnoughCoinsForSecondResourceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -208,7 +208,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertFalse(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins, player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins, leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins, rightNeighbor.getAddedCoins());
@@ -219,11 +219,11 @@ class TradeTest {
      * leftNeighbor has first and second, rightNeighbor has second and third,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
-     * @result saleResources must return true, play must have less coins, rightNeighbor has more coins (2 resources sold),
+     * @result buyResources must return true, play must have less coins, rightNeighbor has more coins (2 resources sold),
      * leftNeighbor has more coins (1 resource sold)
      */
     @Test
-     void saleResourcesSeveralResourcesWithOneNeighborChoiceByPriceTest() {
+     void buyResourcesSeveralResourcesWithOneNeighborChoiceByPriceTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.MINERAI);
@@ -242,7 +242,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - 2 * player.getMatieresPremieresPriceRight() - player.getMatieresPremieresPriceLeft(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins + player.getMatieresPremieresPriceLeft(), leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins + 2 * player.getMatieresPremieresPriceRight(), rightNeighbor.getAddedCoins());
@@ -254,11 +254,11 @@ class TradeTest {
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
      * leftPlayer has less coins than rightPlayer
-     * @result saleResources must return false, play must have less coins, rightNeighbor has more coins (2 Matieres Premieres sold),
+     * @result buyResources must return false, play must have less coins, rightNeighbor has more coins (2 Matieres Premieres sold),
      * leftNeighbor has more coins (1 Produit Manifacture sold)
      */
     @Test
-     void saleResourcesSeveralResourcesWithChoiceByPriceAndChoiceByCoinsTest() {
+     void buyResourcesSeveralResourcesWithChoiceByPriceAndChoiceByCoinsTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.TISSU);
@@ -280,7 +280,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertTrue(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertTrue(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins - 2 * player.getMatieresPremieresPriceRight() - player.getProduitsManifacturesPrice(), player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins + player.getProduitsManifacturesPrice(), leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins + 2 * player.getMatieresPremieresPriceRight(), rightNeighbor.getAddedCoins());
@@ -292,10 +292,10 @@ class TradeTest {
      * player has enough coins only for Matieres Premieres,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
      * leftPlayer has less coins than rightPlayer
-     * @result saleResources must return false, the coins of all players must remain unchanged
+     * @result buyResources must return false, the coins of all players must remain unchanged
      */
     @Test
-     void saleResourcesSeveralResourcesNotEnoughMoneyForProduitManifactureTest() {
+     void buyResourcesSeveralResourcesNotEnoughMoneyForProduitManifactureTest() {
         list.add(Resource.ARGILE);
         list.add(Resource.BOIS);
         list.add(Resource.TISSU);
@@ -317,7 +317,7 @@ class TradeTest {
         int leftNeighborInitialAddedCoins = leftNeighbor.getAddedCoins();
         int rightNeighborInitialAddedCoins = rightNeighbor.getAddedCoins();
 
-        assertFalse(trade.saleResources(list, player, rightNeighbor, leftNeighbor));
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
         assertEquals(playerInitialCoins, player.getCoins());
         assertEquals(leftNeighborInitialAddedCoins, leftNeighbor.getAddedCoins());
         assertEquals(rightNeighborInitialAddedCoins, rightNeighbor.getAddedCoins());

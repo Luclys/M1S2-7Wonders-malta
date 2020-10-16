@@ -68,4 +68,33 @@ class InventoryTest {
         inventory.setCardsInHand(cards);
     }
 
+    /**
+     * Player wants to build FORUM and player has COMPTOIR EST already built
+     * @result Player can build FORUM for free
+     */
+    @Test
+    void canPlayCardForFree() {
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(CardsSet.COMPTOIR_EST);
+        inventory.setPlayedCards(cards);
+        assertTrue(inventory.canBuildCardForFree(CardsSet.FORUM));
+    }
+
+    /**
+     * Player wants to build FORUM and player don't have any buildings which allow to build for free
+     * @result Player cannot build FORUM for free
+     */
+    @Test
+    void cannotPlayCardForFreeNoBuildingsBuilt() {
+        assertFalse(inventory.canBuildCardForFree(CardsSet.FORUM));
+    }
+
+    /**
+     * Player wants to build MARCHE which doesn't have any buildings which allow to build it for free
+     * @result Player cannot build MARCHE for free
+     */
+    @Test
+    void cannotPlayCardForFreeCardDoesNotHaveRequiredBuildings() {
+        assertFalse(inventory.canBuildCardForFree(CardsSet.MARCHE));
+    }
 }

@@ -54,7 +54,7 @@ class ScoreTest {
 
         inv.updateInventory(card2ScientificSymbol, null, null, null);
         inv.updateInventory(GUILDE_DES_SCIENTIFIQUES, playerMocked, null, null);
-        assertEquals(0, inv.getSymbCount(Symbol.COMPAS));
+        assertEquals(0, inv.getSymbolCount(Symbol.COMPAS));
 
         board.scores();
         assertEquals(10, inv.getScore());

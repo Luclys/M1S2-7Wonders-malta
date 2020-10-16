@@ -82,7 +82,7 @@ class WonderBoardTest {
         assertEquals(2, inv.getResCount(Resource.PIERRE));
 
         TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
-        assertEquals(1, inv.getSymbCount(Symbol.STELE));
+        assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
         //assertThrows(Error, TESTBOARD.buyNextStep(card));
     }

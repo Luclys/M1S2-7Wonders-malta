@@ -5,19 +5,21 @@ import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@ExtendWith(MockitoExtension.class)
 class PlayerTest {
 
     final List<Card> cards = new ArrayList<>(7);
     private Player player;
     private Inventory inv, playerRightNeighbor, playerLeftNeighbor;
-
+    private Board board;
 
     @Test
      void chooseCardTest() {
@@ -37,7 +39,7 @@ class PlayerTest {
     /*
     @BeforeEach
      void setUp() {
-        playerList = new ArrayList<>();
+        ArrayList<Player> playerList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
             playerList.add(player);
@@ -74,7 +76,6 @@ class PlayerTest {
         inv.setCardsInHand(cards);
         inv.updateInventory(player.chooseCard(inv));
         assertEquals(1, inv.getAvailableResources()[Resource.BOIS.getIndex()]);
-        assertEquals(0, inv.getAvailableResources()[Resource.MINERAI.getIndex()]);
     }
 */
 }
