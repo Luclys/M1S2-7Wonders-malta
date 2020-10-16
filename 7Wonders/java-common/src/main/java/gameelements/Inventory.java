@@ -6,7 +6,9 @@ import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Inventory {
     private final int playerId;
@@ -86,9 +88,32 @@ public class Inventory {
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
-
     }
 
+    private List<Integer> getPlayedCardIds() {
+        return playedCards.stream().map(Card::getId).collect(Collectors.toList());
+    }
+
+    public List<String> getPlayedCardNamesByIds(int[] ids) {
+        return playedCards.stream().filter(card ->
+                Arrays.stream(ids).anyMatch(i -> i == card.getId())
+        ).map(Card::getName).collect(Collectors.toList());
+    }
+
+    public boolean canBuildCardForFree(Card card) {
+        if (card.getBuildingsWhichAllowToBuildForFree() == null) {
+            return false;
+        } else {
+            boolean result = false;
+            for (int requiredBuildingId : card.getBuildingsWhichAllowToBuildForFree()) {
+                if (getPlayedCardIds().contains(requiredBuildingId)) {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+    }
 
     public Card discardLastCard() {
         if (cardsInHand.size() == 1) {

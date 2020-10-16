@@ -179,7 +179,7 @@ public class SoutConsole {
         System.out.println(msg);
     }
 
-    public static void display(String msg,boolean booleanPrint){
+    public static void display(String msg, boolean booleanPrint){
         if (!booleanPrint) {
             return;
         }
@@ -192,4 +192,38 @@ public class SoutConsole {
         System.out.println("The player "+id+" choose "+wb.getName()+" wonder");
     }
 
+    public void playerPaysCoins(int playerId, int neighborId, int totalCoins){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.printf("\n**Player %d pays %d coins to player %d \n", playerId, neighborId, totalCoins);
+    }
+
+    public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.printf("\n**Player %d can buy %s from %s neighbor with id %d \n", playerId, missingResource, neighborSide, neighborId);
+    }
+
+    public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.printf("\n**Player %d doesn't have enough coins to buy %s from %s neighbor \n", playerId, missingResource, neighborSide);
+    }
+
+    public void noneOfTheNeighborsHasResource(String missingResource){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.printf("\n**None of the neighbors has resource %s \n", missingResource);
+    }
+
+    public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree){
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.printf("\n**Player %d can build card %s for free thanks to one of the cards build in previous ages: %s \n", playerId, card.getName(), cardsAllowingToBuildForFree);
+    }
 }

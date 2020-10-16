@@ -10,7 +10,7 @@ public class Card {
     private final Resource[] requiredResources;
     private final Category category;
     private final int cost;
-    private final int[] requiredBuildingIdsToBuildForFree;
+    private final int[] buildingsWhichAllowToBuildForFree;
     private final int[] buildingIdsCanBeBuiltForFree;
     private Effect[] effects;
 
@@ -21,7 +21,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingsWhichAllowToBuildForFree = null;
         this.buildingIdsCanBeBuiltForFree = null;
     }
 
@@ -32,7 +32,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingsWhichAllowToBuildForFree = null;
         this.buildingIdsCanBeBuiltForFree = null;
     }
 
@@ -43,7 +43,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingsWhichAllowToBuildForFree = null;
         this.buildingIdsCanBeBuiltForFree = null;
     }
 
@@ -54,7 +54,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingIdsToBuildForFree = null;
+        this.buildingsWhichAllowToBuildForFree = null;
         this.buildingIdsCanBeBuiltForFree = null;
     }
 
@@ -65,7 +65,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
@@ -76,7 +76,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = 0;
-        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
@@ -87,7 +87,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
@@ -98,7 +98,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.requiredBuildingIdsToBuildForFree = requiredBuildingsToBuildForFree;
+        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
@@ -139,5 +139,13 @@ public class Card {
 
     public int getCost() {
         return this.cost;
+    }
+
+    public int[] getBuildingsWhichAllowToBuildForFree() {
+        return buildingsWhichAllowToBuildForFree;
+    }
+
+    public int getId() {
+        return id;
     }
 }
