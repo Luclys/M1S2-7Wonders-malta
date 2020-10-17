@@ -18,7 +18,6 @@ public class SoutConsole {
         if (!booleanPrint) return;
         System.out.println(msg);
     }
-
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
         System.out.print("\n\n\n===========================================================================\n");
@@ -171,32 +170,32 @@ public class SoutConsole {
         );
     }
 
-    public void chooseWonderBoard(int id, WonderBoard wb){
+    public void chooseWonderBoard(int id, WonderBoard wb) {
         if (!booleanPrint) return;
-        System.out.println("The player "+id+" choose "+wb.getName()+" wonder");
+        System.out.println("The player " + id + " choose " + wb.getName() + " wonder");
     }
 
-    public void playerPaysCoins(int playerId, int neighborId, int totalCoins){
+    public void playerPaysCoins(int playerId, int neighborId, int totalCoins) {
         if (!booleanPrint) return;
         System.out.printf("\n**Player %d pays %d coins to player %d \n", playerId, totalCoins, neighborId);
     }
 
-    public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource){
+    public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource) {
         if (!booleanPrint) return;
         System.out.printf("\n**Player %d can buy %s from %s neighbor with id %d \n", playerId, missingResource, neighborSide, neighborId);
     }
 
-    public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource){
+    public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource) {
         if (!booleanPrint) return;
         System.out.printf("\n**Player %d doesn't have enough coins to buy %s from %s neighbor \n", playerId, missingResource, neighborSide);
     }
 
-    public void noneOfTheNeighborsHasResource(String missingResource){
+    public void noneOfTheNeighborsHasResource(String missingResource) {
         if (!booleanPrint) return;
         System.out.printf("\n**None of the neighbors has resource %s \n", missingResource);
     }
 
-    public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree){
+    public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree) {
         if (!booleanPrint) return;
         System.out.printf("\n**Player %d can build card %s for free thanks to one of the cards build in previous ages: %s \n\n", playerId, card.getName(), cardsAllowingToBuildForFree);
     }

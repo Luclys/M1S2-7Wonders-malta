@@ -13,12 +13,12 @@ class InventoryTest {
     Inventory inventory;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         inventory = new Inventory(0);
     }
 
     @Test
-     void discardLastCardTest() {
+    void discardLastCardTest() {
         // the method throw an erreur if the number of cards in hand of the
         // inventory is more then 1
         assertThrows(Error.class, () -> inventory.discardLastCard());
@@ -29,7 +29,7 @@ class InventoryTest {
     }
 
     @Test
-     void sellCardTest() {
+    void sellCardTest() {
         // if the inventory try to sell a card that he doesn"t have an erreur is lanched
         assertThrows(Error.class, () -> inventory.sellCard(CardsSet.CHANTIER));
         int coins = inventory.getCoins();
@@ -40,23 +40,23 @@ class InventoryTest {
     }
 
     @Test
-     void updateInventoryTest() {
+    void updateInventoryTest() {
         setCards();
         assertEquals(CardsSet.CHANTIER, inventory.getCardsInHand().get(0));
-        inventory.updateInventory(CardsSet.CHANTIER,null,null,null);
+        inventory.updateInventory(CardsSet.CHANTIER, null, null, null);
         assertEquals(0, inventory.getCardsInHand().size());
         assertEquals(CardsSet.CHANTIER, inventory.getPlayedCards().get(0));
     }
 
     @Test
-     void addCoinsTest() {
+    void addCoinsTest() {
         inventory.setCoins(0);
         inventory.addCoins(5);
         assertEquals(5, inventory.getCoins());
     }
 
     @Test
-     void removeCoinsTest() {
+    void removeCoinsTest() {
         inventory.setCoins(5);
         inventory.removeCoins(3);
         assertEquals(2, inventory.getCoins());
@@ -70,6 +70,7 @@ class InventoryTest {
 
     /**
      * Player wants to build FORUM and player has COMPTOIR EST already built
+     *
      * @result Player can build FORUM for free
      */
     @Test
@@ -82,6 +83,7 @@ class InventoryTest {
 
     /**
      * Player wants to build FORUM and player don't have any buildings which allow to build for free
+     *
      * @result Player cannot build FORUM for free
      */
     @Test
@@ -91,6 +93,7 @@ class InventoryTest {
 
     /**
      * Player wants to build MARCHE which doesn't have any buildings which allow to build it for free
+     *
      * @result Player cannot build MARCHE for free
      */
     @Test

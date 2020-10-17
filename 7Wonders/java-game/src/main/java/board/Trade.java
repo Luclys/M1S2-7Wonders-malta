@@ -24,6 +24,8 @@ public class Trade {
 
         int [] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
         int [] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
+        String left ="left";
+        String right ="right";
 
         sout.pricesOfResources(playerInv);
         for (Resource missingResource : missingResources) {

@@ -4,11 +4,9 @@ import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.SoutConsole;
 import gameelements.cards.Card;
-import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PlayersManager {

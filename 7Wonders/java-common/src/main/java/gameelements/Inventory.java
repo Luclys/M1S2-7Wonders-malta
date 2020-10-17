@@ -7,6 +7,7 @@ import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,11 +16,11 @@ public class Inventory {
     private final int[] availableResources;
     private final int[] availableSymbols;
     private final List<Resource[]> pairResChoice;
+    private final List<Effect> endGameEffects;
+    private final SoutConsole sout;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
-    private final List<Effect> endGameEffects;
     private WonderBoard wonderBoard;
-
     private int score;
     private int victoryChipsScore;
     private int defeatChipsCount;
@@ -28,13 +29,12 @@ public class Inventory {
     private int matieresPremieresPriceRight;
     private int produitsManifacturesPrice;
     private int addedCoins;
-
     private int allResPremChoice;
     private int allResManuChoice;
     private int possibleFreeBuildingsCount;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
-    private final SoutConsole sout;
+
     public Inventory(int playerId) {
         this.sout = new SoutConsole(true);
         this.playerId = playerId;
@@ -155,10 +155,10 @@ public class Inventory {
         return true;
     }
 
-    public ArrayList<Resource> missingResources(Resource[] requiredResources) {
+    public List<Resource> missingResources(Resource[] requiredResources) {
         ArrayList<Resource> missing = new ArrayList<>();
         if (requiredResources == null) {
-            return null;
+            return Collections.emptyList();
         }
         for (Resource r : requiredResources) {
             if (getAvailableResources()[r.getIndex()] == 0) {
@@ -186,6 +186,11 @@ public class Inventory {
     public int getVictoryChipsScore() {
         return victoryChipsScore;
     }
+
+    public void setVictoryChipsScore(int victoryChipsScore) {
+        this.victoryChipsScore = victoryChipsScore;
+    }
+
     public void addPairResChoice(Resource[] resources) {
         this.pairResChoice.add(resources);
     }
@@ -282,10 +287,6 @@ public class Inventory {
         this.score = score;
     }
 
-    public void setVictoryChipsScore(int victoryChipsScore) {
-        this.victoryChipsScore = victoryChipsScore;
-    }
-
     public int getDefeatChipsCount() {
         return defeatChipsCount;
     }
@@ -376,7 +377,7 @@ public class Inventory {
 
     public boolean payIfPossible(int cost) {
         boolean canPay = false;
-        if(this.getCoins() >= cost) {
+        if (this.getCoins() >= cost) {
             removeCoins(cost);
             canPay = true;
         }

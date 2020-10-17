@@ -23,7 +23,7 @@ public class WonderStrategy implements PlayingStrategy {
         this.action = action;
     }
 
-    private Card chooseCardToBuildStep(Inventory inv) {
+    public Card chooseCardToBuildStep(Inventory inv) {
         boolean canBuildStep = inv.canBuild(inv.getWonderBoard().getCurrentStepRequiredResources());
 
         Card chosenCard = inv.getCardsInHand().get(0);
@@ -39,8 +39,7 @@ public class WonderStrategy implements PlayingStrategy {
                     chosenCard = card;
                 }
             }
-        }
-        else {
+        } else {
             setAction(Action.BUILDING);
             //Player picks a card he can build
 

@@ -26,4 +26,5 @@ public class ChoiceResourceEffect extends Effect {
             inv.addPairResChoice(resources);
         }
     }
+
 }

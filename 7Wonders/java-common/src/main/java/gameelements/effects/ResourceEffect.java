@@ -24,4 +24,8 @@ public class ResourceEffect extends Effect {
         }
         inv.getAvailableResources()[resource.getIndex()] += nb;
     }
+
+    public Resource getResource() {
+        return resource;
+    }
 }
