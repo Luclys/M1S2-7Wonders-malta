@@ -1,6 +1,6 @@
 ## Release 2 - [`v2.0`](https://github.com/uca-m1informatique-softeng/M1-S1-7W-lamac/tree/v2.0)
 
-> 2nde version du jeu
+> 2<sup>nde</sup> version du jeu
 
 
 

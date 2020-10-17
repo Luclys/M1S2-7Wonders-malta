@@ -1,9 +1,11 @@
 package board;
 
 import gameelements.Inventory;
+import gameelements.SoutConsole;
+import gameelements.enums.Category;
 import gameelements.enums.Resource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Trade {
     SoutConsole sout;
@@ -12,68 +14,119 @@ public class Trade {
         this.sout = sout;
     }
 
-    protected boolean saleResources(ArrayList<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
-        boolean result = false;
-        ArrayList<Inventory> playersWithResources = new ArrayList<>();
+    protected boolean buyResources(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv) {
+        boolean canBuyAllResources = true;
+        int rightPrice;
+        int leftPrice;
+        int leftTotal = 0;
+        int rightTotal = 0;
         Inventory neighbor;
-        int k = 0;
-        sout.display("Check if player " + playerInv.getPlayerId() + " has enough coins .");
-        sout.display("Search for neighbors whom have the missing resources ");
 
-        for (Resource r : missingResources) {// check if the player has enough coins to buy resource
-            if (r != null) {
+        int [] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
+        int [] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
+        String left ="left";
+        String right ="right";
 
-                if (playerInv.getCoins() - (2 * k) > 1) {
-                    neighbor = findSeller(r, rightNeighborInv, leftNeighborInv);
-                    if (neighbor == null) {// check if one of the neighbor has the resource
-                        break;
+        sout.pricesOfResources(playerInv);
+        for (Resource missingResource : missingResources) {
+            sout.display("Player " + playerInv.getPlayerId() + " coins left: " + (playerInv.getCoins() - leftTotal - rightTotal));
+            if (missingResource.getCategory().equals(Category.MATIERE_PREMIERE)) {
+                rightPrice = playerInv.getMatieresPremieresPriceRight();
+                leftPrice = playerInv.getMatieresPremieresPriceLeft();
+            } else {
+                rightPrice = playerInv.getProduitsManifacturesPrice();
+                leftPrice = playerInv.getProduitsManifacturesPrice();
+            }
+            boolean rightHasResource = rightAvailableResources[missingResource.getIndex()] > 0;
+            boolean leftHasResource = leftAvailableResources[missingResource.getIndex()] > 0;
+
+            if (rightHasResource && leftHasResource) {
+                if (leftPrice < rightPrice) {
+                    if (playerInv.getCoins() - leftTotal - rightTotal - leftPrice >= 0) {
+                        sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), "left", missingResource.toString());
+                        leftTotal += leftPrice;
+                        leftAvailableResources[missingResource.getIndex()]--;
                     } else {
-                        sout.display("Neighbor " + neighbor.getPlayerId() + " can sell " + r + " to player " + playerInv.getPlayerId());
-                        playersWithResources.add(neighbor);
-                        k++;
+                        sout.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "left", missingResource.toString());
+                        canBuyAllResources = false;
+                        break;
+                    }
+                } else if (leftPrice > rightPrice) {
+                    if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
+                        sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), "right", missingResource.toString());
+                        rightTotal += rightPrice;
+                        rightAvailableResources[missingResource.getIndex()]--;
+                    } else {
+                        sout.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "right", missingResource.toString());
+                        canBuyAllResources = false;
+                        break;
+                    }
+                } else {
+                    if (playerInv.getCoins() - leftTotal - rightTotal  - rightPrice >= 0) {
+                        neighbor = chooseNeighbor(rightNeighborInv, leftNeighborInv);
+                        if (neighbor.equals(rightNeighborInv)) {
+                            sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), "right", missingResource.toString());
+                            rightTotal += rightPrice;
+                            rightAvailableResources[missingResource.getIndex()]--;
+                        } else {
+                            sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), "left", missingResource.toString());
+                            leftTotal += rightPrice;
+                            leftAvailableResources[missingResource.getIndex()]--;
+                        }
+                    } else {
+                        sout.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "any", missingResource.toString());
+                        canBuyAllResources = false;
+                        break;
                     }
                 }
+            } else if (rightHasResource) {
+                if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
+                    sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), "right", missingResource.toString());
+                    rightTotal += rightPrice;
+                    rightAvailableResources[missingResource.getIndex()]--;
+                } else {
+                    sout.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "right", missingResource.toString());
+                    canBuyAllResources = false;
+                    break;
+                }
+            } else if (leftHasResource) {
+                if (playerInv.getCoins() - leftTotal - rightTotal - leftPrice >= 0) {
+                    sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), "left", missingResource.toString());
+                    leftTotal += leftPrice;
+                    leftAvailableResources[missingResource.getIndex()]--;
+                } else {
+                    sout.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "left", missingResource.toString());
+                    canBuyAllResources = false;
+                    break;
+                }
             } else {
+                sout.noneOfTheNeighborsHasResource(missingResource.toString());
+                canBuyAllResources = false;
                 break;
             }
         }
-
-        if (k == missingResources.size()) {// neighbors have all the missing resources
-            boolean right;
-            sout.display("The player can buy all missing resources");
-            for (Inventory inv : playersWithResources) {
-                right = inv.equals(rightNeighborInv);
-                buyFromNeighbor(playerInv, inv, right);
+        if (canBuyAllResources) {
+            if (rightTotal > 0) {
+                payToNeighbor(playerInv, rightNeighborInv, rightTotal);
             }
-            result = true;
-        } else {
-            sout.display("Player " + playerInv.getPlayerId() + "can't buy all resources");
-        }
-        return result;
-    }
-
-    protected void buyFromNeighbor(Inventory playerInv, Inventory neighborInv, Boolean rightNeighbor) {// add that the neighbor can't use the adding coins till next turn
-        int price = 2;
-        //check which neighbor to determinate price
-      /*  if(rightNeighbor){
-            price = rightPrice
-        }else{
-            price = leftPrice
-        }*/
-        sout.display("Player " + playerInv.getPlayerId() + "buy from his");
-        neighborInv.setAddedCoins(price);
-        playerInv.removeCoins(price);
-    }
-
-    protected Inventory findSeller(Resource missingResource, Inventory rightNeighborInv, Inventory leftNeighborInv) {// check price left and price right if the player can buy from both neighbor
-        Inventory neighborInv = null;
-        if (rightNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-            neighborInv = rightNeighborInv;
-        } else {
-            if (leftNeighborInv.getAvailableResources()[missingResource.getIndex()] > 0) {
-                neighborInv = leftNeighborInv;
+            if (leftTotal > 0) {
+                payToNeighbor(playerInv, leftNeighborInv, leftTotal);
             }
         }
-        return neighborInv;
+        return canBuyAllResources;
+    }
+
+    protected Inventory chooseNeighbor(Inventory rightNeighborInv, Inventory leftNeighborInv) {
+        if (rightNeighborInv.getCoins() < leftNeighborInv.getCoins()) { // Maybe AI
+           return rightNeighborInv;
+        } else {
+            return leftNeighborInv;
+        }
+    }
+
+    protected void payToNeighbor(Inventory playerInv, Inventory neighborInv, int totalCoins) {// add that the neighbor can't use the adding coins till next turn
+        sout.playerPaysCoins(playerInv.getPlayerId(), neighborInv.getPlayerId(), totalCoins);
+        neighborInv.setAddedCoins(totalCoins);
+        playerInv.removeCoins(totalCoins);
     }
 }

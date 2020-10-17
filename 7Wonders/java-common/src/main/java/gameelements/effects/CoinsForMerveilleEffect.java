@@ -13,9 +13,13 @@ public class CoinsForMerveilleEffect extends Effect {
         this.nbCoins = nbCoins;
     }
 
-    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
-        int stepsCount = playersInv.getWonderBoard().getCurrentStepIndex();
-        playersInv.addCoins(nbCoins * stepsCount);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
+        inv.addCoins(nbCoins * stepsCount);
     }
 }

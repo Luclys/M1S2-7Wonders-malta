@@ -1,7 +1,6 @@
 # 7 Wonders
 
 > Repository for the M1 Project team LAMAC : Seven Wonders.
-
 ### Team members
 - **L**oïc Filippi
 - **A**lessandro Pepegna

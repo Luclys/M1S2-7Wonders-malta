@@ -11,10 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CardTest {
 
     @Test
-    public void isBatiment() {
-        Card card = CardsSet.PRÊTEUR_SUR_GAGES;
-        assertTrue(card.isBatiment());
+    void isBatiment() {
+        Card card = CardsSet.PRETEUR_SUR_GAGES;
+        assertTrue(card.isBuilding());
         card = CardsSet.SCIERIE;
-        assertFalse(card.isBatiment());
+        assertFalse(card.isBuilding());
+        card = CardsSet.FORUM;
+        assertTrue(card.isBuilding());
+        card = CardsSet.DISPENSAIRE;
+        assertTrue(card.isBuilding());
+        card = CardsSet.PALISSADE;
+        assertTrue(card.isBuilding());
+        card = CardsSet.GUILDE_DES_TRAVAILLEURS;
+        assertFalse(card.isBuilding());
     }
 }

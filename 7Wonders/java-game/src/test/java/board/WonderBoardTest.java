@@ -10,43 +10,48 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class WonderBoardTest {
-    ArrayList<Player> playerList;
+class WonderBoardTest {
+    List<Player> playerList;
+    Board board;
 
     @BeforeEach
-    public void setUp() {
+     void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
             playerList.add(player);
         }
+        board = new Board(playerList, false);
     }
 
+    @Disabled
     @Test
-    public void playTest() {
-        Board board = new Board(playerList, false);
-        board.play();
+     void playTest() {
+
+        board.play(0);
         assertEquals(6, board.getTurn());
     }
 
     @Test
-    public void drawCardsTest() {
+     void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(playerList, false);
         board.ageSetUp(1);
 
         int nbToDraw = 1;
-        ArrayList<Card> listBeforeDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
-        ArrayList<Card> card = board.drawCards(nbToDraw);
-        ArrayList<Card> listAfterDrawing = (ArrayList<Card>) board.getCurrentDeckCardList().clone();
+        List<Card> listBeforeDrawing = new ArrayList<>(board.getCurrentDeckCardList());
+        List<Card> card = board.drawCards(nbToDraw);
+        List<Card> listAfterDrawing = new ArrayList<>(board.getCurrentDeckCardList());
 
         assertEquals(listBeforeDrawing.size() - nbToDraw, listAfterDrawing.size());
         assertSame(listBeforeDrawing.get(0), card.get(0));
@@ -61,7 +66,7 @@ public class WonderBoardTest {
         Inventory leftNeighborInv = board.getPlayerInventoryList().get(player.getLeftNeighborId());
         Inventory rightNeighborInv = board.getPlayerInventoryList().get(player.getRightNeighborId());
 
-        ArrayList<Step> listSteps = new ArrayList<>();
+        List<Step> listSteps = new ArrayList<>();
         listSteps.add(new Step(null, new ResourceEffect(Resource.BOIS, 1)));
         listSteps.add(new Step(null, new ResourceEffect(Resource.PIERRE, 2)));
         listSteps.add(new Step(null, new SymbolEffect(Symbol.STELE, 1)));
@@ -81,9 +86,14 @@ public class WonderBoardTest {
         assertEquals(2, inv.getResCount(Resource.PIERRE));
 
         TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
-        assertEquals(1, inv.getSymbCount(Symbol.STELE));
+        assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
-        //assertThrows(Error, TESTBOARD.buyNextStep(card));
+        Assertions.assertThrows(Error.class, () -> TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv));
+    }
+
+    @Test
+    void setAgeTest(){
+        assertThrows(IllegalStateException.class, () ->board.ageSetUp(10));
     }
 }
 

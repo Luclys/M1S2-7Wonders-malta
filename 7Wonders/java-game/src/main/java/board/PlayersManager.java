@@ -2,15 +2,16 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.SoutConsole;
 import gameelements.cards.Card;
-import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayersManager {
-    ArrayList<Player> playerList;
-    ArrayList<Inventory> playerInventoryList;
+    List<Player> playerList;
+    List<Inventory> playerInventoryList;
     SoutConsole sout;
 
     public PlayersManager(SoutConsole sout) {
@@ -30,14 +31,14 @@ public class PlayersManager {
         }
     }
 
-    protected void freeBuildFromDiscarded(ArrayList<Card> discardedDeckCardList) {
+    protected void freeBuildFromDiscarded(List<Card> discardedDeckCardList) {
         for (Inventory inv : playerInventoryList) {
-            if (discardedDeckCardList.size() == 0) {
+            if (discardedDeckCardList.isEmpty()) {
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
-                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
+                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv),discardedDeckCardList);
                 inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
             }
@@ -45,8 +46,8 @@ public class PlayersManager {
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
-        int playerBoucliersCount = invPlayer.getSymbCount(Symbol.BOUCLIER);
-        int neighborBoucliersCount = invNeighbor.getSymbCount(Symbol.BOUCLIER);
+        int playerBoucliersCount = invPlayer.getSymbolCount(Symbol.BOUCLIER);
+        int neighborBoucliersCount = invNeighbor.getSymbolCount(Symbol.BOUCLIER);
         sout.conflicts(invPlayer, invNeighbor);
         sout.checkShields(playerBoucliersCount, neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
@@ -59,7 +60,7 @@ public class PlayersManager {
         sout.resolvedConflicts(invPlayer);
     }
 
-    protected ArrayList<Player> associateNeighbor(ArrayList<Player> players) {
+    protected List<Player> associateNeighbor(List<Player> players) {
         playerInventoryList = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             Inventory inv = new Inventory(i);
@@ -81,20 +82,7 @@ public class PlayersManager {
         return players;
     }
 
-    public ArrayList<Inventory> getPlayerInventoryList() {
+    public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
-    }
-
-    protected ArrayList<Resource> missingResources(Inventory inv, Card c) {
-        ArrayList<Resource> missing = new ArrayList<>();
-        if (c.getRequiredResources() == null) {
-            return null;
-        }
-        for (Resource r : c.getRequiredResources()) {
-            if (inv.getAvailableResources()[r.getIndex()] == 0) {
-                missing.add(r);
-            }
-        }
-        return missing;
     }
 }

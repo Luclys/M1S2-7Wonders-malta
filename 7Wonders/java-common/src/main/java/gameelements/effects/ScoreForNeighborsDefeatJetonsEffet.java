@@ -13,8 +13,12 @@ public class ScoreForNeighborsDefeatJetonsEffet extends Effect {
         this.score = score;
     }
 
-    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
-        playersInv.addScore((leftNeighborInv.getDefeatChipsCount() + rightNeighborInv.getDefeatChipsCount()) * score);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
+        inv.addScore((leftNeighborInv.getDefeatChipsCount() + rightNeighborInv.getDefeatChipsCount()) * score);
     }
 }

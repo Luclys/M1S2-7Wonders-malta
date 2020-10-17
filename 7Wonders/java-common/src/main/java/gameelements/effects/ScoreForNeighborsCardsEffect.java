@@ -16,10 +16,14 @@ public class ScoreForNeighborsCardsEffect extends Effect {
         this.category = category;
     }
 
-    public void activateEffect(Player player, Inventory playersInv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, playersInv, leftNeighborInv, rightNeighborInv);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
-        playersInv.addScore((leftNeighborCardsCount + rightNeighborCardsCount) * nb);
+        inv.addScore((leftNeighborCardsCount + rightNeighborCardsCount) * nb);
     }
 }

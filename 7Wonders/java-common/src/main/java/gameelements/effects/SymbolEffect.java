@@ -7,8 +7,8 @@ import gameelements.enums.EffectDelay;
 import gameelements.enums.Symbol;
 
 public class SymbolEffect extends Effect {
-    Symbol symbol;
-    int nb;
+    private Symbol symbol;
+    private int nb;
 
     public SymbolEffect(Symbol symbol, int nb) {
         super(EffectDelay.INSTANTANEOUS);
@@ -16,8 +16,16 @@ public class SymbolEffect extends Effect {
         this.nb = nb;
     }
 
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        super.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
+    @Override
+    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+        if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
+            inv.addEndGameEffect(this);
+            return;
+        }
         inv.getAvailableSymbols()[symbol.getIndex()] += nb;
+    }
+
+    public Symbol getSymbol() {
+        return symbol;
     }
 }

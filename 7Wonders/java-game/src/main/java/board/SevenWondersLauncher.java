@@ -1,20 +1,27 @@
 package board;
 
+import client.Client;
 import gameelements.Player;
+import gameelements.strategy.WonderStrategy;
+import server.Server;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class SevenWondersLauncher {
-    static int NB_PLAYERS = 3;
-    static int NB_GAMES = 1;
-    static boolean BOOL_PRINT = true;
+    static Client client;
+    static int nbPlayers = 3;
+    static int nbGames = 1000;
+    static boolean boolPrint = false;
 
 
     public static void main(String[] args) {
-        //Default settings
-        int nbPlayers = NB_PLAYERS; //Default = 3
-        int nbGames = NB_GAMES; //Default = 1
-        boolean boolPrint = BOOL_PRINT; //Default = true
+        //Starting the server
+        startServer();
+
+        //Starting the client
+        client = new Client("http://127.0.0.1:10101");
+        client.start();
 
         //Maven's arguments
         if (args.length >= 3) {
@@ -25,19 +32,36 @@ public class SevenWondersLauncher {
 
         ArrayList<Player> playerList = fetchPlayers(nbPlayers);
 
-        Board board = new Board(playerList, boolPrint);
         for (int i = 1; i <= nbGames; i++) {
-            board.play();
+            if (i != nbGames) {
+                System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
+            } else {
+                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+            }
+            Board board = new Board(playerList, boolPrint);
+            board.play(i);
         }
     }
 
     private static ArrayList<Player> fetchPlayers(int nbPlayers) {
         ArrayList<Player> playerList = new ArrayList<>(nbPlayers);
         for (int i = 0; i < nbPlayers; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, new WonderStrategy());
             playerList.add(player);
         }
         return playerList;
+    }
+
+    private static void startServer() {
+        System.out.println("Starting the server...\n");
+        Thread server = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Server.main(null);
+            }
+        });
+
+        server.start();
     }
 
 }
