@@ -34,6 +34,7 @@ public class WonderBoard {
     public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         if (currentStepIndex < steps.size()) {
             steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
+            associatedInv.getCardsInHand().remove(card);
             currentStepIndex++;
         } else {
             throw new Error("No step left to build");
