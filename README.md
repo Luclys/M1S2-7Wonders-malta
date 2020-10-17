@@ -1,6 +1,5 @@
-# 7 Wonders
+![](7w_logo.png)
 
-> Repository for the M1 Project team LAMAC : Seven Wonders.
 ### Team members
 - **L**oïc Filippi
 - **A**lessandro Pepegna
@@ -9,9 +8,11 @@
 - **C**haeyeon Shim
 
 ### Usage 
-L'insertion d'arguments est facilité grâce à Maven, vous pourrez utiliser les ids d'execution suivants selon votre choix d'execution. 
+L'insertion d'arguments est facilitée par Maven.  
+Vous pourrez utiliser les identifiants d'exécution 
+suivants selon votre choix:
 
-_-_       | 1000 parties sans sortie textuelle | 1 partie avec sortie textuelle
+&nbsp;    | 1000 parties sans sortie textuelle | 1 partie avec sortie textuelle
 --------- | ---------------------------------- | ------------------------------
 3 joueurs |       `exec:java@stats3p`          |        `exec:java@game3p`
 5 joueurs |       `exec:java@stats5p`          |        `exec:java@game5p`
