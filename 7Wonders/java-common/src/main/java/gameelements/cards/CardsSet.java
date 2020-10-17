@@ -8,6 +8,9 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
 public class CardsSet {
+    private CardsSet() {
+        throw new IllegalStateException("Utility class");
+    }
     //=========================================================================AGE I=========================================================================
     //MATIERE_PREMIERE(Brown)
     public static final Card CHANTIER = new Card(CardIds.CHANTIER_ID, "CHANTIER", new ResourceEffect(Resource.BOIS, 1), null, Category.MATIERE_PREMIERE);

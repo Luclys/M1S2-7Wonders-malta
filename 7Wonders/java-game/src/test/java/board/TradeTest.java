@@ -377,4 +377,25 @@ class TradeTest {
         assertEquals(leftNeighbor.getAddedCoins(), 3);
         assertEquals(leftNeighbor.getCoins(), leftNeighborInitialCoins);
     }
+
+    @Test
+    void buyResourceTest(){
+        list.add(Resource.ARGILE);
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        player.setMatieresPremieresPriceRight(3);
+        player.setMatieresPremieresPriceLeft(1);
+        trade.buyResources(list, player, rightNeighbor, leftNeighbor);
+        assertEquals(1,leftNeighbor.getAddedCoins());
+        assertEquals(0,rightNeighbor.getAddedCoins());
+        list.add(Resource.ARGILE);
+
+        player.setMatieresPremieresPriceRight(1);
+        player.setMatieresPremieresPriceLeft(2);
+
+        player.setCoins(0);
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
+    }
+
+
 }

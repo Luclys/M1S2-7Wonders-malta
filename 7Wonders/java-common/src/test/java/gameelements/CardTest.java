@@ -16,5 +16,13 @@ class CardTest {
         assertTrue(card.isBuilding());
         card = CardsSet.SCIERIE;
         assertFalse(card.isBuilding());
+        card = CardsSet.FORUM;
+        assertTrue(card.isBuilding());
+        card = CardsSet.DISPENSAIRE;
+        assertTrue(card.isBuilding());
+        card = CardsSet.PALISSADE;
+        assertTrue(card.isBuilding());
+        card = CardsSet.GUILDE_DES_TRAVAILLEURS;
+        assertFalse(card.isBuilding());
     }
 }

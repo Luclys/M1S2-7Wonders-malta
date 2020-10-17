@@ -3,6 +3,7 @@ package gameelements.strategy;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
+
 import java.util.ArrayList;
 
 public class WonderStrategy implements PlayingStrategy {
@@ -22,7 +23,7 @@ public class WonderStrategy implements PlayingStrategy {
         this.action = action;
     }
 
-    private Card chooseCardToBuildStep(Inventory inv, ArrayList<Card> availableCards) {
+    public Card chooseCardToBuildStep(Inventory inv, ArrayList<Card> availableCards) {
         boolean canBuildStep = inv.canBuild(inv.getWonderBoard().getCurrentStep().getRequiredResources());
         Card chosenCard = availableCards.get(0);
 

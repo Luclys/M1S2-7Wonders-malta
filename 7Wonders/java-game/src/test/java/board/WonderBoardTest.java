@@ -16,11 +16,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class WonderBoardTest {
     List<Player> playerList;
+    Board board;
 
     @BeforeEach
      void setUp() {
@@ -29,11 +29,12 @@ class WonderBoardTest {
             Player player = new Player(i);
             playerList.add(player);
         }
+        board = new Board(playerList, false);
     }
 
     @Test
      void playTest() {
-        Board board = new Board(playerList, false);
+
         board.play();
         assertEquals(6, board.getTurn());
     }
@@ -85,6 +86,11 @@ class WonderBoardTest {
         assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
         //assertThrows(Error, TESTBOARD.buyNextStep(card));
+    }
+
+    @Test
+    void setAgeTest(){
+        assertThrows(IllegalStateException.class, () ->board.ageSetUp(10));
     }
 }
 

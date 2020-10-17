@@ -7,6 +7,7 @@ import gameelements.wonders.WonderBoard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -155,10 +156,10 @@ public class Inventory {
         return true;
     }
 
-    public ArrayList<Resource> missingResources(Resource[] requiredResources) {
+    public List<Resource> missingResources(Resource[] requiredResources) {
         ArrayList<Resource> missing = new ArrayList<>();
         if (requiredResources == null) {
-            return null;
+            return Collections.emptyList();
         }
         for (Resource r : requiredResources) {
             if (getAvailableResources()[r.getIndex()] == 0) {

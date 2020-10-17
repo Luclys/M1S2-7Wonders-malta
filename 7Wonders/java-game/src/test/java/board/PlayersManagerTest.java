@@ -2,15 +2,17 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
-import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class PlayersManagerTest {
 
@@ -69,5 +71,28 @@ class PlayersManagerTest {
         // We test the left neighbor then the right
         assertSame(playerList.get(secondPlayer.getLeftNeighborId()), firstPlayer);
         assertSame(playerList.get(firstPlayer.getRightNeighborId()), secondPlayer);
+    }
+
+    @Test
+    void freeBuildFromDiscardedTest(){
+        int possibleFree = playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount();
+        playersManager.getPlayerInventoryList().get(1).setPossibleFreeDiscardedBuildingsCount(1);
+        List<Card> cards = new ArrayList<>();
+        cards.add(CardsSet.PRETEUR_SUR_GAGES);
+        playersManager.freeBuildFromDiscarded(cards);
+        assertEquals(possibleFree,playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount());
+        /*        for (Inventory inv : playerInventoryList) {
+            if (discardedDeckCardList.isEmpty()) {
+                return;
+            }
+            if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
+                Player player = playerList.get(inv.getPlayerId());
+                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv),discardedDeckCardList);
+                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
+                inv.addPossibleFreeDiscardedBuildingsCount(-1);
+            }
+        }*/
+
+
     }
 }

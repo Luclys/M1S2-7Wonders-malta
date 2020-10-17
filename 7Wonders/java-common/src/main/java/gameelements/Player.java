@@ -1,10 +1,10 @@
 package gameelements;
 
-import gameelements.enums.Action;
 import gameelements.cards.Card;
+import gameelements.enums.Action;
 import gameelements.enums.Symbol;
-import gameelements.strategy.PlayingStrategy;
 import gameelements.strategy.FirstCardStrategy;
+import gameelements.strategy.PlayingStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

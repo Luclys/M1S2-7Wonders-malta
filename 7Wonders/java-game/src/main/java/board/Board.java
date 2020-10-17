@@ -8,8 +8,8 @@ import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
-import gameelements.enums.Action;
 import gameelements.cards.Card;
+import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
@@ -179,7 +179,7 @@ public class Board {
 
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
-        ArrayList<Resource> missingResources = trueInv.missingResources(requiredResources);
+        List<Resource> missingResources = trueInv.missingResources(requiredResources);
         sout.missingResources(missingResources);
         canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {

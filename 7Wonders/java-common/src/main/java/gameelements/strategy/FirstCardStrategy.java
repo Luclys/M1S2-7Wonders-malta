@@ -5,8 +5,6 @@ import gameelements.cards.Card;
 import gameelements.enums.Action;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class FirstCardStrategy implements PlayingStrategy {
     Action action;
