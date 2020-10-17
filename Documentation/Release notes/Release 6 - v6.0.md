@@ -11,7 +11,7 @@ en fonction de ses ressources disponibles.
 Le Client-Server est opérationnel. Pour l'instant, le client ne fait qu'envoyer l'identifiant du gagnant
 (on ne considère pas les égalités sur les points) au serveur pour qu'il l'affiche pour chaque partie jouée.
 
-Le prix d'achat des ressources est réduit lors de l'obtempsion de l'effet adéquat.
+Le prix d'achat des ressources est réduit lors de l'obtention de l'effet adéquat.
 
 L'achat d'une carte grâce aux chaînages est désormais possible.
 
