@@ -1,6 +1,6 @@
 ## Release 3 - [`v3.0`](https://github.com/uca-m1informatique-softeng/M1-S1-7W-lamac/tree/v3.0)
 
-> 3ème version du jeu
+> 3<sup>ème</sup> version du jeu
 
 
 

@@ -1,6 +1,6 @@
 ## Release 4 - [`v4.0`](https://github.com/uca-m1informatique-softeng/M1-S1-7W-lamac/tree/v4.0)
 
-## 4ème version du jeu
+## 4<sup>ème</sup> version du jeu
 
 Introduction d'un plateau Merveille avec effet de gain de ressources. 
 Tous les joueurs commencent avec le même plateau.
