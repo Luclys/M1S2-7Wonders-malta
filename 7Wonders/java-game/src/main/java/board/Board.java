@@ -109,17 +109,17 @@ public class Board {
 
         scores();
         // We send data to the server
+        sendWinner(playerInventoryList);
+    }
+
+    private void sendWinner(List<Inventory> playerInventoryList) {
         Inventory winnerInventory = getPlayerInventoryList().get(0);
         for (Inventory inv : getPlayerInventoryList()) {
             if (inv.getScore() > winnerInventory.getScore()) {
                 winnerInventory = inv;
             }
         }
-        Client client = new Client("http://127.0.0.1:10101");
-        //The handshake succeeds in local but is deactivated for it makes
-        // the CI wait for connection to an non existing server while testing
-        //client.handshake();
-
+        SevenWondersLauncher.client.sendWinner(winnerInventory);
     }
 
     private void chooseWonderBoard(Player player, Inventory inventory) {
@@ -230,7 +230,7 @@ public class Board {
         /*The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        sout.FinalResults();
+        sout.finalResults();
         for (Inventory inv : playerInventoryList) {
             // End Game Effects (guilds buildings)
             Player player = playerList.get(inv.getPlayerId());

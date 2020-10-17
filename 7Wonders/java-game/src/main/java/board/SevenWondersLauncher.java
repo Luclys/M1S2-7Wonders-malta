@@ -1,17 +1,28 @@
 package board;
 
+import client.Client;
 import gameelements.Player;
 import gameelements.strategy.WonderStrategy;
+import server.Server;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class SevenWondersLauncher {
+    static Client client;
     static int nbPlayers = 3;
-    static int nbGames = 1;
-    static boolean boolPrint = true;
+    static int nbGames = 1000;
+    static boolean boolPrint = false;
 
 
     public static void main(String[] args) {
+        //Starting the server
+        startServer();
+
+        //Starting the client
+        client = new Client("http://127.0.0.1:10101");
+        client.start();
+
         //Maven's arguments
         if (args.length >= 3) {
             nbPlayers = Integer.parseInt(args[0]);
@@ -39,6 +50,18 @@ public class SevenWondersLauncher {
             playerList.add(player);
         }
         return playerList;
+    }
+
+    private static void startServer() {
+        System.out.println("Starting the server...\n");
+        Thread server = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Server.main(null);
+            }
+        });
+
+        server.start();
     }
 
 }

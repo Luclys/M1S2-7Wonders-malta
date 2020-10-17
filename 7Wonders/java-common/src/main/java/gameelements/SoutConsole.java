@@ -45,7 +45,7 @@ public class SoutConsole {
         System.out.print("\n\n========== END OF THE GAME ==========\n\n");
     }
 
-    public void FinalResults() {
+    public void finalResults() {
         if (!booleanPrint) return;
         System.out.print("\n\n========== FINAL RESULTS  ==========\n");
     }
