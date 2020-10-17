@@ -10,6 +10,7 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,9 +46,9 @@ class WonderBoardTest {
         board.ageSetUp(1);
 
         int nbToDraw = 1;
-        List<Card> listBeforeDrawing = (ArrayList<Card>) ((ArrayList<Card>) board.getCurrentDeckCardList()).clone();
+        List<Card> listBeforeDrawing = new ArrayList<>(board.getCurrentDeckCardList());
         List<Card> card = board.drawCards(nbToDraw);
-        ArrayList<Card> listAfterDrawing = (ArrayList<Card>) ((ArrayList<Card>) board.getCurrentDeckCardList()).clone();
+        List<Card> listAfterDrawing = new ArrayList<>(board.getCurrentDeckCardList());
 
         assertEquals(listBeforeDrawing.size() - nbToDraw, listAfterDrawing.size());
         assertSame(listBeforeDrawing.get(0), card.get(0));
@@ -84,7 +85,7 @@ class WonderBoardTest {
         TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
         assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
-        //assertThrows(Error, TESTBOARD.buyNextStep(card));
+        Assertions.assertThrows(Error.class, () -> TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv));
     }
 }
 

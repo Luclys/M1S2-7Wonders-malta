@@ -221,7 +221,7 @@ public class Board {
 
     List<Card> drawCards(int nbCards) {
         List<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
-        this.currentDeckCardList.removeAll(playerDeck);
+        this.currentDeckCardList = this.currentDeckCardList.subList(nbCards, currentDeckCardList.size());
         return playerDeck;
     }
 
