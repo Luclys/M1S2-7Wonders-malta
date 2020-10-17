@@ -5,16 +5,20 @@ import gameelements.cards.Card;
 import gameelements.enums.Action;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class FirstCardStrategy implements PlayingStrategy {
     Action action;
 
     @Override
-    public Card chooseCard(Inventory inventory, ArrayList<Card> availableCards) {
+    public Card chooseCard(Inventory inv) {
         this.action = Action.BUILDING;
-        return availableCards.get(0);
+
+        ArrayList<Card> available = cardsAvailableToPlay(inv);
+        if (available.isEmpty()) {
+            this.action = Action.SELL;
+            return inv.getCardsInHand().get(0);
+        }
+        return available.get(0);
     }
 
     @Override
