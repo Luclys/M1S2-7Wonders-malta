@@ -7,4 +7,4 @@ et les joueurs disposent d'un plateau Merveille qui leur
 rapporte des ressources. <br>
 On joue avec les cartes Guilde et l'or gagné lors du
 commerce par un joueur peut lui servir lors de l'achat
-de ressources à partir du tour prochain. 
+de ressources à partir du tour prochain.
