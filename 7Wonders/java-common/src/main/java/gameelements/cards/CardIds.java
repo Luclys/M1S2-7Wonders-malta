@@ -3,9 +3,6 @@ package gameelements.cards;
 public class CardIds {
 
     private static int cardCounter = 0;
-    private CardIds() {
-        throw new IllegalStateException("Utility class");
-    }
     public static final int CHANTIER_ID = cardCounter++;
     public static final int CAVITE_ID = cardCounter++;
     public static final int BASSIN_ARGILEUX_ID = cardCounter++;
@@ -81,4 +78,7 @@ public class CardIds {
     public static final int GUILDE_DES_SCIENTIFIQUES_ID = cardCounter++;
     public static final int GUILDE_DES_MAGISTRATS_ID = cardCounter++;
     public static final int GUILDE_DES_BATISSEURS_ID = cardCounter++;
+    private CardIds() {
+        throw new IllegalStateException("Utility class");
+    }
 }

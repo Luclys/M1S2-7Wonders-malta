@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FreeDiscardedBuildingEffectTest {
+class FreeDiscardedBuildingEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -28,23 +28,24 @@ public class FreeDiscardedBuildingEffectTest {
     //addPossibleFreeDiscardedBuildingsCount
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         int possibleFreeDiscardedBuildingsCount = inv.getPossibleFreeDiscardedBuildingsCount();
         //Not end of the game
-        freeDiscardedBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(possibleFreeDiscardedBuildingsCount+1,inv.getPossibleFreeDiscardedBuildingsCount());
+        freeDiscardedBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(possibleFreeDiscardedBuildingsCount + 1, inv.getPossibleFreeDiscardedBuildingsCount());
         freeDiscardedBuildingEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        freeDiscardedBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
+        freeDiscardedBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(freeDiscardedBuildingEffect));
 
     }
+
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         int possibleFreeDiscardedBuildingsCount = inv.getPossibleFreeDiscardedBuildingsCount();
-        freeDiscardedBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(possibleFreeDiscardedBuildingsCount+1,inv.getPossibleFreeDiscardedBuildingsCount());
+        freeDiscardedBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(possibleFreeDiscardedBuildingsCount + 1, inv.getPossibleFreeDiscardedBuildingsCount());
         freeDiscardedBuildingEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        freeDiscardedBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(possibleFreeDiscardedBuildingsCount+2,inv.getPossibleFreeDiscardedBuildingsCount());
+        freeDiscardedBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(possibleFreeDiscardedBuildingsCount + 2, inv.getPossibleFreeDiscardedBuildingsCount());
     }
 }

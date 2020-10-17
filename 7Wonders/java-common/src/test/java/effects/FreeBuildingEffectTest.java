@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FreeBuildingEffectTest {
+class FreeBuildingEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -25,20 +25,19 @@ public class FreeBuildingEffectTest {
     }
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         int freeBuildingsCount = inv.getPossibleFreeBuildingsCount();
         //Not end of the game
-        freeBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(freeBuildingsCount+1,inv.getPossibleFreeBuildingsCount());
+        freeBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(freeBuildingsCount + 1, inv.getPossibleFreeBuildingsCount());
     }
 
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         int freeBuildingsCount = inv.getPossibleFreeBuildingsCount();
-        freeBuildingEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(freeBuildingsCount+1,inv.getPossibleFreeBuildingsCount());
+        freeBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(freeBuildingsCount + 1, inv.getPossibleFreeBuildingsCount());
     }
-
 
 
 }

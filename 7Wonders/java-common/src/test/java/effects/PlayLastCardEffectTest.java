@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PlayLastCardEffectTest {
+class PlayLastCardEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -26,23 +26,24 @@ public class PlayLastCardEffectTest {
     }
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         inv.setCanPlayLastCard(false);
-        playLastCardEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
+        playLastCardEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.isCanPlayLastCard());
         inv.setCanPlayLastCard(false);
         playLastCardEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        playLastCardEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
+        playLastCardEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(playLastCardEffect));
     }
+
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         inv.setCanPlayLastCard(false);
-        playLastCardEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
+        playLastCardEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertTrue(inv.isCanPlayLastCard());
         inv.setCanPlayLastCard(false);
         playLastCardEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        playLastCardEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
+        playLastCardEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertTrue(inv.isCanPlayLastCard());
     }
 }

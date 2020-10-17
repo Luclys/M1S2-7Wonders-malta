@@ -14,6 +14,13 @@ public class SoutConsole {
         this.booleanPrint = booleanPrint;
     }
 
+    public static void display(String msg, boolean booleanPrint) {
+        if (!booleanPrint) {
+            return;
+        }
+        System.out.println(msg);
+    }
+
     public void beginningOfPlay(int i) {
         if (!booleanPrint) {
             return;
@@ -115,6 +122,9 @@ public class SoutConsole {
     }
 
     public void playerSellsCard(int playerId, Card card) {
+        if (!booleanPrint) {
+            return;
+        }
         System.out.printf("\n***The player %d sells %s for 3 coins \n", playerId, card);
     }
 
@@ -198,7 +208,10 @@ public class SoutConsole {
         System.out.println(msg);
     }
 
-    public void pricesOfResources(Inventory player){
+    public void pricesOfResources(Inventory player) {
+        if (!booleanPrint) {
+            return;
+        }
         System.out.printf("\n**Player %d price for Produits manifactures: %d; Matieres premiers left: %d right: %d \n\n",
                 player.getPlayerId(),
                 player.getProduitsManifacturesPrice(),
@@ -207,48 +220,42 @@ public class SoutConsole {
         );
     }
 
-    public static void display(String msg, boolean booleanPrint){
+    public void chooseWonderBoard(int id, WonderBoard wb) {
         if (!booleanPrint) {
             return;
         }
-        System.out.println(msg);
-    }
-    public void chooseWonderBoard(int id, WonderBoard wb){
-        if (!booleanPrint) {
-            return;
-        }
-        System.out.println("The player "+id+" choose "+wb.getName()+" wonder");
+        System.out.println("The player " + id + " choose " + wb.getName() + " wonder");
     }
 
-    public void playerPaysCoins(int playerId, int neighborId, int totalCoins){
+    public void playerPaysCoins(int playerId, int neighborId, int totalCoins) {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n**Player %d pays %d coins to player %d \n", playerId, totalCoins, neighborId);
     }
 
-    public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource){
+    public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource) {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n**Player %d can buy %s from %s neighbor with id %d \n", playerId, missingResource, neighborSide, neighborId);
     }
 
-    public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource){
+    public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource) {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n**Player %d doesn't have enough coins to buy %s from %s neighbor \n", playerId, missingResource, neighborSide);
     }
 
-    public void noneOfTheNeighborsHasResource(String missingResource){
+    public void noneOfTheNeighborsHasResource(String missingResource) {
         if (!booleanPrint) {
             return;
         }
         System.out.printf("\n**None of the neighbors has resource %s \n", missingResource);
     }
 
-    public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree){
+    public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree) {
         if (!booleanPrint) {
             return;
         }

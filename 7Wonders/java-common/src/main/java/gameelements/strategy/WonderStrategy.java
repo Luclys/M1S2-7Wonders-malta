@@ -34,21 +34,18 @@ public class WonderStrategy implements PlayingStrategy {
                 //We pick the first non-buildable card
                 if (!inv.canBuild(chosenCard.getRequiredResources())) {
                     break;
-                }
-                else {
+                } else {
                     chosenCard = card;
                 }
             }
-        }
-        else {
+        } else {
             setAction(Action.BUILDING);
             //Player picks a card he can build
             for (Card card : availableCards) {
                 //Player picks the first buildable card
                 if (inv.canBuild(chosenCard.getRequiredResources())) {
-                   break;
-                }
-                else {
+                    break;
+                } else {
                     chosenCard = card;
                 }
             }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ScoreEffectTest {
+class ScoreEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -28,24 +28,25 @@ public class ScoreEffectTest {
     }
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         int score = inv.getScore();
         //Not end of the game
-        scoreEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(score+1,inv.getScore());
+        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(score + 1, inv.getScore());
         scoreEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        scoreEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(score+1,inv.getScore());
+        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(score + 1, inv.getScore());
         assertTrue(inv.getEndGameEffects().contains(scoreEffect));
     }
+
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         int score = inv.getScore();
         //Not end of the game
-        scoreEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(score+1,inv.getScore());
+        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(score + 1, inv.getScore());
         scoreEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        scoreEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(score+2,inv.getScore());
+        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(score + 2, inv.getScore());
     }
 }

@@ -25,6 +25,14 @@ public class WonderBoard {
         this.steps = steps;
     }
 
+    public static WonderBoard initiateColossus() {
+        List<Step> colosseStepsA = new ArrayList<>();
+        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
+        colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
+        return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA);
+    }
+
     public void claimBoard(Player player, Inventory inv) {
         inv.setWonderBoard(this);
         this.baseEffect.activateEffect(player, inv, null, null);
@@ -46,14 +54,6 @@ public class WonderBoard {
 
     public int getCurrentStepIndex() {
         return currentStepIndex;
-    }
-
-    public static WonderBoard initiateColossus() {
-        List<Step> colosseStepsA = new ArrayList<>();
-        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
-        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
-        colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
-        return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA);
     }
 
     protected List<WonderBoard> initiateWonders() {

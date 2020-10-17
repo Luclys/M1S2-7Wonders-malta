@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ChoiceAllTypeResourceEffectTest {
+class ChoiceAllTypeResourceEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -27,23 +27,24 @@ public class ChoiceAllTypeResourceEffectTest {
     }
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         int resChoice = inv.getAllResPremChoice();
         //Not end of the game
-        choiceAllTypeResourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(resChoice+1,inv.getAllResPremChoice());
+        choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(resChoice + 1, inv.getAllResPremChoice());
         choiceAllTypeResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceAllTypeResourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
+        choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(choiceAllTypeResourceEffect));
     }
+
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         int resChoice = inv.getAllResPremChoice();
-        choiceAllTypeResourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(resChoice+1,inv.getAllResPremChoice());
+        choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(resChoice + 1, inv.getAllResPremChoice());
         inv.setAllResPremChoice(resChoice);
         choiceAllTypeResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceAllTypeResourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(resChoice+1, inv.getAllResPremChoice());
+        choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(resChoice + 1, inv.getAllResPremChoice());
     }
 }

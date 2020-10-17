@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RessourceEffectTest {
+class RessourceEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -25,28 +25,29 @@ public class RessourceEffectTest {
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
-        resourceEffect = new ResourceEffect(Resource.ARGILE,1);
+        resourceEffect = new ResourceEffect(Resource.ARGILE, 1);
     }
 
     @Test
-    void activateEffectNotEndGameTest(){
+    void activateEffectNotEndGameTest() {
         int nbResource = inv.getAvailableSymbols()[resourceEffect.getResource().getIndex()];
         //Not end of the game
-        resourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(nbResource+1,inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
+        resourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(nbResource + 1, inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
         resourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        resourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,false);
-        assertEquals(nbResource+1,inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
+        resourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertEquals(nbResource + 1, inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
         assertTrue(inv.getEndGameEffects().contains(resourceEffect));
     }
+
     @Test
-    void activateEffectEndGameTest(){
+    void activateEffectEndGameTest() {
         int nbResource = inv.getAvailableResources()[resourceEffect.getResource().getIndex()];
         //Not end of the game
-        resourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(nbResource+1,inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
+        resourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(nbResource + 1, inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
         resourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        resourceEffect.activateEffect(player,inv,leftNeighborInv,rightNeighborInv,true);
-        assertEquals(nbResource+2,inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
+        resourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(nbResource + 2, inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);
     }
 }
