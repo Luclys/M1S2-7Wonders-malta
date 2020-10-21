@@ -33,4 +33,8 @@ public class ReductCommerceEffect extends Effect {
             inv.setProduitsManifacturesPrice(1);
         }
     }
+
+    public Neighbor getWhichNeighbor() {
+        return whichNeighbor;
+    }
 }

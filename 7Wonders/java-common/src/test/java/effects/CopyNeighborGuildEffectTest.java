@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CopyNeighborGuildEffectTest {
+class CopyNeighborGuildEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;

@@ -7,7 +7,7 @@ import gameelements.enums.Neighbor;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
-public class CardsSet {
+public abstract class CardsSet {
     //=========================================================================AGE I=========================================================================
     //MATIERE_PREMIERE(Brown)
     public static final Card CHANTIER = new Card(CardIds.CHANTIER_ID, "CHANTIER", new ResourceEffect(Resource.BOIS, 1), null, Category.MATIERE_PREMIERE);
@@ -104,6 +104,6 @@ public class CardsSet {
     public static final Card GUILDE_DES_BATISSEURS = new Card(CardIds.GUILDE_DES_BATISSEURS_ID, "GUILDE DES BATISSEURS", new ScoreForOwnAndNeighborMerveillesEffect(1), new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.ARGILE, Resource.ARGILE, Resource.VERRE}, Category.GUILDE);
 
     private CardsSet() {
-        throw new IllegalStateException("Utility class");
+        throw new UnsupportedOperationException();
     }
 }

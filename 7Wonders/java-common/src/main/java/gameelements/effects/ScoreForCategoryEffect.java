@@ -29,4 +29,8 @@ public class ScoreForCategoryEffect extends Effect {
     public int getScore() {
         return score;
     }
+
+    public Category getCategory() {
+        return category;
+    }
 }

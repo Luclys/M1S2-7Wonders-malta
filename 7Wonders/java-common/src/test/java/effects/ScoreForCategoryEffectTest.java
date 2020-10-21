@@ -29,6 +29,7 @@ class ScoreForCategoryEffectTest {
 
     @Test
     void activateEffectNotEndGameTest() {
+        assertEquals(Category.BATIMENT_COMMERCIAL.getIndex(),scoreEffect.getCategory().getIndex());
         scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(scoreEffect));
         scoreEffect.setDelay(EffectDelay.INSTANTANEOUS);

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ReductCommerceEffectTest {
+class ReductCommerceEffectTest {
     Player player;
     Inventory inv;
     Inventory leftNeighborInv;
@@ -29,6 +29,7 @@ public class ReductCommerceEffectTest {
 
     @Test
     void activateEffectNotEndGamePrimaryRessourcesLeftNeighborTest() {
+        assertEquals(Neighbor.LEFT.getIndex(),commerceEffect.getWhichNeighbor().getIndex());
         int priceRight = inv.getMatieresPremieresPriceRight();
         int pricemanifacture=inv.getProduitsManifacturesPrice();
         //Not end of the game and left neihghbor, primaryRessource
@@ -124,7 +125,6 @@ public class ReductCommerceEffectTest {
     @Test
     void activateEffectEndGamePrimaryRessourcesBothNeighborsTest() {
         commerceEffect = new ReductCommerceEffect(Neighbor.BOTH,true);
-
         int priceRight = inv.getMatieresPremieresPriceRight();
         int priceLeft = inv.getMatieresPremieresPriceLeft();
         int pricemanifacture=inv.getProduitsManifacturesPrice();
