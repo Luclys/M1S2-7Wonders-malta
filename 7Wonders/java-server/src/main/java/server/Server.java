@@ -5,7 +5,6 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
-import gameelements.Inventory;
 
 public class Server {
     SocketIOServer server;
@@ -26,11 +25,6 @@ public class Server {
         });
     }
 
-    private void start() {
-        server.start();
-        System.out.println("En attente d'une connexion...");
-    }
-
     public static void main(String[] args) {
         Configuration configuration = new Configuration();
         configuration.setHostname("127.0.0.1");
@@ -38,5 +32,10 @@ public class Server {
 
         Server server = new Server(configuration);
         server.start();
+    }
+
+    private void start() {
+        server.start();
+        System.out.println("En attente d'une connexion...");
     }
 }

@@ -22,10 +22,10 @@ public class Trade {
         int rightTotal = 0;
         Inventory neighbor;
 
-        int [] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
-        int [] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
-        String left ="left";
-        String right ="right";
+        int[] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
+        int[] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
+        String left = "left";
+        String right = "right";
 
         sout.pricesOfResources(playerInv);
         for (Resource missingResource : missingResources) {
@@ -62,7 +62,7 @@ public class Trade {
                         break;
                     }
                 } else {
-                    if (playerInv.getCoins() - leftTotal - rightTotal  - rightPrice >= 0) {
+                    if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
                         neighbor = chooseNeighbor(rightNeighborInv, leftNeighborInv);
                         if (neighbor.equals(rightNeighborInv)) {
                             sout.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), "right", missingResource.toString());
@@ -118,7 +118,7 @@ public class Trade {
 
     protected Inventory chooseNeighbor(Inventory rightNeighborInv, Inventory leftNeighborInv) {
         if (rightNeighborInv.getCoins() < leftNeighborInv.getCoins()) { // Maybe AI
-           return rightNeighborInv;
+            return rightNeighborInv;
         } else {
             return leftNeighborInv;
         }

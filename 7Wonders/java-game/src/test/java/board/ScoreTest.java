@@ -29,7 +29,7 @@ class ScoreTest {
     Player playerMocked;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             playerList.add(playerMocked);

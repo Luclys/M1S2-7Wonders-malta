@@ -25,7 +25,7 @@ class WonderBoardTest {
     Board board;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
             Player player = new Player(i);
@@ -36,14 +36,14 @@ class WonderBoardTest {
 
     @Disabled
     @Test
-     void playTest() {
+    void playTest() {
 
         board.play(0);
         assertEquals(6, board.getTurn());
     }
 
     @Test
-     void drawCardsTest() {
+    void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(playerList, false);
         board.ageSetUp(1);
@@ -92,8 +92,8 @@ class WonderBoardTest {
     }
 
     @Test
-    void setAgeTest(){
-        assertThrows(IllegalStateException.class, () ->board.ageSetUp(10));
+    void setAgeTest() {
+        assertThrows(IllegalStateException.class, () -> board.ageSetUp(10));
     }
 }
 

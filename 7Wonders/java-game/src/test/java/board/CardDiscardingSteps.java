@@ -16,7 +16,8 @@ public class CardDiscardingSteps implements En {
     Inventory inv = new Inventory(0);
     int initialCoinsCount;
     int initialCardsCount;
-     public CardDiscardingSteps(){
+
+    public CardDiscardingSteps() {
         Given("Inventory has a card", () -> {
             List<Card> cards = new ArrayList<>();
             cards.add(card);
@@ -29,23 +30,23 @@ public class CardDiscardingSteps implements En {
             inv.sellCard(card);
         });
         Then("coins added to inventory", () -> {
-            assertEquals(initialCoinsCount+3,inv.getCoins());
+            assertEquals(initialCoinsCount + 3, inv.getCoins());
 
         });
         And("the card is no more available", () -> {
-            assertEquals(initialCardsCount-1,inv.getCardsInHand().size());
+            assertEquals(initialCardsCount - 1, inv.getCardsInHand().size());
         });
         Given("inventory has not the card", () -> {
-                    initialCardsCount = inv.getCardsInHand().size();
-                    initialCoinsCount = inv.getCoins();
+            initialCardsCount = inv.getCardsInHand().size();
+            initialCoinsCount = inv.getCoins();
         });
         When("inventory discards the card", () -> {
             assertThrows(Error.class, () -> inv.sellCard(CardsSet.CHANTIER));
 
         });
         Then("no modification", () -> {
-            assertEquals(initialCoinsCount,inv.getCoins());
-            assertEquals(initialCardsCount,inv.getCardsInHand().size());
+            assertEquals(initialCoinsCount, inv.getCoins());
+            assertEquals(initialCardsCount, inv.getCardsInHand().size());
         });
     }
 

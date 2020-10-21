@@ -22,4 +22,8 @@ public class ScoreForMerveilleEffect extends Effect {
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         inv.addScore(score * stepsCount);
     }
+
+    public int getScore() {
+        return score;
+    }
 }

@@ -18,6 +18,7 @@ public class SoutConsole {
         if (!booleanPrint) return;
         System.out.println(msg);
     }
+
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
         System.out.print("\n\n\n===========================================================================\n");

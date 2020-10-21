@@ -6,13 +6,13 @@ import gameelements.Player;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 
-public class ScoreForCategoryEffet extends Effect {
-    int score;
+public class CoinsForCategoryEffect extends Effect {
+    int nbCoins;
     Category category;
 
-    public ScoreForCategoryEffet(int score, Category category) {
-        super(EffectDelay.END_OF_THE_GAME);
-        this.score = score;
+    public CoinsForCategoryEffect(int nbCoins, Category category) {
+        super(EffectDelay.INSTANTANEOUS);
+        this.nbCoins = nbCoins;
         this.category = category;
     }
 
@@ -23,6 +23,14 @@ public class ScoreForCategoryEffet extends Effect {
             return;
         }
         int cardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
-        inv.addScore(cardsCount * score);
+        inv.addCoins(cardsCount * nbCoins);
+    }
+
+    public int getNbCoins() {
+        return nbCoins;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }

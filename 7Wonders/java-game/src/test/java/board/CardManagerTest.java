@@ -18,7 +18,7 @@ class CardManagerTest {
     private CardManager cardManager;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         cardManager = new CardManager();
         for (int i = 0; i < 3; i++) {
             cardManager.getPlayerList().add(new Player(i));
@@ -42,7 +42,7 @@ class CardManagerTest {
     }
 
     @Test
-     void leftRotationTest() {
+    void leftRotationTest() {
         List<Card> cards = cardManager.getPlayerInventoryList().get(0).getCardsInHand();
         cardManager.leftRotation();
         assertEquals(cards, cardManager.getPlayerInventoryList().get(2).getCardsInHand());
@@ -52,7 +52,7 @@ class CardManagerTest {
 
 
     @Test
-     void RightRotationTest() {
+    void RightRotationTest() {
         List<Card> cards = cardManager.getPlayerInventoryList().get(0).getCardsInHand();
         cardManager.rightRotation();
         assertEquals(cards, cardManager.getPlayerInventoryList().get(1).getCardsInHand());

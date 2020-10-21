@@ -26,4 +26,8 @@ public class ScoreForNeighborsCardsEffect extends Effect {
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         inv.addScore((leftNeighborCardsCount + rightNeighborCardsCount) * nb);
     }
+
+    public int getNb() {
+        return nb;
+    }
 }

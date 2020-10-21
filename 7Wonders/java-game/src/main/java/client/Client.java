@@ -3,8 +3,6 @@ package client;
 import gameelements.Inventory;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import netscape.javascript.JSObject;
-import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 

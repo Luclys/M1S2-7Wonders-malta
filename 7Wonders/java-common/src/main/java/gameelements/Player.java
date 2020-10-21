@@ -10,9 +10,9 @@ import java.util.List;
 
 public class Player {
     private final int id;
+    private final PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
-    private final PlayingStrategy strategy;
     private Card chosenCard;
 
     public Player(int id) {

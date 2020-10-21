@@ -26,6 +26,9 @@ public class CoinsForOwnAndNeighborsCardsEffect extends Effect {
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         inv.addCoins((ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * nb);
+    }
 
+    public int getNb() {
+        return nb;
     }
 }

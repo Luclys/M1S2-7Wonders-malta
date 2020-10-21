@@ -22,7 +22,7 @@ class PlayerTest {
     private Board board;
 
     @Test
-     void chooseCardTest() {
+    void chooseCardTest() {
         player = new Player(0);
         inv = new Inventory(0);
         playerRightNeighbor = new Inventory(1);

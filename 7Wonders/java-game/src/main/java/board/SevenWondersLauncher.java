@@ -5,7 +5,6 @@ import gameelements.Player;
 import gameelements.strategy.WonderStrategy;
 import server.Server;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class SevenWondersLauncher {

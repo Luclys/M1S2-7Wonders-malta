@@ -1,6 +1,5 @@
 package board;
 
-import client.Client;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.SoutConsole;
@@ -26,19 +25,19 @@ public class Board {
     private final ArrayList<Player> playerList;
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
-    private int turn;
     private final CardManager cardManager;
+    private final SoutConsole sout;
+    private int turn;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
-    private final SoutConsole sout;
 
     public Board(List<Player> playerList, Boolean boolPrint) {
         sout = new SoutConsole(boolPrint);
         commerce = new Trade(sout);
         playersManager = new PlayersManager(sout);
         // Setup Players and their inventories
-        this.playerList = (ArrayList<Player>)(playersManager.associateNeighbor(playerList));
+        this.playerList = (ArrayList<Player>) (playersManager.associateNeighbor(playerList));
         playerInventoryList = playersManager.getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
@@ -125,7 +124,7 @@ public class Board {
     private void chooseWonderBoard(Player player, Inventory inventory) {
         // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
         WonderBoard colossus = WonderBoard.initiateColossus();
-        sout.chooseWonderBoard(player.getId(),colossus);
+        sout.chooseWonderBoard(player.getId(), colossus);
         colossus.claimBoard(player, inventory);
     }
 
@@ -142,7 +141,7 @@ public class Board {
                     sout.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getBuildingsWhichAllowToBuildForFree()));
                     buildCard(inv, chosenCard, player);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
-                    if (inv.canBuild(chosenCardRequiredResources) ){
+                    if (inv.canBuild(chosenCardRequiredResources)) {
                         buildCard(inv, chosenCard, player);
                     } else {
                         if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
@@ -158,7 +157,7 @@ public class Board {
 
             case WONDER:
                 Resource[] wonderRequiredResources = inv.getWonderRequiredResources();
-                if (inv.canBuild(wonderRequiredResources)){
+                if (inv.canBuild(wonderRequiredResources)) {
                     buildWonder(inv, chosenCard, player);
                 } else {
                     if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
@@ -184,8 +183,7 @@ public class Board {
         canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
             sout.gotMissingResources();
-        }
-        else {
+        } else {
             sout.cantBuyMissingResources();
         }
         return canBuy;

@@ -19,7 +19,7 @@ class PlayersManagerTest {
     private PlayersManager playersManager;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         playersManager = new PlayersManager();
         for (int i = 0; i < 3; i++) {
             playersManager.playerList.add(new Player(i));
@@ -28,7 +28,7 @@ class PlayersManagerTest {
     }
 
     @Test
-     void updateCoinsTest() {
+    void updateCoinsTest() {
         assertEquals(0, playersManager.playerInventoryList.get(0).getAddedCoins());
         assertEquals(3, playersManager.playerInventoryList.get(0).getCoins());
         playersManager.playerInventoryList.get(0).setAddedCoins(2);
@@ -40,7 +40,7 @@ class PlayersManagerTest {
     }
 
     @Test
-     void fightWithNeighborTest() {
+    void fightWithNeighborTest() {
         Inventory inv = playersManager.playerInventoryList.get(0);
         Inventory invNeighbor = playersManager.playerInventoryList.get(2);
         inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()]++;
@@ -55,7 +55,7 @@ class PlayersManagerTest {
     }
 
     @Test
-     void associateNeighborTest() {
+    void associateNeighborTest() {
         List<Player> playerList = playersManager.associateNeighbor(playersManager.playerList);
         int playersCount = playerList.size();
         assertEquals(3, playersCount);
@@ -74,13 +74,13 @@ class PlayersManagerTest {
     }
 
     @Test
-    void freeBuildFromDiscardedTest(){
+    void freeBuildFromDiscardedTest() {
         int possibleFree = playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount();
         playersManager.getPlayerInventoryList().get(1).setPossibleFreeDiscardedBuildingsCount(1);
         List<Card> cards = new ArrayList<>();
         cards.add(CardsSet.PRETEUR_SUR_GAGES);
         playersManager.freeBuildFromDiscarded(cards);
-        assertEquals(possibleFree,playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount());
+        assertEquals(possibleFree, playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount());
         /*        for (Inventory inv : playerInventoryList) {
             if (discardedDeckCardList.isEmpty()) {
                 return;

@@ -22,4 +22,8 @@ public class CoinsForMerveilleEffect extends Effect {
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         inv.addCoins(nbCoins * stepsCount);
     }
+
+    public int getNbCoins() {
+        return nbCoins;
+    }
 }

@@ -3,14 +3,17 @@ package gameelements.effects;
 import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
 
-public class ScoreForNeighborsDefeatJetonsEffet extends Effect {
+public class ScoreForCategoryEffect extends Effect {
     int score;
+    Category category;
 
-    public ScoreForNeighborsDefeatJetonsEffet(int score) {
+    public ScoreForCategoryEffect(int score, Category category) {
         super(EffectDelay.END_OF_THE_GAME);
         this.score = score;
+        this.category = category;
     }
 
     @Override
@@ -19,6 +22,11 @@ public class ScoreForNeighborsDefeatJetonsEffet extends Effect {
             inv.addEndGameEffect(this);
             return;
         }
-        inv.addScore((leftNeighborInv.getDefeatChipsCount() + rightNeighborInv.getDefeatChipsCount()) * score);
+        int cardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
+        inv.addScore(cardsCount * score);
+    }
+
+    public int getScore() {
+        return score;
     }
 }
