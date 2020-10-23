@@ -30,7 +30,7 @@ class InventoryTest {
 
     @Test
     void sellCardTest() {
-        // if the inventory try to sell a card that he doesn"t have an erreur is lanched
+        // if the inventory try to sell a card that he doesn't have an erreur is thrown
         assertThrows(Error.class, () -> inventory.sellCard(CardsSet.CHANTIER));
         int coins = inventory.getCoins();
         setCards();

@@ -32,13 +32,13 @@ public class SevenWondersLauncher {
         ArrayList<Player> playerList = fetchPlayers(nbPlayers);
 
         for (int i = 1; i <= nbGames; i++) {
+            Board board = new Board(playerList, boolPrint);
+            board.play(i);
             if (i != nbGames) {
                 System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
             } else {
                 System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
             }
-            Board board = new Board(playerList, boolPrint);
-            board.play(i);
         }
     }
 
