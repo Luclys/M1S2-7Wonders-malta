@@ -23,8 +23,7 @@ public class Client {
                 connection.close();
             });
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (URISyntaxException ignored) {
         }
 
     }

@@ -21,84 +21,84 @@ public class SoutConsole {
 
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
-        System.out.print("\n\n\n===========================================================================\n");
-        System.out.printf("========================= INITIATING PLAY N° %d ===========================\n\n\n", i);
+        System.out.printf("%n%n%n===========================================================================%n");
+        System.out.printf("========================= INITIATING PLAY N° %d ===========================%n%n%n", i);
     }
 
     public void beginningOfAge(int i) {
         if (!booleanPrint) return;
-        System.out.printf("\n\n\n========================= START AGE N° %d ===========================\n\n\n", i);
+        System.out.printf("%n%n%n========================= START AGE N° %d ===========================%n%n%n", i);
     }
 
     public void endOfAge(int i) {
         if (!booleanPrint) return;
         System.out.println("LAST CARDS ARE DISCARDED");
-        System.out.printf("\n\n\n========================= END AGE N° %d =======================\n\n\n", i);
+        System.out.printf("%n%n%n========================= END AGE N° %d =======================%n%n%n", i);
     }
 
     public void newTurn(int turn) {
         if (!booleanPrint) return;
-        System.out.printf("\n\n================ TURN n° %d ===============\n\n", turn);
+        System.out.printf("%n%n================ TURN n° %d ===============%n%n", turn);
     }
 
     public void endOfGame() {
         if (!booleanPrint) return;
-        System.out.print("\n\n========== END OF THE GAME ==========\n\n");
+        System.out.printf("%n%n========== END OF THE GAME ==========%n%n");
     }
 
     public void finalResults() {
         if (!booleanPrint) return;
-        System.out.print("\n\n========== FINAL RESULTS  ==========\n");
+        System.out.printf("%n%n========== FINAL RESULTS  ==========%n");
     }
 
     public void play() {
         if (!booleanPrint) return;
-        System.out.println("\n\n============ The chosen cards ==========\n\n");
+        System.out.println("%n%n============ The chosen cards ==========%n%n");
     }
 
     public void chosenCards(int i, Card c) {
         if (!booleanPrint) return;
-        System.out.printf("(*)Player : %d  plays card %s \n", i, c);
+        System.out.printf("(*)Player : %d  plays card %s %n", i, c);
     }
 
     public void action(int i) {
         if (!booleanPrint) return;
-        System.out.printf("\n\n============ The action of PLAYER %d ===============\n\n", i);
+        System.out.printf("%n%n============ The action of PLAYER %d ===============%n%n", i);
     }
 
     public void playersNewState(int i) {
         if (!booleanPrint) return;
-        System.out.printf("\n Player %d new state: \n", i);
+        System.out.printf("%n Player %d new state: %n", i);
     }
 
     public void checkMissingResources(Card chosenCard) {
         if (!booleanPrint) return;
-        System.out.printf("\n*Check if player has the required resources to build  %s \n", chosenCard);
+        System.out.printf("%n*Check if player has the required resources to build  %s %n", chosenCard);
     }
 
     public void noRequiredResources(Card chosenCard) {
         if (!booleanPrint) return;
-        System.out.printf("\n**No resource is required to play  %s  \n", chosenCard);
+        System.out.printf("%n**No resource is required to play  %s  %n", chosenCard);
     }
 
     public void missingResources(List<Resource> r) {
         if (!booleanPrint) return;
-        System.out.printf("\n**The missing resources are %s \n", r);
+        System.out.printf("%n**The missing resources are %s %n", r);
     }
 
     public void cantBuyMissingResources() {
         if (!booleanPrint) return;
-        System.out.print("\n***The player cannot buy resources \n\n");
+        System.out.printf("%n***The player cannot buy resources %n%n");
     }
 
     public void playerSellsCard(int playerId, Card card) {
         if (!booleanPrint) return;
-        System.out.printf("\n***The player %d sells %s for 3 coins \n", playerId, card);
+        System.out.printf("%n***The player %d sells %s for 3 coins %n", playerId, card);
     }
 
     public void gotMissingResources() {
         if (!booleanPrint) return;
-        System.out.print("\n***The player got resources so he gets the effects of this card.\n\n");
+        System.out.printf("%n***The player got resources so he gets the effects of this card.%n%n");
     }
 
     public void playerInformation(Inventory inv) {
@@ -118,15 +118,15 @@ public class SoutConsole {
                 + inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()] + " ROUAGE , "
                 + inv.getAvailableSymbols()[Symbol.STELE.getIndex()] + " STELE ";
 
-        System.out.println("{" +
+        System.out.printf("{" +
                 "player : " + inv.getPlayerId() +
-                ",\n\t availableResources{ " + r +
-                " },\n\t availableSymbols{ " + s +
-                "},\n\t victory chips score = " + inv.getVictoryChipsScore() +
-                ", \n\t defeat chips count = " + inv.getDefeatChipsCount() +
-                ", \n\t score = " + inv.getScore() +
-                ", \n\t coins = " + inv.getCoins() +
-                ".\n}");
+                ",%n\t availableResources{ " + r +
+                " },%n\t availableSymbols{ " + s +
+                "},%n\t victory chips score = " + inv.getVictoryChipsScore() +
+                ", %n\t defeat chips count = " + inv.getDefeatChipsCount() +
+                ", %n\t score = " + inv.getScore() +
+                ", %n\t coins = " + inv.getCoins() +
+                ".%n}");
     }
 
     public void conflicts(Inventory invPlayer, Inventory invNeighborPlayer) {
@@ -163,7 +163,7 @@ public class SoutConsole {
     public void pricesOfResources(Inventory player) {
         if (!booleanPrint) return;
 
-        System.out.printf("\n**Player %d price for Produits manufacturés: %d; Matières premiers left: %d right: %d \n\n",
+        System.out.printf("%n**Player %d price for Produits manufacturés: %d; Matières premiers left: %d right: %d %n%n",
                 player.getPlayerId(),
                 player.getProduitsManifacturesPrice(),
                 player.getMatieresPremieresPriceLeft(),
@@ -178,41 +178,41 @@ public class SoutConsole {
 
     public void playerPaysCoins(int playerId, int neighborId, int totalCoins) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d pays %d coins to player %d \n", playerId, totalCoins, neighborId);
+        System.out.printf("%n**Player %d pays %d coins to player %d %n", playerId, totalCoins, neighborId);
     }
 
     public void playerCanBuyFromNeighbor(int playerId, int neighborId, String neighborSide, String missingResource) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d can buy %s from %s neighbor with id %d \n", playerId, missingResource, neighborSide, neighborId);
+        System.out.printf("%n**Player %d can buy %s from %s neighbor with id %d %n", playerId, missingResource, neighborSide, neighborId);
     }
 
     public void notEnoughCoinsToBuyResource(int playerId, String neighborSide, String missingResource) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d doesn't have enough coins to buy %s from %s neighbor \n", playerId, missingResource, neighborSide);
+        System.out.printf("%n**Player %d doesn't have enough coins to buy %s from %s neighbor %n", playerId, missingResource, neighborSide);
     }
 
     public void noneOfTheNeighborsHasResource(String missingResource) {
         if (!booleanPrint) return;
-        System.out.printf("\n**None of the neighbors has resource %s \n", missingResource);
+        System.out.printf("%n**None of the neighbors has resource %s %n", missingResource);
     }
 
     public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d can build card %s for free thanks to one of the cards build in previous ages: %s \n\n", playerId, card.getName(), cardsAllowingToBuildForFree);
+        System.out.printf("%n**Player %d can build card %s for free thanks to one of the cards build in previous ages: %s %n%n", playerId, card.getName(), cardsAllowingToBuildForFree);
     }
 
     public void playerBuildsCard(int playerId, Card card) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d builds card %s \n\n", playerId, card.getName());
+        System.out.printf("%n**Player %d builds card %s %n%n", playerId, card.getName());
     }
 
     public void playerBuildsWonderStep(int playerId) {
         if (!booleanPrint) return;
-        System.out.printf("\n**Player %d builds wonder step \n\n", playerId);
+        System.out.printf("%n**Player %d builds wonder step %n%n", playerId);
     }
 
     public void finalGameRanking(List<Inventory> inventoryList) {
         if (!booleanPrint) return;
-        inventoryList.forEach(inv -> System.out.printf("Player %d is ranked %d with the score of %d and %d coins.\n", inv.getPlayerId(), inv.getRank(), inv.getScore(), inv.getCoins()));
+        inventoryList.forEach(inv -> System.out.printf("Player %d is ranked %d with the score of %d and %d coins.%n", inv.getPlayerId(), inv.getRank(), inv.getScore(), inv.getCoins()));
     }
 }

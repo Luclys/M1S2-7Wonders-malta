@@ -17,7 +17,6 @@ public class Inventory implements Comparable {
     private final int[] availableSymbols;
     private final List<Resource[]> pairResChoice;
     private final List<Effect> endGameEffects;
-    private final SoutConsole sout;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
     private WonderBoard wonderBoard;
@@ -37,7 +36,6 @@ public class Inventory implements Comparable {
     private boolean canPlayLastCard;
 
     public Inventory(int playerId) {
-        this.sout = new SoutConsole(true);
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
@@ -61,12 +59,9 @@ public class Inventory implements Comparable {
         this.possibleFreeBuildingsCount = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
-
-
     }
 
     public Inventory(Inventory inventory) {
-        this.sout = new SoutConsole(true);
         // Consider implementing Cloneable instead...
         this.playerId = inventory.playerId;
         this.availableResources = inventory.availableResources;
