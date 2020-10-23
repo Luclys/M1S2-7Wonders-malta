@@ -101,7 +101,15 @@ public class Board {
             }
             // At the end of the 6th turn, we discard the remaining card
             // ⚠ The discarded cards must remembered.
-            playerInventoryList.forEach(inventory -> discardedDeckCardList.add(inventory.discardLastCard()));
+            for (Inventory inv : playerInventoryList) {
+                if (!inv.isCanPlayLastCard()) {
+                    discardedDeckCardList.add(inv.discardLastCard());
+                } else {
+                    Player player = playerList.get(inv.getPlayerId());
+                    player.chooseCard(new Inventory(inv));
+                    executePlayerAction(inv, player);
+                }
+            }
             // Resolving war conflicts
             resolveWarConflict(jetonVictoryValue);
             sout.endOfAge(age);
