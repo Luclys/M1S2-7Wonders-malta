@@ -109,6 +109,7 @@ public class Board {
 
         scores();
         denseRanking(playerInventoryList);
+        sout.finalGameRanking(playerInventoryList);
         // We send data to the server
         sendWinner(playerInventoryList);
     }

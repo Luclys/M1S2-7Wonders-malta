@@ -101,31 +101,31 @@ public class SoutConsole {
         System.out.print("\n***The player got resources so he gets the effects of this card.\n\n");
     }
 
-    public void playerInformation(Inventory p) {
+    public void playerInformation(Inventory inv) {
         if (!booleanPrint) return;
         String r = "";
-        r += p.getAvailableResources()[Resource.BOIS.getIndex()] + " BOIS , "
-                + p.getAvailableResources()[Resource.ARGILE.getIndex()] + " ARGILE , "
-                + p.getAvailableResources()[Resource.PIERRE.getIndex()] + " PIERRE , "
-                + p.getAvailableResources()[Resource.MINERAI.getIndex()] + " MINERAI , "
-                + p.getAvailableResources()[Resource.VERRE.getIndex()] + " VERRE , "
-                + p.getAvailableResources()[Resource.PAPYRUS.getIndex()] + " PAPYRUS , "
-                + p.getAvailableResources()[Resource.TISSU.getIndex()] + " TISSU ";
-        String s = "";
+        r += inv.getAvailableResources()[Resource.BOIS.getIndex()] + " BOIS , "
+                + inv.getAvailableResources()[Resource.ARGILE.getIndex()] + " ARGILE , "
+                + inv.getAvailableResources()[Resource.PIERRE.getIndex()] + " PIERRE , "
+                + inv.getAvailableResources()[Resource.MINERAI.getIndex()] + " MINERAI , "
+                + inv.getAvailableResources()[Resource.VERRE.getIndex()] + " VERRE , "
+                + inv.getAvailableResources()[Resource.PAPYRUS.getIndex()] + " PAPYRUS , "
+                + inv.getAvailableResources()[Resource.TISSU.getIndex()] + " TISSU ";
 
-        s += p.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
-                + p.getAvailableSymbols()[Symbol.COMPAS.getIndex()] + " COMPAS , "
-                + p.getAvailableSymbols()[Symbol.ROUAGE.getIndex()] + " ROUAGE , "
-                + p.getAvailableSymbols()[Symbol.STELE.getIndex()] + " STELE ";
+        String s = "";
+        s += inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()] + " BOUCLIER , "
+                + inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()] + " COMPAS , "
+                + inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()] + " ROUAGE , "
+                + inv.getAvailableSymbols()[Symbol.STELE.getIndex()] + " STELE ";
 
         System.out.println("{" +
-                "player : " + p.getPlayerId() +
+                "player : " + inv.getPlayerId() +
                 ",\n\t availableResources{ " + r +
                 " },\n\t availableSymbols{ " + s +
-                " },\n\t score = " + p.getScore() +
-                ", \n\t victory chips score = " + p.getVictoryChipsScore() +
-                ", \n\t defeat chips count = " + p.getDefeatChipsCount() +
-                ", \n\t coins = " + p.getCoins() +
+                "},\n\t victory chips score = " + inv.getVictoryChipsScore() +
+                ", \n\t defeat chips count = " + inv.getDefeatChipsCount() +
+                ", \n\t score = " + inv.getScore() +
+                ", \n\t coins = " + inv.getCoins() +
                 ".\n}");
     }
 
@@ -209,5 +209,10 @@ public class SoutConsole {
     public void playerBuildsWonderStep(int playerId) {
         if (!booleanPrint) return;
         System.out.printf("\n**Player %d builds wonder step \n\n", playerId);
+    }
+
+    public void finalGameRanking(List<Inventory> inventoryList) {
+        if (!booleanPrint) return;
+        inventoryList.forEach(inv -> System.out.printf("Player %d is ranked %d with the score of %d and %d coins.\n", inv.getPlayerId(), inv.getRank(), inv.getScore(), inv.getCoins()));
     }
 }
