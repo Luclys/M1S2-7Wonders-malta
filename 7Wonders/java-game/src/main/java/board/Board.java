@@ -99,18 +99,7 @@ public class Board {
                 cardManager.playersCardsRotation(isLeftRotation);
                 this.turn++;
             }
-            // At the end of the 6th turn, we discard the remaining card
-            // ⚠ The discarded cards must remembered.
-            for (Inventory inv : playerInventoryList) {
-                if (!inv.isCanPlayLastCard()) {
-                    discardedDeckCardList.add(inv.discardLastCard());
-                } else {
-                    Player player = playerList.get(inv.getPlayerId());
-                    player.chooseCard(new Inventory(inv));
-                    executePlayerAction(inv, player);
-                }
-            }
-            // Resolving war conflicts
+            handleLastTurnCard();
             resolveWarConflict(jetonVictoryValue);
             sout.endOfAge(age);
         }
@@ -120,6 +109,20 @@ public class Board {
         sout.finalGameRanking(playerInventoryList);
         // We send data to the server
         sendWinner(playerInventoryList);
+    }
+
+    void handleLastTurnCard() {
+        // At the end of the 6th turn, we discard the remaining card
+        // ⚠ The discarded cards must remembered.
+        for (Inventory inv : playerInventoryList) {
+            if (!inv.isCanPlayLastCard()) {
+                discardedDeckCardList.add(inv.discardLastCard());
+            } else {
+                Player player = playerList.get(inv.getPlayerId());
+                player.chooseCard(new Inventory(inv));
+                executePlayerAction(inv, player);
+            }
+        }
     }
 
     private void sendWinner(List<Inventory> playerInventoryList) {
