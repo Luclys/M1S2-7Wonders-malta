@@ -201,6 +201,11 @@ public class SoutConsole {
         System.out.printf("%n**Player %d can build card %s for free thanks to one of the cards build in previous ages: %s %n%n", playerId, card.getName(), cardsAllowingToBuildForFree);
     }
 
+    public void playerBuildCardFreeBuildingEffect(int playerId, Card card) {
+        if (!booleanPrint) return;
+        System.out.printf("%n**Player %d can build card %s for free thanks to the Free Building Effect %n", playerId, card.getName());
+    }
+
     public void playerBuildsCard(int playerId, Card card) {
         if (!booleanPrint) return;
         System.out.printf("%n**Player %d builds card %s %n%n", playerId, card.getName());

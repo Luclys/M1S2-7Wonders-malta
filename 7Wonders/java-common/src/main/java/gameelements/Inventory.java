@@ -31,7 +31,7 @@ public class Inventory implements Comparable {
     private int addedCoins;
     private int allResPremChoice;
     private int allResManuChoice;
-    private int possibleFreeBuildingsCount;
+    private int possibleFreeBuildings;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
 
@@ -56,7 +56,7 @@ public class Inventory implements Comparable {
 
         allResPremChoice = 0;
         allResManuChoice = 0;
-        this.possibleFreeBuildingsCount = 0;
+        this.possibleFreeBuildings = -1;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
     }
@@ -83,7 +83,7 @@ public class Inventory implements Comparable {
         this.matieresPremieresPriceRight = inventory.matieresPremieresPriceRight;
         this.produitsManifacturesPrice = inventory.produitsManifacturesPrice;
         this.addedCoins = inventory.addedCoins;
-        this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
+        this.possibleFreeBuildings = inventory.possibleFreeBuildings;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
     }
@@ -236,8 +236,8 @@ public class Inventory implements Comparable {
         this.score += score;
     }
 
-    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    public void addPossibleFreeBuildings(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildings += possibleFreeBuildingsCount;
     }
 
     public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
@@ -368,12 +368,12 @@ public class Inventory implements Comparable {
         this.allResManuChoice = allResManuChoice;
     }
 
-    public int getPossibleFreeBuildingsCount() {
-        return possibleFreeBuildingsCount;
+    public int getPossibleFreeBuildings() {
+        return possibleFreeBuildings;
     }
 
-    public void setPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount = possibleFreeBuildingsCount;
+    public void setPossibleFreeBuildings(int possibleFreeBuildings) {
+        this.possibleFreeBuildings = possibleFreeBuildings;
     }
 
     public int getPossibleFreeDiscardedBuildingsCount() {

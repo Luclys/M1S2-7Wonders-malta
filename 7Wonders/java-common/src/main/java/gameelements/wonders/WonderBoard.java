@@ -142,7 +142,7 @@ public class WonderBoard {
         // Face A
         ArrayList<Step> halicarnasseA = new ArrayList<>();
         halicarnasseA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
-        halicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeBuildingEffect()));
+        halicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeDiscardedBuildingEffect()));
         halicarnasseA.add(new Step(new Resource[]{Resource.TISSU, Resource.TISSU}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le mausolée d’Halicarnasse A", new ResourceEffect(Resource.TISSU, 1), halicarnasseA));
 

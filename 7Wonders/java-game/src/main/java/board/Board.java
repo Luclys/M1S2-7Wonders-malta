@@ -28,7 +28,6 @@ public class Board {
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
     private final SoutConsole sout;
-    private int turn;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
@@ -65,11 +64,8 @@ public class Board {
         isLeftRotation = age.isLeftRotation();
         jetonVictoryValue = age.getVictoryJetonValue();
 
-
         Collections.shuffle(currentDeckCardList);
-        turn = 0;
     }
-
 
     public void play(int nbPlay) {
         sout.beginningOfPlay(nbPlay);
@@ -77,8 +73,11 @@ public class Board {
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
             sout.beginningOfAge(age);
-            // Card dealing
-            playerInventoryList.forEach(inventory -> inventory.setCardsInHand(drawCards(CARDS_NUMBER)));
+            // Card dealing & resetting possibleFreeBuildingsCount
+            for (Inventory inventory : playerInventoryList) {
+                inventory.setCardsInHand(drawCards(CARDS_NUMBER));
+                if (inventory.getPossibleFreeBuildings() == -1) inventory.setPossibleFreeBuildings(1);
+            }
 
             for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 sout.newTurn(currentTurn + 1);
@@ -97,7 +96,6 @@ public class Board {
                 playersManager.freeBuildFromDiscarded(discardedDeckCardList);
 
                 cardManager.playersCardsRotation(isLeftRotation);
-                this.turn++;
             }
             handleLastTurnCard();
             resolveWarConflict(jetonVictoryValue);
@@ -149,6 +147,15 @@ public class Board {
         sout.action(player.getId());
         sout.playerInformation(playerInventoryList.get(player.getId()));
         switch (action) {
+            case BUILDFREE:
+                int nbFreeBuildings = inv.getPossibleFreeBuildings();
+                if (nbFreeBuildings > 0) {
+                    buildCard(inv, chosenCard, player);
+                    sout.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
+                    inv.setPossibleFreeBuildings(-1);
+                    break;
+                }
+                // If FreeBuildingsCount == 0, we try to build normally
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
@@ -312,10 +319,6 @@ public class Board {
 
     public boolean isLeftRotation() {
         return isLeftRotation;
-    }
-
-    public int getTurn() {
-        return this.turn;
     }
 
     public List<Inventory> getPlayerInventoryList() {

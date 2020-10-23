@@ -40,16 +40,27 @@ public class WonderStrategy implements PlayingStrategy {
                 }
             }
         } else {
-            setAction(Action.BUILDING);
-            //Player picks a card he can build
-
             ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
 
+            //Player picks a card he can build
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
                 return inv.getCardsInHand().get(0);
             }
 
+            if (inv.getPossibleFreeBuildings() > 0) {
+                setAction(Action.BUILDFREE);
+                for (Card card : inv.getCardsInHand()) {
+                    //We pick the first non-buildable card
+                    if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                        break;
+                    } else {
+                        return card;
+                    }
+                }
+            }
+
+            setAction(Action.BUILDING);
             for (Card card : availableCards) {
                 //Player picks the first buildable card
                 if (inv.canBuild(chosenCard.getRequiredResources())) {

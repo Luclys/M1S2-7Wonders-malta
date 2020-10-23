@@ -75,12 +75,12 @@ class PlayersManagerTest {
 
     @Test
     void freeBuildFromDiscardedTest() {
-        int possibleFree = playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount();
+        int possibleFree = playersManager.playerInventoryList.get(1).getPossibleFreeDiscardedBuildingsCount();
         playersManager.getPlayerInventoryList().get(1).setPossibleFreeDiscardedBuildingsCount(1);
         List<Card> cards = new ArrayList<>();
         cards.add(CardsSet.PRETEUR_SUR_GAGES);
         playersManager.freeBuildFromDiscarded(cards);
-        assertEquals(possibleFree, playersManager.playerInventoryList.get(1).getPossibleFreeBuildingsCount());
+        assertEquals(possibleFree, playersManager.playerInventoryList.get(1).getPossibleFreeDiscardedBuildingsCount());
         /*        for (Inventory inv : playerInventoryList) {
             if (discardedDeckCardList.isEmpty()) {
                 return;
@@ -96,3 +96,18 @@ class PlayersManagerTest {
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
