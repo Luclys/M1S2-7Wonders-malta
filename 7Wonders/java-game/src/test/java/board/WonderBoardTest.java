@@ -12,7 +12,6 @@ import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -32,14 +31,6 @@ class WonderBoardTest {
             playerList.add(player);
         }
         board = new Board(playerList, false);
-    }
-
-    @Disabled
-    @Test
-    void playTest() {
-
-        board.play(0);
-        assertEquals(6, board.getTurn());
     }
 
     @Test

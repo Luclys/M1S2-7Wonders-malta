@@ -115,11 +115,11 @@ public class Inventory implements Comparable {
     }
 
     public boolean canBuildCardForFree(Card card) {
-        if (card.getBuildingsWhichAllowToBuildForFree() == null) {
+        if (card.getRequiredBuildingsToBuildForFree() == null) {
             return false;
         } else {
             boolean result = false;
-            for (int requiredBuildingId : card.getBuildingsWhichAllowToBuildForFree()) {
+            for (int requiredBuildingId : card.getRequiredBuildingsToBuildForFree()) {
                 if (getPlayedCardIds().contains(requiredBuildingId)) {
                     result = true;
                     break;

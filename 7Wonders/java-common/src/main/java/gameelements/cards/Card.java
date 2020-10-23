@@ -10,75 +10,9 @@ public class Card {
     private final Resource[] requiredResources;
     private final Category category;
     private final int cost;
-    private final int[] buildingsWhichAllowToBuildForFree;
+    private final int[] requiredBuildingsToBuildForFree;
     private final int[] buildingIdsCanBeBuiltForFree;
     private Effect[] effects;
-
-    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category) {
-        this.id = id;
-        this.name = name;
-        this.effects = effects;
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = 0;
-        this.buildingsWhichAllowToBuildForFree = null;
-        this.buildingIdsCanBeBuiltForFree = null;
-    }
-
-    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category) {
-        this.id = id;
-        this.name = name;
-        this.effects = new Effect[]{effect};
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = 0;
-        this.buildingsWhichAllowToBuildForFree = null;
-        this.buildingIdsCanBeBuiltForFree = null;
-    }
-
-    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int cost) {
-        this.id = id;
-        this.name = name;
-        this.effects = effects;
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = cost;
-        this.buildingsWhichAllowToBuildForFree = null;
-        this.buildingIdsCanBeBuiltForFree = null;
-    }
-
-    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int cost) {
-        this.id = id;
-        this.name = name;
-        this.effects = new Effect[]{effect};
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = cost;
-        this.buildingsWhichAllowToBuildForFree = null;
-        this.buildingIdsCanBeBuiltForFree = null;
-    }
-
-    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
-        this.id = id;
-        this.name = name;
-        this.effects = new Effect[]{effect};
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = 0;
-        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
-        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
-    }
-
-    public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
-        this.id = id;
-        this.name = name;
-        this.effects = effects;
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = 0;
-        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
-        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
-    }
 
     public Card(int id, String name, Effect[] effects, Resource[] requiredResources, Category category, int cost, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
         this.id = id;
@@ -87,18 +21,7 @@ public class Card {
         this.requiredResources = requiredResources;
         this.category = category;
         this.cost = cost;
-        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
-        this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
-    }
-
-    public Card(int id, String name, Effect effect, Resource[] requiredResources, Category category, int cost, int[] requiredBuildingsToBuildForFree, int[] buildingsCanBeBuiltForFree) {
-        this.id = id;
-        this.name = name;
-        this.effects = new Effect[]{effect};
-        this.requiredResources = requiredResources;
-        this.category = category;
-        this.cost = cost;
-        this.buildingsWhichAllowToBuildForFree = requiredBuildingsToBuildForFree;
+        this.requiredBuildingsToBuildForFree = requiredBuildingsToBuildForFree;
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
@@ -141,8 +64,8 @@ public class Card {
         return this.cost;
     }
 
-    public int[] getBuildingsWhichAllowToBuildForFree() {
-        return buildingsWhichAllowToBuildForFree;
+    public int[] getRequiredBuildingsToBuildForFree() {
+        return requiredBuildingsToBuildForFree;
     }
 
     public int getId() {
