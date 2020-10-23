@@ -28,15 +28,16 @@ class FreeBuildingEffectTest {
     void activateEffectNotEndGameTest() {
         int freeBuildingsCount = inv.getPossibleFreeBuildings();
         //Not end of the game
+        assertEquals(0, inv.getPossibleFreeBuildings());
         freeBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
-        assertEquals(freeBuildingsCount + 1, inv.getPossibleFreeBuildings());
+        assertEquals(1, inv.getPossibleFreeBuildings());
     }
 
     @Test
     void activateEffectEndGameTest() {
         int freeBuildingsCount = inv.getPossibleFreeBuildings();
         freeBuildingEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-        assertEquals(freeBuildingsCount + 1, inv.getPossibleFreeBuildings());
+        assertEquals(1, inv.getPossibleFreeBuildings());
     }
 
 

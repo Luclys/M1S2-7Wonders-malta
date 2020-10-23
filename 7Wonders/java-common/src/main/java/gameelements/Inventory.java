@@ -56,7 +56,7 @@ public class Inventory implements Comparable {
 
         allResPremChoice = 0;
         allResManuChoice = 0;
-        this.possibleFreeBuildings = -1;
+        this.possibleFreeBuildings = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
     }
