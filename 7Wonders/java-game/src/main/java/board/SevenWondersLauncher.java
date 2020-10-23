@@ -37,7 +37,7 @@ public class SevenWondersLauncher {
             if (i != nbGames) {
                 System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
             } else {
-                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.%n", nbGames);
             }
         }
     }
@@ -52,7 +52,7 @@ public class SevenWondersLauncher {
     }
 
     private static void startServer() {
-        System.out.println("Starting the server...\n");
+        System.out.printf("Starting the server...%n");
         Thread server = new Thread(new Runnable() {
             @Override
             public void run() {
