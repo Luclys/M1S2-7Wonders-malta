@@ -16,6 +16,7 @@ import gameelements.wonders.WonderBoard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     public static final int AGES = 3;
@@ -107,6 +108,7 @@ public class Board {
         }
 
         scores();
+        denseRanking(playerInventoryList);
         // We send data to the server
         sendWinner(playerInventoryList);
     }
@@ -254,6 +256,20 @@ public class Board {
             inv.addScore(nbSameScientific * 7);
 
             sout.playerInformation(inv);
+        }
+    }
+
+    static void denseRanking(List<Inventory> playerInventoryList) {
+        List<Inventory> orderedList = playerInventoryList.stream().sorted(Inventory::compareTo).collect(Collectors.toList());
+
+        Inventory lastinv = orderedList.get(0);
+        int rank = 1;
+        for (Inventory inv : orderedList) {
+            if (inv.compareTo(lastinv) > 0) {
+                rank++;
+            }
+            lastinv = inv;
+            inv.setRank(rank);
         }
     }
 

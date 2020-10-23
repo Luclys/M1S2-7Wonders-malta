@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Inventory {
+public class Inventory implements Comparable {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
@@ -22,6 +22,7 @@ public class Inventory {
     private List<Card> playedCards;
     private WonderBoard wonderBoard;
     private int score;
+    private int rank;
     private int victoryChipsScore;
     private int defeatChipsCount;
     private int coins;
@@ -46,6 +47,7 @@ public class Inventory {
         this.endGameEffects = new ArrayList<>(7 * 3);
 
         this.score = 0;
+        this.rank = 0;
         this.victoryChipsScore = 0;
         this.defeatChipsCount = 0;
         this.coins = 3;
@@ -76,6 +78,7 @@ public class Inventory {
         this.wonderBoard = inventory.wonderBoard;
 
         this.score = inventory.score;
+        this.rank = inventory.rank;
         this.victoryChipsScore = inventory.victoryChipsScore;
         this.defeatChipsCount = inventory.defeatChipsCount;
         this.coins = inventory.coins;
@@ -88,6 +91,17 @@ public class Inventory {
         this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Inventory compareToInv = (Inventory) o;
+
+        if (score == compareToInv.score) {
+            return -Integer.compare(coins, compareToInv.coins);
+        }
+        if (score > compareToInv.score) return -1;
+        return 1;
     }
 
     private List<Integer> getPlayedCardIds() {
@@ -285,6 +299,14 @@ public class Inventory {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public int getDefeatChipsCount() {
