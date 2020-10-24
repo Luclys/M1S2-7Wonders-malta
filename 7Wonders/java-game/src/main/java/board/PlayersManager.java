@@ -52,10 +52,10 @@ public class PlayersManager {
         sout.checkShields(playerBoucliersCount, neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
             invPlayer.addVictoryJetonsScore(victoryJetonValue);
-            sout.addConflictsPoint(victoryJetonValue);
+            sout.addConflictsPoint(victoryJetonValue, invPlayer.getPlayerId());
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             invPlayer.addDefeatJeton();
-            sout.defeatChip();
+            sout.defeatChip(invPlayer.getPlayerId());
         }
         sout.resolvedConflicts(invPlayer);
     }

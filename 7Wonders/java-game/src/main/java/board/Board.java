@@ -88,6 +88,7 @@ public class Board {
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     sout.chosenCards(p.getId(), p.getChosenCard());
                 }
+                sout.playersStartToPlayCards();
                 for (int i = 0; i < playerList.size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), playerList.get(i));
                 }
@@ -200,6 +201,8 @@ public class Board {
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
+        sout.startTrade();
+        sout.pricesOfResources(trueInv);
         sout.missingResources(missingResources);
         canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
@@ -249,7 +252,6 @@ public class Board {
         /*The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        sout.finalResults();
         for (Inventory inv : playerInventoryList) {
             // End Game Effects (guilds buildings)
             Player player = playerList.get(inv.getPlayerId());

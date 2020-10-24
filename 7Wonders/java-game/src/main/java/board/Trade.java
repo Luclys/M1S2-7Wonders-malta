@@ -27,9 +27,8 @@ public class Trade {
         int[] rightAvailableResources = rightNeighborInv.getAvailableResources().clone();
         int[] leftAvailableResources = leftNeighborInv.getAvailableResources().clone();
 
-        sout.pricesOfResources(playerInv);
         for (Resource missingResource : missingResources) {
-            sout.display("Player " + playerInv.getPlayerId() + " coins left: " + (playerInv.getCoins() - leftTotal - rightTotal));
+            sout.coinsLeft(playerInv.getPlayerId(),playerInv.getCoins() - leftTotal - rightTotal);
             if (missingResource.getCategory().equals(Category.MATIERE_PREMIERE)) {
                 rightPrice = playerInv.getMatieresPremieresPriceRight();
                 leftPrice = playerInv.getMatieresPremieresPriceLeft();
