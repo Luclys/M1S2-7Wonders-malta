@@ -17,9 +17,6 @@ public class SevenWondersLauncher {
     private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
 
     public static void main(String[] args) {
-        //Starting the server
-        //startServer();
-
         //Starting the client
         client = new Client("http://127.0.0.1:10101");
         client.start();
