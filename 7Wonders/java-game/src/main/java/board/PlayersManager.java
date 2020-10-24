@@ -2,7 +2,7 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.SoutConsole;
+import gameelements.GameLogger;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
 
@@ -12,14 +12,14 @@ import java.util.List;
 public class PlayersManager {
     List<Player> playerList;
     List<Inventory> playerInventoryList;
-    SoutConsole sout;
+    private final GameLogger log;
 
-    public PlayersManager(SoutConsole sout) {
-        this.sout = sout;
+    public PlayersManager(GameLogger logger) {
+        this.log = logger;
     }
 
     public PlayersManager() {
-        this.sout = new SoutConsole(false);
+        this.log = new GameLogger(false);
         playerList = new ArrayList<>();
         playerInventoryList = new ArrayList<>();
     }
@@ -48,16 +48,16 @@ public class PlayersManager {
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age
         int playerBoucliersCount = invPlayer.getSymbolCount(Symbol.BOUCLIER);
         int neighborBoucliersCount = invNeighbor.getSymbolCount(Symbol.BOUCLIER);
-        sout.conflicts(invPlayer, invNeighbor);
-        sout.checkShields(playerBoucliersCount, neighborBoucliersCount);
+        log.conflicts(invPlayer, invNeighbor);
+        log.checkShields(playerBoucliersCount, neighborBoucliersCount);
         if (playerBoucliersCount > neighborBoucliersCount) {
             invPlayer.addVictoryJetonsScore(victoryJetonValue);
-            sout.addConflictsPoint(victoryJetonValue, invPlayer.getPlayerId());
+            log.addConflictsPoint(victoryJetonValue, invPlayer.getPlayerId());
         } else if (playerBoucliersCount < neighborBoucliersCount) {
             invPlayer.addDefeatJeton();
-            sout.defeatChip(invPlayer.getPlayerId());
+            log.defeatChip(invPlayer.getPlayerId());
         }
-        sout.resolvedConflicts(invPlayer);
+        log.resolvedConflicts(invPlayer);
     }
 
     protected List<Player> associateNeighbor(List<Player> players) {
