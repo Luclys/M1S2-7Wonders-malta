@@ -52,14 +52,14 @@ public class WonderBoard {
         // Face A
         List<Step> alexandrieStepsA = new ArrayList<>();
         alexandrieStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
-        alexandrieStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ChoiceAllTypeResourceEffect(true)));
+        alexandrieStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ChoiceAnyResourceFromCategoryEffect(true)));
         alexandrieStepsA.add(new Step(new Resource[]{Resource.VERRE, Resource.VERRE}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le phare d’Alexandrie A", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsA));
 
         // Face B
         List<Step> alexandrieStepsB = new ArrayList<>();
-        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAllTypeResourceEffect(true)));
-        alexandrieStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ChoiceAllTypeResourceEffect(false)));
+        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAnyResourceFromCategoryEffect(true)));
+        alexandrieStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ChoiceAnyResourceFromCategoryEffect(false)));
         alexandrieStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le phare d’Alexandrie B", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsB));
 

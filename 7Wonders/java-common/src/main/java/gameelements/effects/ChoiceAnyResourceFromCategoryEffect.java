@@ -5,10 +5,10 @@ import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
 
-public class ChoiceAllTypeResourceEffect extends Effect {
+public class ChoiceAnyResourceFromCategoryEffect extends Effect {
     Boolean primaryResource;
 
-    public ChoiceAllTypeResourceEffect(Boolean primaryResource) {
+    public ChoiceAnyResourceFromCategoryEffect(Boolean primaryResource) {
         super(EffectDelay.INSTANTANEOUS);
         this.primaryResource = primaryResource;
     }
