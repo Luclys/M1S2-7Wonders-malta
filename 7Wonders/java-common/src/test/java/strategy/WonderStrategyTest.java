@@ -31,7 +31,7 @@ class WonderStrategyTest {
         cards.add(CardsSet.HOTEL_DE_VILLE);
         cards.add(CardsSet.AUTEL);
         doReturn(cards).when(inv).getCardsInHand();
-        doReturn(WonderBoard.initiateColossus()).when(inv).getWonderBoard();
+        doReturn(WonderBoard.initiateColossusA()).when(inv).getWonderBoard();
     }
 
 
