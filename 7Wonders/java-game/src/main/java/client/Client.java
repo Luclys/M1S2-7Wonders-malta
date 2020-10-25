@@ -7,6 +7,8 @@ import io.socket.client.Socket;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
+import static constants.NET.ENDGAME_INVENTORIES;
+
 public class Client {
     Socket connection;
 
@@ -40,7 +42,7 @@ public class Client {
     }
 
     public void sendWinner(Inventory inventory) {
-        connection.emit("winner", inventory.getPlayerId());
+        connection.emit(ENDGAME_INVENTORIES, inventory);
     }
 
     public void stop() {
