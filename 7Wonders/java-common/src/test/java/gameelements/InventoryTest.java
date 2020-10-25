@@ -2,10 +2,12 @@ package gameelements;
 
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
+import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -99,5 +101,34 @@ class InventoryTest {
     @Test
     void cannotPlayCardForFreeCardDoesNotHaveRequiredBuildings() {
         assertFalse(inventory.canBuildCardForFree(CardsSet.MARCHE));
+    }
+
+    @Test
+    void canBuildTest(){
+        assertFalse(inventory.canBuild(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+        inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        assertTrue(inventory.canBuild(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        assertTrue(inventory.canBuild(null));
+    }
+
+    @Test
+    void payIfPossibleTest(){
+        assertTrue(inventory.payIfPossible(2));
+        assertFalse(inventory.payIfPossible(4));
+    }
+
+    @Test
+    void missingResourceTest(){
+        assertEquals(Collections.emptyList(),inventory.missingResources(null));
+        ArrayList<Resource> resources = new ArrayList<Resource>();
+        resources.add(Resource.PIERRE);
+        resources.add(Resource.ARGILE);
+        assertEquals(resources,inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+        inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        assertEquals(new ArrayList<Resource>(),inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+
+
     }
 }

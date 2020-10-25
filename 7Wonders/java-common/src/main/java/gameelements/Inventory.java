@@ -155,8 +155,8 @@ public class Inventory implements Comparable {
             for (Resource resource : requiredResources) {
                 neededResources[resource.getIndex()]++;
             }
-            for (int i = 0; i < neededResources.length; i++) {
-                if (neededResources[i] >= availableResources[i]) {
+            for (Resource resource : requiredResources) {
+                if (neededResources[resource.getIndex()] > availableResources[resource.getIndex()]) {
                     return false;
                 }
             }
@@ -369,7 +369,7 @@ public class Inventory implements Comparable {
     }
 
     public int getPossibleFreeBuildings() {
-        return possibleFreeBuildings;
+        return this.possibleFreeBuildings;
     }
 
     public void setPossibleFreeBuildings(int possibleFreeBuildings) {

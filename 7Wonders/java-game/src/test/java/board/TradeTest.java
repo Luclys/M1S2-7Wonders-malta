@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TradeTest {
     private Trade trade;
-    private List<Resource> list = new ArrayList<>();
+    private List<Resource> list;
     private Inventory player, rightNeighbor, leftNeighbor;
 
 
@@ -412,5 +412,23 @@ class TradeTest {
         assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
     }
 
+
+    @Test
+    void cantBuyResourceTest(){
+        list.add(Resource.ARGILE);
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        player.setMatieresPremieresPriceRight(6);
+        player.setMatieresPremieresPriceLeft(4);
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
+    }
+
+    @Test
+    void cantBuyResourceFromRightNeighborTest(){
+        list.add(Resource.ARGILE);
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        player.setMatieresPremieresPriceRight(4);
+        assertFalse(trade.buyResources(list, player, rightNeighbor, leftNeighbor));
+    }
 
 }

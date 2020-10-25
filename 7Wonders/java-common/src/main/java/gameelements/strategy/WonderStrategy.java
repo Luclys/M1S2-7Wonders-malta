@@ -24,7 +24,7 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     public Card chooseCardToBuildStep(Inventory inv) {
-        boolean canBuildStep = inv.canBuild(inv.getWonderBoard().getCurrentStepRequiredResources());
+        boolean canBuildStep = inv.canBuild(inv.getWonderRequiredResources());
 
         Card chosenCard = inv.getCardsInHand().get(0);
 
@@ -47,12 +47,11 @@ public class WonderStrategy implements PlayingStrategy {
                 this.action = Action.SELL;
                 return inv.getCardsInHand().get(0);
             }
-
             if (inv.getPossibleFreeBuildings() > 0) {
                 setAction(Action.BUILDFREE);
                 for (Card card : inv.getCardsInHand()) {
                     //We pick the first non-buildable card
-                    if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                    if (!inv.canBuild(card.getRequiredResources())) {
                         break;
                     } else {
                         return card;

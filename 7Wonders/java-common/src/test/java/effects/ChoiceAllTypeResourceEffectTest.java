@@ -46,5 +46,10 @@ class ChoiceAllTypeResourceEffectTest {
         choiceAllTypeResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
         choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(resChoice + 1, inv.getAllResPremChoice());
+
+        int manuChoice = inv.getAllResManuChoice();
+        choiceAllTypeResourceEffect = new ChoiceAllTypeResourceEffect(false);
+        choiceAllTypeResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(manuChoice + 1, inv.getAllResManuChoice());
     }
 }

@@ -13,16 +13,21 @@ import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@ExtendWith(MockitoExtension.class)
 class WonderBoardTest {
     List<Player> playerList;
-    Board board;
 
+    Board board;
+    @Mock
+    Inventory inv;
     @BeforeEach
     void setUp() {
         playerList = new ArrayList<>(3);
@@ -84,8 +89,29 @@ class WonderBoardTest {
 
     @Test
     void setAgeTest() {
+
         assertThrows(IllegalStateException.class, () -> board.ageSetUp(10));
+        board.ageSetUp(1);
+        assertTrue(board.isLeftRotation());
+        board.ageSetUp(2);
+        assertFalse(board.isLeftRotation());
+        board.ageSetUp(3);
+        assertTrue(board.isLeftRotation());
     }
+
+    @Test
+    void handleLastTurnCardTest(){
+        assertTrue(board.getDiscardedDeckCardList().isEmpty());
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(CardsSet.HOTEL_DE_VILLE);
+        board.getPlayerInventoryList().get(0).setCardsInHand(cards);
+        board.getPlayerInventoryList().get(1).setCardsInHand(cards);
+        board.getPlayerInventoryList().get(2).setCardsInHand(cards);
+/*
+        board.handleLastTurnCard();
+        assertFalse(board.getDiscardedDeckCardList().isEmpty());*/
+    }
+
 }
 
 

@@ -50,7 +50,37 @@ public class Trade {
                         canBuyAllResources = false;
                         break;
                     }
-                } else if (leftPrice > rightPrice) {
+                } else
+                    if (leftPrice > rightPrice) {
+                        if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
+                            log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), RIGHT, missingResource.toString());
+                            rightTotal += rightPrice;
+                            rightAvailableResources[missingResource.getIndex()]--;
+                        } else {
+                            log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), RIGHT, missingResource.toString());
+                            canBuyAllResources = false;
+                            break;
+                        }
+                    } else {
+                        if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
+                            neighbor = chooseNeighbor(rightNeighborInv, leftNeighborInv);
+                            if (neighbor.equals(rightNeighborInv)) {
+                                log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), RIGHT, missingResource.toString());
+                                rightTotal += rightPrice;
+                                rightAvailableResources[missingResource.getIndex()]--;
+                            } else {
+                                log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), LEFT, missingResource.toString());
+                                leftTotal += rightPrice;
+                                leftAvailableResources[missingResource.getIndex()]--;
+                            }
+                        } else {
+                            log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "any", missingResource.toString());
+                            canBuyAllResources = false;
+                            break;
+                        }
+                    }
+            } else
+                if (rightHasResource) {
                     if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
                         log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), RIGHT, missingResource.toString());
                         rightTotal += rightPrice;
@@ -60,49 +90,22 @@ public class Trade {
                         canBuyAllResources = false;
                         break;
                     }
-                } else {
-                    if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
-                        neighbor = chooseNeighbor(rightNeighborInv, leftNeighborInv);
-                        if (neighbor.equals(rightNeighborInv)) {
-                            log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), RIGHT, missingResource.toString());
-                            rightTotal += rightPrice;
-                            rightAvailableResources[missingResource.getIndex()]--;
-                        } else {
-                            log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), LEFT, missingResource.toString());
-                            leftTotal += rightPrice;
-                            leftAvailableResources[missingResource.getIndex()]--;
-                        }
+            } else
+                if (leftHasResource) {
+                    if (playerInv.getCoins() - leftTotal - rightTotal - leftPrice >= 0) {
+                        log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), LEFT, missingResource.toString());
+                        leftTotal += leftPrice;
+                        leftAvailableResources[missingResource.getIndex()]--;
                     } else {
-                        log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), "any", missingResource.toString());
+                        log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), LEFT, missingResource.toString());
                         canBuyAllResources = false;
                         break;
                     }
-                }
-            } else if (rightHasResource) {
-                if (playerInv.getCoins() - leftTotal - rightTotal - rightPrice >= 0) {
-                    log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), rightNeighborInv.getPlayerId(), RIGHT, missingResource.toString());
-                    rightTotal += rightPrice;
-                    rightAvailableResources[missingResource.getIndex()]--;
                 } else {
-                    log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), RIGHT, missingResource.toString());
+                    log.noneOfTheNeighborsHasResource(missingResource.toString());
                     canBuyAllResources = false;
                     break;
                 }
-            } else if (leftHasResource) {
-                if (playerInv.getCoins() - leftTotal - rightTotal - leftPrice >= 0) {
-                    log.playerCanBuyFromNeighbor(playerInv.getPlayerId(), leftNeighborInv.getPlayerId(), LEFT, missingResource.toString());
-                    leftTotal += leftPrice;
-                    leftAvailableResources[missingResource.getIndex()]--;
-                } else {
-                    log.notEnoughCoinsToBuyResource(playerInv.getPlayerId(), LEFT, missingResource.toString());
-                    canBuyAllResources = false;
-                    break;
-                }
-            } else {
-                log.noneOfTheNeighborsHasResource(missingResource.toString());
-                canBuyAllResources = false;
-                break;
-            }
         }
         if (canBuyAllResources) {
             if (rightTotal > 0) {

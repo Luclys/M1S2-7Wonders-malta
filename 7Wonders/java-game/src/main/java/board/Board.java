@@ -1,8 +1,8 @@
 package board;
 
+import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.GameLogger;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -116,6 +116,7 @@ public class Board {
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : playerInventoryList) {
             if (!inv.isCanPlayLastCard()) {
+                System.out.println(inv.getCardsInHand());
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 Player player = playerList.get(inv.getPlayerId());
@@ -326,5 +327,9 @@ public class Board {
 
     public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
+    }
+
+    public List<Card> getDiscardedDeckCardList() {
+        return discardedDeckCardList;
     }
 }
