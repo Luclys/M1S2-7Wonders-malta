@@ -25,4 +25,8 @@ public enum Resource {
             return Category.PRODUIT_MANUFACTURE;
         }
     }
+
+    public boolean isMatierePremiere() {
+        return this.getCategory().equals(Category.MATIERE_PREMIERE);
+    }
 }
