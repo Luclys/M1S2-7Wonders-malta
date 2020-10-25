@@ -148,7 +148,7 @@ public class Board {
             availablewonderBoardList.remove(otherfaceIndex);
             availablewonderBoardList.remove(chosenWB);
 
-            log.chooseWonderBoard(player.getId(), inv.getWonderBoard());
+            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
 
