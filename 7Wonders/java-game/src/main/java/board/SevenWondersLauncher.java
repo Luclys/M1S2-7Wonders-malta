@@ -6,6 +6,7 @@ import gameelements.strategy.WonderStrategy;
 import server.Server;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class SevenWondersLauncher {
     static Client client;
@@ -13,6 +14,7 @@ public class SevenWondersLauncher {
     static int nbGames = 1000;
     static boolean boolPrint = false;
 
+    private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
 
     public static void main(String[] args) {
         //Starting the server
@@ -35,9 +37,9 @@ public class SevenWondersLauncher {
             Board board = new Board(playerList, boolPrint);
             board.play(i);
             if (i != nbGames) {
-                System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
+                log.info(String.format("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames));
             } else {
-                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.%n", nbGames);
+                log.info(String.format("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames));
             }
         }
     }
@@ -52,7 +54,7 @@ public class SevenWondersLauncher {
     }
 
     private static void startServer() {
-        System.out.printf("Starting the server...%n");
+        log.info("Starting the server...\n");
         Thread server = new Thread(new Runnable() {
             @Override
             public void run() {

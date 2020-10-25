@@ -6,21 +6,24 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 
+import java.util.logging.Logger;
+
 public class Server {
     SocketIOServer server;
+    private final static Logger log = Logger.getLogger(Server.class.getName());
 
     public Server(Configuration configuration) {
-        // Création du serveur
+        // Creation of server
         server = new SocketIOServer(configuration);
 
-        // On accepte une connexion
-        server.addConnectListener(socketIOClient -> System.out.println("Connexion de " + socketIOClient.getRemoteAddress()));
+        // We accept the connection
+        server.addConnectListener(socketIOClient -> log.info("Connection of " + socketIOClient.getRemoteAddress()));
 
-        // Réception d'un inventaire et déclaration du gagnant, puis le serveur se ferme
+        // Receiving of inventory and declaring the winner, then the server is closed
         server.addEventListener("winner", Integer.class, new DataListener<Integer>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer playerId, AckRequest ackRequest) throws Exception {
-                System.out.println("Le joueur gagnant est " + playerId + " !");
+                log.info("The winner is " + playerId + " !");
             }
         });
     }
@@ -36,6 +39,6 @@ public class Server {
 
     private void start() {
         server.start();
-        System.out.println("En attente d'une connexion...");
+        log.info("Waiting for connexion...");
     }
 }

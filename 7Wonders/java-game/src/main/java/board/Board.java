@@ -2,7 +2,7 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.SoutConsole;
+import gameelements.GameLogger;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -27,16 +27,16 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    private final SoutConsole sout;
+    private final GameLogger log;
     private final List<WonderBoard> availablewonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
 
     public Board(List<Player> playerList, Boolean boolPrint) {
-        sout = new SoutConsole(boolPrint);
-        commerce = new Trade(sout);
-        playersManager = new PlayersManager(sout);
+        log = new GameLogger(boolPrint);
+        commerce = new Trade(log);
+        playersManager = new PlayersManager(log);
         // Setup Players and their inventories
         this.playerList = (ArrayList<Player>) (playersManager.associateNeighbor(playerList));
         playerInventoryList = playersManager.getPlayerInventoryList();
@@ -69,11 +69,11 @@ public class Board {
     }
 
     public void play(int nbPlay) {
-        sout.beginningOfPlay(nbPlay);
+        log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
-            sout.beginningOfAge(age);
+            log.beginningOfAge(age);
             // Card dealing & resetting possibleFreeBuildingsCount
             for (Inventory inventory : playerInventoryList) {
                 inventory.setCardsInHand(drawCards(CARDS_NUMBER));
@@ -81,14 +81,15 @@ public class Board {
             }
 
             for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
-                sout.newTurn(currentTurn + 1);
-                sout.play();
+                log.newTurn(currentTurn + 1);
+                log.play();
 
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
-                    sout.chosenCards(p.getId(), p.getChosenCard());
+                    log.chosenCards(p.getId(), p.getChosenCard());
                 }
+                log.playersStartToPlayCards();
                 for (int i = 0; i < playerList.size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), playerList.get(i));
                 }
@@ -100,12 +101,12 @@ public class Board {
             }
             handleLastTurnCard();
             resolveWarConflict(jetonVictoryValue);
-            sout.endOfAge(age);
+            log.endOfAge(age);
         }
 
         scores();
         denseRanking(playerInventoryList);
-        sout.finalGameRanking(playerInventoryList);
+        log.finalGameRanking(playerInventoryList);
         // We send data to the server
         sendWinner(playerInventoryList);
     }
@@ -143,7 +144,7 @@ public class Board {
             chosenWB.claimBoard(player, inv);
 
             availablewonderBoardList.remove(chosenWB);
-            sout.chooseWonderBoard(player.getId(), inv.getWonderBoard());
+            log.chooseWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
 
@@ -151,14 +152,14 @@ public class Board {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
 
-        sout.action(player.getId());
-        sout.playerInformation(playerInventoryList.get(player.getId()));
+        log.action(player.getId());
+        log.playerInformation(playerInventoryList.get(player.getId()));
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
                 if (nbFreeBuildings > 0) {
                     buildCard(inv, chosenCard, player);
-                    sout.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
+                    log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
@@ -166,7 +167,7 @@ public class Board {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
-                    sout.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
+                    log.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
                     buildCard(inv, chosenCard, player);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources)) {
@@ -200,38 +201,40 @@ public class Board {
                 sellCard(inv, chosenCard);
                 break;
         }
-        sout.playersNewState(inv.getPlayerId());
-        sout.playerInformation(playerInventoryList.get(player.getId()));
+        log.playersNewState(inv.getPlayerId());
+        log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
-        sout.missingResources(missingResources);
+        log.startTrade();
+        log.pricesOfResources(trueInv);
+        log.missingResources(missingResources);
         canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
-            sout.gotMissingResources();
+            log.gotMissingResources();
         } else {
-            sout.cantBuyMissingResources();
+            log.cantBuyMissingResources();
         }
         return canBuy;
     }
 
     private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
-            sout.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
+            log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
             trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
     }
 
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
-        sout.playerBuildsWonderStep(trueInv.getPlayerId());
+        log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
     private void sellCard(Inventory trueInv, Card chosenCard) {
-        sout.playerSellsCard(trueInv.getPlayerId(), chosenCard);
+        log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
     }
 
@@ -252,11 +255,10 @@ public class Board {
     }
 
     public void scores() {
-        sout.endOfGame();
+        log.endOfGame();
         /*The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
-        sout.finalResults();
         for (Inventory inv : playerInventoryList) {
             // End Game Effects (guilds buildings)
             Player player = playerList.get(inv.getPlayerId());
@@ -281,7 +283,7 @@ public class Board {
             list.forEach(integer -> inv.addScore(integer * integer));
             inv.addScore(nbSameScientific * 7);
 
-            sout.playerInformation(inv);
+            log.playerInformation(inv);
         }
     }
 
@@ -331,6 +333,4 @@ public class Board {
     public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
     }
-
-
 }

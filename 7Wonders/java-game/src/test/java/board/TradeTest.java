@@ -1,7 +1,7 @@
 package board;
 
 import gameelements.Inventory;
-import gameelements.SoutConsole;
+import gameelements.GameLogger;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class TradeTest {
 
     @BeforeEach
     void setUp() {
-        trade = new Trade(new SoutConsole(false));
+        trade = new Trade(new GameLogger(false));
         player = new Inventory(0);
         rightNeighbor = new Inventory(1);
         leftNeighbor = new Inventory(2);

@@ -5,20 +5,23 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
 public class Client {
     Socket connection;
+
+    private final static Logger log = Logger.getLogger(Client.class.getName());
 
     public Client(String serverURL) {
         try {
             connection = IO.socket(serverURL);
 
             connection.on("connect", objects -> {
-                System.out.println("On est connecté.");
+                log.info("We are connected");
             });
 
             connection.on("disconnect", objects -> {
-                System.out.println("On est déconnecté.");
+                log.info("We are disconnected");
                 connection.disconnect();
                 connection.close();
             });
