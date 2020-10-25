@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class GameLogger {
+    private static final Logger log = Logger.getLogger(GameLogger.class.getName());
     boolean booleanPrint;
-
-    private final static Logger log = Logger.getLogger(GameLogger.class.getName());
+    String SEPARATOR = "%n==========================================================================%n";
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
@@ -19,25 +19,22 @@ public class GameLogger {
 
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
-        log.info(String.format("%n==========================================================================%n" +
-                        "========================= INITIATING GAME N° %d ===========================%n" +
-                        "==========================================================================%n%n",
-                i
-        ));
+        log.info(String.format(SEPARATOR + "%n========================= INITIATING GAME N° %d ===========================" + SEPARATOR, i));
     }
 
-    public void chooseWonderBoard(int id, WonderBoard wb) {
+    public void endOfGame() {
         if (!booleanPrint) return;
-        log.info(String.format("%n[WONDER CHOOSING] The player %d chooses %s wonder %n", id, wb.getName()));
+        log.info(String.format(SEPARATOR + "====================== END OF GAME. FINAL RESULTS ========================" + SEPARATOR));
     }
 
     public void beginningOfAge(int i) {
         if (!booleanPrint) return;
-        log.info(String.format("%n==========================================================================%n" +
-                        "========================== START AGE N° %d ================================%n" +
-                        "==========================================================================%n",
-                i
-        ));
+        log.info(String.format(SEPARATOR + "========================== START AGE N° %d ================================" + SEPARATOR, i));
+    }
+
+    public void endOfAge(int i) {
+        if (!booleanPrint) return;
+        log.info(String.format(SEPARATOR + "================ LAST CARDS ARE DISCARDED. END OF AGE N° %d ===============" + SEPARATOR, i));
     }
 
     public void newTurn(int turn) {
@@ -50,11 +47,6 @@ public class GameLogger {
         log.info(String.format("%n===================== PLAYERS CHOOSE CARDS TO PLAY ====================%n"));
     }
 
-    public void chosenCards(int i, Card c) {
-        if (!booleanPrint) return;
-        log.info(String.format("%n[CARD CHOOSING] Player %d chose card %s %n", i, c.getName()));
-    }
-
     public void playersStartToPlayCards() {
         if (!booleanPrint) return;
         log.info(String.format("%n========================= PLAYERS PLAY CARDS ==========================%n"));
@@ -63,6 +55,11 @@ public class GameLogger {
     public void action(int i) {
         if (!booleanPrint) return;
         log.info(String.format("%n======================== THE ACTION OF PLAYER %d =======================%n%n", i));
+    }
+
+    public void startTrade() {
+        if (!booleanPrint) return;
+        log.info(String.format("%n============== PLAYER HAS SOME MISSING RESOURCES: START TRADE ================%n%n"));
     }
 
     public void playerInformation(Inventory inv) {
@@ -100,6 +97,16 @@ public class GameLogger {
         ));
     }
 
+    public void chosenWonderBoard(int id, WonderBoard wb) {
+        if (!booleanPrint) return;
+        log.info(String.format("%n[WONDER CHOOSING] The player %d chooses %s wonder %n", id, wb.getName()));
+    }
+
+    public void chosenCards(int i, Card c) {
+        if (!booleanPrint) return;
+        log.info(String.format("%n[CARD CHOOSING] Player %d chose card %s %n", i, c.getName()));
+    }
+
     public void playerBuildsCard(int playerId, Card card) {
         if (!booleanPrint) return;
         log.info(String.format("%n[ACTION] Player %d builds card %s%n", playerId, card.getName()));
@@ -125,11 +132,6 @@ public class GameLogger {
     public void playerBuildsWonderStep(int playerId) {
         if (!booleanPrint) return;
         log.info(String.format("%n[ACTION] Player %d builds wonder step %n", playerId));
-    }
-
-    public void startTrade() {
-        if (!booleanPrint) return;
-        log.info(String.format("%n============== PLAYER HAS SOME MISSING RESOURCES: START TRADE ================%n%n"));
     }
 
     public void pricesOfResources(Inventory player) {
@@ -240,23 +242,6 @@ public class GameLogger {
         ));
     }
 
-    public void endOfAge(int i) {
-        if (!booleanPrint) return;
-        log.info(String.format("%n==========================================================================%n" +
-                        "================ LAST CARDS ARE DISCARDED. END OF AGE N° %d ===============%n" +
-                        "==========================================================================%n%n",
-                i
-        ));
-    }
-
-    public void endOfGame() {
-        if (!booleanPrint) return;
-        log.info(String.format("%n==========================================================================%n" +
-                "====================== END OF GAME. FINAL RESULTS ========================%n" +
-                "==========================================================================%n%n"
-        ));
-    }
-
     public void finalGameRanking(List<Inventory> inventoryList) {
         if (!booleanPrint) return;
         inventoryList.forEach(inv -> log.info(String.format("%n[FINAL RESULTS] Player %d is ranked %d with the score of %d and %d coins.%n",
@@ -265,5 +250,9 @@ public class GameLogger {
                 inv.getScore(),
                 inv.getCoins()
         )));
+    }
+
+    public boolean isBooleanPrint() {
+        return booleanPrint;
     }
 }

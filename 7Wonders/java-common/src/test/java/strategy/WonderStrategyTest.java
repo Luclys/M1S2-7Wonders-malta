@@ -4,8 +4,8 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.enums.Action;
+import gameelements.enums.Resource;
 import gameelements.strategy.WonderStrategy;
-import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,6 @@ class WonderStrategyTest {
         cards.add(CardsSet.HOTEL_DE_VILLE);
         cards.add(CardsSet.AUTEL);
         doReturn(cards).when(inv).getCardsInHand();
-        doReturn(WonderBoard.initiateColossus()).when(inv).getWonderBoard();
     }
 
 
@@ -63,6 +62,20 @@ class WonderStrategyTest {
         doReturn(cards).when(inv).getPlayedCards();
         strategy.chooseCard(inv);
         assertEquals(Action.SELL,strategy.getAction());
+    }
+
+    @Test
+    void chooseCardBuildFreeTest(){
+
+        doReturn(1).when(inv).getPossibleFreeBuildings();
+        doReturn(false).when(inv).canBuild(any());
+        strategy.chooseCard(inv);
+        assertEquals(Action.BUILDING,strategy.getAction());
+        Resource[] r = inv.getCardsInHand().get(0).getRequiredResources();
+        doReturn(true).when(inv).canBuild(r);
+        strategy.chooseCard(inv);
+        assertEquals(Action.BUILDFREE,strategy.getAction());
+
     }
 
 

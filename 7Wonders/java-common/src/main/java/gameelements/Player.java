@@ -5,6 +5,7 @@ import gameelements.enums.Action;
 import gameelements.enums.Symbol;
 import gameelements.strategy.FirstCardStrategy;
 import gameelements.strategy.PlayingStrategy;
+import gameelements.wonders.WonderBoard;
 
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class Player {
     public Card chooseCard(Inventory inv) {
         chosenCard = strategy.chooseCard(inv);
         return chosenCard;
+    }
+
+    public WonderBoard chooseWonderBoard(List<WonderBoard> availablewonderBoardList) {
+        return availablewonderBoardList.get(0);
     }
 
     public Card chooseGuildCard(List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {

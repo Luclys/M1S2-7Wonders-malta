@@ -24,7 +24,7 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     public Card chooseCardToBuildStep(Inventory inv) {
-        boolean canBuildStep = inv.canBuild(inv.getWonderBoard().getCurrentStepRequiredResources());
+        boolean canBuildStep = inv.canBuild(inv.getWonderRequiredResources());
 
         Card chosenCard = inv.getCardsInHand().get(0);
 
@@ -33,7 +33,7 @@ public class WonderStrategy implements PlayingStrategy {
             //Player picks a card he cannot build
             for (Card card : inv.getCardsInHand()) {
                 //We pick the first non-buildable card
-                if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                if (!inv.canBuild(card.getRequiredResources())) {
                     break;
                 } else {
                     chosenCard = card;
@@ -42,17 +42,16 @@ public class WonderStrategy implements PlayingStrategy {
         } else {
             ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
 
-            //Player picks a card he can build
+            //Player picks a card he can build AAAAAAAAAAAAAAAAAAAAAa
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
                 return inv.getCardsInHand().get(0);
             }
-
             if (inv.getPossibleFreeBuildings() > 0) {
                 setAction(Action.BUILDFREE);
                 for (Card card : inv.getCardsInHand()) {
                     //We pick the first non-buildable card
-                    if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                    if (!inv.canBuild(card.getRequiredResources())) {
                         break;
                     } else {
                         return card;
@@ -63,7 +62,7 @@ public class WonderStrategy implements PlayingStrategy {
             setAction(Action.BUILDING);
             for (Card card : availableCards) {
                 //Player picks the first buildable card
-                if (inv.canBuild(chosenCard.getRequiredResources())) {
+                if (inv.canBuild(card.getRequiredResources())) {
                     break;
                 } else {
                     chosenCard = card;

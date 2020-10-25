@@ -1,8 +1,8 @@
 package board;
 
+import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.GameLogger;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -28,7 +28,7 @@ public class Board {
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
     private final GameLogger log;
-    private int turn;
+    private final List<WonderBoard> availablewonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
@@ -38,16 +38,16 @@ public class Board {
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
         // Setup Players and their inventories
-        this.playerList = (ArrayList<Player>) (playersManager.associateNeighbor(playerList));
-        playerInventoryList = playersManager.getPlayerInventoryList();
+        this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
+        playerInventoryList = getManager().getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
-        //display
+        availablewonderBoardList = WonderBoard.initiateWonders();
     }
 
     public void ageSetUp(int numAge) {
-        Age age = null;
+        Age age;
         switch (numAge) {
             case 1:
                 age = new AgeI();
@@ -70,7 +70,7 @@ public class Board {
 
     public void play(int nbPlay) {
         log.beginningOfPlay(nbPlay);
-        playerInventoryList.forEach(inventory -> chooseWonderBoard(playerList.get(inventory.getPlayerId()), inventory));
+        assignWBToPlayers();
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
             log.beginningOfAge(age);
@@ -90,17 +90,17 @@ public class Board {
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
                 log.playersStartToPlayCards();
-                for (int i = 0; i < playerList.size(); i++) {
-                    executePlayerAction(playerInventoryList.get(i), playerList.get(i));
+                for (int i = 0; i < getPlayerList().size(); i++) {
+                    executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
                 }
 
                 playersManager.updateCoins();
                 playersManager.freeBuildFromDiscarded(discardedDeckCardList);
 
-                cardManager.playersCardsRotation(isLeftRotation);
+                getCardManager().playersCardsRotation(isLeftRotation());
             }
             handleLastTurnCard();
-            resolveWarConflict(jetonVictoryValue);
+            resolveWarConflict(getJetonVictoryValue());
             log.endOfAge(age);
         }
 
@@ -108,13 +108,13 @@ public class Board {
         denseRanking(playerInventoryList);
         log.finalGameRanking(playerInventoryList);
         // We send data to the server
-        sendWinner(playerInventoryList);
+        sendWinner(playerInventoryList,log.isBooleanPrint());
     }
 
     void handleLastTurnCard() {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
-        for (Inventory inv : playerInventoryList) {
+        for (Inventory inv : getPlayerInventoryList()) {
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
@@ -125,21 +125,33 @@ public class Board {
         }
     }
 
-    private void sendWinner(List<Inventory> playerInventoryList) {
-        Inventory winnerInventory = getPlayerInventoryList().get(0);
-        for (Inventory inv : getPlayerInventoryList()) {
-            if (inv.getScore() > winnerInventory.getScore()) {
-                winnerInventory = inv;
+    private void sendWinner(List<Inventory> playerInventoryList,Boolean send) {
+        if(send) {
+            Inventory winnerInventory = getPlayerInventoryList().get(0);
+            for (Inventory inv : getPlayerInventoryList()) {
+                if (inv.getScore() > winnerInventory.getScore()) {
+                    winnerInventory = inv;
+                }
             }
+            SevenWondersLauncher.client.sendWinner(winnerInventory);
         }
-        SevenWondersLauncher.client.sendWinner(winnerInventory);
     }
 
-    private void chooseWonderBoard(Player player, Inventory inventory) {
-        // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
-        WonderBoard colossus = WonderBoard.initiateColossus();
-        log.chooseWonderBoard(player.getId(), colossus);
-        colossus.claimBoard(player, inventory);
+    private void assignWBToPlayers() {
+        for (int i = 0; i < playerInventoryList.size(); i++) {
+            Player player = playerList.get(i);
+            Inventory inv = playerInventoryList.get(i);
+
+            WonderBoard chosenWB = player.chooseWonderBoard(availablewonderBoardList);
+            chosenWB.claimBoard(player, inv);
+
+            int index = availablewonderBoardList.indexOf(chosenWB);
+            int otherfaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
+            availablewonderBoardList.remove(otherfaceIndex);
+            availablewonderBoardList.remove(chosenWB);
+
+            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
+        }
     }
 
     protected void executePlayerAction(Inventory inv, Player player) {
@@ -205,7 +217,7 @@ public class Board {
         log.startTrade();
         log.pricesOfResources(trueInv);
         log.missingResources(missingResources);
-        canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
             log.gotMissingResources();
         } else {
@@ -326,5 +338,13 @@ public class Board {
 
     public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;
+    }
+
+    public List<Card> getDiscardedDeckCardList() {
+        return discardedDeckCardList;
+    }
+
+    public List<WonderBoard> getAvailablewonderBoardList() {
+        return availablewonderBoardList;
     }
 }

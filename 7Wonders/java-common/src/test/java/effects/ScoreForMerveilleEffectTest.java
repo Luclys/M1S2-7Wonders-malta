@@ -26,7 +26,7 @@ class ScoreForMerveilleEffectTest {
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
         scoreEffect = new ScoreForMerveilleEffect(5);
-        inv.setWonderBoard(WonderBoard.initiateColossus());
+        inv.setWonderBoard(WonderBoard.initiateColossusA());
     }
 
     @Test

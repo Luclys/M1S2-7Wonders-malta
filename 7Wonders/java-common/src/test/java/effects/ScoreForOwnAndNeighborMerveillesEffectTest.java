@@ -24,10 +24,10 @@ class ScoreForOwnAndNeighborMerveillesEffectTest {
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
-        scoreEffect =new ScoreForOwnAndNeighborMerveillesEffect(2);
-        inv.setWonderBoard(WonderBoard.initiateColossus());
-        leftNeighborInv.setWonderBoard(WonderBoard.initiateColossus());
-        rightNeighborInv.setWonderBoard(WonderBoard.initiateColossus());
+        scoreEffect = new ScoreForOwnAndNeighborMerveillesEffect(2);
+        inv.setWonderBoard(WonderBoard.initiateColossusA());
+        leftNeighborInv.setWonderBoard(WonderBoard.initiateColossusA());
+        rightNeighborInv.setWonderBoard(WonderBoard.initiateColossusA());
     }
 
     @Test

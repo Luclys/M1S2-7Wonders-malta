@@ -6,6 +6,7 @@ import gameelements.strategy.WonderStrategy;
 import server.Server;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class SevenWondersLauncher {
@@ -28,7 +29,7 @@ public class SevenWondersLauncher {
             boolPrint = Boolean.parseBoolean(args[2]);
         }
 
-        ArrayList<Player> playerList = fetchPlayers(nbPlayers);
+        List<Player> playerList = fetchPlayers(nbPlayers);
 
         for (int i = 1; i <= nbGames; i++) {
             Board board = new Board(playerList, boolPrint);
@@ -41,8 +42,8 @@ public class SevenWondersLauncher {
         }
     }
 
-    private static ArrayList<Player> fetchPlayers(int nbPlayers) {
-        ArrayList<Player> playerList = new ArrayList<>(nbPlayers);
+    public static List<Player> fetchPlayers(int nbPlayers) {
+        List<Player> playerList = new ArrayList<>(nbPlayers);
         for (int i = 0; i < nbPlayers; i++) {
             Player player = new Player(i, new WonderStrategy());
             playerList.add(player);

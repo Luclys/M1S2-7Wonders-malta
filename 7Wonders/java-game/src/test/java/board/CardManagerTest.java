@@ -59,4 +59,16 @@ class CardManagerTest {
         cardManager.rightRotation();
         assertEquals(cards, cardManager.getPlayerInventoryList().get(2).getCardsInHand());
     }
+
+    @Test
+    void playersCardsRotationTest(){
+        List<Card> cards = cardManager.getPlayerInventoryList().get(0).getCardsInHand();
+        cardManager.playersCardsRotation(false);
+        assertEquals(cards, cardManager.getPlayerInventoryList().get(1).getCardsInHand());
+        cardManager.playersCardsRotation(true);
+        assertEquals(cards, cardManager.getPlayerInventoryList().get(0).getCardsInHand());
+
+
+    }
+
 }

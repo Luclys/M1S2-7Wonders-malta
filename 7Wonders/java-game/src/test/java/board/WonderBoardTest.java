@@ -8,6 +8,7 @@ import gameelements.effects.ResourceEffect;
 import gameelements.effects.SymbolEffect;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.strategy.WonderStrategy;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
@@ -20,14 +21,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WonderBoardTest {
-    List<Player> playerList;
-    Board board;
 
+    List<Player> playerList;
+
+    Board board;
     @BeforeEach
     void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, new WonderStrategy());
             playerList.add(player);
         }
         board = new Board(playerList, false);
@@ -84,8 +86,36 @@ class WonderBoardTest {
 
     @Test
     void setAgeTest() {
+
         assertThrows(IllegalStateException.class, () -> board.ageSetUp(10));
+        board.ageSetUp(1);
+        assertTrue(board.isLeftRotation());
+        board.ageSetUp(2);
+        assertFalse(board.isLeftRotation());
+        board.ageSetUp(3);
+        assertTrue(board.isLeftRotation());
     }
+
+    @Test
+    void handleLastTurnCardTest(){
+        assertTrue(board.getDiscardedDeckCardList().isEmpty());
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(CardsSet.HOTEL_DE_VILLE);
+        for (Inventory inv : board.getPlayerInventoryList()){
+            inv.setCardsInHand(cards);
+        }
+       // board.handleLastTurnCard();
+       // assertFalse(board.getDiscardedDeckCardList().isEmpty());
+    }
+
+    @Test
+    void assignWBToPlayersTest(){
+        assertEquals(14,board.getAvailablewonderBoardList().size());
+        board.play(board.getPlayerInventoryList().size());
+        assertEquals(14 - board.getPlayerInventoryList().size()*2,board.getAvailablewonderBoardList().size());
+    }
+
+
 }
 
 

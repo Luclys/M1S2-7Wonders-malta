@@ -26,7 +26,7 @@ class CoinsForMerveilleEffectTest {
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
         coinsEffect = new CoinsForMerveilleEffect(5);
-        inv.setWonderBoard(WonderBoard.initiateColossus());
+        inv.setWonderBoard(WonderBoard.initiateColossusA());
     }
 
     @Test
