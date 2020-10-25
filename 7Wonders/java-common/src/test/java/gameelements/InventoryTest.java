@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,32 +102,115 @@ class InventoryTest {
         assertFalse(inventory.canBuildCardForFree(CardsSet.MARCHE));
     }
 
+    /**
+     * Player wants to build a card with required resources and he has all resources available
+     *
+     * @result Player can build
+     */
     @Test
-    void canBuildTest(){
-        assertFalse(inventory.canBuild(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
-        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+    void canBuildHasAllResources() {
+        Resource[] resources = new Resource[]{Resource.ARGILE, Resource.BOIS};
         inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
-        assertTrue(inventory.canBuild(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
-        assertTrue(inventory.canBuild(null));
+        inventory.getAvailableResources()[Resource.BOIS.getIndex()]++;
+        assertTrue(inventory.canBuild(resources));
     }
 
+    /**
+     * Player wants to build a card with required resources but he doesn't have all resources available
+     * and has no resources for choice
+     *
+     * @result Player can't build
+     */
     @Test
-    void payIfPossibleTest(){
-        assertTrue(inventory.payIfPossible(2));
-        assertFalse(inventory.payIfPossible(4));
+    void cantBuildNotAllResources() {
+        Resource[] resources = new Resource[]{Resource.ARGILE, Resource.BOIS};
+        inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
+        assertFalse(inventory.canBuild(resources));
     }
 
+    /**
+     * Player wants to build a card with required resources but he doesn't have one matiere premiere in available resources
+     * but has one matiere premiere for choice
+     *
+     * @result Player can build
+     */
     @Test
-    void missingResourceTest(){
-        assertEquals(Collections.emptyList(),inventory.missingResources(null));
-        ArrayList<Resource> resources = new ArrayList<Resource>();
-        resources.add(Resource.PIERRE);
-        resources.add(Resource.ARGILE);
-        assertEquals(resources,inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
-        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+    void canBuildUseMatierePremiereForChoice() {
+        Resource[] resources = new Resource[]{Resource.ARGILE, Resource.BOIS};
         inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
-        assertEquals(new ArrayList<Resource>(),inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        inventory.setAnyMatierePremiereAvailableCount(1);
+        assertTrue(inventory.canBuild(resources));
+    }
 
+    /**
+     * Player wants to build a card with required resources but he doesn't have one produit manifacture in available resources
+     * but has one produit manifacture for choice
+     *
+     * @result Player can build
+     */
+    @Test
+    void canBuildUseProduitManufactureForChoice() {
+        Resource[] resources = new Resource[]{Resource.VERRE, Resource.TISSU};
+        inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
+        inventory.setAnyResourceManufactureAvailableCount(1);
+        assertTrue(inventory.canBuild(resources));
+    }
 
+    /**
+     * Player wants to build a card with required resources but he doesn't have several matieres premieres in available resources
+     * but has enough matieres premieres for choice
+     *
+     * @result Player can build
+     */
+    @Test
+    void canBuildUseMatieresPremieresForChoice() {
+        Resource[] resources = new Resource[]{Resource.ARGILE, Resource.BOIS, Resource.MINERAI};
+        inventory.setAnyMatierePremiereAvailableCount(3);
+        assertTrue(inventory.canBuild(resources));
+    }
+
+    /**
+     * Player wants to build a card with required resources but he doesn't have several produits manifactures in available resources
+     * but has enough produits manifactures for choice
+     *
+     * @result Player can build
+     */
+    @Test
+    void canBuildUseProduitsManufacturesForChoice() {
+        Resource[] resources = new Resource[]{Resource.TISSU, Resource.TISSU, Resource.VERRE};
+        inventory.setAnyResourceManufactureAvailableCount(3);
+        assertTrue(inventory.canBuild(resources));
+    }
+
+    /**
+     * Player wants to build a card with required resources but he doesn't have several produits manifactures
+     * and matieres premieres in available resources but has enough resources for choice
+     *
+     * @result Player can build
+     */
+    @Test
+    void canBuildUseBothCategoriesForChoice() {
+        Resource[] resources = new Resource[]{Resource.PIERRE, Resource.TISSU, Resource.VERRE, Resource.PAPYRUS, Resource.BOIS};
+        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+        inventory.getAvailableResources()[Resource.TISSU.getIndex()]++;
+        inventory.setAnyMatierePremiereAvailableCount(1);
+        inventory.setAnyResourceManufactureAvailableCount(2);
+        assertTrue(inventory.canBuild(resources));
+    }
+
+    /**
+     * Player wants to build a card with required resources but he doesn't have several produits manifactures
+     * and matieres premieres in available resources and doesn't have enough resources for choice
+     *
+     * @result Player can't build
+     */
+    @Test
+    void cantBuildUseBothCategoriesForChoice() {
+        Resource[] resources = new Resource[]{Resource.PIERRE, Resource.TISSU, Resource.VERRE, Resource.PAPYRUS, Resource.BOIS};
+        inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
+        inventory.getAvailableResources()[Resource.TISSU.getIndex()]++;
+        inventory.setAnyMatierePremiereAvailableCount(1);
+        inventory.setAnyResourceManufactureAvailableCount(1);
+        assertFalse(inventory.canBuild(resources));
     }
 }

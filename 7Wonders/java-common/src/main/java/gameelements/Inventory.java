@@ -29,8 +29,8 @@ public class Inventory implements Comparable {
     private int matieresPremieresPriceRight;
     private int produitsManifacturesPrice;
     private int addedCoins;
-    private int allResPremChoice;
-    private int allResManuChoice;
+    private int anyMatierePremiereAvailableCount;
+    private int anyResourceManufactureAvailableCount;
     private int possibleFreeBuildings;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
@@ -54,8 +54,8 @@ public class Inventory implements Comparable {
         this.produitsManifacturesPrice = 2;
         this.addedCoins = 0;
 
-        allResPremChoice = 0;
-        allResManuChoice = 0;
+        anyMatierePremiereAvailableCount = 0;
+        anyResourceManufactureAvailableCount = 0;
         this.possibleFreeBuildings = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
@@ -77,8 +77,8 @@ public class Inventory implements Comparable {
         this.victoryChipsScore = inventory.victoryChipsScore;
         this.defeatChipsCount = inventory.defeatChipsCount;
         this.coins = inventory.coins;
-        this.allResPremChoice = inventory.allResPremChoice;
-        this.allResManuChoice = inventory.allResManuChoice;
+        this.anyMatierePremiereAvailableCount = inventory.anyMatierePremiereAvailableCount;
+        this.anyResourceManufactureAvailableCount = inventory.anyResourceManufactureAvailableCount;
         this.matieresPremieresPriceLeft = inventory.matieresPremieresPriceLeft;
         this.matieresPremieresPriceRight = inventory.matieresPremieresPriceRight;
         this.produitsManifacturesPrice = inventory.produitsManifacturesPrice;
@@ -150,14 +150,32 @@ public class Inventory implements Comparable {
     }
 
     public boolean canBuild(Resource[] requiredResources) {
+        int anyMatierePremiereAvailableLeft = anyMatierePremiereAvailableCount;
+        int anyResourceManufactureAvailableLeft = anyResourceManufactureAvailableCount;
+        ArrayList<Integer> matieresPremieresIndexes = new ArrayList<>();
         if (requiredResources != null) {
             int[] neededResources = new int[Resource.values().length];
             for (Resource resource : requiredResources) {
+                if (resource.isMatierePremiere()) {
+                    matieresPremieresIndexes.add(resource.getIndex());
+                }
                 neededResources[resource.getIndex()]++;
             }
-            for (Resource resource : requiredResources) {
-                if (neededResources[resource.getIndex()] > availableResources[resource.getIndex()]) {
-                    return false;
+            for (int i = 0; i < neededResources.length; i++) {
+                if (neededResources[i] > availableResources[i]) {
+                    if (matieresPremieresIndexes.contains(i)) {
+                        if (neededResources[i] > anyMatierePremiereAvailableLeft) {
+                            return false;
+                        } else {
+                            anyMatierePremiereAvailableLeft-=neededResources[i];
+                        }
+                    } else {
+                        if (neededResources[i] > anyResourceManufactureAvailableLeft) {
+                            return false;
+                        } else {
+                            anyResourceManufactureAvailableLeft-=neededResources[i];
+                        }
+                    }
                 }
             }
         }
@@ -206,9 +224,9 @@ public class Inventory implements Comparable {
 
     public void incAllResChoice(Boolean primaryResource) {
         if (Boolean.TRUE.equals(primaryResource)) {
-            this.allResPremChoice++;
+            this.anyMatierePremiereAvailableCount++;
         } else {
-            this.allResManuChoice++;
+            this.anyResourceManufactureAvailableCount++;
         }
     }
 
@@ -352,24 +370,24 @@ public class Inventory implements Comparable {
         this.addedCoins = addedCoins;
     }
 
-    public int getAllResPremChoice() {
-        return allResPremChoice;
+    public int getAnyMatierePremiereAvailableCount() {
+        return anyMatierePremiereAvailableCount;
     }
 
-    public void setAllResPremChoice(int allResPremChoice) {
-        this.allResPremChoice = allResPremChoice;
+    public void setAnyMatierePremiereAvailableCount(int anyMatierePremiereAvailableCount) {
+        this.anyMatierePremiereAvailableCount = anyMatierePremiereAvailableCount;
     }
 
-    public int getAllResManuChoice() {
-        return allResManuChoice;
+    public int getAnyResourceManufactureAvailableCount() {
+        return anyResourceManufactureAvailableCount;
     }
 
-    public void setAllResManuChoice(int allResManuChoice) {
-        this.allResManuChoice = allResManuChoice;
+    public void setAnyResourceManufactureAvailableCount(int anyResourceManufactureAvailableCount) {
+        this.anyResourceManufactureAvailableCount = anyResourceManufactureAvailableCount;
     }
 
     public int getPossibleFreeBuildings() {
-        return this.possibleFreeBuildings;
+        return possibleFreeBuildings;
     }
 
     public void setPossibleFreeBuildings(int possibleFreeBuildings) {

@@ -42,7 +42,7 @@ public class WonderStrategy implements PlayingStrategy {
         } else {
             ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
 
-            //Player picks a card he can build
+            //Player picks a card he can build AAAAAAAAAAAAAAAAAAAAAa
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
                 return inv.getCardsInHand().get(0);

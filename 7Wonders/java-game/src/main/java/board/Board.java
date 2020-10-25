@@ -28,7 +28,7 @@ public class Board {
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
     private final GameLogger log;
-    private int turn;
+    private final List<WonderBoard> availablewonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
@@ -43,11 +43,11 @@ public class Board {
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
-        //display
+        availablewonderBoardList = WonderBoard.initiateWonders();
     }
 
     public void ageSetUp(int numAge) {
-        Age age = null;
+        Age age;
         switch (numAge) {
             case 1:
                 age = new AgeI();
@@ -70,7 +70,7 @@ public class Board {
 
     public void play(int nbPlay) {
         log.beginningOfPlay(nbPlay);
-        playerInventoryList.forEach(inventory -> chooseWonderBoard(playerList.get(inventory.getPlayerId()), inventory));
+        assignWBToPlayers();
         for (int age = 1; age <= AGES; age++) {
             ageSetUp(age);
             log.beginningOfAge(age);
@@ -136,11 +136,21 @@ public class Board {
         SevenWondersLauncher.client.sendWinner(winnerInventory);
     }
 
-    private void chooseWonderBoard(Player player, Inventory inventory) {
-        // For now, Player is assigned this Wonder Board by default, later it will be able to choose.
-        WonderBoard colossus = WonderBoard.initiateColossus();
-        log.chooseWonderBoard(player.getId(), colossus);
-        colossus.claimBoard(player, inventory);
+    private void assignWBToPlayers() {
+        for (int i = 0; i < playerInventoryList.size(); i++) {
+            Player player = playerList.get(i);
+            Inventory inv = playerInventoryList.get(i);
+
+            WonderBoard chosenWB = player.chooseWonderBoard(availablewonderBoardList);
+            chosenWB.claimBoard(player, inv);
+
+            int index = availablewonderBoardList.indexOf(chosenWB);
+            int otherfaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
+            availablewonderBoardList.remove(otherfaceIndex);
+            availablewonderBoardList.remove(chosenWB);
+
+            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
+        }
     }
 
     protected void executePlayerAction(Inventory inv, Player player) {
