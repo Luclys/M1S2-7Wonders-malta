@@ -124,18 +124,16 @@ class ReductCommerceEffectTest {
 
     @Test
     void activateEffectEndGamePrimaryRessourcesBothNeighborsTest() {
-        commerceEffect = new ReductCommerceEffect(Neighbor.BOTH,true);
-        int priceRight = inv.getMatieresPremieresPriceRight();
-        int priceLeft = inv.getMatieresPremieresPriceLeft();
-        int pricemanifacture=inv.getProduitsManifacturesPrice();
+        commerceEffect = new ReductCommerceEffect(Neighbor.BOTH, true);
+        int pricemanifacture = inv.getProduitsManifacturesPrice();
         commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-        assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
-        assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
+        assertEquals(1, inv.getMatieresPremieresPriceLeft());
+        assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
         commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-        assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
-        assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
+        assertEquals(1, inv.getMatieresPremieresPriceLeft());
+        assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
     }
 

@@ -24,10 +24,17 @@ public class ReductCommerceEffect extends Effect {
         }
 
         if (primaryRessources.equals(Boolean.TRUE)) {
-            if (whichNeighbor.equals(Neighbor.LEFT)) {
-                inv.setMatieresPremieresPriceLeft(1);
-            } else if (whichNeighbor.equals(Neighbor.RIGHT)) {
-                inv.setMatieresPremieresPriceRight(1);
+            switch (whichNeighbor) {
+                case BOTH:
+                    inv.setMatieresPremieresPriceRight(1);
+                    inv.setMatieresPremieresPriceLeft(1);
+                    break;
+                case LEFT:
+                    inv.setMatieresPremieresPriceLeft(1);
+                    break;
+                case RIGHT:
+                    inv.setMatieresPremieresPriceRight(1);
+                    break;
             }
         } else {
             inv.setProduitsManifacturesPrice(1);
