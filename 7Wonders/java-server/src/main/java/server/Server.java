@@ -8,6 +8,8 @@ import com.corundumstudio.socketio.listener.DataListener;
 
 import java.util.logging.Logger;
 
+import static constants.NET.ENDGAME_INVENTORIES;
+
 public class Server {
     SocketIOServer server;
     private final static Logger log = Logger.getLogger(Server.class.getName());
@@ -20,7 +22,7 @@ public class Server {
         server.addConnectListener(socketIOClient -> log.info("Connection of " + socketIOClient.getRemoteAddress()));
 
         // Receiving of inventory and declaring the winner, then the server is closed
-        server.addEventListener("winner", Integer.class, new DataListener<Integer>() {
+        server.addEventListener(ENDGAME_INVENTORIES, Integer.class, new DataListener<Integer>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer playerId, AckRequest ackRequest) throws Exception {
                 log.info("The winner is " + playerId + " !");
