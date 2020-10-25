@@ -1,8 +1,8 @@
 package board;
 
+import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.GameLogger;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -143,7 +143,11 @@ public class Board {
             WonderBoard chosenWB = player.chooseWonderBoard(availablewonderBoardList);
             chosenWB.claimBoard(player, inv);
 
+            int index = availablewonderBoardList.indexOf(chosenWB);
+            int otherfaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
+            availablewonderBoardList.remove(otherfaceIndex);
             availablewonderBoardList.remove(chosenWB);
+
             log.chooseWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
