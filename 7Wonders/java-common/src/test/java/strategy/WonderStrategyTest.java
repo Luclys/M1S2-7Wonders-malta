@@ -4,8 +4,8 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.enums.Action;
+import gameelements.enums.Resource;
 import gameelements.strategy.WonderStrategy;
-import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,6 @@ class WonderStrategyTest {
         cards.add(CardsSet.HOTEL_DE_VILLE);
         cards.add(CardsSet.AUTEL);
         doReturn(cards).when(inv).getCardsInHand();
-//        doReturn(WonderBoard.initiateColossus()).when(inv).getWonderBoard();
     }
 
 
@@ -78,5 +77,6 @@ class WonderStrategyTest {
         assertEquals(Action.BUILDFREE,strategy.getAction());
 
     }
+
 
 }

@@ -251,4 +251,8 @@ public class GameLogger {
                 inv.getCoins()
         )));
     }
+
+    public boolean isBooleanPrint() {
+        return booleanPrint;
+    }
 }

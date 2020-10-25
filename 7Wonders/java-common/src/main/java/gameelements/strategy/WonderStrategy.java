@@ -33,7 +33,7 @@ public class WonderStrategy implements PlayingStrategy {
             //Player picks a card he cannot build
             for (Card card : inv.getCardsInHand()) {
                 //We pick the first non-buildable card
-                if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                if (!inv.canBuild(card.getRequiredResources())) {
                     break;
                 } else {
                     chosenCard = card;
@@ -62,7 +62,7 @@ public class WonderStrategy implements PlayingStrategy {
             setAction(Action.BUILDING);
             for (Card card : availableCards) {
                 //Player picks the first buildable card
-                if (inv.canBuild(chosenCard.getRequiredResources())) {
+                if (inv.canBuild(card.getRequiredResources())) {
                     break;
                 } else {
                     chosenCard = card;

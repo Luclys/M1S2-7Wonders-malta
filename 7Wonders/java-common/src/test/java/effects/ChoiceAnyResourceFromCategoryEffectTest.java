@@ -46,5 +46,10 @@ class ChoiceAnyResourceFromCategoryEffectTest {
         choiceAnyResourceFromCategoryEffect.setDelay(EffectDelay.END_OF_THE_GAME);
         choiceAnyResourceFromCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(resChoice + 1, inv.getAnyMatierePremiereAvailableCount());
+
+        choiceAnyResourceFromCategoryEffect = new ChoiceAnyResourceFromCategoryEffect(false);
+        resChoice = inv.getAnyResourceManufactureAvailableCount();
+        choiceAnyResourceFromCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertEquals(resChoice + 1, inv.getAnyMatierePremiereAvailableCount());
     }
 }

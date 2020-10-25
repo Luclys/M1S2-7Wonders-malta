@@ -8,31 +8,28 @@ import gameelements.effects.ResourceEffect;
 import gameelements.effects.SymbolEffect;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.strategy.WonderStrategy;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@ExtendWith(MockitoExtension.class)
+
 class WonderBoardTest {
+
     List<Player> playerList;
 
     Board board;
-    @Mock
-    Inventory inv;
     @BeforeEach
     void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, new WonderStrategy());
             playerList.add(player);
         }
         board = new Board(playerList, false);
@@ -104,13 +101,20 @@ class WonderBoardTest {
         assertTrue(board.getDiscardedDeckCardList().isEmpty());
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(CardsSet.HOTEL_DE_VILLE);
-        board.getPlayerInventoryList().get(0).setCardsInHand(cards);
-        board.getPlayerInventoryList().get(1).setCardsInHand(cards);
-        board.getPlayerInventoryList().get(2).setCardsInHand(cards);
-/*
-        board.handleLastTurnCard();
-        assertFalse(board.getDiscardedDeckCardList().isEmpty());*/
+        for (Inventory inv : board.getPlayerInventoryList()){
+            inv.setCardsInHand(cards);
+        }
+       // board.handleLastTurnCard();
+       // assertFalse(board.getDiscardedDeckCardList().isEmpty());
     }
+
+    @Test
+    void assignWBToPlayersTest(){
+        assertEquals(14,board.getAvailablewonderBoardList().size());
+        board.play(board.getPlayerInventoryList().size());
+        assertEquals(14 - board.getPlayerInventoryList().size()*2,board.getAvailablewonderBoardList().size());
+    }
+
 
 }
 

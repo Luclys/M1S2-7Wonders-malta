@@ -38,8 +38,8 @@ public class Board {
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
         // Setup Players and their inventories
-        this.playerList = (ArrayList<Player>) (playersManager.associateNeighbor(playerList));
-        playerInventoryList = playersManager.getPlayerInventoryList();
+        this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
+        playerInventoryList = getManager().getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
@@ -90,17 +90,17 @@ public class Board {
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
                 log.playersStartToPlayCards();
-                for (int i = 0; i < playerList.size(); i++) {
-                    executePlayerAction(playerInventoryList.get(i), playerList.get(i));
+                for (int i = 0; i < getPlayerList().size(); i++) {
+                    executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
                 }
 
                 playersManager.updateCoins();
                 playersManager.freeBuildFromDiscarded(discardedDeckCardList);
 
-                cardManager.playersCardsRotation(isLeftRotation);
+                getCardManager().playersCardsRotation(isLeftRotation());
             }
             handleLastTurnCard();
-            resolveWarConflict(jetonVictoryValue);
+            resolveWarConflict(getJetonVictoryValue());
             log.endOfAge(age);
         }
 
@@ -108,15 +108,14 @@ public class Board {
         denseRanking(playerInventoryList);
         log.finalGameRanking(playerInventoryList);
         // We send data to the server
-        sendWinner(playerInventoryList);
+        sendWinner(playerInventoryList,log.isBooleanPrint());
     }
 
     void handleLastTurnCard() {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
-        for (Inventory inv : playerInventoryList) {
+        for (Inventory inv : getPlayerInventoryList()) {
             if (!inv.isCanPlayLastCard()) {
-                System.out.println(inv.getCardsInHand());
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 Player player = playerList.get(inv.getPlayerId());
@@ -126,14 +125,16 @@ public class Board {
         }
     }
 
-    private void sendWinner(List<Inventory> playerInventoryList) {
-        Inventory winnerInventory = getPlayerInventoryList().get(0);
-        for (Inventory inv : getPlayerInventoryList()) {
-            if (inv.getScore() > winnerInventory.getScore()) {
-                winnerInventory = inv;
+    private void sendWinner(List<Inventory> playerInventoryList,Boolean send) {
+        if(send) {
+            Inventory winnerInventory = getPlayerInventoryList().get(0);
+            for (Inventory inv : getPlayerInventoryList()) {
+                if (inv.getScore() > winnerInventory.getScore()) {
+                    winnerInventory = inv;
+                }
             }
+            SevenWondersLauncher.client.sendWinner(winnerInventory);
         }
-        SevenWondersLauncher.client.sendWinner(winnerInventory);
     }
 
     private void assignWBToPlayers() {
@@ -216,7 +217,7 @@ public class Board {
         log.startTrade();
         log.pricesOfResources(trueInv);
         log.missingResources(missingResources);
-        canBuy = commerce.buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
             log.gotMissingResources();
         } else {
@@ -341,5 +342,9 @@ public class Board {
 
     public List<Card> getDiscardedDeckCardList() {
         return discardedDeckCardList;
+    }
+
+    public List<WonderBoard> getAvailablewonderBoardList() {
+        return availablewonderBoardList;
     }
 }
