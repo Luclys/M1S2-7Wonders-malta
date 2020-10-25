@@ -6,26 +6,45 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
-import static constants.NET.ENDGAME_INVENTORIES;
+import static constants.NET.WINNER;
 
 public class Server {
     SocketIOServer server;
     private final static Logger log = Logger.getLogger(Server.class.getName());
+    private final HashMap<Integer, Integer> wins = new HashMap<>();
+    private final HashMap<Integer, Integer> scores = new HashMap<>();
+    private int nbPlayers;
 
     public Server(Configuration configuration) {
-        // Creation of server
+        // Creation of the server
         server = new SocketIOServer(configuration);
 
         // We accept the connection
         server.addConnectListener(socketIOClient -> log.info("Connection of " + socketIOClient.getRemoteAddress()));
 
-        // Receiving of inventory and declaring the winner, then the server is closed
-        server.addEventListener(ENDGAME_INVENTORIES, Integer.class, new DataListener<Integer>() {
+        // Receiving of inventory and declaring the winner
+        server.addEventListener(WINNER, Integer.class, (socketIOClient, playerId, ackRequest) -> {
+            wins.put(playerId, wins.get(playerId) + 1);
+        });
+
+        server.addEventListener("players", Integer.class, new DataListener<Integer>() {
             @Override
-            public void onData(SocketIOClient socketIOClient, Integer playerId, AckRequest ackRequest) throws Exception {
-                log.info("The winner is " + playerId + " !");
+            public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
+                nbPlayers = integer;
+                for (int i = 0; i < nbPlayers; i++) {
+                    wins.put(i, 0);
+                    scores.put(i, 0);
+                }
+            }
+        });
+
+        // Show the win rate of each player
+        server.addPingListener(socketIOClient -> {
+            for (int i = 0; i < nbPlayers; i++) {
+                log.info("The player " + i + " won " + wins.get(i) / 10 + "% of the games\n");
             }
         });
     }

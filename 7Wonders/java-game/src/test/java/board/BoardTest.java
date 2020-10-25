@@ -13,6 +13,7 @@ import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WonderBoardTest {
+class BoardTest {
 
     List<Player> playerList;
 
@@ -108,6 +109,7 @@ class WonderBoardTest {
        // assertFalse(board.getDiscardedDeckCardList().isEmpty());
     }
 
+    @Disabled
     @Test
     void assignWBToPlayersTest(){
         assertEquals(14,board.getAvailablewonderBoardList().size());

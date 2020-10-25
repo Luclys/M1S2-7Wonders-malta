@@ -2,6 +2,7 @@ package board;
 
 import client.Client;
 import gameelements.Player;
+import gameelements.strategy.FirstCardStrategy;
 import gameelements.strategy.WonderStrategy;
 import server.Server;
 
@@ -30,6 +31,7 @@ public class SevenWondersLauncher {
         }
 
         List<Player> playerList = fetchPlayers(nbPlayers);
+        client.sendNumberOfPlayers(nbPlayers);
 
         for (int i = 1; i <= nbGames; i++) {
             Board board = new Board(playerList, boolPrint);
@@ -38,16 +40,19 @@ public class SevenWondersLauncher {
                 log.info(String.format("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames));
             } else {
                 log.info(String.format("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames));
+                client.showWinRates();
             }
         }
     }
 
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
-        for (int i = 0; i < nbPlayers; i++) {
-            Player player = new Player(i, new WonderStrategy());
+        for (int i = 0; i < nbPlayers - 1; i++) {
+            Player player = new Player(i, new FirstCardStrategy());
             playerList.add(player);
         }
+        Player player = new Player(nbPlayers-1, new WonderStrategy());
+        playerList.add(player);
         return playerList;
     }
 

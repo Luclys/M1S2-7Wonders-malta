@@ -107,8 +107,23 @@ public class Board {
         scores();
         denseRanking(playerInventoryList);
         log.finalGameRanking(playerInventoryList);
+
         // We send data to the server
-        sendWinner(playerInventoryList,log.isBooleanPrint());
+        sendData();
+    }
+
+    private void sendData() {
+        sendWinner();
+        sendScores();
+    }
+
+    private void sendScores() {
+        int nbPlayers = playerInventoryList.size();
+        Integer[] scores = new Integer[nbPlayers];
+        for (int i = 0; i < nbPlayers; i++) {
+            scores[i] = playerInventoryList.get(i).getScore();
+        }
+        SevenWondersLauncher.client.sendScores(scores);
     }
 
     void handleLastTurnCard() {
@@ -125,16 +140,14 @@ public class Board {
         }
     }
 
-    private void sendWinner(List<Inventory> playerInventoryList,Boolean send) {
-        if(send) {
-            Inventory winnerInventory = getPlayerInventoryList().get(0);
-            for (Inventory inv : getPlayerInventoryList()) {
-                if (inv.getScore() > winnerInventory.getScore()) {
-                    winnerInventory = inv;
-                }
+    private void sendWinner() {
+        Inventory winnerInventory = playerInventoryList.get(0);
+        for (Inventory inv : playerInventoryList) {
+            if (inv.getScore() > winnerInventory.getScore()) {
+                winnerInventory = inv;
             }
-            SevenWondersLauncher.client.sendWinner(winnerInventory);
         }
+        SevenWondersLauncher.client.sendWinner(winnerInventory);
     }
 
     private void assignWBToPlayers() {
