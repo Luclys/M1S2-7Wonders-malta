@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
-    private final GameLogger log;
     List<Player> playerList;
     List<Inventory> playerInventoryList;
+    private final GameLogger log;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;
@@ -26,7 +27,9 @@ public class PlayersManager {
 
     protected void updateCoins() {
         for (Inventory inv : playerInventoryList) {
-            inv.addCoins(inv.getAddedCoins());
+            int coinsFromTrade = inv.getAddedCoins();
+            inv.addCoins(coinsFromTrade);
+            inv.getDetailedResults().addNbCoinsAcquiredInTrade(coinsFromTrade);
             inv.setAddedCoins(0);
         }
     }
@@ -65,17 +68,19 @@ public class PlayersManager {
         for (int i = 0; i < players.size(); i++) {
             Inventory inv = new Inventory(i);
             // To make a sure we bind the first's left to last id
+            Player player = players.get(i);
             if (i == 0) {
-                players.get(i).setLeftNeighborId(players.size() - 1);
+                player.setLeftNeighborId(players.size() - 1);
             } else {
-                players.get(i).setLeftNeighborId(i - 1);
+                player.setLeftNeighborId(i - 1);
             }
             // To make a sure we bind the last's right to first id
             if (i == players.size() - 1) {
-                players.get(i).setRightNeighborId(0);
+                player.setRightNeighborId(0);
             } else {
-                players.get(i).setRightNeighborId(i + 1);
+                player.setRightNeighborId(i + 1);
             }
+            inv.setDetailedResults(new DetailedResults(player.getStrategyName()));
             playerInventoryList.add(inv);
         }
         playerList = players;

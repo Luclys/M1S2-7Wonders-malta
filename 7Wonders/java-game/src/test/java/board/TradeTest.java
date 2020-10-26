@@ -1,7 +1,7 @@
 package board;
 
+import gameelements.DetailedResults;
 import gameelements.GameLogger;
-import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +21,7 @@ class TradeTest {
     void setUp() {
         trade = new Trade(new GameLogger(false));
         player = new Inventory(0);
+        player.setDetailedResults(new DetailedResults("Test"));
         rightNeighbor = new Inventory(1);
         leftNeighbor = new Inventory(2);
         list = new ArrayList<>();
@@ -389,7 +390,7 @@ class TradeTest {
         playerInitialCoins = player.getCoins();
         trade.payToNeighbor(player, leftNeighbor, 3);
         assertEquals(player.getCoins(), playerInitialCoins - 3);
-        assertEquals(leftNeighbor.getAddedCoins(), 3);
+        assertEquals(leftNeighbor.getAddedCoins(), 5);// 3 + 2
         assertEquals(leftNeighbor.getCoins(), leftNeighborInitialCoins);
     }
 

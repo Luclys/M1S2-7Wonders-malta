@@ -1,5 +1,6 @@
 package effects;
 
+import gameelements.DetailedResults;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.effects.ScoreForNeighborsDefeatJetonsEffect;
@@ -23,7 +24,9 @@ class ScoreForNeighborsDefeatJetonsEffectTest {
         player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
+        leftNeighborInv.setDetailedResults(new DetailedResults("test"));
         rightNeighborInv = new Inventory(2);
+        rightNeighborInv.setDetailedResults(new DetailedResults("test"));
         scoreEffect = new ScoreForNeighborsDefeatJetonsEffect(5);
     }
 

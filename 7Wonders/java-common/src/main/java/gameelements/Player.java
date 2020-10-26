@@ -54,11 +54,14 @@ public class Player {
     }
 
 
+    public String getStrategyName() {
+        return strategy.getClass().getName();
+    }
+
     //Getters and setters
     public int getId() {
         return id;
     }
-
 
     public Card getChosenCard() {
         return this.chosenCard;
@@ -67,7 +70,6 @@ public class Player {
     public int getRightNeighborId() {
         return this.rightNeighborId;
     }
-
 
     public void setRightNeighborId(int id) {
         this.rightNeighborId = id;
