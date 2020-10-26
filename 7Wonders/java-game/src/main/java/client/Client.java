@@ -10,16 +10,14 @@ import java.util.logging.Logger;
 import static constants.NET.ENDGAME_INVENTORIES;
 
 public class Client {
-    private final static Logger log = Logger.getLogger(Client.class.getName());
+    private static final Logger log = Logger.getLogger(Client.class.getName());
     Socket connection;
 
     public Client(String serverURL) {
         try {
             connection = IO.socket(serverURL);
 
-            connection.on("connect", objects -> {
-                log.info("We are connected");
-            });
+            connection.on("connect", objects -> log.info("We are connected"));
 
             connection.on("disconnect", objects -> {
                 log.info("We are disconnected");
@@ -47,4 +45,9 @@ public class Client {
     public void stop() {
         connection.close();
     }
+
+    public Boolean isConnected() {
+        return connection.connected();
+    }
+
 }

@@ -18,6 +18,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class presents the dirrector of the game
+ *
+ * @author lamac
+ */
+
 public class Board {
     public static final int AGES = 3;
     public static final int CARDS_NUMBER = 7;
@@ -33,6 +39,14 @@ public class Board {
     private boolean isLeftRotation;
     private int jetonVictoryValue;
 
+    /**
+     * the constructor allows
+     * to associate the given player to inventories
+     * to initialize the attributs
+     *
+     * @param playerList
+     * @param boolPrint
+     */
     public Board(List<Player> playerList, Boolean boolPrint) {
         log = new GameLogger(boolPrint);
         commerce = new Trade(log);
@@ -81,6 +95,14 @@ public class Board {
 
         Collections.shuffle(currentDeckCardList);
     }
+
+    /**
+     * this method launch the game
+     * it starts by associate the cards to the players
+     * ask players for their chosen cards and their actions and call an other method to excute them
+     *
+     * @param nbPlay
+     */
 
     public void play(int nbPlay) {
         log.beginningOfPlay(nbPlay);
@@ -134,6 +156,10 @@ public class Board {
         }
     }
 
+    /**
+     * this method checks if it the end on the age so that the last cards in the hands of
+     * the players can be discard
+     */
     void handleLastTurnCard() {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
@@ -148,6 +174,12 @@ public class Board {
         }
     }
 
+    /**
+     * this methods allows to send information to the server
+     *
+     * @param playerInventoryList
+     * @param send
+     */
     private void sendWinner(List<Inventory> playerInventoryList, Boolean send) {
         Inventory winnerInventory = getPlayerInventoryList().get(0);
         for (Inventory inv : getPlayerInventoryList()) {
@@ -160,6 +192,9 @@ public class Board {
 
     }
 
+    /**
+     * this method allows to associate the wonder boards to the players
+     */
     private void assignWBToPlayers() {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
@@ -178,6 +213,12 @@ public class Board {
         }
     }
 
+    /**
+     * this method execute the action of the player
+     *
+     * @param inv
+     * @param player
+     */
     protected void executePlayerAction(Inventory inv, Player player) {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
@@ -235,6 +276,15 @@ public class Board {
         log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
+
+    /**
+     * this method allows to check if the player can buy resources
+     *
+     * @param trueInv
+     * @param requiredResources
+     * @param player
+     * @return
+     */
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
@@ -250,6 +300,13 @@ public class Board {
         return canBuy;
     }
 
+    /**
+     * this method alowws to build chosen card
+     *
+     * @param trueInv
+     * @param chosenCard
+     * @param player
+     */
     private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
             log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
@@ -257,18 +314,39 @@ public class Board {
         }
     }
 
+    /**
+     * this method alowws to build a step of the wonder assocaite to the player by using
+     * the chosen card
+     *
+     * @param trueInv
+     * @param chosenCard
+     * @param player
+     */
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
+
+    /**
+     * this method allows to sell the chosen card
+     *
+     * @param trueInv
+     * @param chosenCard
+     */
     private void initSellCard(Inventory trueInv, Card chosenCard) {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().addNbSoldCard(1);
     }
 
+
+    /**
+     * this method allows to resolve the war conflict between a players and their neighbors
+     *
+     * @param victoryJetonValue
+     */
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
@@ -285,6 +363,9 @@ public class Board {
         return playerDeck;
     }
 
+    /**
+     * this method calculate the scores of the player at the end of the game
+     */
     public void scores() {
         log.endOfGame();
         /*The player's score is calculated by doing :

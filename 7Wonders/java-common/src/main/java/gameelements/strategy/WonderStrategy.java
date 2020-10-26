@@ -6,6 +6,12 @@ import gameelements.enums.Action;
 
 import java.util.ArrayList;
 
+/**
+ * This class describe the wonder Strategy
+ *
+ * @author lamac
+ */
+
 public class WonderStrategy implements PlayingStrategy {
     Action action;
 
@@ -22,6 +28,17 @@ public class WonderStrategy implements PlayingStrategy {
     private void setAction(Action action) {
         this.action = action;
     }
+
+    /**
+     * this method choose a card according to this actions
+     * to build a step o the wonder associate to the inv if it s possible
+     * or build sell a card if the player can't play any of the cards in his hand
+     * or build a free building if he can (he has the effect)
+     * or build a card if he has the required resource or can buy then
+     *
+     * @param inv
+     * @return Card the chosen card according to the action that the player can do
+     */
 
     public Card chooseCardToBuildStep(Inventory inv) {
         boolean canBuildStep = inv.canBuildNextStep(inv.getWonderBoard());

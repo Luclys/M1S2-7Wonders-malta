@@ -1,8 +1,14 @@
 package gameelements.cards;
 
-import gameelements.Effect;
+import gameelements.effects.Effect;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
+
+/**
+ * This class describe a Card
+ *
+ * @author lamac
+ */
 
 public class Card {
     private final int id;
@@ -25,6 +31,11 @@ public class Card {
         this.buildingIdsCanBeBuiltForFree = buildingsCanBeBuiltForFree;
     }
 
+    /**
+     * This method returns if the current card is a building or not
+     *
+     * @return
+     */
     public boolean isBuilding() {
         return (
                 this.category == Category.BATIMENT_CIVIL ||
@@ -39,7 +50,6 @@ public class Card {
         return "Card{\"" + name + "\"}";
     }
 
-    // GETTERS & SETTERS
     public String getName() {
         return name;
     }

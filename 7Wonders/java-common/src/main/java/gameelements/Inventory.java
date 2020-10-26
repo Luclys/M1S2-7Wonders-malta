@@ -1,6 +1,7 @@
 package gameelements;
 
 import gameelements.cards.Card;
+import gameelements.effects.Effect;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;

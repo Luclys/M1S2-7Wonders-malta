@@ -9,6 +9,11 @@ import gameelements.wonders.WonderBoard;
 
 import java.util.List;
 
+/**
+ * This class describe a player
+ *
+ * @author lamac
+ */
 public class Player {
     private final int id;
     private final PlayingStrategy strategy;
@@ -30,11 +35,23 @@ public class Player {
         return "Player " + id;
     }
 
+    /**
+     * This method returns a card according to the strategy used
+     *
+     * @param inv
+     * @return chosen card
+     */
     public Card chooseCard(Inventory inv) {
         chosenCard = strategy.chooseCard(inv);
         return chosenCard;
     }
 
+    /**
+     * This method allows to associate a wonder to a player
+     *
+     * @param availablewonderBoardList
+     * @return WonderBoard
+     */
     public WonderBoard chooseWonderBoard(List<WonderBoard> availablewonderBoardList) {
         return availablewonderBoardList.get(0);
     }

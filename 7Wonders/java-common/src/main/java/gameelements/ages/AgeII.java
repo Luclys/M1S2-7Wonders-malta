@@ -6,6 +6,11 @@ import gameelements.cards.CardsSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class describe the second Age
+ *
+ * @author lamac
+ */
 public class AgeII extends Age {
     public AgeII() {
         vicoryJetonValue = 3;

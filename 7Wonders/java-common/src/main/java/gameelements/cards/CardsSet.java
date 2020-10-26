@@ -1,12 +1,16 @@
 package gameelements.cards;
 
-import gameelements.Effect;
 import gameelements.effects.*;
 import gameelements.enums.Category;
 import gameelements.enums.Neighbor;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
+/**
+ * This class contains all type of cards
+ *
+ * @author lamac
+ */
 public abstract class CardsSet {
     //=========================================================================AGE I=========================================================================
     //MATIERE_PREMIERE(Brown)

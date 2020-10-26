@@ -1,10 +1,16 @@
-package gameelements;
+package gameelements.effects;
 
+import gameelements.Inventory;
+import gameelements.Player;
 import gameelements.enums.EffectDelay;
 
+/**
+ * This abstract class describe All effects
+ *
+ * @author lamac
+ */
 public abstract class Effect {
     private EffectDelay delay;
-
 
     public Effect(EffectDelay delay) {
         this.delay = delay;

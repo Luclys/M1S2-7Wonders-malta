@@ -1,6 +1,5 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;

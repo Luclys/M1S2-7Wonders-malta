@@ -1,5 +1,10 @@
 package gameelements.cards;
 
+/**
+ * This class associate each card to an ID
+ *
+ * @author lamac
+ */
 public class CardIds {
 
     private static int cardCounter = 0;

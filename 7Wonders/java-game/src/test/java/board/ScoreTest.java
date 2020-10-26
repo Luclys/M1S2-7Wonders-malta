@@ -1,10 +1,10 @@
 package board;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.effects.ChoiceScientificEffect;
+import gameelements.effects.Effect;
 import gameelements.effects.SymbolEffect;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;

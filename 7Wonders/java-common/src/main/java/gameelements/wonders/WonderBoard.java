@@ -1,6 +1,5 @@
 package gameelements.wonders;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
