@@ -2,7 +2,7 @@ package gameelements;
 
 public class DetailedResults {
     String strategyName = "";
-    String WBName = "";
+    String wbName = "";
 
     int rank = 0;
     int totalScore = 0;
@@ -42,7 +42,7 @@ public class DetailedResults {
         this.nbCoinsSpentInTrade += coins;
     }
 
-    public void addNbSoldCard(int i) {
+    public void incNbSoldCard() {
         this.nbSoldCard++;
     }
 
@@ -54,12 +54,12 @@ public class DetailedResults {
         this.strategyName = strategyName;
     }
 
-    public String getWBName() {
-        return WBName;
+    public String getWbName() {
+        return wbName;
     }
 
-    public void setWBName(String WBName) {
-        this.WBName = WBName;
+    public void setWbName(String wbName) {
+        this.wbName = wbName;
     }
 
     public int getRank() {

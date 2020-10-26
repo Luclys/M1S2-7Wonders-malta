@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Server {
-    SocketIOServer server;
+    SocketIOServer socketServer;
     private final static Logger log = Logger.getLogger(Server.class.getName());
     private final HashMap<Integer, Integer> wins = new HashMap<>();
     private final HashMap<Integer, Integer> scores = new HashMap<>();
@@ -28,24 +29,23 @@ public class Server {
 
     public Server(Configuration configuration) {
         // Creation of the server
-        server = new SocketIOServer(configuration);
+        socketServer = new SocketIOServer(configuration);
 
         // We accept the connection
-        server.addConnectListener(socketIOClient -> log.info("Connection of " + socketIOClient.getRemoteAddress()));
-
-        server.addDisconnectListener(new DisconnectListener() {
+        socketServer.addConnectListener(new ConnectListener() {
+            @Override
+            public void onConnect(SocketIOClient socketIOClient) {
+                log.info("Connection of " + socketIOClient.getRemoteAddress());
+            }
+        });
+        socketServer.addDisconnectListener(new DisconnectListener() {
             @Override
             public void onDisconnect(SocketIOClient socketIOClient) {
                 log.info("Client disconnected");
             }
         });
 
-        // Receiving of inventory and declaring the winner
-        server.addEventListener("winner", Integer.class, (socketIOClient, playerId, ackRequest) -> {
-            wins.merge(playerId, 1, Integer::sum);
-        });
-
-        server.addEventListener(NET.PLAYERS, Integer.class, new DataListener<Integer>() {
+        socketServer.addEventListener(NET.PLAYERS, Integer.class, new DataListener<Integer>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
                 nbPlayers = integer;
@@ -56,7 +56,7 @@ public class Server {
             }
         });
 
-        server.addEventListener(NET.RESULTS, String.class, new DataListener<String>() {
+        socketServer.addEventListener(NET.RESULTS, String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -67,7 +67,7 @@ public class Server {
         });
 
         // Show the win rate of each player
-        server.addPingListener(this::showStatistics);
+        socketServer.addPingListener(this::showStatistics);
     }
 
     private void setData() {
@@ -118,7 +118,7 @@ public class Server {
     }
 
     private void start() {
-        server.start();
+        socketServer.start();
         log.info("Waiting for connexion...");
     }
 }

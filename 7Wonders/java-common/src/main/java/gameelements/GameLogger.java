@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
     boolean booleanPrint;
-    String SEPARATOR = "%n==========================================================================%n";
+    static String SEPARATOR = "%n==========================================================================%n";
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
