@@ -25,15 +25,15 @@ public class ReductCommerceEffect extends Effect {
 
         if (primaryRessources.equals(Boolean.TRUE)) {
             switch (whichNeighbor) {
-                case BOTH:
-                    inv.setMatieresPremieresPriceRight(1);
-                    inv.setMatieresPremieresPriceLeft(1);
-                    break;
                 case LEFT:
                     inv.setMatieresPremieresPriceLeft(1);
                     break;
                 case RIGHT:
                     inv.setMatieresPremieresPriceRight(1);
+                    break;
+                default:
+                    inv.setMatieresPremieresPriceRight(1);
+                    inv.setMatieresPremieresPriceLeft(1);
                     break;
             }
         } else {

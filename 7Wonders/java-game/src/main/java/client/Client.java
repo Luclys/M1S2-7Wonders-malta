@@ -10,9 +10,8 @@ import java.util.logging.Logger;
 import static constants.NET.ENDGAME_INVENTORIES;
 
 public class Client {
-    Socket connection;
-
     private final static Logger log = Logger.getLogger(Client.class.getName());
+    Socket connection;
 
     public Client(String serverURL) {
         try {

@@ -10,12 +10,11 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SevenWondersLauncher {
+    private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
     static Client client;
     static int nbPlayers = 3;
     static int nbGames = 1000;
     static boolean boolPrint = false;
-
-    private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
 
     public static void main(String[] args) {
         //Starting the server
@@ -64,6 +63,11 @@ public class SevenWondersLauncher {
         });
 
         server.start();
+    }
+
+    public static void startClient() {
+        client = new Client("http://127.0.0.1:10101");
+        client.start();
     }
 
 }

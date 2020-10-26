@@ -46,6 +46,20 @@ public class Board {
         availablewonderBoardList = WonderBoard.initiateWonders();
     }
 
+    static void denseRanking(List<Inventory> playerInventoryList) {
+        List<Inventory> orderedList = playerInventoryList.stream().sorted(Inventory::compareTo).collect(Collectors.toList());
+
+        Inventory lastinv = orderedList.get(0);
+        int rank = 1;
+        for (Inventory inv : orderedList) {
+            if (inv.compareTo(lastinv) > 0) {
+                rank++;
+            }
+            lastinv = inv;
+            inv.setRank(rank);
+        }
+    }
+
     public void ageSetUp(int numAge) {
         Age age;
         switch (numAge) {
@@ -108,7 +122,7 @@ public class Board {
         denseRanking(playerInventoryList);
         log.finalGameRanking(playerInventoryList);
         // We send data to the server
-        sendWinner(playerInventoryList,log.isBooleanPrint());
+        sendWinner(playerInventoryList, log.isBooleanPrint());
     }
 
     void handleLastTurnCard() {
@@ -125,16 +139,16 @@ public class Board {
         }
     }
 
-    private void sendWinner(List<Inventory> playerInventoryList,Boolean send) {
-        if(send) {
-            Inventory winnerInventory = getPlayerInventoryList().get(0);
-            for (Inventory inv : getPlayerInventoryList()) {
-                if (inv.getScore() > winnerInventory.getScore()) {
-                    winnerInventory = inv;
-                }
+    private void sendWinner(List<Inventory> playerInventoryList, Boolean send) {
+        Inventory winnerInventory = getPlayerInventoryList().get(0);
+        for (Inventory inv : getPlayerInventoryList()) {
+            if (inv.getScore() > winnerInventory.getScore()) {
+                winnerInventory = inv;
             }
-            SevenWondersLauncher.client.sendWinner(winnerInventory);
         }
+
+        SevenWondersLauncher.client.sendWinner(winnerInventory);
+
     }
 
     private void assignWBToPlayers() {
@@ -290,20 +304,6 @@ public class Board {
             inv.addScore(nbSameScientific * 7);
 
             log.playerInformation(inv);
-        }
-    }
-
-    static void denseRanking(List<Inventory> playerInventoryList) {
-        List<Inventory> orderedList = playerInventoryList.stream().sorted(Inventory::compareTo).collect(Collectors.toList());
-
-        Inventory lastinv = orderedList.get(0);
-        int rank = 1;
-        for (Inventory inv : orderedList) {
-            if (inv.compareTo(lastinv) > 0) {
-                rank++;
-            }
-            lastinv = inv;
-            inv.setRank(rank);
         }
     }
 

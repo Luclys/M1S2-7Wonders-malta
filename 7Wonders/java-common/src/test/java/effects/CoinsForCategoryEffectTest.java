@@ -33,7 +33,7 @@ class CoinsForCategoryEffectTest {
     void activateEffectNotEndGameTest() {
         assertEquals(Category.MATIERE_PREMIERE, coinsForCategoryEffect.getCategory());
         int cardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(coinsForCategoryEffect.getCategory())).count();
-        int coins = inv.getCoins()+cardsCount * coinsForCategoryEffect.getNbCoins();
+        int coins = inv.getCoins() + cardsCount * coinsForCategoryEffect.getNbCoins();
         //Not end of the game
         coinsForCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(coins, inv.getCoins());
@@ -46,13 +46,13 @@ class CoinsForCategoryEffectTest {
     @Test
     void activateEffectEndGameTest() {
         int cardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(coinsForCategoryEffect.getCategory())).count();
-        int coins = inv.getCoins()+cardsCount * coinsForCategoryEffect.getNbCoins();
+        int coins = inv.getCoins() + cardsCount * coinsForCategoryEffect.getNbCoins();
         //Not end of the game
         coinsForCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins, inv.getCoins());
         coinsForCategoryEffect.setDelay(EffectDelay.END_OF_THE_GAME);
         cardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(coinsForCategoryEffect.getCategory())).count();
-        coins =inv.getCoins()+cardsCount * coinsForCategoryEffect.getNbCoins();
+        coins = inv.getCoins() + cardsCount * coinsForCategoryEffect.getNbCoins();
         coinsForCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins, inv.getCoins());
     }

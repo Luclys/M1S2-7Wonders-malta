@@ -36,7 +36,7 @@ class CoinsForOwnAndNeighborsCardsEffectTest {
         int ownCardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
-        int coins = inv.getCoins()+(ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
+        int coins = inv.getCoins() + (ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
         coinsEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(coins, inv.getCoins());
     }
@@ -46,16 +46,16 @@ class CoinsForOwnAndNeighborsCardsEffectTest {
         int ownCardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
-        int coins = inv.getCoins()+(ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
+        int coins = inv.getCoins() + (ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
         coinsEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins, inv.getCoins());
         coinsEffect.setDelay(EffectDelay.INSTANTANEOUS);
         ownCardsCount = (int) inv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
         rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(Category.BATIMENT_COMMERCIAL)).count();
-        coins = inv.getCoins()+(ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
+        coins = inv.getCoins() + (ownCardsCount + leftNeighborCardsCount + rightNeighborCardsCount) * coinsEffect.getNb();
         coinsEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins, inv.getCoins());
     }
-    
+
 }

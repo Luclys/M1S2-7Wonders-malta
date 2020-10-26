@@ -24,8 +24,9 @@ class WonderStrategyTest {
     Inventory inv;
     WonderStrategy strategy;
     ArrayList<Card> cards;
+
     @BeforeEach
-    void setUp(){
+    void setUp() {
         strategy = new WonderStrategy();
         cards = new ArrayList<>();
         cards.add(CardsSet.HOTEL_DE_VILLE);
@@ -35,46 +36,48 @@ class WonderStrategyTest {
 
 
     @Test
-    void chooseCardWonderTest(){
+    void chooseCardWonderTest() {
         doReturn(true).when(inv).canBuildNextStep(any());
         strategy.chooseCard(inv);
-        assertEquals(Action.WONDER,strategy.getAction());
+        assertEquals(Action.WONDER, strategy.getAction());
         doReturn(false).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
         strategy.chooseCard(inv);
-        assertEquals(Action.WONDER,strategy.getAction());
+        assertEquals(Action.WONDER, strategy.getAction());
     }
 
     @Test
-    void chooseCardBuildingTest(){
+    void chooseCardBuildingTest() {
         doReturn(false).when(inv).canBuild(any());
         strategy.chooseCard(inv);
-        assertEquals(Action.BUILDING,strategy.getAction());
+        assertEquals(Action.BUILDING, strategy.getAction());
 
         doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
         strategy.chooseCard(inv);
-        assertEquals(Action.BUILDING,strategy.getAction());
+        assertEquals(Action.BUILDING, strategy.getAction());
     }
+
     @Test
-    void chooseCardSellTest(){
+    void chooseCardSellTest() {
 
         doReturn(false).when(inv).canBuildNextStep(any());
-       // doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
+        // doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
         doReturn(cards).when(inv).getPlayedCards();
         strategy.chooseCard(inv);
-        assertEquals(Action.SELL,strategy.getAction());
+        assertEquals(Action.SELL, strategy.getAction());
     }
 
     @Test
-    void chooseCardBuildFreeTest(){
+    void chooseCardBuildFreeTest() {
 
         doReturn(1).when(inv).getPossibleFreeBuildings();
         doReturn(false).when(inv).canBuild(any());
         strategy.chooseCard(inv);
-        assertEquals(Action.BUILDING,strategy.getAction());
+        assertEquals(Action.BUILDING, strategy.getAction());
+
         Resource[] r = inv.getCardsInHand().get(0).getRequiredResources();
         doReturn(true).when(inv).canBuild(r);
         strategy.chooseCard(inv);
-        assertEquals(Action.BUILDFREE,strategy.getAction());
+        assertEquals(Action.BUILDFREE, strategy.getAction());
 
     }
 

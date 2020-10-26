@@ -173,13 +173,13 @@ public class Inventory implements Comparable {
                         if (neededResources[i] > anyMatierePremiereAvailableLeft) {
                             return false;
                         } else {
-                            anyMatierePremiereAvailableLeft-=neededResources[i];
+                            anyMatierePremiereAvailableLeft -= neededResources[i];
                         }
                     } else {
                         if (neededResources[i] > anyResourceManufactureAvailableLeft) {
                             return false;
                         } else {
-                            anyResourceManufactureAvailableLeft-=neededResources[i];
+                            anyResourceManufactureAvailableLeft -= neededResources[i];
                         }
                     }
                 }

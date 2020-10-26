@@ -39,7 +39,7 @@ class ScoreForOwnAndNeighborMerveillesEffectTest {
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStepIndex();
         int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStepIndex();
-        int score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore()+inv.getScore();
+        int score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore() + inv.getScore();
         scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(score, inv.getScore());
     }
@@ -49,14 +49,14 @@ class ScoreForOwnAndNeighborMerveillesEffectTest {
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStepIndex();
         int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStepIndex();
-        int score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore()+inv.getScore();
+        int score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore() + inv.getScore();
         scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(score, inv.getScore());
         scoreEffect.setDelay(EffectDelay.INSTANTANEOUS);
         stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStepIndex();
         rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStepIndex();
-        score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore()+inv.getScore();
+        score = (stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * scoreEffect.getScore() + inv.getScore();
         scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(score, inv.getScore());
     }

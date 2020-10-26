@@ -1,8 +1,8 @@
 package board;
 
+import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
-import gameelements.GameLogger;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
 
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
+    private final GameLogger log;
     List<Player> playerList;
     List<Inventory> playerInventoryList;
-    private final GameLogger log;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;

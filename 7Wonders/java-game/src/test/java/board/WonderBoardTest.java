@@ -6,6 +6,7 @@ import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.effects.ResourceEffect;
 import gameelements.effects.SymbolEffect;
+import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.strategy.WonderStrategy;
@@ -14,17 +15,25 @@ import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
 
+@ExtendWith(MockitoExtension.class)
 class WonderBoardTest {
 
     List<Player> playerList;
+    @Mock
+    Player player;
 
     Board board;
+
     @BeforeEach
     void setUp() {
         playerList = new ArrayList<>(3);
@@ -97,25 +106,36 @@ class WonderBoardTest {
     }
 
     @Test
-    void handleLastTurnCardTest(){
+    void handleLastTurnCardTest() {
         assertTrue(board.getDiscardedDeckCardList().isEmpty());
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(CardsSet.HOTEL_DE_VILLE);
-        for (Inventory inv : board.getPlayerInventoryList()){
+        for (Inventory inv : board.getPlayerInventoryList()) {
             inv.setCardsInHand(cards);
         }
-       // board.handleLastTurnCard();
-       // assertFalse(board.getDiscardedDeckCardList().isEmpty());
+        // board.handleLastTurnCard();
+        // assertFalse(board.getDiscardedDeckCardList().isEmpty());
     }
 
     @Test
-    void assignWBToPlayersTest(){
-        assertEquals(14,board.getAvailablewonderBoardList().size());
+    void assignWBToPlayersTest() {
+        assertEquals(14, board.getAvailablewonderBoardList().size());
+        SevenWondersLauncher.startClient();
+
         board.play(board.getPlayerInventoryList().size());
-        assertEquals(14 - board.getPlayerInventoryList().size()*2,board.getAvailablewonderBoardList().size());
+        assertEquals(14 - board.getPlayerInventoryList().size() * 2, board.getAvailablewonderBoardList().size());
     }
 
-
+    @Test
+    void executeActionBUILDFREETest() {
+        Inventory inv = board.getPlayerInventoryList().get(0);
+        inv.setPossibleFreeBuildings(1);
+        assertEquals(1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
+        doReturn(0).when(player).getId();
+        doReturn(Action.BUILDFREE).when(player).getAction();
+        board.executePlayerAction(inv, player);
+        assertEquals(-1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
+    }
 }
 
 

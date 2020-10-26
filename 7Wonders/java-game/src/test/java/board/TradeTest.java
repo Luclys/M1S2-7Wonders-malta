@@ -1,7 +1,7 @@
 package board;
 
-import gameelements.Inventory;
 import gameelements.GameLogger;
+import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -414,7 +414,7 @@ class TradeTest {
 
 
     @Test
-    void cantBuyResourceTest(){
+    void cantBuyResourceTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         leftNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -424,7 +424,7 @@ class TradeTest {
     }
 
     @Test
-    void cantBuyResourceFromRightNeighborTest(){
+    void cantBuyResourceFromRightNeighborTest() {
         list.add(Resource.ARGILE);
         rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]++;
         player.setMatieresPremieresPriceRight(4);

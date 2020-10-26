@@ -105,7 +105,7 @@ class InventoryTest {
 
 
     @Test
-    void canBuildTest(){
+    void canBuildTest() {
         assertFalse(inventory.canBuild(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
         inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
         inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
@@ -114,21 +114,21 @@ class InventoryTest {
     }
 
     @Test
-    void payIfPossibleTest(){
+    void payIfPossibleTest() {
         assertTrue(inventory.payIfPossible(2));
         assertFalse(inventory.payIfPossible(4));
     }
 
     @Test
-    void missingResourceTest(){
-        assertEquals(Collections.emptyList(),inventory.missingResources(null));
+    void missingResourceTest() {
+        assertEquals(Collections.emptyList(), inventory.missingResources(null));
         ArrayList<Resource> resources = new ArrayList<Resource>();
         resources.add(Resource.PIERRE);
         resources.add(Resource.ARGILE);
-        assertEquals(resources,inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        assertEquals(resources, inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
         inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
         inventory.getAvailableResources()[Resource.ARGILE.getIndex()]++;
-        assertEquals(new ArrayList<Resource>(),inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
+        assertEquals(new ArrayList<Resource>(), inventory.missingResources(new Resource[]{Resource.PIERRE, Resource.ARGILE}));
 
 
     }

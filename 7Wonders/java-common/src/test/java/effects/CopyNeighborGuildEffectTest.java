@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CopyNeighborGuildEffectTest {
@@ -28,7 +29,7 @@ class CopyNeighborGuildEffectTest {
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
         guildEffect = new CopyNeighborGuildEffect();
-        cards =new ArrayList<>();
+        cards = new ArrayList<>();
         cards.add(CardsSet.CASERNE);
         cards.add(CardsSet.HOTEL_DE_VILLE);
         leftNeighborInv.setPlayedCards(cards);
@@ -42,30 +43,26 @@ class CopyNeighborGuildEffectTest {
         guildEffect.setDelay(EffectDelay.INSTANTANEOUS);
         //Not end of the game
         // list is empty
-        //guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
-
+        guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertFalse(inv.getPlayedCards().contains(CardsSet.GUILDE_DES_TRAVAILLEURS));
         cards.add(CardsSet.GUILDE_DES_TRAVAILLEURS);
+
+        // list not empty
         leftNeighborInv.setPlayedCards(cards);
         guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        assertTrue(inv.getPlayedCards().contains(CardsSet.GUILDE_DES_TRAVAILLEURS));
     }
 
 
     @Test
     void activateEffectEndGameTest() {
         // end of the game
-//        guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        assertFalse(inv.getPlayedCards().contains(CardsSet.GUILDE_DES_TRAVAILLEURS));
         cards.add(CardsSet.GUILDE_DES_TRAVAILLEURS);
         leftNeighborInv.setPlayedCards(cards);
         guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-
-        guildEffect.setDelay(EffectDelay.INSTANTANEOUS);
-
-        guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-        cards.remove(CardsSet.GUILDE_DES_TRAVAILLEURS);
-        leftNeighborInv.setPlayedCards(cards);
-        //guildEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
-
+        assertTrue(inv.getPlayedCards().contains(CardsSet.GUILDE_DES_TRAVAILLEURS));
     }
 
-    
 }

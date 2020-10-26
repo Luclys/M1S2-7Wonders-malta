@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import static constants.NET.ENDGAME_INVENTORIES;
 
 public class Server {
-    SocketIOServer server;
     private final static Logger log = Logger.getLogger(Server.class.getName());
+    SocketIOServer server;
 
     public Server(Configuration configuration) {
         // Creation of server
