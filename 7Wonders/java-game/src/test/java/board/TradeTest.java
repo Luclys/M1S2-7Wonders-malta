@@ -22,7 +22,7 @@ class TradeTest {
     void setUp() {
         trade = new Trade(new GameLogger(false));
         player = new Inventory(0);
-        player.setDetailedResults(new DetailedResults("Test"));
+        player.setDetailedResults(new DetailedResults());
         rightNeighbor = new Inventory(1);
         leftNeighbor = new Inventory(2);
         list = new ArrayList<>();

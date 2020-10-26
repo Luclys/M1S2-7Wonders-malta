@@ -1,40 +1,38 @@
 package gameelements.cards;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gameelements.DetailedResults;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class serializeCards {
 
     public static void main(String[] args) throws IOException {
 
-        TestStatsClass stats0 = new TestStatsClass();
-        TestStatsClass stats1 = new TestStatsClass();
-        TestStatsClass stats2 = new TestStatsClass();
-        stats0.setNbViq("0");
-        stats0.setNbViq1(1);
-        stats0.setNbViq2(2);
-        stats0.setNbViq3(3);
-        stats0.setNbViq4(4);
-        stats1.setNbViq("0");
-        stats1.setNbViq1(1);
-        stats1.setNbViq2(2);
-        stats1.setNbViq3(3);
-        stats1.setNbViq4(4);
-        stats2.setNbViq("0");
-        stats2.setNbViq1(1);
-        stats2.setNbViq2(2);
-        stats2.setNbViq3(3);
-        stats2.setNbViq4(4);
+        DetailedResults stats0 = new DetailedResults();
+        DetailedResults stats1 = new DetailedResults();
+        DetailedResults stats2 = new DetailedResults();
 
-        TestStatsClass[] tabstats = new TestStatsClass[]{stats0, stats1, stats2};
+        List<DetailedResults> list = new ArrayList<>();
+        list.add(stats0);
+        list.add(stats1);
+        list.add(stats2);
+
+        DetailedResults[] tabstats = new DetailedResults[]{stats0, stats1, stats2};
+        Object[] tabstatsfromAL = list.toArray();
+
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(tabstats);
+        String jsonString2 = mapper.writeValueAsString(tabstatsfromAL);
 
-        TestStatsClass[] newstats = mapper.readValue(jsonString, TestStatsClass[].class);
-        System.out.println(Arrays.toString(newstats));
+        //DetailedResults[] newstats = mapper.readValue(jsonString, DetailedResults[].class);
+        DetailedResults[] newstats2 = mapper.readValue(jsonString2, DetailedResults[].class);
+        //System.out.println(Arrays.toString(newstats));
+        System.out.println(Arrays.toString(newstats2));
     }
 
     static class TestStatsClass {

@@ -120,13 +120,13 @@ public class Board {
 
         scores();
         denseRanking(playerInventoryList);
-        updatelastDetailedResultsValues();
+        updateLastDetailedResultsValues();
         log.finalGameRanking(playerInventoryList);
         // We send data to the server
         sendWinner(playerInventoryList, log.isBooleanPrint());
     }
 
-    private void updatelastDetailedResultsValues() {
+    private void updateLastDetailedResultsValues() {
         for (Inventory inv : playerInventoryList) {
             inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
             inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());

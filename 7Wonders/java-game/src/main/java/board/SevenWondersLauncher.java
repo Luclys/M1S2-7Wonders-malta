@@ -37,9 +37,9 @@ public class SevenWondersLauncher {
             Board board = new Board(playerList, boolPrint);
             board.play(i);
             if (i != nbGames) {
-                log.info(String.format("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames));
+                System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
             } else {
-                log.info(String.format("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames));
+                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
             }
         }
     }

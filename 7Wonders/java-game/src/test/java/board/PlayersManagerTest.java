@@ -25,7 +25,7 @@ class PlayersManagerTest {
         for (int i = 0; i < 3; i++) {
             playersManager.playerList.add(new Player(i));
             Inventory inv = new Inventory(i);
-            inv.setDetailedResults(new DetailedResults("Test"));
+            inv.setDetailedResults(new DetailedResults());
             playersManager.playerInventoryList.add(inv);
         }
     }

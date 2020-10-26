@@ -18,11 +18,11 @@ class RanksTest {
     @Test
     void condenseRankingTest() {
         Inventory inv0 = new Inventory(0);
-        inv0.setDetailedResults(new DetailedResults("Test"));
+        inv0.setDetailedResults(new DetailedResults());
         Inventory inv1 = new Inventory(1);
-        inv1.setDetailedResults(new DetailedResults("Test"));
+        inv1.setDetailedResults(new DetailedResults());
         Inventory inv2 = new Inventory(2);
-        inv2.setDetailedResults(new DetailedResults("Test"));
+        inv2.setDetailedResults(new DetailedResults());
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -44,11 +44,11 @@ class RanksTest {
     @Test
     void condenseRankingTestScoreEqual1() {
         Inventory inv0 = new Inventory(0);
-        inv0.setDetailedResults(new DetailedResults("Test"));
+        inv0.setDetailedResults(new DetailedResults());
         Inventory inv1 = new Inventory(1);
-        inv1.setDetailedResults(new DetailedResults("Test"));
+        inv1.setDetailedResults(new DetailedResults());
         Inventory inv2 = new Inventory(2);
-        inv2.setDetailedResults(new DetailedResults("Test"));
+        inv2.setDetailedResults(new DetailedResults());
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -69,13 +69,13 @@ class RanksTest {
     @Test
     void condenseRankingTestScoreEqualDisordered() {
         Inventory inv0 = new Inventory(0);
-        inv0.setDetailedResults(new DetailedResults("Test"));
+        inv0.setDetailedResults(new DetailedResults());
         Inventory inv1 = new Inventory(1);
-        inv1.setDetailedResults(new DetailedResults("Test"));
+        inv1.setDetailedResults(new DetailedResults());
         Inventory inv2 = new Inventory(2);
-        inv2.setDetailedResults(new DetailedResults("Test"));
+        inv2.setDetailedResults(new DetailedResults());
         Inventory inv3 = new Inventory(3);
-        inv3.setDetailedResults(new DetailedResults("Test"));
+        inv3.setDetailedResults(new DetailedResults());
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -100,13 +100,13 @@ class RanksTest {
     @Test
     void condenseRankingTestCoinsEqual() {
         Inventory inv0 = new Inventory(0);
-        inv0.setDetailedResults(new DetailedResults("Test"));
+        inv0.setDetailedResults(new DetailedResults());
         Inventory inv1 = new Inventory(1);
-        inv1.setDetailedResults(new DetailedResults("Test"));
+        inv1.setDetailedResults(new DetailedResults());
         Inventory inv2 = new Inventory(2);
-        inv2.setDetailedResults(new DetailedResults("Test"));
+        inv2.setDetailedResults(new DetailedResults());
         Inventory inv3 = new Inventory(3);
-        inv3.setDetailedResults(new DetailedResults("Test"));
+        inv3.setDetailedResults(new DetailedResults());
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -137,11 +137,11 @@ class RanksTest {
     @Test
     void condenseRankingTestCoinsDifferent() {
         Inventory inv0 = new Inventory(0);
-        inv0.setDetailedResults(new DetailedResults("Test"));
+        inv0.setDetailedResults(new DetailedResults());
         Inventory inv1 = new Inventory(1);
-        inv1.setDetailedResults(new DetailedResults("Test"));
+        inv1.setDetailedResults(new DetailedResults());
         Inventory inv2 = new Inventory(2);
-        inv2.setDetailedResults(new DetailedResults("Test"));
+        inv2.setDetailedResults(new DetailedResults());
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
