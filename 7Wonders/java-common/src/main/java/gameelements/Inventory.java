@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Inventory implements Comparable {
+    private DetailedResults detailedResults;
+
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
@@ -63,6 +65,7 @@ public class Inventory implements Comparable {
 
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
+        this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
         this.availableResources = inventory.availableResources;
         this.availableSymbols = inventory.availableSymbols;
@@ -215,6 +218,13 @@ public class Inventory implements Comparable {
     }
 
     // GETTERS & SETTERS
+    public DetailedResults getDetailedResults() {
+        return detailedResults;
+    }
+
+    public void setDetailedResults(DetailedResults detailedResults) {
+        this.detailedResults = detailedResults;
+    }
 
     public int getVictoryChipsScore() {
         return victoryChipsScore;
@@ -238,6 +248,7 @@ public class Inventory implements Comparable {
 
     public void addVictoryJetonsScore(int victoryJetonsScore) {
         this.victoryChipsScore += victoryJetonsScore;
+        this.detailedResults.setScoreFromVictoiryConflict(this.victoryChipsScore);
     }
 
     public void addEndGameEffect(Effect effect) {
@@ -246,6 +257,7 @@ public class Inventory implements Comparable {
 
     public void addDefeatJeton() {
         this.defeatChipsCount++;
+        this.detailedResults.setNbDefeatConflict(this.defeatChipsCount);
     }
 
     public void removeCoins(int coins) {
@@ -326,6 +338,7 @@ public class Inventory implements Comparable {
 
     public void setRank(int rank) {
         this.rank = rank;
+        this.detailedResults.setRank(rank);
     }
 
     public int getDefeatChipsCount() {
@@ -374,6 +387,10 @@ public class Inventory implements Comparable {
 
     public void setAddedCoins(int addedCoins) {
         this.addedCoins = addedCoins;
+    }
+
+    public void addAddedCoins(int totalCoins) {
+        this.addedCoins += totalCoins;
     }
 
     public int getAnyMatierePremiereAvailableCount() {

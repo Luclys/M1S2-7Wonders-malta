@@ -150,6 +150,7 @@ public class Board {
             availablewonderBoardList.remove(otherfaceIndex);
             availablewonderBoardList.remove(chosenWB);
 
+            inv.getDetailedResults().setWBName(chosenWB.getName());
             log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
@@ -169,7 +170,7 @@ public class Board {
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
-                // If FreeBuildingsCount == 0, we try to build normally
+                // If FreeBuildingsCount < 0, we try to build normally
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
@@ -182,11 +183,11 @@ public class Board {
                         if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
                             buildCard(inv, chosenCard, player);
                         } else {
-                            sellCard(inv, chosenCard);
+                            initSellCard(inv, chosenCard);
                         }
                     }
                 } else {
-                    sellCard(inv, chosenCard);
+                    initSellCard(inv, chosenCard);
                 }
                 break;
 
@@ -198,13 +199,13 @@ public class Board {
                     if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
                         buildWonder(inv, chosenCard, player);
                     } else {
-                        sellCard(inv, chosenCard);
+                        initSellCard(inv, chosenCard);
                     }
                 }
                 break;
 
             default:
-                sellCard(inv, chosenCard);
+                initSellCard(inv, chosenCard);
                 break;
         }
         log.playersNewState(inv.getPlayerId());
@@ -239,9 +240,10 @@ public class Board {
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
-    private void sellCard(Inventory trueInv, Card chosenCard) {
+    private void initSellCard(Inventory trueInv, Card chosenCard) {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
+        trueInv.getDetailedResults().addNbSoldCard(1);
     }
 
     public void resolveWarConflict(int victoryJetonValue) {
@@ -266,18 +268,24 @@ public class Board {
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
          * */
         for (Inventory inv : playerInventoryList) {
+            int scoreBefore = inv.getScore();
             // End Game Effects (guilds buildings)
             Player player = playerList.get(inv.getPlayerId());
             Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
             Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
             inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+            int guildScore = inv.getScore() - scoreBefore;
+            inv.getDetailedResults().setScoreFromGuilds(guildScore);
 
             // Sum of Conflict Points
             inv.addScore(inv.getVictoryChipsScore() - inv.getDefeatChipsCount());
 
             // (Sum coins / 3) -> each 3 coins grant 1 score point
-            inv.addScore(inv.getCoins() / 3);
+            int scoreEGCoins = inv.getCoins() / 3;
+            inv.addScore(scoreEGCoins);
+            inv.getDetailedResults().setScoreFromEndGameCoins(scoreEGCoins);
 
+            scoreBefore = inv.getScore();
             //foreach(nb same Scientific²) + min(nb same scientific) * 7
             List<Integer> list = new ArrayList<>();
             list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
@@ -288,6 +296,12 @@ public class Board {
 
             list.forEach(integer -> inv.addScore(integer * integer));
             inv.addScore(nbSameScientific * 7);
+            int scientificScore = inv.getScore() - scoreBefore;
+            inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
+
+            inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
+            inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());
+            inv.getDetailedResults().setTotalScore(inv.getScore());
 
             log.playerInformation(inv);
         }
