@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
-    boolean booleanPrint;
     static String SEPARATOR = "%n==========================================================================%n";
+    boolean booleanPrint;
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;

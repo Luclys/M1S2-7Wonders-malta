@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Server {
-    SocketIOServer socketServer;
     private final static Logger log = Logger.getLogger(Server.class.getName());
     private final HashMap<Integer, Integer> wins = new HashMap<>();
     private final HashMap<Integer, Integer> scores = new HashMap<>();
@@ -23,6 +22,7 @@ public class Server {
     private final HashMap<Integer, Integer> stepsBuilt = new HashMap<>();
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
+    SocketIOServer socketServer;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
@@ -70,6 +70,15 @@ public class Server {
         socketServer.addPingListener(this::showStatistics);
     }
 
+    public static void main(String[] args) {
+        Configuration configuration = new Configuration();
+        configuration.setHostname("127.0.0.1");
+        configuration.setPort(10101);
+
+        Server server = new Server(configuration);
+        server.start();
+    }
+
     private void setData() {
         for (int i = 0; i < nbPlayers; i++) {
             //Wins of each player
@@ -106,15 +115,6 @@ public class Server {
 
     private void sendDisconnectSignal(SocketIOClient socketIOClient) {
         socketIOClient.sendEvent("disconnect");
-    }
-
-    public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.1");
-        configuration.setPort(10101);
-
-        Server server = new Server(configuration);
-        server.start();
     }
 
     private void start() {

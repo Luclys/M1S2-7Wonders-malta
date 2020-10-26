@@ -84,18 +84,5 @@ class PlayersManagerTest {
         cards.add(CardsSet.PRETEUR_SUR_GAGES);
         playersManager.freeBuildFromDiscarded(cards);
         assertEquals(possibleFree, playersManager.playerInventoryList.get(1).getPossibleFreeDiscardedBuildingsCount());
-        /*        for (Inventory inv : playerInventoryList) {
-            if (discardedDeckCardList.isEmpty()) {
-                return;
-            }
-            if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
-                Player player = playerList.get(inv.getPlayerId());
-                Card card = player.chooseDiscardedCardToBuild(new Inventory(inv),discardedDeckCardList);
-                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
-                inv.addPossibleFreeDiscardedBuildingsCount(-1);
-            }
-        }*/
-
-
     }
 }

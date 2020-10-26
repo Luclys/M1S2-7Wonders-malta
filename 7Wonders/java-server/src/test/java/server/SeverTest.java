@@ -7,7 +7,7 @@ class SeverTest {
     Server server;
 
     @Test
-    void setDataSet(){
+    void setDataSet() {
         Configuration configuration = new Configuration();
         configuration.setHostname("127.0.0.1");
         configuration.setPort(10101);

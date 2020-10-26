@@ -18,19 +18,6 @@ public class DetailedResults {
     int nbCoinsAcquiredInTrade = 0;
     int nbShield = 0;
 
-/*
-    int scoreFromCommercialBuildings = 0;
-    int scoreFromWonder = 0;
-    int scoreFromCivilBuildings = 0;
-    int Bâtiments civils
-    int Bâtiments scientifiques
-    int Guildes
-    int Bâtiments militaires
-    int Bâtiments commerciaux
-    int Matières premières
-    int Produits manufacturés
-*/
-
     public DetailedResults() {
     }
 

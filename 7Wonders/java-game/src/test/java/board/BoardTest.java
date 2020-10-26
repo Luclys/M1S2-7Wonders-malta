@@ -107,19 +107,6 @@ class BoardTest {
     }
 
     @Test
-    void handleLastTurnCardTest() {
-        assertTrue(board.getDiscardedDeckCardList().isEmpty());
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(CardsSet.HOTEL_DE_VILLE);
-        for (Inventory inv : board.getPlayerInventoryList()) {
-            inv.setCardsInHand(cards);
-        }
-        // board.handleLastTurnCard();
-        // assertFalse(board.getDiscardedDeckCardList().isEmpty());
-    }
-
-
-    @Test
     void assignWBToPlayersTest() throws JsonProcessingException {
         assertEquals(14, board.getAvailableWonderBoardList().size());
         SevenWondersLauncher.startClient();
