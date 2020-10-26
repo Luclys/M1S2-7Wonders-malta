@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.DetailedResults;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -23,7 +24,9 @@ class PlayersManagerTest {
         playersManager = new PlayersManager();
         for (int i = 0; i < 3; i++) {
             playersManager.playerList.add(new Player(i));
-            playersManager.playerInventoryList.add(new Inventory(i));
+            Inventory inv = new Inventory(i);
+            inv.setDetailedResults(new DetailedResults("Test"));
+            playersManager.playerInventoryList.add(inv);
         }
     }
 

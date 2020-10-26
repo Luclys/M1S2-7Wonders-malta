@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.DetailedResults;
 import gameelements.Inventory;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +18,11 @@ class RanksTest {
     @Test
     void condenseRankingTest() {
         Inventory inv0 = new Inventory(0);
+        inv0.setDetailedResults(new DetailedResults("Test"));
         Inventory inv1 = new Inventory(1);
+        inv1.setDetailedResults(new DetailedResults("Test"));
         Inventory inv2 = new Inventory(2);
+        inv2.setDetailedResults(new DetailedResults("Test"));
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -40,8 +44,11 @@ class RanksTest {
     @Test
     void condenseRankingTestScoreEqual1() {
         Inventory inv0 = new Inventory(0);
+        inv0.setDetailedResults(new DetailedResults("Test"));
         Inventory inv1 = new Inventory(1);
+        inv1.setDetailedResults(new DetailedResults("Test"));
         Inventory inv2 = new Inventory(2);
+        inv2.setDetailedResults(new DetailedResults("Test"));
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -62,9 +69,13 @@ class RanksTest {
     @Test
     void condenseRankingTestScoreEqualDisordered() {
         Inventory inv0 = new Inventory(0);
+        inv0.setDetailedResults(new DetailedResults("Test"));
         Inventory inv1 = new Inventory(1);
+        inv1.setDetailedResults(new DetailedResults("Test"));
         Inventory inv2 = new Inventory(2);
+        inv2.setDetailedResults(new DetailedResults("Test"));
         Inventory inv3 = new Inventory(3);
+        inv3.setDetailedResults(new DetailedResults("Test"));
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -89,9 +100,13 @@ class RanksTest {
     @Test
     void condenseRankingTestCoinsEqual() {
         Inventory inv0 = new Inventory(0);
+        inv0.setDetailedResults(new DetailedResults("Test"));
         Inventory inv1 = new Inventory(1);
+        inv1.setDetailedResults(new DetailedResults("Test"));
         Inventory inv2 = new Inventory(2);
+        inv2.setDetailedResults(new DetailedResults("Test"));
         Inventory inv3 = new Inventory(3);
+        inv3.setDetailedResults(new DetailedResults("Test"));
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);
@@ -122,8 +137,11 @@ class RanksTest {
     @Test
     void condenseRankingTestCoinsDifferent() {
         Inventory inv0 = new Inventory(0);
+        inv0.setDetailedResults(new DetailedResults("Test"));
         Inventory inv1 = new Inventory(1);
+        inv1.setDetailedResults(new DetailedResults("Test"));
         Inventory inv2 = new Inventory(2);
+        inv2.setDetailedResults(new DetailedResults("Test"));
         playerInventoryList.add(inv0);
         playerInventoryList.add(inv1);
         playerInventoryList.add(inv2);

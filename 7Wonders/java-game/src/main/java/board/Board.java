@@ -106,9 +106,18 @@ public class Board {
 
         scores();
         denseRanking(playerInventoryList);
+        updatelastDetailedResultsValues();
         log.finalGameRanking(playerInventoryList);
         // We send data to the server
-        sendWinner(playerInventoryList,log.isBooleanPrint());
+        sendWinner(playerInventoryList, log.isBooleanPrint());
+    }
+
+    private void updatelastDetailedResultsValues() {
+        for (Inventory inv : playerInventoryList) {
+            inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
+            inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());
+            inv.getDetailedResults().setTotalScore(inv.getScore());
+        }
     }
 
     void handleLastTurnCard() {
@@ -298,10 +307,6 @@ public class Board {
             inv.addScore(nbSameScientific * 7);
             int scientificScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
-
-            inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
-            inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());
-            inv.getDetailedResults().setTotalScore(inv.getScore());
 
             log.playerInformation(inv);
         }
