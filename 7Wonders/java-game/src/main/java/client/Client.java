@@ -1,13 +1,11 @@
 package client;
 
-import gameelements.Inventory;
+import constants.NET;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
-
-import static constants.NET.ENDGAME_INVENTORIES;
 
 public class Client {
     private static final Logger log = Logger.getLogger(Client.class.getName());
@@ -38,12 +36,21 @@ public class Client {
         makeConnection();
     }
 
-    public void sendWinner(Inventory inventory) {
-        connection.emit(ENDGAME_INVENTORIES, inventory);
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+        connection.emit(NET.PLAYERS, numberOfPlayers);
+    }
+
+    public void showStats() {
+        connection.emit("ping");
     }
 
     public void stop() {
+        connection.disconnect();
         connection.close();
+    }
+
+    public void sendResults(String s) {
+        connection.emit(NET.RESULTS, s);
     }
 
     public Boolean isConnected() {

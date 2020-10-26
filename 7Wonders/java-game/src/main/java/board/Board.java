@@ -1,5 +1,8 @@
 package board;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gameelements.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -34,7 +37,7 @@ public class Board {
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
     private final GameLogger log;
-    private final List<WonderBoard> availablewonderBoardList;
+    private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
@@ -57,7 +60,7 @@ public class Board {
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
-        availablewonderBoardList = WonderBoard.initiateWonders();
+        availableWonderBoardList = WonderBoard.initiateWonders();
     }
 
     static void denseRanking(List<Inventory> playerInventoryList) {
@@ -104,7 +107,7 @@ public class Board {
      * @param nbPlay
      */
 
-    public void play(int nbPlay) {
+    public void play(int nbPlay) throws JsonProcessingException {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for (int age = 1; age <= AGES; age++) {
@@ -142,13 +145,27 @@ public class Board {
 
         scores();
         denseRanking(playerInventoryList);
-        updatelastDetailedResultsValues();
+        updateLastDetailedResultsValues();
         log.finalGameRanking(playerInventoryList);
-        // We send data to the server
-        sendWinner(playerInventoryList, log.isBooleanPrint());
+        retrieveResults();
     }
 
-    private void updatelastDetailedResultsValues() {
+    private void retrieveResults() throws JsonProcessingException {
+        int size = playerInventoryList.size();
+        DetailedResults[] results = new DetailedResults[size];
+        for (int i = 0; i < size; i++) {
+            results[i] = playerInventoryList.get(i).getDetailedResults();
+        }
+        sendToServer(results);
+    }
+
+    private void sendToServer(DetailedResults[] results) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String s = objectMapper.writeValueAsString(results);
+        SevenWondersLauncher.client.sendResults(s);
+    }
+
+    private void updateLastDetailedResultsValues() {
         for (Inventory inv : playerInventoryList) {
             inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
             inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());
@@ -175,24 +192,6 @@ public class Board {
     }
 
     /**
-     * this methods allows to send information to the server
-     *
-     * @param playerInventoryList
-     * @param send
-     */
-    private void sendWinner(List<Inventory> playerInventoryList, Boolean send) {
-        Inventory winnerInventory = getPlayerInventoryList().get(0);
-        for (Inventory inv : getPlayerInventoryList()) {
-            if (inv.getScore() > winnerInventory.getScore()) {
-                winnerInventory = inv;
-            }
-        }
-
-        SevenWondersLauncher.client.sendWinner(winnerInventory);
-
-    }
-
-    /**
      * this method allows to associate the wonder boards to the players
      */
     private void assignWBToPlayers() {
@@ -200,13 +199,13 @@ public class Board {
             Player player = playerList.get(i);
             Inventory inv = playerInventoryList.get(i);
 
-            WonderBoard chosenWB = player.chooseWonderBoard(availablewonderBoardList);
+            WonderBoard chosenWB = player.chooseWonderBoard(availableWonderBoardList);
             chosenWB.claimBoard(player, inv);
 
-            int index = availablewonderBoardList.indexOf(chosenWB);
-            int otherfaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
-            availablewonderBoardList.remove(otherfaceIndex);
-            availablewonderBoardList.remove(chosenWB);
+            int index = availableWonderBoardList.indexOf(chosenWB);
+            int otherFaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
+            availableWonderBoardList.remove(otherFaceIndex);
+            availableWonderBoardList.remove(chosenWB);
 
             inv.getDetailedResults().setWBName(chosenWB.getName());
             log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
@@ -444,7 +443,7 @@ public class Board {
         return discardedDeckCardList;
     }
 
-    public List<WonderBoard> getAvailablewonderBoardList() {
-        return availablewonderBoardList;
+    public List<WonderBoard> getAvailableWonderBoardList() {
+        return availableWonderBoardList;
     }
 }

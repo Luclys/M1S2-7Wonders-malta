@@ -24,9 +24,9 @@ class ScoreForNeighborsDefeatJetonsEffectTest {
         player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
-        leftNeighborInv.setDetailedResults(new DetailedResults("test"));
+        leftNeighborInv.setDetailedResults(new DetailedResults());
         rightNeighborInv = new Inventory(2);
-        rightNeighborInv.setDetailedResults(new DetailedResults("test"));
+        rightNeighborInv.setDetailedResults(new DetailedResults());
         scoreEffect = new ScoreForNeighborsDefeatJetonsEffect(5);
     }
 

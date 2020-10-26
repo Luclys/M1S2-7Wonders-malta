@@ -80,7 +80,11 @@ public class PlayersManager {
             } else {
                 player.setRightNeighborId(i + 1);
             }
-            inv.setDetailedResults(new DetailedResults(player.getStrategyName()));
+
+            DetailedResults details = new DetailedResults();
+            details.setStrategyName(player.getStrategyName());
+            inv.setDetailedResults(details);
+
             playerInventoryList.add(inv);
         }
         playerList = players;

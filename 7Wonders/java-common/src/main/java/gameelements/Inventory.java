@@ -248,7 +248,7 @@ public class Inventory implements Comparable {
 
     public void addVictoryJetonsScore(int victoryJetonsScore) {
         this.victoryChipsScore += victoryJetonsScore;
-        this.detailedResults.setScoreFromVictoiryConflict(this.victoryChipsScore);
+        this.detailedResults.setScoreFromVictoryConflict(this.victoryChipsScore);
     }
 
     public void addEndGameEffect(Effect effect) {
