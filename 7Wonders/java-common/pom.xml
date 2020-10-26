@@ -17,6 +17,10 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>
+            src/main/java/gameelements/GameLogger.java,
+            src/main/java/constants/NET.java
+        </sonar.coverage.exclusions>
     </properties>
 
     <build>

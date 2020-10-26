@@ -178,7 +178,7 @@ public class Board {
             availableWonderBoardList.remove(otherFaceIndex);
             availableWonderBoardList.remove(chosenWB);
 
-            inv.getDetailedResults().setWBName(chosenWB.getName());
+            inv.getDetailedResults().setWbName(chosenWB.getName());
             log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
@@ -271,7 +271,7 @@ public class Board {
     private void initSellCard(Inventory trueInv, Card chosenCard) {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
-        trueInv.getDetailedResults().addNbSoldCard(1);
+        trueInv.getDetailedResults().incNbSoldCard();
     }
 
     public void resolveWarConflict(int victoryJetonValue) {
