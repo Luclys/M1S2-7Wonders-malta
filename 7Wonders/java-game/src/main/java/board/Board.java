@@ -122,8 +122,23 @@ public class Board {
         denseRanking(playerInventoryList);
         updatelastDetailedResultsValues();
         log.finalGameRanking(playerInventoryList);
+
         // We send data to the server
-        sendWinner(playerInventoryList, log.isBooleanPrint());
+        sendData();
+    }
+
+    private void sendData() {
+        sendWinner();
+        //sendScores();
+    }
+
+    private void sendScores() {
+        int nbPlayers = playerInventoryList.size();
+        Integer[] scores = new Integer[nbPlayers];
+        for (int i = 0; i < nbPlayers; i++) {
+            scores[i] = playerInventoryList.get(i).getScore();
+        }
+        SevenWondersLauncher.client.sendScores(scores);
     }
 
     private void updatelastDetailedResultsValues() {

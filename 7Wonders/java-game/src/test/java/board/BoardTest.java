@@ -14,6 +14,7 @@ import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
-class WonderBoardTest {
+class BoardTest {
 
     List<Player> playerList;
     @Mock
@@ -117,6 +118,7 @@ class WonderBoardTest {
         // assertFalse(board.getDiscardedDeckCardList().isEmpty());
     }
 
+    @Disabled
     @Test
     void assignWBToPlayersTest() {
         assertEquals(14, board.getAvailablewonderBoardList().size());
