@@ -17,7 +17,7 @@ public class SevenWondersLauncher {
     static int nbGames = 1000;
     static boolean boolPrint = false;
 
-    public static void main(String[] args) throws InterruptedException, JsonProcessingException {
+    public static void main(String... args) throws InterruptedException, JsonProcessingException {
         //Starting the client
         startClient();
 

@@ -15,7 +15,6 @@ import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -119,12 +118,11 @@ class BoardTest {
         // assertFalse(board.getDiscardedDeckCardList().isEmpty());
     }
 
-    @Disabled
+
     @Test
     void assignWBToPlayersTest() throws JsonProcessingException {
         assertEquals(14, board.getAvailableWonderBoardList().size());
         SevenWondersLauncher.startClient();
-
         board.play(board.getPlayerInventoryList().size());
         assertEquals(14 - board.getPlayerInventoryList().size() * 2, board.getAvailableWonderBoardList().size());
     }
