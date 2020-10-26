@@ -12,8 +12,7 @@ class SeverTest {
         configuration.setHostname("127.0.0.1");
         configuration.setPort(10101);
         Server server = new Server(configuration);
-        server.socketServer.start();
-        //assertTrue(server.socketServer);
+        //server.socketServer.start();
     }
 
 }
