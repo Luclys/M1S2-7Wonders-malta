@@ -1,13 +1,11 @@
 package client;
 
-import gameelements.Inventory;
+import constants.NET;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
-
-import static constants.NET.WINNER;
 
 public class Client {
     private final static Logger log = Logger.getLogger(Client.class.getName());
@@ -40,25 +38,20 @@ public class Client {
         makeConnection();
     }
 
-    public void sendWinner(int winnerID) {
-        connection.emit("winner", winnerID);
-    }
-
     public void sendNumberOfPlayers(int numberOfPlayers) {
-        connection.emit("players", numberOfPlayers);
+        connection.emit(NET.PLAYERS, numberOfPlayers);
     }
 
-    public void sendScores(Integer[] scores) {
-        
-        connection.emit("scores", scores);
-    }
-
-    public void showWinRates() {
-        connection.emit("show");
+    public void showStats() {
+        connection.emit("ping");
     }
 
     public void stop() {
         connection.disconnect();
         connection.close();
+    }
+
+    public void sendResults(String s) {
+        connection.emit(NET.RESULTS, s);
     }
 }

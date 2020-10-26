@@ -7,7 +7,7 @@ public class DetailedResults {
     int rank = 0;
     int totalScore = 0;
 
-    int scoreFromVictoiryConflict = 0;
+    int scoreFromVictoryConflict = 0;
     int nbDefeatConflict = 0;
     int scoreFromEndGameCoins = 0;
     int scoreFromScientificBuildings = 0;
@@ -70,12 +70,12 @@ public class DetailedResults {
         this.rank = rank;
     }
 
-    public int getScoreFromVictoiryConflict() {
-        return scoreFromVictoiryConflict;
+    public int getScoreFromVictoryConflict() {
+        return scoreFromVictoryConflict;
     }
 
-    public void setScoreFromVictoiryConflict(int scoreFromVictoiryConflict) {
-        this.scoreFromVictoiryConflict = scoreFromVictoiryConflict;
+    public void setScoreFromVictoryConflict(int scoreFromVictoryConflict) {
+        this.scoreFromVictoryConflict = scoreFromVictoryConflict;
     }
 
     public int getNbDefeatConflict() {
