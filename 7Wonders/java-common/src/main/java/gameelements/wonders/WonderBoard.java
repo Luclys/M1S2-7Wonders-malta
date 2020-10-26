@@ -155,6 +155,10 @@ public class WonderBoard {
         }
     }
 
+    public int getStepCount() {
+        return steps.size();
+    }
+
     public Step getCurrentStep() {
         return steps.get(currentStepIndex);
     }
