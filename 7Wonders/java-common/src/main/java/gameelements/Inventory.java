@@ -12,13 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Inventory implements Comparable {
-    private DetailedResults detailedResults;
-
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
     private final List<Resource[]> pairResChoice;
     private final List<Effect> endGameEffects;
+    private DetailedResults detailedResults;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
     private WonderBoard wonderBoard;

@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
+    private final GameLogger log;
     List<Player> playerList;
     List<Inventory> playerInventoryList;
-    private final GameLogger log;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;

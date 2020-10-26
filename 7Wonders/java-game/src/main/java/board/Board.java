@@ -46,6 +46,20 @@ public class Board {
         availablewonderBoardList = WonderBoard.initiateWonders();
     }
 
+    static void denseRanking(List<Inventory> playerInventoryList) {
+        List<Inventory> orderedList = playerInventoryList.stream().sorted(Inventory::compareTo).collect(Collectors.toList());
+
+        Inventory lastinv = orderedList.get(0);
+        int rank = 1;
+        for (Inventory inv : orderedList) {
+            if (inv.compareTo(lastinv) > 0) {
+                rank++;
+            }
+            lastinv = inv;
+            inv.setRank(rank);
+        }
+    }
+
     public void ageSetUp(int numAge) {
         Age age;
         switch (numAge) {
@@ -311,19 +325,7 @@ public class Board {
             log.playerInformation(inv);
         }
     }
-    static void denseRanking(List<Inventory> playerInventoryList) {
-        List<Inventory> orderedList = playerInventoryList.stream().sorted(Inventory::compareTo).collect(Collectors.toList());
 
-        Inventory lastinv = orderedList.get(0);
-        int rank = 1;
-        for (Inventory inv : orderedList) {
-            if (inv.compareTo(lastinv) > 0) {
-                rank++;
-            }
-            lastinv = inv;
-            inv.setRank(rank);
-        }
-    }
     // GETTERS & SETTERS
     public PlayersManager getManager() {
         return playersManager;
