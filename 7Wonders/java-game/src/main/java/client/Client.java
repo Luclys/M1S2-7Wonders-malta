@@ -41,8 +41,8 @@ public class Client {
         makeConnection();
     }
 
-    public void sendWinner(Inventory inventory) {
-        connection.emit(WINNER, inventory);
+    public void sendWinner(int winnerID) {
+        connection.emit("winner", winnerID);
     }
 
     public void sendNumberOfPlayers(int numberOfPlayers) {
@@ -56,5 +56,10 @@ public class Client {
 
     public void showWinRates() {
         connection.emit("ping");
+    }
+
+    public void stop() {
+        connection.disconnect();
+        connection.close();
     }
 }

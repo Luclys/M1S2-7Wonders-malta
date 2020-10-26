@@ -18,7 +18,7 @@ public class SevenWondersLauncher {
 
     private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //Starting the client
         client = new Client("http://127.0.0.1:10101");
         client.start();
@@ -40,9 +40,10 @@ public class SevenWondersLauncher {
                 log.info(String.format("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames));
             } else {
                 log.info(String.format("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames));
-                client.showWinRates();
             }
         }
+
+        client.showWinRates();
     }
 
     public static List<Player> fetchPlayers(int nbPlayers) {

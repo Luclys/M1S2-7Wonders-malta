@@ -114,7 +114,7 @@ public class Board {
 
     private void sendData() {
         sendWinner();
-        sendScores();
+        //sendScores();
     }
 
     private void sendScores() {
@@ -147,7 +147,7 @@ public class Board {
                 winnerInventory = inv;
             }
         }
-        SevenWondersLauncher.client.sendWinner(winnerInventory);
+        SevenWondersLauncher.client.sendWinner(winnerInventory.getPlayerId());
     }
 
     private void assignWBToPlayers() {

@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import com.corundumstudio.socketio.listener.DisconnectListener;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -25,9 +26,16 @@ public class Server {
         // We accept the connection
         server.addConnectListener(socketIOClient -> log.info("Connection of " + socketIOClient.getRemoteAddress()));
 
+        server.addDisconnectListener(new DisconnectListener() {
+            @Override
+            public void onDisconnect(SocketIOClient socketIOClient) {
+                log.info("Client disconnected");
+            }
+        });
+
         // Receiving of inventory and declaring the winner
-        server.addEventListener(WINNER, Integer.class, (socketIOClient, playerId, ackRequest) -> {
-            wins.put(playerId, wins.get(playerId) + 1);
+        server.addEventListener("winner", Integer.class, (socketIOClient, playerId, ackRequest) -> {
+            wins.merge(playerId, 1, Integer::sum);
         });
 
         server.addEventListener("players", Integer.class, new DataListener<Integer>() {
@@ -46,7 +54,12 @@ public class Server {
             for (int i = 0; i < nbPlayers; i++) {
                 log.info("The player " + i + " won " + wins.get(i) / 10 + "% of the games\n");
             }
+            //sendDisconnectSignal(socketIOClient);
         });
+    }
+
+    private void sendDisconnectSignal(SocketIOClient socketIOClient) {
+        socketIOClient.sendEvent("disconnect");
     }
 
     public static void main(String[] args) {
