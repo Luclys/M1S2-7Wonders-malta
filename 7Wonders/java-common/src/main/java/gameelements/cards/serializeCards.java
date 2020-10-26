@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class serializeCards {
 
     public static void main(String[] args) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
 
         TestStatsClass stats0 = new TestStatsClass();
         TestStatsClass stats1 = new TestStatsClass();
@@ -30,6 +29,8 @@ public class serializeCards {
         stats2.setNbViq4(4);
 
         TestStatsClass[] tabstats = new TestStatsClass[]{stats0, stats1, stats2};
+
+        ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(tabstats);
 
         TestStatsClass[] newstats = mapper.readValue(jsonString, TestStatsClass[].class);

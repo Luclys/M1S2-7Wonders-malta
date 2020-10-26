@@ -1,7 +1,7 @@
 package board;
 
-import gameelements.Inventory;
 import gameelements.GameLogger;
+import gameelements.Inventory;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
 
@@ -128,7 +128,8 @@ public class Trade {
 
     protected void payToNeighbor(Inventory playerInv, Inventory neighborInv, int totalCoins) {// add that the neighbor can't use the adding coins till next turn
         log.playerPaysCoins(playerInv.getPlayerId(), neighborInv.getPlayerId(), totalCoins);
-        neighborInv.setAddedCoins(totalCoins);
+        neighborInv.addAddedCoins(totalCoins);
         playerInv.removeCoins(totalCoins);
+        playerInv.getDetailedResults().addNbCoinsSpentInTrade(totalCoins);
     }
 }
