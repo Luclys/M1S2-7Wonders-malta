@@ -55,7 +55,7 @@ public class Client {
     }
 
     public void showWinRates() {
-        connection.emit("ping");
+        connection.emit("show");
     }
 
     public void stop() {
