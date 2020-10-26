@@ -1,8 +1,8 @@
 package gameelements;
 
 public class DetailedResults {
-    String strategyName;
-    String WBName;
+    String strategyName = "";
+    String WBName = "";
 
     int rank = 0;
     int totalScore = 0;
@@ -31,8 +31,7 @@ public class DetailedResults {
     int Produits manufacturés
 */
 
-    public DetailedResults(String strategyName) {
-        this.strategyName = strategyName;
+    public DetailedResults() {
     }
 
     public void addNbCoinsAcquiredInTrade(int coins) {

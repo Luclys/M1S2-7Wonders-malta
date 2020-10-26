@@ -120,7 +120,7 @@ public class Board {
 
         scores();
         denseRanking(playerInventoryList);
-        updatelastDetailedResultsValues();
+        updateLastDetailedResultsValues();
         log.finalGameRanking(playerInventoryList);
 
         // We send data to the server
@@ -141,7 +141,7 @@ public class Board {
         SevenWondersLauncher.client.sendScores(scores);
     }
 
-    private void updatelastDetailedResultsValues() {
+    private void updateLastDetailedResultsValues() {
         for (Inventory inv : playerInventoryList) {
             inv.getDetailedResults().setNbShield(inv.getSymbolCount(Symbol.BOUCLIER));
             inv.getDetailedResults().setNbStepBuilt(inv.getWonderBoard().getCurrentStepIndex());
