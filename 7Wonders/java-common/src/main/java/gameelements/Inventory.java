@@ -149,6 +149,12 @@ public class Inventory implements Comparable {
         cardsInHand.remove(playedCard);
     }
 
+
+    public boolean canBuildNextStep(WonderBoard wonderBoard) {
+        if (wonderBoard.getCurrentStepIndex() == wonderBoard.getStepCount()) return false;
+        return canBuild(wonderBoard.getCurrentStepRequiredResources());
+    }
+
     public boolean canBuild(Resource[] requiredResources) {
         int anyMatierePremiereAvailableLeft = anyMatierePremiereAvailableCount;
         int anyResourceManufactureAvailableLeft = anyResourceManufactureAvailableCount;
@@ -204,7 +210,7 @@ public class Inventory implements Comparable {
         return this.availableResources[resource.getIndex()];
     }
 
-    public Resource[] getWonderRequiredResources() {
+    public Resource[] getCurrentStepRequiredResources() {
         return wonderBoard.getCurrentStepRequiredResources();
     }
 

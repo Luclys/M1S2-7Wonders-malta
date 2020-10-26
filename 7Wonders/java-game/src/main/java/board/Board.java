@@ -191,8 +191,8 @@ public class Board {
                 break;
 
             case WONDER:
-                Resource[] wonderRequiredResources = inv.getWonderRequiredResources();
-                if (inv.canBuild(wonderRequiredResources)) {
+                Resource[] wonderRequiredResources = inv.getCurrentStepRequiredResources();
+                if (inv.canBuildNextStep(inv.getWonderBoard())) {
                     buildWonder(inv, chosenCard, player);
                 } else {
                     if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {

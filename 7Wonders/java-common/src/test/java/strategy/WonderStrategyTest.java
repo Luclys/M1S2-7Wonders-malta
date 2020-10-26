@@ -36,7 +36,7 @@ class WonderStrategyTest {
 
     @Test
     void chooseCardWonderTest(){
-        doReturn(true).when(inv).canBuild(any());
+        doReturn(true).when(inv).canBuildNextStep(any());
         strategy.chooseCard(inv);
         assertEquals(Action.WONDER,strategy.getAction());
         doReturn(false).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
@@ -57,7 +57,7 @@ class WonderStrategyTest {
     @Test
     void chooseCardSellTest(){
 
-        doReturn(false).when(inv).canBuild(any());
+        doReturn(false).when(inv).canBuildNextStep(any());
        // doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
         doReturn(cards).when(inv).getPlayedCards();
         strategy.chooseCard(inv);

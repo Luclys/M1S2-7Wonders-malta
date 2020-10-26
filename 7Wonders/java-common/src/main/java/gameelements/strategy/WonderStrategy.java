@@ -24,7 +24,7 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     public Card chooseCardToBuildStep(Inventory inv) {
-        boolean canBuildStep = inv.canBuild(inv.getWonderRequiredResources());
+        boolean canBuildStep = inv.canBuildNextStep(inv.getWonderBoard());
 
         Card chosenCard = inv.getCardsInHand().get(0);
 
