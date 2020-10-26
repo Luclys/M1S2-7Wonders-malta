@@ -1,10 +1,10 @@
 package board;
 
 import client.Client;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
 import gameelements.strategy.FirstCardStrategy;
 import gameelements.strategy.WonderStrategy;
-import server.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,7 @@ public class SevenWondersLauncher {
     static int nbGames = 1000;
     static boolean boolPrint = false;
 
-    private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
-
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, JsonProcessingException {
         //Starting the client
         startClient();
 
@@ -43,7 +41,7 @@ public class SevenWondersLauncher {
             }
         }
 
-        client.showWinRates();
+        client.showStats();
     }
 
     public static List<Player> fetchPlayers(int nbPlayers) {
@@ -52,7 +50,7 @@ public class SevenWondersLauncher {
             Player player = new Player(i, new FirstCardStrategy());
             playerList.add(player);
         }
-        Player player = new Player(nbPlayers-1, new WonderStrategy());
+        Player player = new Player(nbPlayers - 1, new WonderStrategy());
         playerList.add(player);
         return playerList;
     }
