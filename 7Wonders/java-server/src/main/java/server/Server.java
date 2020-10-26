@@ -18,6 +18,10 @@ public class Server {
     private final static Logger log = Logger.getLogger(Server.class.getName());
     private final HashMap<Integer, Integer> wins = new HashMap<>();
     private final HashMap<Integer, Integer> scores = new HashMap<>();
+    private final HashMap<Integer, Integer> discardedCards = new HashMap<>();
+    private final HashMap<Integer, Integer> stepsBuilt = new HashMap<>();
+    private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
+    private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
@@ -68,12 +72,24 @@ public class Server {
 
     private void setData() {
         for (int i = 0; i < nbPlayers; i++) {
-            //Win rate of each player
+            //Wins of each player
             if (results[i].getRank() == 1) {
                 wins.merge(i, 1, Integer::sum);
             }
-            // Mean score of each player
+            // Cumulated score of each player
             scores.merge(i, results[i].getTotalScore(), Integer::sum);
+
+            // Discarded cards
+            discardedCards.merge(i, results[i].getNbSoldCard(), Integer::sum);
+
+            // Cumulated number of steps built
+            stepsBuilt.merge(i, results[i].getNbStepBuilt(), Integer::sum);
+
+            // Coins acquired during trade
+            coinsAcquiredInTrade.merge(i, results[i].getNbCoinsAcquiredInTrade(), Integer::sum);
+
+            // Coins spent during trade
+            coinsSpentInTrade.merge(i, results[i].getNbCoinsSpentInTrade(), Integer::sum);
         }
 
     }
@@ -81,7 +97,9 @@ public class Server {
     private void showStatistics(SocketIOClient socketIOClient) {
         for (int i = 0; i < nbPlayers; i++) {
             log.info("Player " + i + " | Win rate : " + wins.get(i) / 10 +
-                    " | Mean score : " + scores.get(i) / 1000);
+                    " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
+                    " | Steps built : " + stepsBuilt.get(i) + " | Trade Mean - Money earned : " + coinsAcquiredInTrade.get(i) / 1000 +
+                    " | Trade Mean : Money spent " + coinsSpentInTrade.get(i) / 1000);
         }
         log.info("DATA RECEIVED FROM " + nbStats + " GAMES");
     }
