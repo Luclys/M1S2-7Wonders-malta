@@ -1,5 +1,10 @@
 package gameelements.cards;
 
+/**
+ * This class associate each card to an ID
+ *
+ * @author lamac
+ */
 public class CardIds {
 
     private static int cardCounter = 0;
@@ -78,6 +83,7 @@ public class CardIds {
     public static final int GUILDE_DES_SCIENTIFIQUES_ID = cardCounter++;
     public static final int GUILDE_DES_MAGISTRATS_ID = cardCounter++;
     public static final int GUILDE_DES_BATISSEURS_ID = cardCounter++;
+
     private CardIds() {
         throw new IllegalStateException("Utility class");
     }

@@ -1,6 +1,5 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -26,10 +25,9 @@ public class CopyNeighborGuildEffect extends Effect {
         list.addAll(leftNeighborInv.getPlayedCards());
         list.removeIf(card -> card.getCategory() != Category.GUILDE);
 
-        if (list.isEmpty()) {
-            Card card = player.chooseGuildCard(list, new Inventory(inv), leftNeighborInv, rightNeighborInv);
+        if (!list.isEmpty()) {
+            Card card = player.chooseGuildCard(list, new Inventory(inv), new Inventory(leftNeighborInv), new Inventory(rightNeighborInv));
             inv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
         }
-
     }
 }

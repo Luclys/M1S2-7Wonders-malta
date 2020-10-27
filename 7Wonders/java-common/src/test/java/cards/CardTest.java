@@ -1,4 +1,4 @@
-package gameelements;
+package cards;
 
 
 import gameelements.cards.Card;

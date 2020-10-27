@@ -1,6 +1,7 @@
 package gameelements;
 
 import gameelements.cards.Card;
+import gameelements.effects.Effect;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
@@ -11,17 +12,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Inventory {
+public class Inventory implements Comparable {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
     private final List<Resource[]> pairResChoice;
     private final List<Effect> endGameEffects;
-    private final SoutConsole sout;
+    private DetailedResults detailedResults;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
     private WonderBoard wonderBoard;
     private int score;
+    private int rank;
     private int victoryChipsScore;
     private int defeatChipsCount;
     private int coins;
@@ -29,14 +31,13 @@ public class Inventory {
     private int matieresPremieresPriceRight;
     private int produitsManifacturesPrice;
     private int addedCoins;
-    private int allResPremChoice;
-    private int allResManuChoice;
-    private int possibleFreeBuildingsCount;
+    private int anyMatierePremiereAvailableCount;
+    private int anyResourceManufactureAvailableCount;
+    private int possibleFreeBuildings;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
 
     public Inventory(int playerId) {
-        this.sout = new SoutConsole(true);
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
         this.availableSymbols = new int[Symbol.values().length];
@@ -44,8 +45,9 @@ public class Inventory {
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
         this.endGameEffects = new ArrayList<>(7 * 3);
-
+        this.detailedResults = new DetailedResults();
         this.score = 0;
+        this.rank = 0;
         this.victoryChipsScore = 0;
         this.defeatChipsCount = 0;
         this.coins = 3;
@@ -54,18 +56,16 @@ public class Inventory {
         this.produitsManifacturesPrice = 2;
         this.addedCoins = 0;
 
-        allResPremChoice = 0;
-        allResManuChoice = 0;
-        this.possibleFreeBuildingsCount = 0;
+        anyMatierePremiereAvailableCount = 0;
+        anyResourceManufactureAvailableCount = 0;
+        this.possibleFreeBuildings = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
-
-
     }
 
     public Inventory(Inventory inventory) {
-        this.sout = new SoutConsole(true);
         // Consider implementing Cloneable instead...
+        this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
         this.availableResources = inventory.availableResources;
         this.availableSymbols = inventory.availableSymbols;
@@ -76,18 +76,30 @@ public class Inventory {
         this.wonderBoard = inventory.wonderBoard;
 
         this.score = inventory.score;
+        this.rank = inventory.rank;
         this.victoryChipsScore = inventory.victoryChipsScore;
         this.defeatChipsCount = inventory.defeatChipsCount;
         this.coins = inventory.coins;
-        this.allResPremChoice = inventory.allResPremChoice;
-        this.allResManuChoice = inventory.allResManuChoice;
+        this.anyMatierePremiereAvailableCount = inventory.anyMatierePremiereAvailableCount;
+        this.anyResourceManufactureAvailableCount = inventory.anyResourceManufactureAvailableCount;
         this.matieresPremieresPriceLeft = inventory.matieresPremieresPriceLeft;
         this.matieresPremieresPriceRight = inventory.matieresPremieresPriceRight;
         this.produitsManifacturesPrice = inventory.produitsManifacturesPrice;
         this.addedCoins = inventory.addedCoins;
-        this.possibleFreeBuildingsCount = inventory.possibleFreeBuildingsCount;
+        this.possibleFreeBuildings = inventory.possibleFreeBuildings;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Inventory compareToInv = (Inventory) o;
+
+        if (score == compareToInv.score) {
+            return -Integer.compare(coins, compareToInv.coins);
+        }
+        if (score > compareToInv.score) return -1;
+        return 1;
     }
 
     private List<Integer> getPlayedCardIds() {
@@ -101,11 +113,11 @@ public class Inventory {
     }
 
     public boolean canBuildCardForFree(Card card) {
-        if (card.getBuildingsWhichAllowToBuildForFree() == null) {
+        if (card.getRequiredBuildingsToBuildForFree() == null) {
             return false;
         } else {
             boolean result = false;
-            for (int requiredBuildingId : card.getBuildingsWhichAllowToBuildForFree()) {
+            for (int requiredBuildingId : card.getRequiredBuildingsToBuildForFree()) {
                 if (getPlayedCardIds().contains(requiredBuildingId)) {
                     result = true;
                     break;
@@ -140,15 +152,39 @@ public class Inventory {
         cardsInHand.remove(playedCard);
     }
 
+
+    public boolean canBuildNextStep(WonderBoard wonderBoard) {
+        if (wonderBoard.getCurrentStepIndex() == wonderBoard.getStepCount()) return false;
+        return canBuild(wonderBoard.getCurrentStepRequiredResources());
+    }
+
     public boolean canBuild(Resource[] requiredResources) {
+        int anyMatierePremiereAvailableLeft = anyMatierePremiereAvailableCount;
+        int anyResourceManufactureAvailableLeft = anyResourceManufactureAvailableCount;
+        ArrayList<Integer> matieresPremieresIndexes = new ArrayList<>();
         if (requiredResources != null) {
             int[] neededResources = new int[Resource.values().length];
             for (Resource resource : requiredResources) {
+                if (resource.isMatierePremiere()) {
+                    matieresPremieresIndexes.add(resource.getIndex());
+                }
                 neededResources[resource.getIndex()]++;
             }
             for (int i = 0; i < neededResources.length; i++) {
-                if (neededResources[i] >= availableResources[i]) {
-                    return false;
+                if (neededResources[i] > availableResources[i]) {
+                    if (matieresPremieresIndexes.contains(i)) {
+                        if (neededResources[i] > anyMatierePremiereAvailableLeft) {
+                            return false;
+                        } else {
+                            anyMatierePremiereAvailableLeft -= neededResources[i];
+                        }
+                    } else {
+                        if (neededResources[i] > anyResourceManufactureAvailableLeft) {
+                            return false;
+                        } else {
+                            anyResourceManufactureAvailableLeft -= neededResources[i];
+                        }
+                    }
                 }
             }
         }
@@ -177,11 +213,18 @@ public class Inventory {
         return this.availableResources[resource.getIndex()];
     }
 
-    public Resource[] getWonderRequiredResources() {
+    public Resource[] getCurrentStepRequiredResources() {
         return wonderBoard.getCurrentStepRequiredResources();
     }
 
     // GETTERS & SETTERS
+    public DetailedResults getDetailedResults() {
+        return detailedResults;
+    }
+
+    public void setDetailedResults(DetailedResults detailedResults) {
+        this.detailedResults = detailedResults;
+    }
 
     public int getVictoryChipsScore() {
         return victoryChipsScore;
@@ -197,14 +240,15 @@ public class Inventory {
 
     public void incAllResChoice(Boolean primaryResource) {
         if (Boolean.TRUE.equals(primaryResource)) {
-            this.allResPremChoice++;
+            this.anyMatierePremiereAvailableCount++;
         } else {
-            this.allResManuChoice++;
+            this.anyResourceManufactureAvailableCount++;
         }
     }
 
     public void addVictoryJetonsScore(int victoryJetonsScore) {
         this.victoryChipsScore += victoryJetonsScore;
+        this.detailedResults.setScoreFromVictoryConflict(this.victoryChipsScore);
     }
 
     public void addEndGameEffect(Effect effect) {
@@ -213,6 +257,7 @@ public class Inventory {
 
     public void addDefeatJeton() {
         this.defeatChipsCount++;
+        this.detailedResults.setNbDefeatConflict(this.defeatChipsCount);
     }
 
     public void removeCoins(int coins) {
@@ -227,8 +272,8 @@ public class Inventory {
         this.score += score;
     }
 
-    public void addPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount += possibleFreeBuildingsCount;
+    public void addPossibleFreeBuildings(int possibleFreeBuildingsCount) {
+        this.possibleFreeBuildings += possibleFreeBuildingsCount;
     }
 
     public void addPossibleFreeDiscardedBuildingsCount(int possibleFreeDiscardedBuildingsCount) {
@@ -287,6 +332,15 @@ public class Inventory {
         this.score = score;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+        this.detailedResults.setRank(rank);
+    }
+
     public int getDefeatChipsCount() {
         return defeatChipsCount;
     }
@@ -335,28 +389,32 @@ public class Inventory {
         this.addedCoins = addedCoins;
     }
 
-    public int getAllResPremChoice() {
-        return allResPremChoice;
+    public void addAddedCoins(int totalCoins) {
+        this.addedCoins += totalCoins;
     }
 
-    public void setAllResPremChoice(int allResPremChoice) {
-        this.allResPremChoice = allResPremChoice;
+    public int getAnyMatierePremiereAvailableCount() {
+        return anyMatierePremiereAvailableCount;
     }
 
-    public int getAllResManuChoice() {
-        return allResManuChoice;
+    public void setAnyMatierePremiereAvailableCount(int anyMatierePremiereAvailableCount) {
+        this.anyMatierePremiereAvailableCount = anyMatierePremiereAvailableCount;
     }
 
-    public void setAllResManuChoice(int allResManuChoice) {
-        this.allResManuChoice = allResManuChoice;
+    public int getAnyProduitManufactureAvailableCount() {
+        return anyResourceManufactureAvailableCount;
     }
 
-    public int getPossibleFreeBuildingsCount() {
-        return possibleFreeBuildingsCount;
+    public void setAnyResourceManufactureAvailableCount(int anyResourceManufactureAvailableCount) {
+        this.anyResourceManufactureAvailableCount = anyResourceManufactureAvailableCount;
     }
 
-    public void setPossibleFreeBuildingsCount(int possibleFreeBuildingsCount) {
-        this.possibleFreeBuildingsCount = possibleFreeBuildingsCount;
+    public int getPossibleFreeBuildings() {
+        return possibleFreeBuildings;
+    }
+
+    public void setPossibleFreeBuildings(int possibleFreeBuildings) {
+        this.possibleFreeBuildings = possibleFreeBuildings;
     }
 
     public int getPossibleFreeDiscardedBuildingsCount() {

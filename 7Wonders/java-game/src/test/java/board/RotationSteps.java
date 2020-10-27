@@ -16,7 +16,8 @@ public class RotationSteps implements En {
     List<Card> initalCardPlayer0;
     List<Card> initalCardPlayer1;
     List<Card> initalCardPlayer2;
-    public RotationSteps(){
+
+    public RotationSteps() {
         Given("Inventories have cards", () -> {
             cardManager = new CardManager();
             for (int i = 0; i < 3; i++) {
@@ -47,18 +48,18 @@ public class RotationSteps implements En {
             cardManager.leftRotation();
         });
         Then("inventories change cards between them in left direction", () -> {
-            assertEquals(initalCardPlayer0,cardManager.getPlayerInventoryList().get(2).getCardsInHand());
-            assertEquals(initalCardPlayer1,cardManager.getPlayerInventoryList().get(0).getCardsInHand());
-            assertEquals(initalCardPlayer2,cardManager.getPlayerInventoryList().get(1).getCardsInHand());
+            assertEquals(initalCardPlayer0, cardManager.getPlayerInventoryList().get(2).getCardsInHand());
+            assertEquals(initalCardPlayer1, cardManager.getPlayerInventoryList().get(0).getCardsInHand());
+            assertEquals(initalCardPlayer2, cardManager.getPlayerInventoryList().get(1).getCardsInHand());
         });
 
         When("right rotation", () -> {
             cardManager.rightRotation();
         });
         Then("inventories change cards between them in right direction", () -> {
-            assertEquals(initalCardPlayer0,cardManager.getPlayerInventoryList().get(0).getCardsInHand());
-            assertEquals(initalCardPlayer1,cardManager.getPlayerInventoryList().get(1).getCardsInHand());
-            assertEquals(initalCardPlayer2,cardManager.getPlayerInventoryList().get(2).getCardsInHand());
+            assertEquals(initalCardPlayer0, cardManager.getPlayerInventoryList().get(0).getCardsInHand());
+            assertEquals(initalCardPlayer1, cardManager.getPlayerInventoryList().get(1).getCardsInHand());
+            assertEquals(initalCardPlayer2, cardManager.getPlayerInventoryList().get(2).getCardsInHand());
         });
     }
 }

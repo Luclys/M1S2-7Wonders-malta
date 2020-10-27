@@ -1,6 +1,5 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
@@ -24,13 +23,24 @@ public class ReductCommerceEffect extends Effect {
         }
 
         if (primaryRessources.equals(Boolean.TRUE)) {
-            if (whichNeighbor.equals(Neighbor.LEFT)) {
-                inv.setMatieresPremieresPriceLeft(1);
-            } else if (whichNeighbor.equals(Neighbor.RIGHT)) {
-                inv.setMatieresPremieresPriceRight(1);
+            switch (whichNeighbor) {
+                case LEFT:
+                    inv.setMatieresPremieresPriceLeft(1);
+                    break;
+                case RIGHT:
+                    inv.setMatieresPremieresPriceRight(1);
+                    break;
+                default:
+                    inv.setMatieresPremieresPriceRight(1);
+                    inv.setMatieresPremieresPriceLeft(1);
+                    break;
             }
         } else {
             inv.setProduitsManifacturesPrice(1);
         }
+    }
+
+    public Neighbor getWhichNeighbor() {
+        return whichNeighbor;
     }
 }

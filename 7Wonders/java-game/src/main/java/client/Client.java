@@ -1,32 +1,29 @@
 package client;
 
-import gameelements.Inventory;
+import constants.NET;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import netscape.javascript.JSObject;
-import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
 public class Client {
+    private static final Logger log = Logger.getLogger(Client.class.getName());
     Socket connection;
 
     public Client(String serverURL) {
         try {
             connection = IO.socket(serverURL);
 
-            connection.on("connect", objects -> {
-                System.out.println("On est connecté.");
-            });
+            connection.on("connect", objects -> log.info("We are connected"));
 
             connection.on("disconnect", objects -> {
-                System.out.println("On est déconnecté.");
+                log.info("We are disconnected");
                 connection.disconnect();
                 connection.close();
             });
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (URISyntaxException ignored) {
         }
 
     }
@@ -39,11 +36,25 @@ public class Client {
         makeConnection();
     }
 
-    public void sendWinner(Inventory inventory) {
-        connection.emit("winner", inventory.getPlayerId());
+    public void sendNumberOfPlayers(int numberOfPlayers) {
+        connection.emit(NET.PLAYERS, numberOfPlayers);
+    }
+
+    public void showStats() {
+        connection.emit("ping");
     }
 
     public void stop() {
+        connection.disconnect();
         connection.close();
     }
+
+    public void sendResults(String s) {
+        connection.emit(NET.RESULTS, s);
+    }
+
+    public Boolean isConnected() {
+        return connection.connected();
+    }
+
 }

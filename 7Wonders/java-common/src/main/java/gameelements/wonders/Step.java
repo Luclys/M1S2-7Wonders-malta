@@ -1,9 +1,9 @@
 package gameelements.wonders;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
+import gameelements.effects.Effect;
 import gameelements.enums.Resource;
 
 public class Step {

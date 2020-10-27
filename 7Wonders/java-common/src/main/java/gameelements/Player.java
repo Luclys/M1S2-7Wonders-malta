@@ -5,14 +5,20 @@ import gameelements.enums.Action;
 import gameelements.enums.Symbol;
 import gameelements.strategy.FirstCardStrategy;
 import gameelements.strategy.PlayingStrategy;
+import gameelements.wonders.WonderBoard;
 
 import java.util.List;
 
+/**
+ * This class describe a player
+ *
+ * @author lamac
+ */
 public class Player {
     private final int id;
+    private final PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
-    private final PlayingStrategy strategy;
     private Card chosenCard;
 
     public Player(int id) {
@@ -29,9 +35,25 @@ public class Player {
         return "Player " + id;
     }
 
+    /**
+     * This method returns a card according to the strategy used
+     *
+     * @param inv
+     * @return chosen card
+     */
     public Card chooseCard(Inventory inv) {
         chosenCard = strategy.chooseCard(inv);
         return chosenCard;
+    }
+
+    /**
+     * This method allows to associate a wonder to a player
+     *
+     * @param availablewonderBoardList
+     * @return WonderBoard
+     */
+    public WonderBoard chooseWonderBoard(List<WonderBoard> availablewonderBoardList) {
+        return availablewonderBoardList.get(0);
     }
 
     public Card chooseGuildCard(List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
@@ -49,11 +71,14 @@ public class Player {
     }
 
 
+    public String getStrategyName() {
+        return strategy.getClass().getName();
+    }
+
     //Getters and setters
     public int getId() {
         return id;
     }
-
 
     public Card getChosenCard() {
         return this.chosenCard;
@@ -62,7 +87,6 @@ public class Player {
     public int getRightNeighborId() {
         return this.rightNeighborId;
     }
-
 
     public void setRightNeighborId(int id) {
         this.rightNeighborId = id;

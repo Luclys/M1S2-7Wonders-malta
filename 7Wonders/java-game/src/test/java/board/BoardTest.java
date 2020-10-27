@@ -1,49 +1,52 @@
 package board;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.effects.ResourceEffect;
 import gameelements.effects.SymbolEffect;
+import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.strategy.WonderStrategy;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
 
-class WonderBoardTest {
+@ExtendWith(MockitoExtension.class)
+class BoardTest {
+
     List<Player> playerList;
+    @Mock
+    Player player;
+
     Board board;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-            Player player = new Player(i);
+            Player player = new Player(i, new WonderStrategy());
             playerList.add(player);
         }
         board = new Board(playerList, false);
     }
 
-    @Disabled
     @Test
-     void playTest() {
-
-        board.play(0);
-        assertEquals(6, board.getTurn());
-    }
-
-    @Test
-     void drawCardsTest() {
+    void drawCardsTest() {
         int nbPlayers = 3;
         Board board = new Board(playerList, false);
         board.ageSetUp(1);
@@ -92,8 +95,34 @@ class WonderBoardTest {
     }
 
     @Test
-    void setAgeTest(){
-        assertThrows(IllegalStateException.class, () ->board.ageSetUp(10));
+    void setAgeTest() {
+
+        assertThrows(IllegalStateException.class, () -> board.ageSetUp(10));
+        board.ageSetUp(1);
+        assertTrue(board.isLeftRotation());
+        board.ageSetUp(2);
+        assertFalse(board.isLeftRotation());
+        board.ageSetUp(3);
+        assertTrue(board.isLeftRotation());
+    }
+
+    @Test
+    void assignWBToPlayersTest() throws JsonProcessingException {
+        assertEquals(14, board.getAvailableWonderBoardList().size());
+        SevenWondersLauncher.startClient();
+        board.play(board.getPlayerInventoryList().size());
+        assertEquals(14 - board.getPlayerInventoryList().size() * 2, board.getAvailableWonderBoardList().size());
+    }
+
+    @Test
+    void executeActionBUILDFREETest() {
+        Inventory inv = board.getPlayerInventoryList().get(0);
+        inv.setPossibleFreeBuildings(1);
+        assertEquals(1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
+        doReturn(0).when(player).getId();
+        doReturn(Action.BUILDFREE).when(player).getAction();
+        board.executePlayerAction(inv, player);
+        assertEquals(-1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
     }
 }
 

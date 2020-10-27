@@ -1,6 +1,5 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
@@ -21,5 +20,9 @@ public class CoinsForMerveilleEffect extends Effect {
         }
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         inv.addCoins(nbCoins * stepsCount);
+    }
+
+    public int getNbCoins() {
+        return nbCoins;
     }
 }

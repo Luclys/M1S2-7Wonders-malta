@@ -6,9 +6,22 @@ import gameelements.enums.Action;
 
 import java.util.ArrayList;
 
+/**
+ * This class describe the first card strategy
+ *
+ * @author lamac
+ */
 public class FirstCardStrategy implements PlayingStrategy {
     Action action;
 
+    /**
+     * This method allows to choose a card
+     * to build it if it's possible
+     * or to sell it
+     *
+     * @param inv
+     * @return Card chosen card according to which action the player can use
+     */
     @Override
     public Card chooseCard(Inventory inv) {
         this.action = Action.BUILDING;

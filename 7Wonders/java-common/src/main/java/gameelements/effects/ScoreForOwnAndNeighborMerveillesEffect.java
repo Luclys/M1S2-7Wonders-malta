@@ -1,14 +1,13 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.EffectDelay;
 
-public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
+public class ScoreForOwnAndNeighborMerveillesEffect extends Effect {
     int score;
 
-    public ScoreForOwnAndNeighborMerveillesEffet(int score) {
+    public ScoreForOwnAndNeighborMerveillesEffect(int score) {
         super(EffectDelay.END_OF_THE_GAME);
         this.score = score;
     }
@@ -23,5 +22,9 @@ public class ScoreForOwnAndNeighborMerveillesEffet extends Effect {
         int leftNeighborStepsCount = leftNeighborInv.getWonderBoard().getCurrentStepIndex();
         int rightNeighborStepsCount = rightNeighborInv.getWonderBoard().getCurrentStepIndex();
         inv.addScore((stepsCount + leftNeighborStepsCount + rightNeighborStepsCount) * score);
+    }
+
+    public int getScore() {
+        return score;
     }
 }

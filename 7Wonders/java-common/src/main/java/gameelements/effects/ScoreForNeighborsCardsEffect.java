@@ -1,6 +1,5 @@
 package gameelements.effects;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.enums.Category;
@@ -25,5 +24,9 @@ public class ScoreForNeighborsCardsEffect extends Effect {
         int leftNeighborCardsCount = (int) leftNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         int rightNeighborCardsCount = (int) rightNeighborInv.getPlayedCards().stream().filter(card -> card.getCategory().equals(category)).count();
         inv.addScore((leftNeighborCardsCount + rightNeighborCardsCount) * nb);
+    }
+
+    public int getNb() {
+        return nb;
     }
 }

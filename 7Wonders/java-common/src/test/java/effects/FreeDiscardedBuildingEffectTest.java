@@ -25,7 +25,6 @@ class FreeDiscardedBuildingEffectTest {
         rightNeighborInv = new Inventory(2);
         freeDiscardedBuildingEffect = new FreeDiscardedBuildingEffect();
     }
-    //addPossibleFreeDiscardedBuildingsCount
 
     @Test
     void activateEffectNotEndGameTest() {

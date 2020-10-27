@@ -25,12 +25,12 @@ class RessourceEffectTest {
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
-        resourceEffect = new ResourceEffect(Resource.ARGILE, 1);
+        resourceEffect = new ResourceEffect(Resource.MINERAI, 1);
     }
 
     @Test
     void activateEffectNotEndGameTest() {
-        int nbResource = inv.getAvailableSymbols()[resourceEffect.getResource().getIndex()];
+        int nbResource = inv.getAvailableResources()[resourceEffect.getResource().getIndex()];
         //Not end of the game
         resourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(nbResource + 1, inv.getAvailableResources()[resourceEffect.getResource().getIndex()]);

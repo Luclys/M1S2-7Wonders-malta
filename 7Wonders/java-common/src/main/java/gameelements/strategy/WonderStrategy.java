@@ -6,6 +6,12 @@ import gameelements.enums.Action;
 
 import java.util.ArrayList;
 
+/**
+ * This class describe the wonder Strategy
+ *
+ * @author lamac
+ */
+
 public class WonderStrategy implements PlayingStrategy {
     Action action;
 
@@ -23,8 +29,19 @@ public class WonderStrategy implements PlayingStrategy {
         this.action = action;
     }
 
+    /**
+     * this method choose a card according to this actions
+     * to build a step o the wonder associate to the inv if it s possible
+     * or build sell a card if the player can't play any of the cards in his hand
+     * or build a free building if he can (he has the effect)
+     * or build a card if he has the required resource or can buy then
+     *
+     * @param inv
+     * @return Card the chosen card according to the action that the player can do
+     */
+
     public Card chooseCardToBuildStep(Inventory inv) {
-        boolean canBuildStep = inv.canBuild(inv.getWonderBoard().getCurrentStepRequiredResources());
+        boolean canBuildStep = inv.canBuildNextStep(inv.getWonderBoard());
 
         Card chosenCard = inv.getCardsInHand().get(0);
 
@@ -33,29 +50,37 @@ public class WonderStrategy implements PlayingStrategy {
             //Player picks a card he cannot build
             for (Card card : inv.getCardsInHand()) {
                 //We pick the first non-buildable card
-                if (!inv.canBuild(chosenCard.getRequiredResources())) {
+                if (!inv.canBuild(card.getRequiredResources())) {
                     break;
                 } else {
                     chosenCard = card;
                 }
             }
         } else {
-            setAction(Action.BUILDING);
-            //Player picks a card he can build
-
             ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
 
+            //Player picks a card he can build
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
                 return inv.getCardsInHand().get(0);
             }
+            if (inv.getPossibleFreeBuildings() > 0) {
+                setAction(Action.BUILDFREE);
+                for (Card card : inv.getCardsInHand()) {
+                    //We pick the first non-buildable card
+                    if (!inv.canBuild(card.getRequiredResources())) {
+                        break;
+                    } else {
+                        return card;
+                    }
+                }
+            }
 
+            setAction(Action.BUILDING);
             for (Card card : availableCards) {
                 //Player picks the first buildable card
-                if (inv.canBuild(chosenCard.getRequiredResources())) {
-                    break;
-                } else {
-                    chosenCard = card;
+                if (inv.canBuild(card.getRequiredResources())) {
+                    return card;
                 }
             }
         }

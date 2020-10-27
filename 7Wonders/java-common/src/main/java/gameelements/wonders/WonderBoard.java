@@ -1,6 +1,5 @@
 package gameelements.wonders;
 
-import gameelements.Effect;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -25,7 +24,7 @@ public class WonderBoard {
         this.steps = steps;
     }
 
-    public static WonderBoard initiateColossus() {
+    public static WonderBoard initiateColossusA() {
         List<Step> colosseStepsA = new ArrayList<>();
         colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
         colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
@@ -33,40 +32,12 @@ public class WonderBoard {
         return new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA);
     }
 
-    public void claimBoard(Player player, Inventory inv) {
-        inv.setWonderBoard(this);
-        this.baseEffect.activateEffect(player, inv, null, null);
-        this.associatedInv = inv;
-    }
-
-    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        if (currentStepIndex < steps.size()) {
-            steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
-            associatedInv.getCardsInHand().remove(card);
-            currentStepIndex++;
-        } else {
-            throw new Error("No step left to build");
-        }
-    }
-
-    public Step getCurrentStep() {
-        return steps.get(currentStepIndex);
-    }
-
-    public int getCurrentStepIndex() {
-        return currentStepIndex;
-    }
-
-    protected List<WonderBoard> initiateWonders() {
+    public static List<WonderBoard> initiateWonders() {
         List<WonderBoard> res = new ArrayList<>(14);
 
         // Le Colosse de Rhodes
         // Face A
-        List<Step> colosseStepsA = new ArrayList<>();
-        colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
-        colosseStepsA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE, Resource.ARGILE}, new SymbolEffect(Symbol.BOUCLIER, 2)));
-        colosseStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new ScoreEffect(7)));
-        res.add(new WonderBoard("Le Colosse de Rhodes A", new ResourceEffect(Resource.MINERAI, 1), colosseStepsA));
+        res.add(initiateColossusA());
 
         // Face B
         List<Step> colosseStepsB = new ArrayList<>();
@@ -80,14 +51,14 @@ public class WonderBoard {
         // Face A
         List<Step> alexandrieStepsA = new ArrayList<>();
         alexandrieStepsA.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(3)));
-        alexandrieStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ChoiceAllTypeResourceEffect(true)));
+        alexandrieStepsA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI}, new ChoiceAnyResourceFromCategoryEffect(true)));
         alexandrieStepsA.add(new Step(new Resource[]{Resource.VERRE, Resource.VERRE}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le phare d’Alexandrie A", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsA));
 
         // Face B
         List<Step> alexandrieStepsB = new ArrayList<>();
-        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAllTypeResourceEffect(true)));
-        alexandrieStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ChoiceAllTypeResourceEffect(false)));
+        alexandrieStepsB.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ChoiceAnyResourceFromCategoryEffect(true)));
+        alexandrieStepsB.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ChoiceAnyResourceFromCategoryEffect(false)));
         alexandrieStepsB.add(new Step(new Resource[]{Resource.PIERRE, Resource.PIERRE, Resource.PIERRE}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le phare d’Alexandrie B", new ResourceEffect(Resource.VERRE, 1), alexandrieStepsB));
 
@@ -142,7 +113,7 @@ public class WonderBoard {
         // Face A
         ArrayList<Step> halicarnasseA = new ArrayList<>();
         halicarnasseA.add(new Step(new Resource[]{Resource.ARGILE, Resource.ARGILE}, new ScoreEffect(3)));
-        halicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeBuildingEffect()));
+        halicarnasseA.add(new Step(new Resource[]{Resource.MINERAI, Resource.MINERAI, Resource.MINERAI}, new FreeDiscardedBuildingEffect()));
         halicarnasseA.add(new Step(new Resource[]{Resource.TISSU, Resource.TISSU}, new ScoreEffect(7)));
         res.add(new WonderBoard("Le mausolée d’Halicarnasse A", new ResourceEffect(Resource.TISSU, 1), halicarnasseA));
 
@@ -171,6 +142,36 @@ public class WonderBoard {
 
 
         return res;
+    }
+
+    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        if (currentStepIndex < steps.size()) {
+            steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
+            associatedInv.getCardsInHand().remove(card);
+            currentStepIndex++;
+        } else {
+            throw new Error("No step left to build");
+        }
+    }
+
+    public int getStepCount() {
+        return steps.size();
+    }
+
+    public Step getCurrentStep() {
+        return steps.get(currentStepIndex);
+    }
+
+    public int getCurrentStepIndex() {
+        return currentStepIndex;
+    }
+
+    public void claimBoard(Player player, Inventory inv) {
+        if (this.associatedInv == null) {
+            inv.setWonderBoard(this);
+            this.baseEffect.activateEffect(player, inv, null, null);
+            this.associatedInv = inv;
+        } else throw new Error("WonderBoard already claimed.");
     }
 
     public Resource[] getCurrentStepRequiredResources() {

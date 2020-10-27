@@ -7,12 +7,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The class describe the third Age
+ *
+ * @author lamac
+ */
 public class AgeIII extends Age {
     public AgeIII() {
         vicoryJetonValue = 1;
         isLeftRotation = true;
     }
 
+    /**
+     * this method returs guild cards
+     *
+     * @param playersCount
+     * @return
+     */
     private static List<Card> initiateGuilds(int playersCount) {
         List<Card> cards = new ArrayList<>();
         cards.add(CardsSet.GUILDE_DES_TRAVAILLEURS);
