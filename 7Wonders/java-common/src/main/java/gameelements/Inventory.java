@@ -45,7 +45,7 @@ public class Inventory implements Comparable {
         this.cardsInHand = new ArrayList<>(7);
         this.playedCards = new ArrayList<>(7 * 3);
         this.endGameEffects = new ArrayList<>(7 * 3);
-
+        this.detailedResults = new DetailedResults();
         this.score = 0;
         this.rank = 0;
         this.victoryChipsScore = 0;
