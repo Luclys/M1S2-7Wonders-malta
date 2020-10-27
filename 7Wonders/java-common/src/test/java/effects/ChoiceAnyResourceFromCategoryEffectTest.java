@@ -48,7 +48,7 @@ class ChoiceAnyResourceFromCategoryEffectTest {
         assertEquals(resChoice + 1, inv.getAnyMatierePremiereAvailableCount());
 
         choiceAnyResourceFromCategoryEffect = new ChoiceAnyResourceFromCategoryEffect(false);
-        resChoice = inv.getAnyResourceManufactureAvailableCount();
+        resChoice = inv.getAnyProduitManufactureAvailableCount();
         choiceAnyResourceFromCategoryEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(resChoice + 1, inv.getAnyMatierePremiereAvailableCount());
     }

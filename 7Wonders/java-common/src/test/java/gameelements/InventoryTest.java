@@ -244,6 +244,4 @@ class InventoryTest {
         inventory.setAnyResourceManufactureAvailableCount(1);
         assertFalse(inventory.canBuild(resources));
     }
-
-
 }

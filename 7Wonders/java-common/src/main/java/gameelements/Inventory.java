@@ -401,7 +401,7 @@ public class Inventory implements Comparable {
         this.anyMatierePremiereAvailableCount = anyMatierePremiereAvailableCount;
     }
 
-    public int getAnyResourceManufactureAvailableCount() {
+    public int getAnyProduitManufactureAvailableCount() {
         return anyResourceManufactureAvailableCount;
     }
 
