@@ -7,6 +7,18 @@
 - **A**nastasiia Kozlova
 - **C**haeyeon Shim
 
+# Travail d'étude et de recherche
+
+## Définir deux niveaux d'IA et les règles conservées
+
+### Règles conservées
+
+Les règles conservées sont celles du jeu, plus exactement celles de la première édition, à une exception près : les ressources acquises avec le plateau merveille sont disponibles au commerce.
+
+### IA garantie
+
+### IA ambitieuse
+
 ### Usage 
 L'insertion d'arguments est facilitée par Maven.  
 Vous pourrez utiliser les identifiants d'exécution 
