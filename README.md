@@ -37,6 +37,6 @@ This is the rule-based AI taken from the [article](https://guides.github.com/fea
 
 &nbsp;    | 1000 game w/ no text | 1 game with text
 --------- | ---------------------------------- | ------------------------------
-3 joueurs |       `exec:java@stats3p`          |        `exec:java@game3p`
-5 joueurs |       `exec:java@stats5p`          |        `exec:java@game5p`
-7 joueurs |       `exec:java@stats7p`          |        `exec:java@game7p`
+3 players |       `exec:java@stats3p`          |        `exec:java@game3p`
+5 players |       `exec:java@stats5p`          |        `exec:java@game5p`
+7 players |       `exec:java@stats7p`          |        `exec:java@game7p`
