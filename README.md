@@ -1,4 +1,4 @@
-![](7w_logo.png)
+![](Documentation/Images/7w_logo.png)
 
 ### Team members
 - **L**oïc Filippi
@@ -13,7 +13,7 @@
 
 ### Rules kept
 
-We are keeping the rules of the first edition, with one exception : all resources can be sold and bought (including Wonder board's and yellow cards').
+We are keeping the rules of the first edition, with one exception : the wonder step's resources can be sold and bought.
 
 ### Safe AI
 
