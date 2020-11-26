@@ -19,10 +19,11 @@ import gameelements.wonders.WonderBoard;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
- * This class presents the dirrector of the game
+ * This class presents the director of the game
  *
  * @author lamac
  */
@@ -195,11 +196,13 @@ public class Board {
      * this method allows to associate the wonder boards to the players
      */
     private void assignWBToPlayers() {
+        Random r = new Random();
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
             Inventory inv = playerInventoryList.get(i);
 
-            WonderBoard chosenWB = player.chooseWonderBoard(availableWonderBoardList);
+            int random = r.nextInt(availableWonderBoardList.size());
+            WonderBoard chosenWB = availableWonderBoardList.get(random);
             chosenWB.claimBoard(player, inv);
 
             int index = availableWonderBoardList.indexOf(chosenWB);
