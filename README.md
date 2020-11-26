@@ -29,7 +29,7 @@ In ages I and II :
 
 In the third game age, the set of rules is superseded by choosing the decision withbest immediate VP reward.
 
-This is the rule-based AI taken from the [article](https://guides.github.com/features/mastering-markdown/) *Monte-Carlo Tree Search for the Game of ”7 Wonders”* by Denis Robilliard, Cyril Fonlupt and Fabien Teytaud.
+This is the rule-based AI taken from the [article](https://hal.inria.fr/hal-01406496/document) *Monte-Carlo Tree Search for the Game of ”7 Wonders”* by Denis Robilliard, Cyril Fonlupt and Fabien Teytaud.
 
 ### Ambitious AI
 
