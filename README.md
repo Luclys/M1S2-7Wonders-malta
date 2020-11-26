@@ -27,7 +27,7 @@ In ages I and II :
 - a science card is always played
 - a random remaining card is played if possible, else a random card is discarded
 
-In the third game age, the set of rules is superseded by choosing the decision withbest immediate VP reward.
+In the third game age, the set of rules is superseded by choosing the decision with best immediate VP reward.
 
 This is the rule-based AI taken from the [article](https://hal.inria.fr/hal-01406496/document) *Monte-Carlo Tree Search for the Game of ”7 Wonders”* by Denis Robilliard, Cyril Fonlupt and Fabien Teytaud.
 
