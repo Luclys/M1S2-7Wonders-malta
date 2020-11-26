@@ -35,7 +35,7 @@ This is the rule-based AI taken from the [article](https://hal.inria.fr/hal-0140
 
 ### Execution
 
-&nbsp;    | 1000 game w/ no text | 1 game with text
+&nbsp;    | 1000 game w/ no text | 1 game w/ text
 --------- | ---------------------------------- | ------------------------------
 3 players |       `exec:java@stats3p`          |        `exec:java@game3p`
 5 players |       `exec:java@stats5p`          |        `exec:java@game5p`
