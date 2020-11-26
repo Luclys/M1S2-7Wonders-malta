@@ -13,7 +13,7 @@
 
 ### Rules kept
 
-We are keeping the rules of the first edition, with one exception : the wonder's resources can be sold and bought.
+We are keeping the rules of the first edition, with one exception : all resources can be sold and bought (including Wonder board's and yellow cards').
 
 ### Safe AI
 
