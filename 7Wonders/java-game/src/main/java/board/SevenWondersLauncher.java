@@ -3,8 +3,8 @@ package board;
 import client.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
-import gameelements.strategy.FirstCardStrategy;
-import gameelements.strategy.WonderStrategy;
+import strategy.FirstCardStrategy;
+import strategy.WonderStrategy;
 
 import java.util.ArrayList;
 import java.util.List;

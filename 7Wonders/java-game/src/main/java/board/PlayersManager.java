@@ -1,6 +1,6 @@
 package board;
 
-import gameelements.DetailedResults;
+import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;

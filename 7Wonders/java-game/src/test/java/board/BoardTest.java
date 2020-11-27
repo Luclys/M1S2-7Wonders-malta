@@ -10,7 +10,7 @@ import gameelements.effects.SymbolEffect;
 import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
-import gameelements.strategy.WonderStrategy;
+import strategy.WonderStrategy;
 import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.Assertions;

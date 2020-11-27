@@ -2,7 +2,7 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gameelements.DetailedResults;
+import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -42,6 +42,20 @@ public class Board {
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
+
+    public Board(Board b) {
+        this.playersManager = b.playersManager;
+        this.commerce = b.commerce;
+        this.playerList = b.playerList;
+        this.playerInventoryList = b.playerInventoryList;
+        this.discardedDeckCardList = b.discardedDeckCardList;
+        this.cardManager = b.cardManager;
+        this.log = b.log;
+        this.availableWonderBoardList = b.availableWonderBoardList;
+        this.currentDeckCardList = b.currentDeckCardList;
+        this.isLeftRotation = b.isLeftRotation;
+        this.jetonVictoryValue = b.jetonVictoryValue;
+    }
 
     /**
      * the constructor allows
@@ -133,23 +147,34 @@ public class Board {
                 for (int i = 0; i < getPlayerList().size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
                 }
-
-                playersManager.updateCoins();
-                playersManager.freeBuildFromDiscarded(discardedDeckCardList);
-
-                getCardManager().playersCardsRotation(isLeftRotation());
+                endOfTurn();
             }
-            handleLastTurnCard();
-            resolveWarConflict(getJetonVictoryValue());
+
+            endOfAge();
             log.endOfAge(age);
         }
 
-        scores();
-        denseRanking(playerInventoryList);
-        updateLastDetailedResultsValues();
+        endOfGame();
         log.finalGameRanking(playerInventoryList);
         retrieveResults();
     }
+
+    public void endOfAge(){
+        handleLastTurnCard();
+        resolveWarConflict(getJetonVictoryValue());
+    }
+    public void endOfTurn(){
+        playersManager.updateCoins();
+        playersManager.freeBuildFromDiscarded(discardedDeckCardList);
+        getCardManager().playersCardsRotation(isLeftRotation());
+    }
+
+    public void endOfGame(){
+        scores();
+        denseRanking(playerInventoryList);
+        updateLastDetailedResultsValues();
+    }
+
 
     private void retrieveResults() throws JsonProcessingException {
         int size = playerInventoryList.size();
@@ -221,7 +246,7 @@ public class Board {
      * @param inv
      * @param player
      */
-    protected void executePlayerAction(Inventory inv, Player player) {
+    public void executePlayerAction(Inventory inv, Player player) {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
 
@@ -359,7 +384,7 @@ public class Board {
         }
     }
 
-    List<Card> drawCards(int nbCards) {
+    public List<Card> drawCards(int nbCards) {
         List<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
         this.currentDeckCardList = this.currentDeckCardList.subList(nbCards, currentDeckCardList.size());
         return playerDeck;
