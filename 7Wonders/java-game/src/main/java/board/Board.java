@@ -49,7 +49,10 @@ public class Board {
 
         this.playersManager = new PlayersManager(b.playersManager);
         this.commerce = b.commerce;
-        this.playerList = new ArrayList<>(b.playerList);
+        this.playerList = new ArrayList<>();
+        for (Player p : b.getPlayerList()){
+            this.playerList.add(new Player(p));
+        }
         this.playerInventoryList = new ArrayList<>();
         for (Inventory n : b.getPlayerInventoryList()){
             this.playerInventoryList.add(new Inventory(n));
@@ -67,7 +70,7 @@ public class Board {
         }
 
 
-        this.cardManager = b.cardManager;
+        this.cardManager = new CardManager(playerList,playerInventoryList);
         this.availableWonderBoardList = new ArrayList<>();
         //this.availableWonderBoardList = new ArrayList<>(b.availableWonderBoardList);
         for (WonderBoard w: b.availableWonderBoardList) {
@@ -241,8 +244,8 @@ public class Board {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : getPlayerInventoryList()) {
-           // log.display("[DISCAD LAST CARDS]");
-            //log.playerInformation(inv);
+            log.display("[DISCAD LAST CARDS]");
+            log.playerInformation(inv);
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
@@ -283,8 +286,11 @@ public class Board {
      * @param player
      */
     public void executePlayerAction(Inventory inv, Player player) {
-        Card chosenCard = player.getChosenCard();
-        Action action = player.getAction();
+        Card chosenCard = getPlayerList().get(inv.getPlayerId()).getChosenCard();
+        Action action = getPlayerList().get(inv.getPlayerId()).getAction();
+        log.display("[Chosen card after monte]"+ chosenCard);
+        log.display("[Chosen action after monte]"+action);
+
 
       //  log.action(player.getId());
       //  log.playerInformation(playerInventoryList.get(player.getId()));

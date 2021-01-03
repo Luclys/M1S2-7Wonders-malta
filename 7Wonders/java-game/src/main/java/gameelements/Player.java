@@ -26,6 +26,14 @@ public class Player {
         this.strategy = new FirstCardStrategy();
     }
 
+    public Player(Player p) {
+        this.id = p.id;
+        this.strategy = p.strategy;
+        rightNeighborId = p.rightNeighborId;
+        leftNeighborId = p.leftNeighborId;
+        chosenCard = p.chosenCard;
+    }
+
     public Player(int id, PlayingStrategy strategy) {
         this.id = id;
         this.strategy = strategy;

@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardManager {
+    GameLogger log = new GameLogger(true);
     List<Player> playerList;
     List<Inventory> playerInventoryList;
 
@@ -19,6 +21,19 @@ public class CardManager {
     public CardManager(List<Player> playerList, List<Inventory> playerInventoryList) {
         this.playerList = playerList;
         this.playerInventoryList = playerInventoryList;
+    }
+
+    public CardManager(CardManager cardManager) {
+       /* this.playerList = new ArrayList<>();
+        for (Player p : cardManager.playerList){
+            this.playerList.add(new Player(p));
+        }
+        this.playerInventoryList = new ArrayList<>();
+        for (Inventory i: cardManager.playerInventoryList){
+            this.playerInventoryList.add(new Inventory(i));
+        }*/
+        this.playerList = cardManager.playerList;
+        this.playerInventoryList = cardManager.playerInventoryList;
     }
 
     protected void leftRotation() {
@@ -45,6 +60,7 @@ public class CardManager {
             last = temp;
             i++;
         }
+
     }
 
     public void playersCardsRotation(boolean isLeftRotation) {

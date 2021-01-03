@@ -28,7 +28,6 @@ public class FirstCardStrategy implements PlayingStrategy {
     public Card chooseCard(Inventory inv, Board b) {
         this.action = Action.BUILDING;
         ArrayList<Card> available = cardsAvailableToPlay(inv);
-        b.log.display("[Available Cards to play] id "+ inv.getPlayerId() +" cards " + available);
         if (available.isEmpty()) {
             this.action = Action.SELL;
             chosen = inv.getCardsInHand().get(0);

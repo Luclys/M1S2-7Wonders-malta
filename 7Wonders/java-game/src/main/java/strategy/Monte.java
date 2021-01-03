@@ -59,15 +59,12 @@ public class Monte implements PlayingStrategy {
        // board.log.display("Inventory copy\n");
        // board.log.playerInformation(copyInventory);
         ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
-        Inventory memoriseInventory ;
-        Board memoriseBoard ;
 
         int idwinner = 0;
-        Card bestCard;
-        int bestScore = 0;
-        Action bestAction;
+
 
         if (availableCards.size() != 0){
+
             ArrayList<Integer> numberofvictory = new ArrayList<>();
           //  for (Card c : availableCards){
             for (int j = 0 ; j < availableCards.size() ; j++){
@@ -91,14 +88,31 @@ public class Monte implements PlayingStrategy {
                     //board = memoriseTheBoard ;
                     chosenCard = availableCards.get(j);
                     chosenAction  = action;
+                    memoriseTheBoard.log.display("[Chosen card monte] "+ chosenCard);
+                    memoriseTheBoard.log.display("[Chosen card monte by board] "+ board.getPlayerList().get(inv.getPlayerId()).getChosenCard());
+                    memoriseTheBoard.log.display("[Chosen Action monte] "+ chosenAction);
+                    memoriseTheBoard.log.display("[Chosen card monte by board] "+ board.getPlayerList().get(inv.getPlayerId()).getAction());
+                    memoriseTheBoard.log.display("Inv monte initaal "+inv.getPlayerId());
+                    memoriseTheBoard.log.display("Inv monte avant "+memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()).getPlayerId());
+
                    /* board.log.display("[Execute Monte] Inventory inv\n");
                     board.log.playerInformation(inv);
                     board.log.display("[Execute Monte] Inventory copyTheInventory\n");
                     board.log.playerInformation(copyTheInventory);*/
                     //inv = new Inventory( copyTheInventory);
                     //board.log.display("[Execute Monte] card "+chosenCard+" action "+chosenAction);
+                    board.log.display("[Before Execute Monte] \n");
+                    board.log.display("[Available Cadrs before monte ]"+availableCards);
+                    memoriseTheBoard.log.playerInformation(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()));
+
+                    memoriseTheBoard.log.display("[Chosen card monte by player] "+ memoriseTheBoard.getPlayerList().get(inv.getPlayerId()).getChosenCard());
+                    memoriseTheBoard.log.display("[Chosen Action monte by player] "+ memoriseTheBoard.getPlayerList().get(inv.getPlayerId()).getAction());
+
                     memoriseTheBoard.executePlayerAction(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()), memoriseTheBoard.getPlayerList().get(inv.getPlayerId()));
-/*
+                    board.log.display("[After Execute Monte] \n");
+                    memoriseTheBoard.log.playerInformation(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()));
+
+                    /*
                     for (Inventory n : board.getPlayerInventoryList()){
                         board.log.display("[Execute Monte board before monte] \n");
                         board.log.playerInformation(n);
@@ -139,6 +153,7 @@ public class Monte implements PlayingStrategy {
             chosenCard = inv.getCardsInHand().get(0);
             chosenAction = Action.SELL;
         }
+        board.log.display("End of monte carlo");
         return null;
     }
 
@@ -155,7 +170,9 @@ public class Monte implements PlayingStrategy {
                 p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
             }
         }
+        board.log.display("[##############################################]");
 
+        //chaque player joue carte sauf le player actuel
         for(Inventory p : board.getPlayerInventoryList()){
             if(inventory.getPlayerId()!=p.getPlayerId()){
                 board.log.playerInformation(p);
@@ -164,6 +181,11 @@ public class Monte implements PlayingStrategy {
             }
         }
         board.endOfTurn();
+        board.log.display("LEFT ROTATION TURN " +board.isLeftRotation());
+        board.log.display("End of Turn");
+        for (Inventory i : board.getPlayerInventoryList()){
+            board.log.playerInformation(i);
+        }
         //termer l'age
         for ( int currentTurn = board.getCurrentTurn()+1; currentTurn < board.CARDS_NUMBER - 1; currentTurn++) {
             // Each player plays a card on each turn
@@ -177,8 +199,16 @@ public class Monte implements PlayingStrategy {
                 board.log.playerInformation(board.getPlayerInventoryList().get(i));
             }
             board.endOfTurn();
+            board.log.display("LEFT ROTATION " +board.isLeftRotation()); // la mmem chose
+            board.log.display("End of Turn");
+            for (Inventory i : board.getPlayerInventoryList()){
+                board.log.playerInformation(i);
+            }
+
         }
         board.endOfAge();
+        board.log.display("End of Age");
+        board.log.display("LEFT ROTATION AGE " +board.isLeftRotation()); // de
 
         // terminer les ages
         board.log.endOfAge(board.getCurrentAge());
@@ -197,14 +227,23 @@ public class Monte implements PlayingStrategy {
                         p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
                     }
                     for (int k = 0; k < board.getPlayerList().size(); k++) {
+                        board.log.display("[Before Execute player] \n");
                         board.log.playerInformation(board.getPlayerInventoryList().get(k));
                         board.executePlayerAction(board.getPlayerInventoryList().get(k), board.getPlayerList().get(k));
+                        board.log.display("[After Execute player] \n");
                         board.log.playerInformation(board.getPlayerInventoryList().get(k));
                     }
                     board.endOfTurn();
+                    board.log.display("LEFT ROTATION " +board.isLeftRotation()); // la mmem chose
+                    board.log.display("End of Turn");
+                    for (Inventory a : board.getPlayerInventoryList()){
+                        board.log.playerInformation(a);
+                    }
                 }
-                board.endOfAge();
+
             board.endOfAge();
+            board.log.display("End of Age");
+            board.log.display("LEFT ROTATION AGE " +board.isLeftRotation()); // de
         }
         board.endOfGame();
 
