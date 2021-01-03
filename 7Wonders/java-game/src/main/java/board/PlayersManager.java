@@ -25,6 +25,18 @@ public class PlayersManager {
         playerInventoryList = new ArrayList<>();
     }
 
+    public PlayersManager(PlayersManager playersManager) {
+        this.log = new GameLogger(false);
+        this.playerList = new ArrayList<>();
+        for (Player p : playersManager.playerList){
+            this.playerList.add(p);
+        }
+        this.playerInventoryList = new ArrayList<>();
+        for (Inventory i: playersManager.playerInventoryList){
+            this.playerInventoryList.add(i);
+        }
+    }
+
     protected void updateCoins() {
         for (Inventory inv : playerInventoryList) {
             int coinsFromTrade = inv.getAddedCoins();

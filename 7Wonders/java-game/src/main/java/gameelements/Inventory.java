@@ -68,12 +68,14 @@ public class Inventory implements Comparable {
         // Consider implementing Cloneable instead...
         this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
-        this.availableResources = inventory.availableResources;
-        this.availableSymbols = inventory.availableSymbols;
-        this.pairResChoice = inventory.pairResChoice;
-        this.cardsInHand = inventory.cardsInHand;
-        this.playedCards = inventory.playedCards;
-        this.endGameEffects = inventory.endGameEffects;
+        this.availableResources = Arrays.copyOf(inventory.availableResources, inventory.availableResources.length);
+      //  System.arraycopy(this.availableResources, 0, inventory.availableResources, 0, inventory.availableResources.length);
+        this.availableSymbols = Arrays.copyOf(inventory.availableSymbols,inventory.availableSymbols.length);
+      //  System.arraycopy(this.availableSymbols, 0, inventory.availableSymbols, 0, inventory.availableSymbols.length);
+        this.pairResChoice = new ArrayList<>(inventory.pairResChoice);
+        this.cardsInHand = new ArrayList<>(inventory.cardsInHand);
+        this.playedCards = new ArrayList<>(inventory.playedCards);
+        this.endGameEffects = new ArrayList<>(inventory.endGameEffects);
         this.wonderBoard = inventory.wonderBoard;
 
         this.score = inventory.score;
@@ -91,6 +93,7 @@ public class Inventory implements Comparable {
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
     }
+
 
     @Override
     public int compareTo(Object o) {
@@ -140,7 +143,8 @@ public class Inventory implements Comparable {
         if (cardsInHand.contains(card)) {
             addCoins(3);
             cardsInHand.remove(0);
-        } else {
+        }
+        else {
             throw new Error("Can't sell a card you don't have.");
         }
     }
@@ -441,5 +445,16 @@ public class Inventory implements Comparable {
             canPay = true;
         }
         return canPay;
+    }
+
+    public void set(Inventory inv){
+        new Inventory(inv);
+    }
+
+    public ArrayList<Card> cardsAvailableToPlay() {
+        //We remove from playable cards the cards the player already played, you can't play the same card twice
+        ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(this.getCardsInHand());
+        cardsAvailableToPlay.removeIf(card -> this.getPlayedCards().contains(card) && card.isBuilding());
+        return cardsAvailableToPlay;
     }
 }

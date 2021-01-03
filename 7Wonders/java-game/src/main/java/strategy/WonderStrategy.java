@@ -1,5 +1,6 @@
 package strategy;
 
+import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -14,9 +15,10 @@ import java.util.ArrayList;
 
 public class WonderStrategy implements PlayingStrategy {
     Action action;
+    Card chosen;
 
     @Override
-    public Card chooseCard(Inventory inv) {
+    public Card chooseCard(Inventory inv, Board b) {
         return chooseCardToBuildStep(inv);
     }
 
@@ -84,7 +86,11 @@ public class WonderStrategy implements PlayingStrategy {
                 }
             }
         }
-
+        chosen = chosenCard;
         return chosenCard;
+    }
+
+    public Card getCard(){
+        return chosen;
     }
 }

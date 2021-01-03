@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
     static String SEPARATOR = "%n==========================================================================%n";
-    boolean booleanPrint;
+    public boolean booleanPrint;
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
@@ -80,20 +80,37 @@ public class GameLogger {
                 inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()],
                 inv.getAvailableSymbols()[Symbol.STELE.getIndex()]
         );
+
+        String availableResourcesFromPairs = " ";
+        for (Resource[] pair: inv.getPairResChoice()) {
+            availableResourcesFromPairs += pair[0].toString() + "|" + pair[1].toString() + ", ";
+        }
         log.info(String.format("%n========================== PLAYER %d STATE =============================%n" +
+                        "CARDS IN HAND: %s,%n" +
+                        "PLAYED CARDS: %s,%n" +
                         "AVAILABLE RESOURCES: %s,%n" +
+                        "AVAILABLE RESOURCES FROM PAIRS: %s, %n" +
+                        "ANY RESOURCE FROM MATIERES PREMIERES AVAILABLE COUNT: %d, %n" +
+                        "ANY RESOURCE FROM PRODUITS MANIFACTURES AVAILABLE COUNT %d, %n" +
                         "AVAILABLE SYMBOLS: %s,%n" +
                         "VICTORY CHIPS SCORE: %d,%n" +
                         "DEFEAT CHIPS COUNT: %d,%n" +
                         "SCORE: %d,%n" +
-                        "COINS: %d %n",
+                        "COINS: %d %n" +
+                        "Available Cards to play: %s \n",
                 inv.getPlayerId(),
+                inv.getCardsInHand().toString(),
+                inv.getPlayedCards().toString(),
                 avaibaleResources,
+                availableResourcesFromPairs,
+                inv.getAnyMatierePremiereAvailableCount(),
+                inv.getAnyProduitManufactureAvailableCount(),
                 availableSymbols,
                 inv.getVictoryChipsScore(),
                 inv.getDefeatChipsCount(),
                 inv.getScore(),
-                inv.getCoins()
+                inv.getCoins(),
+                inv.cardsAvailableToPlay().toString()
         ));
     }
 
@@ -255,4 +272,16 @@ public class GameLogger {
     public boolean isBooleanPrint() {
         return booleanPrint;
     }
+    public void display(String s){
+        if (!booleanPrint) return;
+        log.info("[TEST] "+s);
+    }
+
+    public void playerCards(Inventory inventory){
+        if (!booleanPrint) return;
+        for (Card c : inventory.getCardsInHand()){
+            log.info("[CARDS] "+c);
+        }
+    }
+
 }

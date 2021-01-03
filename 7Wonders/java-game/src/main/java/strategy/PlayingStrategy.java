@@ -1,5 +1,6 @@
 package strategy;
 
+import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -12,9 +13,10 @@ import java.util.ArrayList;
  * @author lamac
  */
 public interface PlayingStrategy {
-    Card chooseCard(Inventory inventory);
+    Card chooseCard(Inventory inventory, Board b);
 
     Action getAction();
+    Card getCard();
 
     /**
      * this method remove from playable cards the cards the player already played,

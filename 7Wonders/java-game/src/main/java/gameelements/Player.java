@@ -1,5 +1,6 @@
 package gameelements;
 
+import board.Board;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
 import gameelements.enums.Symbol;
@@ -40,9 +41,9 @@ public class Player {
      * @param inv
      * @return chosen card
      */
-    public Card chooseCard(Inventory inv) {
-        chosenCard = strategy.chooseCard(inv);
-        return chosenCard;
+    public Card chooseCard(Inventory inv, Board b) {
+        chosenCard = strategy.chooseCard(inv,b);
+        return strategy.getCard();
     }
 
     public Card chooseGuildCard(List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
@@ -70,7 +71,7 @@ public class Player {
     }
 
     public Card getChosenCard() {
-        return this.chosenCard;
+        return strategy.getCard();
     }
 
     public int getRightNeighborId() {

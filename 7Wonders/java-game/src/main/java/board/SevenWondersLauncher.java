@@ -3,8 +3,7 @@ package board;
 import client.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
-import strategy.FirstCardStrategy;
-import strategy.WonderStrategy;
+import strategy.Monte;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,9 @@ public class SevenWondersLauncher {
     private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
     static Client client;
     static int nbPlayers = 3;
-    static int nbGames = 1000;
+    static int nbGames = 1;
     static boolean boolPrint = false;
+    static Board board;
 
     public static void main(String... args) throws InterruptedException, JsonProcessingException {
         //Starting the client
@@ -32,7 +32,8 @@ public class SevenWondersLauncher {
         client.sendNumberOfPlayers(nbPlayers);
 
         for (int i = 1; i <= nbGames; i++) {
-            Board board = new Board(playerList, boolPrint);
+            board = new Board(playerList, boolPrint);
+            board.getPlayerList().get(nbPlayers-1).setStrategy(new Monte());
             board.play(i);
             if (i != nbGames) {
                 System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
@@ -46,12 +47,10 @@ public class SevenWondersLauncher {
 
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
-        for (int i = 0; i < nbPlayers - 1; i++) {
-            Player player = new Player(i, new FirstCardStrategy());
+        for (int i = 0; i < nbPlayers ; i++) {
+            Player player = new Player(i);
             playerList.add(player);
         }
-        Player player = new Player(nbPlayers - 1, new WonderStrategy());
-        playerList.add(player);
         return playerList;
     }
 

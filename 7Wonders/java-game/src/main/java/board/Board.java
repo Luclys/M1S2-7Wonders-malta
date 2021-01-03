@@ -2,7 +2,6 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -15,6 +14,7 @@ import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
+import statistic.DetailedResults;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,24 +37,52 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    private final GameLogger log;
+    public final GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
+    private int currentAge;
+    private int currentTurn;
 
     public Board(Board b) {
-        this.playersManager = b.playersManager;
+
+        this.playersManager = new PlayersManager(b.playersManager);
         this.commerce = b.commerce;
-        this.playerList = b.playerList;
-        this.playerInventoryList = b.playerInventoryList;
-        this.discardedDeckCardList = b.discardedDeckCardList;
-        this.cardManager = b.cardManager;
+        this.playerList = new ArrayList<>(b.playerList);
+        this.playerInventoryList = new ArrayList<>();
+        for (Inventory n : b.getPlayerInventoryList()){
+            this.playerInventoryList.add(new Inventory(n));
+        }
+
+        //Collections.copy(this.playerInventoryList, b.playerInventoryList);
+        //this.playerInventoryList.addAll(b.playerInventoryList);
         this.log = b.log;
-        this.availableWonderBoardList = b.availableWonderBoardList;
-        this.currentDeckCardList = b.currentDeckCardList;
+      //
+        //  log.display("[Verify list]"+(this.getPlayerInventoryList() == b.playerInventoryList));
+       // this.playerInventoryList = Arrays.copyOf(b.playerInventoryList,b.playerInventoryList.size();
+        this.discardedDeckCardList = new ArrayList<>();
+        for ( Card c : b.getDiscardedDeckCardList()){
+            this.discardedDeckCardList.add(c);
+        }
+
+
+        this.cardManager = b.cardManager;
+        this.availableWonderBoardList = new ArrayList<>();
+        //this.availableWonderBoardList = new ArrayList<>(b.availableWonderBoardList);
+        for (WonderBoard w: b.availableWonderBoardList) {
+            this.availableWonderBoardList.add(w);
+        }
+
+
+        this.currentDeckCardList =new ArrayList<>();
+        for ( Card c : b.getCurrentDeckCardList()){
+            this.currentDeckCardList.add(c);
+        }
         this.isLeftRotation = b.isLeftRotation;
         this.jetonVictoryValue = b.jetonVictoryValue;
+        this.currentAge = 1;
+        this.currentTurn = 0;
     }
 
     /**
@@ -76,6 +104,8 @@ public class Board {
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
         availableWonderBoardList = WonderBoard.initiateWonders();
+        this.currentAge = 1;
+        this.currentTurn = 0;
     }
 
     static void denseRanking(List<Inventory> playerInventoryList) {
@@ -125,33 +155,36 @@ public class Board {
     public void play(int nbPlay) throws JsonProcessingException {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
-        for (int age = 1; age <= AGES; age++) {
-            ageSetUp(age);
-            log.beginningOfAge(age);
+        for ( currentAge = 1; currentAge <= AGES; currentAge++) {
+            ageSetUp(currentAge);
+            log.beginningOfAge(currentAge);
             // Card dealing & resetting possibleFreeBuildingsCount
             for (Inventory inventory : playerInventoryList) {
                 inventory.setCardsInHand(drawCards(CARDS_NUMBER));
                 if (inventory.getPossibleFreeBuildings() == -1) inventory.setPossibleFreeBuildings(1);
             }
 
-            for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
+            for ( currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 log.newTurn(currentTurn + 1);
                 log.play();
 
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
-                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    p.chooseCard(playerInventoryList.get(p.getId()),this);
+                   // log.display("card "+p.getChosenCard());
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerList().size(); i++) {
+                    log.playerInformation(playerInventoryList.get(i));
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
+                    log.playerInformation(playerInventoryList.get(i));
                 }
                 endOfTurn();
             }
 
             endOfAge();
-            log.endOfAge(age);
+            log.endOfAge(currentAge);
         }
 
         endOfGame();
@@ -164,6 +197,7 @@ public class Board {
         resolveWarConflict(getJetonVictoryValue());
     }
     public void endOfTurn(){
+
         playersManager.updateCoins();
         playersManager.freeBuildFromDiscarded(discardedDeckCardList);
         getCardManager().playersCardsRotation(isLeftRotation());
@@ -207,11 +241,13 @@ public class Board {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : getPlayerInventoryList()) {
+           // log.display("[DISCAD LAST CARDS]");
+            //log.playerInformation(inv);
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 Player player = playerList.get(inv.getPlayerId());
-                player.chooseCard(new Inventory(inv));
+                player.chooseCard(new Inventory(inv),this);
                 executePlayerAction(inv, player);
             }
         }
@@ -236,7 +272,7 @@ public class Board {
             availableWonderBoardList.remove(chosenWB);
 
             inv.getDetailedResults().setWbName(chosenWB.getName());
-            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
+           // log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
 
@@ -250,14 +286,15 @@ public class Board {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
 
-        log.action(player.getId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
+      //  log.action(player.getId());
+      //  log.playerInformation(playerInventoryList.get(player.getId()));
+     //   log.display("[TEST] playerrr "+chosenCard);
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
                 if (nbFreeBuildings > 0) {
                     buildCard(inv, chosenCard, player);
-                    log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
+                   // log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
@@ -265,7 +302,7 @@ public class Board {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
-                    log.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
+                  //  log.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
                     buildCard(inv, chosenCard, player);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources)) {
@@ -299,8 +336,8 @@ public class Board {
                 initSellCard(inv, chosenCard);
                 break;
         }
-        log.playersNewState(inv.getPlayerId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
+      //  log.playersNewState(inv.getPlayerId());
+      //  log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
 
@@ -315,14 +352,14 @@ public class Board {
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
-        log.startTrade();
-        log.pricesOfResources(trueInv);
-        log.missingResources(missingResources);
+     //   log.startTrade();
+     //   log.pricesOfResources(trueInv);
+     //   log.missingResources(missingResources);
         canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
-            log.gotMissingResources();
+     //       log.gotMissingResources();
         } else {
-            log.cantBuyMissingResources();
+     //       log.cantBuyMissingResources();
         }
         return canBuy;
     }
@@ -336,7 +373,7 @@ public class Board {
      */
     private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
-            log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
+      //      log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
             trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
     }
@@ -350,7 +387,7 @@ public class Board {
      * @param player
      */
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
-        log.playerBuildsWonderStep(trueInv.getPlayerId());
+    //    log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
@@ -363,7 +400,7 @@ public class Board {
      * @param chosenCard
      */
     private void initSellCard(Inventory trueInv, Card chosenCard) {
-        log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
+      //  log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
@@ -394,6 +431,7 @@ public class Board {
      * this method calculate the scores of the player at the end of the game
      */
     public void scores() {
+
         log.endOfGame();
         /*The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
@@ -473,5 +511,13 @@ public class Board {
 
     public List<WonderBoard> getAvailableWonderBoardList() {
         return availableWonderBoardList;
+    }
+
+    public int getCurrentAge() {
+        return currentAge;
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
     }
 }
