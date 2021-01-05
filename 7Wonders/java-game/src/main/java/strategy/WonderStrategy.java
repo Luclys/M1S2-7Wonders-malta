@@ -18,6 +18,15 @@ public class WonderStrategy implements PlayingStrategy {
     Card chosen;
 
     @Override
+    public PlayingStrategy copy() {
+        WonderStrategy s = new WonderStrategy();
+        s.chosen = this.chosen;
+        s.action = this.action;
+        return s;
+    }
+
+
+    @Override
     public Card chooseCard(Inventory inv, Board b) {
         return chooseCardToBuildStep(inv);
     }

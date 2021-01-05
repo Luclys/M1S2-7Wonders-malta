@@ -21,6 +21,8 @@ public class Player {
     private int leftNeighborId;
     private Card chosenCard;
 
+    GameLogger log = new GameLogger(true);
+
     public Player(int id) {
         this.id = id;
         this.strategy = new FirstCardStrategy();
@@ -28,7 +30,16 @@ public class Player {
 
     public Player(Player p) {
         this.id = p.id;
-        this.strategy = p.strategy;
+        this.strategy = p.strategy.copy();
+        log.display("STRATEGY COPIED ACTION " + this.strategy.getAction() + " CARD" + this.strategy.getCard() + " CLASS " + this.strategy.getClass());
+        rightNeighborId = p.rightNeighborId;
+        leftNeighborId = p.leftNeighborId;
+        chosenCard = p.chosenCard;
+    }
+
+    public Player(Player p, PlayingStrategy strategy) {
+        this.id = p.id;
+        this.strategy = strategy;
         rightNeighborId = p.rightNeighborId;
         leftNeighborId = p.leftNeighborId;
         chosenCard = p.chosenCard;

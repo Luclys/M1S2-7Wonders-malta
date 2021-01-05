@@ -16,6 +16,14 @@ public class FirstCardStrategy implements PlayingStrategy {
     Action action;
     Card chosen;
 
+    @Override
+    public PlayingStrategy copy() {
+        FirstCardStrategy s = new FirstCardStrategy();
+        s.chosen = this.chosen;
+        s.action = this.action;
+        return s;
+    }
+
     /**
      * This method allows to choose a card
      * to build it if it's possible
@@ -47,4 +55,6 @@ public class FirstCardStrategy implements PlayingStrategy {
     public Card getCard(){
         return chosen;
     }
+
+
 }

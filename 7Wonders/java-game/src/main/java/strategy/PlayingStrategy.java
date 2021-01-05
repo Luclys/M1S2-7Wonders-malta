@@ -18,6 +18,8 @@ public interface PlayingStrategy {
     Action getAction();
     Card getCard();
 
+    PlayingStrategy copy();
+
     /**
      * this method remove from playable cards the cards the player already played,
      * because he can't play the same card twice
