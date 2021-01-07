@@ -31,7 +31,6 @@ public class Player {
     public Player(Player p) {
         this.id = p.id;
         this.strategy = p.strategy.copy();
-        log.display("STRATEGY COPIED ACTION " + this.strategy.getAction() + " CARD" + this.strategy.getCard() + " CLASS " + this.strategy.getClass());
         rightNeighborId = p.rightNeighborId;
         leftNeighborId = p.leftNeighborId;
         chosenCard = p.chosenCard;

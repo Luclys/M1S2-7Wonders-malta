@@ -10,7 +10,7 @@ import java.util.List;
 public class Trade {
     public static final String LEFT = "left";
     public static final String RIGHT = "right";
-    private final GameLogger log;
+    public GameLogger log;
 
     public Trade(GameLogger logger) {
         this.log = logger;

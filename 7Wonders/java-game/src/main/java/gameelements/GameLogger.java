@@ -86,6 +86,7 @@ public class GameLogger {
             availableResourcesFromPairs += pair[0].toString() + "|" + pair[1].toString() + ", ";
         }
         log.info(String.format("%n========================== PLAYER %d STATE =============================%n" +
+                        "WONDER: %s, %n" +
                         "CARDS IN HAND: %s,%n" +
                         "PLAYED CARDS: %s,%n" +
                         "AVAILABLE RESOURCES: %s,%n" +
@@ -97,8 +98,9 @@ public class GameLogger {
                         "DEFEAT CHIPS COUNT: %d,%n" +
                         "SCORE: %d,%n" +
                         "COINS: %d %n" +
-                        "Available Cards to play: %s \n",
+                        "Available Cards to play: %s",
                 inv.getPlayerId(),
+                inv.getWonderBoard().getName(),
                 inv.getCardsInHand().toString(),
                 inv.getPlayedCards().toString(),
                 avaibaleResources,

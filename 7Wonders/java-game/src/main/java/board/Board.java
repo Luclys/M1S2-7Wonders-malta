@@ -37,7 +37,7 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    public final GameLogger log;
+    public GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
@@ -58,12 +58,8 @@ public class Board {
             this.playerInventoryList.add(new Inventory(n));
         }
 
-        //Collections.copy(this.playerInventoryList, b.playerInventoryList);
-        //this.playerInventoryList.addAll(b.playerInventoryList);
-        this.log = b.log;
-      //
-        //  log.display("[Verify list]"+(this.getPlayerInventoryList() == b.playerInventoryList));
-       // this.playerInventoryList = Arrays.copyOf(b.playerInventoryList,b.playerInventoryList.size();
+        this.log = new GameLogger(false);
+
         this.discardedDeckCardList = new ArrayList<>();
         for ( Card c : b.getDiscardedDeckCardList()){
             this.discardedDeckCardList.add(c);
@@ -72,7 +68,7 @@ public class Board {
 
         this.cardManager = new CardManager(playerList,playerInventoryList);
         this.availableWonderBoardList = new ArrayList<>();
-        //this.availableWonderBoardList = new ArrayList<>(b.availableWonderBoardList);
+
         for (WonderBoard w: b.availableWonderBoardList) {
             this.availableWonderBoardList.add(w);
         }
@@ -161,12 +157,16 @@ public class Board {
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
             log.beginningOfAge(currentAge);
+
             // Card dealing & resetting possibleFreeBuildingsCount
             for (Inventory inventory : playerInventoryList) {
                 inventory.setCardsInHand(drawCards(CARDS_NUMBER));
                 if (inventory.getPossibleFreeBuildings() == -1) inventory.setPossibleFreeBuildings(1);
             }
-
+            log.display("List in set ages");
+            for (Inventory inv : playerInventoryList){
+                log.playerInformation(inv);
+            }
             for ( currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 log.newTurn(currentTurn + 1);
                 log.play();
@@ -179,11 +179,15 @@ public class Board {
                 }
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerList().size(); i++) {
-                    log.playerInformation(playerInventoryList.get(i));
+                  //  log.playerInformation(playerInventoryList.get(i));
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
-                    log.playerInformation(playerInventoryList.get(i));
+                  //  log.playerInformation(playerInventoryList.get(i));
                 }
                 endOfTurn();
+                log.display("ROTATION");
+                for (Inventory inv : playerInventoryList){
+                    log.playerInformation(inv);
+                }
             }
 
             endOfAge();
@@ -275,7 +279,7 @@ public class Board {
             availableWonderBoardList.remove(chosenWB);
 
             inv.getDetailedResults().setWbName(chosenWB.getName());
-           // log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
+            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
         }
     }
 
@@ -286,15 +290,15 @@ public class Board {
      * @param player
      */
     public void executePlayerAction(Inventory inv, Player player) {
-        Card chosenCard = getPlayerList().get(inv.getPlayerId()).getChosenCard();
-        Action action = getPlayerList().get(inv.getPlayerId()).getAction();
-        log.display("[Chosen card after monte]"+ chosenCard);
-        log.display("[Chosen action after monte]"+action);
+        Card chosenCard = player.getChosenCard();
+        Action action = player.getAction();
+        log.display("[Chosen card with monte]"+ chosenCard+"[Chosen action with monte]"+action+" playe id"+player.getId());
 
 
       //  log.action(player.getId());
-      //  log.playerInformation(playerInventoryList.get(player.getId()));
-     //   log.display("[TEST] playerrr "+chosenCard);
+        log.display("BEFORE EXECUTE ACTION");
+       log.playerInformation(playerInventoryList.get(player.getId()));
+       log.display("[TEST] chosen card "+chosenCard +"Action "+action);
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
@@ -339,11 +343,14 @@ public class Board {
                 break;
 
             default:
+
                 initSellCard(inv, chosenCard);
                 break;
         }
       //  log.playersNewState(inv.getPlayerId());
       //  log.playerInformation(playerInventoryList.get(player.getId()));
+        log.display("AFTER EXECUTE ACTION");
+        log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
 
@@ -407,6 +414,7 @@ public class Board {
      */
     private void initSellCard(Inventory trueInv, Card chosenCard) {
       //  log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
+        //log.display("Chosen Card to sell "+ chosenCard +" card in 0"+trueInv.getCardsInHand().get(0));
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }

@@ -139,12 +139,16 @@ public class Inventory implements Comparable {
         }
     }
 
+
+    public boolean canSell(Card card) {
+        return cardsInHand.contains(card);
+    }
+
     public void sellCard(Card card) {
-        if (cardsInHand.contains(card)) {
+        if (canSell(card)) {
             addCoins(3);
-            cardsInHand.remove(0);
-        }
-        else {
+            cardsInHand.remove(card);
+        } else {
             throw new Error("Can't sell a card you don't have.");
         }
     }
