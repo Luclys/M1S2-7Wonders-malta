@@ -24,6 +24,14 @@ public class WonderBoard {
         this.steps = steps;
     }
 
+    public WonderBoard(WonderBoard w) {
+        this.name = w.name;
+        this.baseEffect = w.baseEffect;
+        this.currentStepIndex = w.currentStepIndex;
+        this.steps = w.steps;
+        this.associatedInv = w.associatedInv;
+    }
+
     public static WonderBoard initiateColossusA() {
         List<Step> colosseStepsA = new ArrayList<>();
         colosseStepsA.add(new Step(new Resource[]{Resource.BOIS, Resource.BOIS}, new ScoreEffect(3)));
@@ -166,6 +174,10 @@ public class WonderBoard {
         return currentStepIndex;
     }
 
+    public void setCurrentStepIndex(int i) {
+        currentStepIndex = i;
+    }
+
     public void claimBoard(Player player, Inventory inv) {
         if (this.associatedInv == null) {
             inv.setWonderBoard(this);
@@ -180,5 +192,13 @@ public class WonderBoard {
 
     public String getName() {
         return name;
+    }
+
+    public Inventory getAssociatedInv() {
+        return associatedInv;
+    }
+
+    public void setAssociatedInv(Inventory inv) {
+        this.associatedInv = inv;
     }
 }

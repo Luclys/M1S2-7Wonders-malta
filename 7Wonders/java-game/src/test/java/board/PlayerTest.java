@@ -7,6 +7,7 @@ import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import strategy.FirstCardStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ class PlayerTest {
 
     @Test
     void chooseCardTest() {
-        player = new Player(0);
+        player = new Player(0, new FirstCardStrategy());
         inv = new Inventory(0);
         playerRightNeighbor = new Inventory(1);
         playerLeftNeighbor = new Inventory(2);

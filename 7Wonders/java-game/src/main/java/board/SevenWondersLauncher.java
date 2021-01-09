@@ -4,6 +4,7 @@ import client.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
 import strategy.Monte;
+import strategy.WonderStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,18 +31,24 @@ public class SevenWondersLauncher {
 
         List<Player> playerList = fetchPlayers(nbPlayers);
         client.sendNumberOfPlayers(nbPlayers);
-
+        ArrayList<Integer> winsCount = new ArrayList<>();
+        for (int i = 0; i < nbPlayers; i++) {
+            winsCount.add(0);
+        }
         for (int i = 1; i <= nbGames; i++) {
             board = new Board(playerList, boolPrint);
             board.getPlayerList().get(nbPlayers-1).setStrategy(new Monte());
-            board.play(i);
+            int winner = board.play(i);
+            winsCount.set(winner, winsCount.get(winner)+1);
             if (i != nbGames) {
                 System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
             } else {
                 System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
             }
         }
-
+        for (int i = 0; i < winsCount.size(); i++) {
+            System.out.printf("[7WONDERS - LAMAC] Player %d wins %d times", i, winsCount.get(i));
+        }
         client.showStats();
     }
 

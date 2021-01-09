@@ -73,7 +73,8 @@ public class WonderStrategy implements PlayingStrategy {
             //Player picks a card he can build
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
-                return inv.getCardsInHand().get(0);
+                chosen = inv.getCardsInHand().get(0);
+                return chosen;
             }
             if (inv.getPossibleFreeBuildings() > 0) {
                 setAction(Action.BUILDFREE);
@@ -82,7 +83,8 @@ public class WonderStrategy implements PlayingStrategy {
                     if (!inv.canBuild(card.getRequiredResources())) {
                         break;
                     } else {
-                        return card;
+                        chosen = card;
+                        return chosen;
                     }
                 }
             }
@@ -91,7 +93,8 @@ public class WonderStrategy implements PlayingStrategy {
             for (Card card : availableCards) {
                 //Player picks the first buildable card
                 if (inv.canBuild(card.getRequiredResources())) {
-                    return card;
+                    chosen = card;
+                    return chosen;
                 }
             }
         }

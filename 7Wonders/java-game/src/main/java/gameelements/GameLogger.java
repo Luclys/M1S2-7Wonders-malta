@@ -87,6 +87,7 @@ public class GameLogger {
         }
         log.info(String.format("%n========================== PLAYER %d STATE =============================%n" +
                         "WONDER: %s, %n" +
+                        "CURRENT WONDER STEP INDEX %d, %n" +
                         "CARDS IN HAND: %s,%n" +
                         "PLAYED CARDS: %s,%n" +
                         "AVAILABLE RESOURCES: %s,%n" +
@@ -101,6 +102,7 @@ public class GameLogger {
                         "Available Cards to play: %s",
                 inv.getPlayerId(),
                 inv.getWonderBoard().getName(),
+                inv.getWonderBoard().getCurrentStepIndex(),
                 inv.getCardsInHand().toString(),
                 inv.getPlayedCards().toString(),
                 avaibaleResources,

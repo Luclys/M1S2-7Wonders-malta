@@ -57,8 +57,18 @@ public class Monte implements PlayingStrategy {
 
     private void getBestChosenCardAndAction(ArrayList<ArrayList<Integer>> numberOfVictories, ArrayList<Card> cards) {
         int maxscore = 0;
+        //board.log = new GameLogger(true);
+        board.log.display("GET BEST CHOSEN CARD AND ACTION!!!!");
+        board.log.display("TURN IS " + board.getCurrentTurn());
+        board.log.display("CARDS ARE " + cards);
+        board.log.playerInformation(inv);
         for (int cardIndex = 0; cardIndex < numberOfVictories.size(); cardIndex++) {
             ArrayList<Action> actions = availableActions(cards.get(cardIndex), inv);
+            board.log.display("CARD IS " + cards.get(cardIndex).getName());
+            //for (Action act: actions) {
+                board.log.display("AVAILABLE ACTIONS ARE " + actions);
+           // }
+            board.log.display("ACTION INDEXES IN NUMBEROFVICT ARE " + numberOfVictories.get(cardIndex));
             for (int actionIndex = 0; actionIndex < numberOfVictories.get(cardIndex).size(); actionIndex++) {
                 if (numberOfVictories.get(cardIndex).get(actionIndex) > maxscore) {
                     maxscore = numberOfVictories.get(cardIndex).get(actionIndex);
@@ -67,37 +77,63 @@ public class Monte implements PlayingStrategy {
                 }
             }
         }
+        board.log = new GameLogger(false);
     }
 
     public Card monteCarlo(){
         ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
         int idwinner = 0;
         if (availableCards.size() != 0){
-            ArrayList<ArrayList<Integer>> numberofvictory = new ArrayList<>();
+            //numberOfVictories[cardIndex][actionIndex] - number of victories if we choose cardIndex and actionIndex
+            ArrayList<ArrayList<Integer>> numberOfVictories = new ArrayList<>();
             for (int cardIndex = 0 ; cardIndex < availableCards.size() ; cardIndex++){
-                ArrayList<Action> listActions = availableActions(availableCards.get(cardIndex),inv);
-                numberofvictory.add(new ArrayList<>());
-                for ( int actionIndex = 0; actionIndex < listActions.size(); actionIndex++){
-                    numberofvictory.get(cardIndex).add(0);
+                ArrayList<Action> listActions = availableActions(availableCards.get(cardIndex), inv);
+                numberOfVictories.add(new ArrayList<>());
+                for (int actionIndex = 0; actionIndex < listActions.size(); actionIndex++){
+                    numberOfVictories.get(cardIndex).add(0);
                     Action action = listActions.get(actionIndex);
                     Inventory copyTheInventory = new Inventory(inv);
                     chosenCard = availableCards.get(cardIndex);
-                    chosenAction  = action;
+                    chosenAction = action;
+
+                    //board.log = new GameLogger(true);
+                    board.log.display("PLAYERS INITIAL BOARD WONDER ASSOCIATED INVS");
+                    for (Inventory inbi : board.getPlayerInventoryList()) {
+                        board.log.playerInformation(inbi.getWonderBoard().getAssociatedInv());
+                    }
+                    board.log = new GameLogger(false);
+
                     Board memoriseTheBoard = new Board(board);
+
                     memoriseTheBoard.getCommerce().log = new GameLogger(false);
                     memoriseTheBoard.executePlayerAction(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()), memoriseTheBoard.getPlayerList().get(inv.getPlayerId()));
 
-                    for (int i = 0 ;i < 1 ; i++ ){
+                    //memoriseTheBoard.log = new GameLogger(true);
+                    memoriseTheBoard.log.display("PLAYERS BOARD WONDER ASSOCIATED INVS AFTER MODIFIACTIONS");
+                    for (Inventory inbi : memoriseTheBoard.getPlayerInventoryList()) {
+                        memoriseTheBoard.log.playerInformation(inbi.getWonderBoard().getAssociatedInv());
+                    }
+                    memoriseTheBoard.log = new GameLogger(false);
+
+                    //board.log = new GameLogger(true);
+                    board.log.display("PLAYERS INITIAL BOARD WONDER ASSOCIATED INVS AFTER MODIFIACTIONS");
+                    for (Inventory inbi : board.getPlayerInventoryList()) {
+                        board.log.playerInformation(inbi.getWonderBoard().getAssociatedInv());
+                    }
+                    board.log = new GameLogger(false);
+
+
+                    for (int i = 0 ;i < 1000; i++ ){
                         // recuperer l'ancien board apres le choix de monte
                         Board memoriseTheBoard2 = new Board(memoriseTheBoard );
+
                         memoriseTheBoard2.getCommerce().log = new GameLogger(false);
                         idwinner = continueGame(memoriseTheBoard2,copyTheInventory);
                         if (idwinner == copyTheInventory.getPlayerId()){
-                            numberofvictory.get(cardIndex).set(actionIndex, numberofvictory.get(cardIndex).get(actionIndex)+1); // aussi donné l'action joue
+                            numberOfVictories.get(cardIndex).set(actionIndex, numberOfVictories.get(cardIndex).get(actionIndex)+1); // aussi donné l'action joue
                         }
                     }
                 }
-
             }
           /*  for (int n = 0; n < numberofvictory.size(); n++) {
                 ArrayList<Action> listActions = availableActions(availableCards.get(n),inv);
@@ -105,23 +141,19 @@ public class Monte implements PlayingStrategy {
                     board.log.display("CARD " + availableCards.get(n) + " and action "+listActions.get(a) +" permits "+numberofvictory.get(n).get(a));
                 }
             }*/
-            getBestChosenCardAndAction(numberofvictory,availableCards);
+            getBestChosenCardAndAction(numberOfVictories, availableCards);
         }else{
             chosenCard = inv.getCardsInHand().get(0);
             chosenAction = Action.SELL;
         }
-      //  board.log.display("End of monte carlo");
         return null;
     }
 
     public int continueGame(Board board, Inventory inventory){
         // changer notre stagerie
-
-        board.getPlayerList().get(inventory.getPlayerId()).setStrategy(new FirstCardStrategy());
-        int currentAge = board.getCurrentAge();
+        board.getPlayerList().get(inventory.getPlayerId()).setStrategy(new WonderStrategy());
 
         // terminer la partie courant
-
         for(Player p : board.getPlayerList()){
             if(inventory.getPlayerId()!=p.getId()){
                 p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
@@ -134,47 +166,46 @@ public class Monte implements PlayingStrategy {
                 board.executePlayerAction(p, board.getPlayerList().get(p.getPlayerId()));
             }
         }
+
         board.endOfTurn();
 
-        board.log = new GameLogger(true);
-        board.log.display("nombre de card");
-        for(Inventory p : board.getPlayerInventoryList()){
-            board.log.display("id player"+p.getPlayerId()+" nombre "+p.getCardsInHand().size());
-        }
-        board.log = new GameLogger(false);
-        //termer l'age 6 2 2 < 5 3<5 4<5 5
-       // for ( int currentTurn = board.getCurrentTurn()+1; currentTurn < inventory.getCardsInHand().size()-1; currentTurn++) {
-            // Each player plays a card on each turn
+        //terminer l'age
+        // Each player plays a card on each turn until each has 1 card left
         while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
             for (Player p : board.getPlayerList()) {
                 p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
-            }
-
-            for (Player p : board.getPlayerList()) {
-                p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
                 board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
-
             }
             board.endOfTurn();
         }
-        board.log = new GameLogger(true);
-        board.log.display("nombre de card");
-        for(Inventory p : board.getPlayerInventoryList()){
-               board.log.display("id player"+p.getPlayerId()+" nombre "+p.getCardsInHand().size());
-        }
-        board.log = new GameLogger(false);
-       // }
-        board.endOfAge();
 
-        for (int i = board.getCurrentAge()+1; i <= board.AGES; i++){
-                board.ageSetUp(currentAge);
+        //board.log = new GameLogger(true);
+        board.endOfAge();
+        board.log = new GameLogger(false);
+
+        //terminer toutes les ages restantes
+        for (int age = board.getCurrentAge()+1; age <= board.AGES; age++){
+                board.ageSetUp(age);
                 // Card dealing & resetting possibleFreeBuildingsCount
                 for (Inventory playerInv : board.getPlayerInventoryList()) {
                     playerInv.setCardsInHand(board.drawCards(board.CARDS_NUMBER));
+                    //reset possibleFreeBuildingsCount because it's a new age
                     if (playerInv.getPossibleFreeBuildings() == -1) playerInv.setPossibleFreeBuildings(1);
                 }
 
-                for ( int j = 0; j < board.CARDS_NUMBER - 1; j++) {
+                //terminer chaque turn
+                while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
+                    for (Player p : board.getPlayerList()) {
+                        p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
+                        board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
+                    }
+                    board.endOfTurn();
+                }
+                //board.log = new GameLogger(true);
+                board.log.display("INSIDE THE LOOP");
+                board.endOfAge();
+                board.log = new GameLogger(false);
+                /*for ( int turn = 0; turn < board.CARDS_NUMBER - 1; turn++) {
                     // Each player plays a card on each turn
                     for (Player p : board.getPlayerList()) {
                         p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
@@ -183,23 +214,17 @@ public class Monte implements PlayingStrategy {
                         board.executePlayerAction(board.getPlayerInventoryList().get(k), board.getPlayerList().get(k));
                     }
                     board.endOfTurn();
-                }
-                board.endOfAge();
+                }*/
         }
-        board.endOfGame();
         // terminer le jeu
-        //terminer la partie courante et l'age courant et passer aux autres ages
-        // la carte chosie elle doit permettre au joueur de gagné plus de fois et aussi donner son meilleur score
-        // 10 gagne
-        // 40 perdu
-        // si nbr gagne avec card1  = nbr gagne avec card2
-        // verifie le score
+        board.endOfGame();
+
+        //determiner le gagnant
         Inventory winner = board.getPlayerInventoryList().get(0) ;
         for (Inventory i : board.getPlayerInventoryList()) {
             if (i.getScore()>winner.getScore())
                 winner = i;
         }
         return winner.getPlayerId();
-
     }
 }

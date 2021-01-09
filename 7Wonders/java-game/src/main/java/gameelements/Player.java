@@ -6,6 +6,7 @@ import gameelements.enums.Action;
 import gameelements.enums.Symbol;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
+import strategy.WonderStrategy;
 
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class Player {
 
     public Player(int id) {
         this.id = id;
-        this.strategy = new FirstCardStrategy();
+        //this.strategy = new FirstCardStrategy();
+        this.strategy = new WonderStrategy();
     }
 
     public Player(Player p) {
@@ -81,6 +83,10 @@ public class Player {
 
     public String getStrategyName() {
         return strategy.getClass().getName();
+    }
+
+    public PlayingStrategy getStrategy() {
+        return strategy;
     }
 
     //Getters and setters

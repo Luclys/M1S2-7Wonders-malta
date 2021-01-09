@@ -76,8 +76,6 @@ public class Inventory implements Comparable {
         this.cardsInHand = new ArrayList<>(inventory.cardsInHand);
         this.playedCards = new ArrayList<>(inventory.playedCards);
         this.endGameEffects = new ArrayList<>(inventory.endGameEffects);
-        this.wonderBoard = inventory.wonderBoard;
-
         this.score = inventory.score;
         this.rank = inventory.rank;
         this.victoryChipsScore = inventory.victoryChipsScore;
@@ -92,6 +90,11 @@ public class Inventory implements Comparable {
         this.possibleFreeBuildings = inventory.possibleFreeBuildings;
         this.possibleFreeDiscardedBuildingsCount = inventory.possibleFreeDiscardedBuildingsCount;
         this.canPlayLastCard = inventory.canPlayLastCard;
+
+        if (inventory.wonderBoard != null) {
+            this.wonderBoard = new WonderBoard(inventory.wonderBoard);
+            this.wonderBoard.setAssociatedInv(this);
+        }
     }
 
 
@@ -134,8 +137,10 @@ public class Inventory implements Comparable {
     public Card discardLastCard() {
         if (cardsInHand.size() == 1) {
             return cardsInHand.remove(0);
-        } else {
+        } else if (cardsInHand.size() > 1) {
             throw new Error("There is more than 1 card left.");
+        } else {
+            throw new Error("There is no cards left.");
         }
     }
 

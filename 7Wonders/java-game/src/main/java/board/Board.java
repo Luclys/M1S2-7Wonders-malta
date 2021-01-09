@@ -10,11 +10,15 @@ import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
 import gameelements.cards.Card;
+import gameelements.effects.*;
 import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
+import gameelements.wonders.Step;
 import gameelements.wonders.WonderBoard;
 import statistic.DetailedResults;
+import strategy.FirstCardStrategy;
+import strategy.PlayingStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,10 +53,12 @@ public class Board {
 
         this.playersManager = new PlayersManager(b.playersManager);
         this.commerce = b.commerce;
+
         this.playerList = new ArrayList<>();
         for (Player p : b.getPlayerList()){
             this.playerList.add(new Player(p));
         }
+
         this.playerInventoryList = new ArrayList<>();
         for (Inventory n : b.getPlayerInventoryList()){
             this.playerInventoryList.add(new Inventory(n));
@@ -67,8 +73,8 @@ public class Board {
 
 
         this.cardManager = new CardManager(playerList,playerInventoryList);
-        this.availableWonderBoardList = new ArrayList<>();
 
+        this.availableWonderBoardList = new ArrayList<>();
         for (WonderBoard w: b.availableWonderBoardList) {
             this.availableWonderBoardList.add(w);
         }
@@ -78,10 +84,11 @@ public class Board {
         for ( Card c : b.getCurrentDeckCardList()){
             this.currentDeckCardList.add(c);
         }
+
         this.isLeftRotation = b.isLeftRotation;
         this.jetonVictoryValue = b.jetonVictoryValue;
-        this.currentAge = 1;
-        this.currentTurn = 0;
+        this.currentAge = b.currentAge;
+        this.currentTurn = b.currentTurn;
     }
 
     /**
@@ -151,7 +158,7 @@ public class Board {
      * @param nbPlay
      */
 
-    public void play(int nbPlay) throws JsonProcessingException {
+    public int play(int nbPlay) throws JsonProcessingException {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
@@ -195,8 +202,17 @@ public class Board {
         }
 
         endOfGame();
+        //log = new GameLogger(true);
+        //log.display("====================================================================================================");
         log.finalGameRanking(playerInventoryList);
+        //log = new GameLogger(false);
         retrieveResults();
+        for (int i = 0; i < playerInventoryList.size(); i++) {
+            if (playerInventoryList.get(i).getRank() == 1) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void endOfAge(){
@@ -248,14 +264,21 @@ public class Board {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : getPlayerInventoryList()) {
-            log.display("[DISCAD LAST CARDS]");
+
+            log.display("[DISCARD LAST CARDS]");
             log.playerInformation(inv);
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
+                //log = new GameLogger(true);
+                log.display("PLAYER " + inv.getPlayerId() + " CAN PLAY HIS LAST CARD");
+                log = new GameLogger(false);
                 Player player = playerList.get(inv.getPlayerId());
+                PlayingStrategy s = player.getStrategy();
+                player.setStrategy(new FirstCardStrategy());
                 player.chooseCard(new Inventory(inv),this);
                 executePlayerAction(inv, player);
+                player.setStrategy(s);
             }
         }
     }
@@ -294,7 +317,6 @@ public class Board {
         Action action = player.getAction();
         log.display("[Chosen card with monte]"+ chosenCard+"[Chosen action with monte]"+action+" playe id"+player.getId());
 
-
       //  log.action(player.getId());
         log.display("BEFORE EXECUTE ACTION");
        log.playerInformation(playerInventoryList.get(player.getId()));
@@ -306,8 +328,14 @@ public class Board {
                     buildCard(inv, chosenCard, player);
                    // log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
                     inv.setPossibleFreeBuildings(-1);
-                    break;
+                } else {
+                    log = new GameLogger(true);
+                    log.display("WE CAN'T BUILDFREEE ");
+                    log = new GameLogger(false);
+                    initSellCard(inv, chosenCard);
+                    //log = new GameLogger(false);
                 }
+                break;
                 // If FreeBuildingsCount < 0, we try to build normally
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
@@ -343,7 +371,6 @@ public class Board {
                 break;
 
             default:
-
                 initSellCard(inv, chosenCard);
                 break;
         }
@@ -403,6 +430,7 @@ public class Board {
     //    log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        trueInv.getCardsInHand().remove(chosenCard);
     }
 
 
