@@ -17,6 +17,10 @@ public class GameLogger {
         this.booleanPrint = booleanPrint;
     }
 
+    public void setBooleanPrint(boolean booleanPrint) {
+        this.booleanPrint = booleanPrint;
+    }
+
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
         log.info(String.format(SEPARATOR + "%n========================= INITIATING GAME N° %d ===========================" + SEPARATOR, i));

@@ -123,7 +123,7 @@ public class Monte implements PlayingStrategy {
                     board.log = new GameLogger(false);
 
 
-                    for (int i = 0 ;i < 1000; i++ ){
+                    for (int i = 0 ;i < 100; i++ ){
                         // recuperer l'ancien board apres le choix de monte
                         Board memoriseTheBoard2 = new Board(memoriseTheBoard );
 
@@ -135,12 +135,6 @@ public class Monte implements PlayingStrategy {
                     }
                 }
             }
-          /*  for (int n = 0; n < numberofvictory.size(); n++) {
-                ArrayList<Action> listActions = availableActions(availableCards.get(n),inv);
-                for (int a = 0; a < listActions.size(); a++){
-                    board.log.display("CARD " + availableCards.get(n) + " and action "+listActions.get(a) +" permits "+numberofvictory.get(n).get(a));
-                }
-            }*/
             getBestChosenCardAndAction(numberOfVictories, availableCards);
         }else{
             chosenCard = inv.getCardsInHand().get(0);

@@ -159,7 +159,9 @@ public class Board {
      */
 
     public int play(int nbPlay) throws JsonProcessingException {
+        log.setBooleanPrint(false);
         log.beginningOfPlay(nbPlay);
+        log.setBooleanPrint(false);
         assignWBToPlayers();
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
@@ -185,11 +187,18 @@ public class Board {
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
                 log.playersStartToPlayCards();
+                log = new GameLogger(false);
                 for (int i = 0; i < getPlayerList().size(); i++) {
-                  //  log.playerInformation(playerInventoryList.get(i));
+                    log.display("============================");
+                    log.display("INV BEFORE EXECUTE ACTION:");
+                   log.playerInformation(playerInventoryList.get(i));
+                    log = new GameLogger(false);
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
-                  //  log.playerInformation(playerInventoryList.get(i));
+                    log = new GameLogger(false);
+                    log.display("INV AFTER EXECUTE ACTION:");
+                   log.playerInformation(playerInventoryList.get(i));
                 }
+                log = new GameLogger(false);
                 endOfTurn();
                 log.display("ROTATION");
                 for (Inventory inv : playerInventoryList){
@@ -263,16 +272,15 @@ public class Board {
     void handleLastTurnCard() {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
+        log = new GameLogger(false);
+        log.display("=======================================[DISCARD LAST CARDS]======================================");
         for (Inventory inv : getPlayerInventoryList()) {
-
-            log.display("[DISCARD LAST CARDS]");
             log.playerInformation(inv);
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 //log = new GameLogger(true);
                 log.display("PLAYER " + inv.getPlayerId() + " CAN PLAY HIS LAST CARD");
-                log = new GameLogger(false);
                 Player player = playerList.get(inv.getPlayerId());
                 PlayingStrategy s = player.getStrategy();
                 player.setStrategy(new FirstCardStrategy());
@@ -281,6 +289,7 @@ public class Board {
                 player.setStrategy(s);
             }
         }
+        log = new GameLogger(false);
     }
 
     /**
@@ -315,8 +324,9 @@ public class Board {
     public void executePlayerAction(Inventory inv, Player player) {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
-        log.display("[Chosen card with monte]"+ chosenCard+"[Chosen action with monte]"+action+" playe id"+player.getId());
-
+        log.setBooleanPrint(false);
+        log.display("[Chosen card] "+ chosenCard+" [Chosen action] "+action+" player id "+player.getId());
+        log.setBooleanPrint(false);
       //  log.action(player.getId());
         log.display("BEFORE EXECUTE ACTION");
        log.playerInformation(playerInventoryList.get(player.getId()));
@@ -484,7 +494,10 @@ public class Board {
             Player player = playerList.get(inv.getPlayerId());
             Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
             Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
-            inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+            for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
+                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+            }
+            //inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 

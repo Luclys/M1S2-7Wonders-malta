@@ -27,7 +27,7 @@ public class CopyNeighborGuildEffect extends Effect {
 
         if (!list.isEmpty()) {
             Card card = player.chooseGuildCard(list, new Inventory(inv), new Inventory(leftNeighborInv), new Inventory(rightNeighborInv));
-            inv.updateInventory(card, player, leftNeighborInv, rightNeighborInv);
+            inv.updateInventoryCopyCard(card, player, leftNeighborInv, rightNeighborInv);
         }
     }
 }

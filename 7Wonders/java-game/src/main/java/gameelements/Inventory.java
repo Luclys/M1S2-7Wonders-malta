@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static gameelements.wonders.WonderBoard.initiateColossusA;
+
 public class Inventory implements Comparable {
     private final int playerId;
     private final int[] availableResources;
@@ -62,6 +64,9 @@ public class Inventory implements Comparable {
         this.possibleFreeBuildings = 0;
         this.possibleFreeDiscardedBuildingsCount = 0;
         this.canPlayLastCard = false;
+
+        this.wonderBoard = initiateColossusA();
+        this.wonderBoard.setAssociatedInv(this);
     }
 
     public Inventory(Inventory inventory) {
@@ -93,6 +98,9 @@ public class Inventory implements Comparable {
 
         if (inventory.wonderBoard != null) {
             this.wonderBoard = new WonderBoard(inventory.wonderBoard);
+            this.wonderBoard.setAssociatedInv(this);
+        } else {
+            this.wonderBoard = initiateColossusA();
             this.wonderBoard.setAssociatedInv(this);
         }
     }
@@ -164,6 +172,21 @@ public class Inventory implements Comparable {
         }
         playedCards.add(playedCard);
         cardsInHand.remove(playedCard);
+    }
+
+    public void updateInventoryCopyCard(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        for (Effect effect : playedCard.getEffects()) {
+            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
+        }
+        playedCards.add(playedCard);
+    }
+
+    public void updateInventoryFreeCard(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv, List<Card> discardedDeckCardList) {
+        for (Effect effect : playedCard.getEffects()) {
+            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
+        }
+        playedCards.add(playedCard);
+        discardedDeckCardList.remove(playedCard);
     }
 
 

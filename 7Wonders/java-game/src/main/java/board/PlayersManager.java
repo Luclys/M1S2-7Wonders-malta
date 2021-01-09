@@ -1,5 +1,6 @@
 package board;
 
+import gameelements.enums.Resource;
 import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
-    private final GameLogger log;
+    //private GameLogger log;
     List<Player> playerList;
     List<Inventory> playerInventoryList;
+
+    GameLogger log = new GameLogger(true);
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;
@@ -47,17 +50,26 @@ public class PlayersManager {
     }
 
     protected void freeBuildFromDiscarded(List<Card> discardedDeckCardList) {
+        this.log = new GameLogger(false);
+        log.display("========================freeBuildFromDiscarded=====================");
         for (Inventory inv : playerInventoryList) {
+            log.playerInformation(inv);
             if (discardedDeckCardList.isEmpty()) {
+                log.display("discardedDeckCardList IS EMPTY");
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
+                log.display("DiscardedDeckCardList " + discardedDeckCardList);
                 Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
-                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
+                log.display("CARD IS CHOSEN" + card);
+                inv.updateInventoryFreeCard(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()), discardedDeckCardList);
+                log.display("INVENTORY AFTER CHANGE");
+                log.playerInformation(inv);
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
             }
         }
+       this.log.setBooleanPrint(false);
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age

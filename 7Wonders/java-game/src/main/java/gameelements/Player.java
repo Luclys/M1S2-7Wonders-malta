@@ -80,7 +80,6 @@ public class Player {
         return discardedDeckCardList.get(0);
     }
 
-
     public String getStrategyName() {
         return strategy.getClass().getName();
     }
