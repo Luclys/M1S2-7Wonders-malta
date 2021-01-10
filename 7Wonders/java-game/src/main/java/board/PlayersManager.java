@@ -1,6 +1,7 @@
 package board;
 
-import gameelements.DetailedResults;
+
+import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
-    private final GameLogger log;
+
     List<Player> playerList;
     List<Inventory> playerInventoryList;
+
+    GameLogger log ;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;
@@ -23,6 +26,18 @@ public class PlayersManager {
         this.log = new GameLogger(false);
         playerList = new ArrayList<>();
         playerInventoryList = new ArrayList<>();
+    }
+
+    public PlayersManager(PlayersManager playersManager) {
+        this.log = new GameLogger(false);
+        this.playerList = new ArrayList<>();
+        for (Player p : playersManager.playerList){
+            this.playerList.add(p);
+        }
+        this.playerInventoryList = new ArrayList<>();
+        for (Inventory i: playersManager.playerInventoryList){
+            this.playerInventoryList.add(i);
+        }
     }
 
     protected void updateCoins() {
@@ -35,17 +50,26 @@ public class PlayersManager {
     }
 
     protected void freeBuildFromDiscarded(List<Card> discardedDeckCardList) {
+        this.log = new GameLogger(false);
+        log.display("========================freeBuildFromDiscarded=====================");
         for (Inventory inv : playerInventoryList) {
+            log.playerInformation(inv);
             if (discardedDeckCardList.isEmpty()) {
+                log.display("discardedDeckCardList IS EMPTY");
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
+                log.display("DiscardedDeckCardList " + discardedDeckCardList);
                 Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
-                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
+                log.display("CARD IS CHOSEN" + card);
+                inv.updateInventoryFreeCard(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()), discardedDeckCardList);
+                log.display("INVENTORY AFTER CHANGE");
+                log.playerInformation(inv);
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
             }
         }
+       this.log.setBooleanPrint(false);
     }
 
     protected void fightWithNeighbor(Inventory invPlayer, Inventory invNeighbor, int victoryJetonValue) { // victoryJetonValue depends on Age

@@ -4,14 +4,13 @@ import constants.NET;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 public class Client {
     private static final Logger log = Logger.getLogger(Client.class.getName());
     Socket connection;
 
-    public Client(String serverURL) {
+    public Client(String serverURL) throws Exception {
         try {
             connection = IO.socket(serverURL);
 
@@ -23,7 +22,8 @@ public class Client {
                 connection.close();
             });
 
-        } catch (URISyntaxException ignored) {
+        } catch (Exception ignored) {
+            throw new Exception("Client problem");
         }
 
     }

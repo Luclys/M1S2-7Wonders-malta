@@ -1,0 +1,51 @@
+package strategy;
+
+import board.Board;
+import gameelements.Inventory;
+import gameelements.cards.Card;
+import gameelements.enums.Action;
+
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class RandomStrategy implements PlayingStrategy {
+    Action chosenAction;
+    Card chosenCard;
+
+    @Override
+    public Card chooseCard(Inventory inventory, Board b) throws Exception {
+        Random r1 = new SecureRandom();
+        ArrayList<Card> listCard = cardsAvailableToPlay(inventory);
+        if(!listCard.isEmpty()){
+            int randomCard = r1.nextInt(listCard.size());
+            chosenCard = listCard.get(randomCard);
+            ArrayList<Action> listActions = availableActions(chosenCard, inventory);
+            int randomAction = r1.nextInt(listActions.size());
+            chosenAction = listActions.get(randomAction);
+        }else{
+            int randomCard = r1.nextInt(inventory.getCardsInHand().size());
+            chosenCard = inventory.getCardsInHand().get(randomCard);
+            chosenAction = Action.SELL;
+        }
+        return chosenCard;
+    }
+
+    @Override
+    public Action getAction() {
+        return chosenAction;
+    }
+
+    @Override
+    public Card getCard() {
+        return chosenCard;
+    }
+
+    @Override
+    public PlayingStrategy copy() {
+        RandomStrategy s = new RandomStrategy();
+        s.chosenAction = this.chosenAction;
+        s.chosenCard = this.chosenCard;
+        return s;
+    }
+}

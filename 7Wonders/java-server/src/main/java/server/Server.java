@@ -9,7 +9,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.NET;
-import gameelements.DetailedResults;
+import statistic.DetailedResults;
 
 import java.util.HashMap;
 import java.util.logging.Logger;

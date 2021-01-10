@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ResourceManagerTest {
+class ResourceManagerTest {
     ResourceManager resourceManager;
     Inventory inventory;
 
