@@ -37,7 +37,7 @@ public class SevenWondersLauncher {
         for (int i = 1; i <= nbGames; i++) {
             board = new Board(playerList, boolPrint);
             board.getPlayerList().get(nbPlayers-1).setStrategy(new MonteCarloStrategy());
-            board.getPlayerList().get(nbPlayers-2).setStrategy(new RandomStrategy());
+            //board.getPlayerList().get(nbPlayers-2).setStrategy(new RandomStrategy());
             int winner = board.play(i);
             winsCount.set(winner, winsCount.get(winner)+1);
             if (i != nbGames) {

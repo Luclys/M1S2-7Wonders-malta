@@ -63,26 +63,19 @@ public class Board {
             this.playerInventoryList.add(new Inventory(n));
         }
 
-        this.log = new GameLogger(false);
+        this.log = b.log;
 
         this.discardedDeckCardList = new ArrayList<>();
-        for ( Card c : b.getDiscardedDeckCardList()){
-            this.discardedDeckCardList.add(c);
-        }
-
+        this.discardedDeckCardList.addAll(b.getDiscardedDeckCardList());
 
         this.cardManager = new CardManager(playerList,playerInventoryList);
 
         this.availableWonderBoardList = new ArrayList<>();
-        for (WonderBoard w: b.availableWonderBoardList) {
-            this.availableWonderBoardList.add(w);
-        }
+        this.availableWonderBoardList.addAll(b.availableWonderBoardList);
 
 
         this.currentDeckCardList =new ArrayList<>();
-        for ( Card c : b.getCurrentDeckCardList()){
-            this.currentDeckCardList.add(c);
-        }
+        for (Card c : b.getCurrentDeckCardList()) this.currentDeckCardList.add(c);
 
         this.isLeftRotation = b.isLeftRotation;
         this.jetonVictoryValue = b.jetonVictoryValue;
@@ -156,9 +149,7 @@ public class Board {
      *
      * @param nbPlay
      */
-
     public int play(int nbPlay) throws Exception {
-        log.setBooleanPrint(false);
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
@@ -259,7 +250,6 @@ public class Board {
                 player.setStrategy(s);
             }
         }
-        log = new GameLogger(false);
     }
 
     /**
@@ -407,7 +397,6 @@ public class Board {
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
-
 
     /**
      * this method allows to resolve the war conflict between a players and their neighbors
