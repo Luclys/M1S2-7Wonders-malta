@@ -129,6 +129,7 @@ public class Board {
                     p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
+
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerList().size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
