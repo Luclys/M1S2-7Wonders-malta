@@ -21,6 +21,10 @@ public abstract class Effect {
         activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
     }
 
+    public int getConstantlyAddedItem() {
+        return 0;
+    }
+
     public abstract void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame);
 
     public EffectDelay getDelay() {

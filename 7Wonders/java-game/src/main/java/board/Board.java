@@ -126,7 +126,15 @@ public class Board {
 
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
-                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    ArrayList<Inventory> censoredInvList = new ArrayList<>(playerInventoryList.size());
+                    for (int i = 0; i < playerInventoryList.size(); i++) {
+                        censoredInvList.add(new Inventory(playerInventoryList.get(i)));
+                        if (i != p.getId()) {
+                            censoredInvList.forEach(inventory -> inventory.setCardsInHand(null));
+                        }
+                        p.acknowledgeGameStatus(censoredInvList, age, currentTurn);
+                    }
+                    p.chooseCard(censoredInvList.get(p.getId()));
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
                 log.playersStartToPlayCards();

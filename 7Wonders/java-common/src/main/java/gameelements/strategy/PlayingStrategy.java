@@ -26,7 +26,9 @@ public interface PlayingStrategy {
     default ArrayList<Card> cardsAvailableToPlay(Inventory inv) {
         //We remove from playable cards the cards the player already played, you can't play the same card twice
         ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
-        cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
+        cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card));
         return cardsAvailableToPlay;
     }
+
+    void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId);
 }

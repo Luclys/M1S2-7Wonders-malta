@@ -4,6 +4,7 @@ import client.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
 import gameelements.strategy.FirstCardStrategy;
+import gameelements.strategy.RuleBasedAI;
 import gameelements.strategy.WonderStrategy;
 
 import java.util.ArrayList;
@@ -46,12 +47,16 @@ public class SevenWondersLauncher {
 
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
-        for (int i = 0; i < nbPlayers - 1; i++) {
+
+        Player player1 = new Player(0, new WonderStrategy());
+        Player player2 = new Player(1, new RuleBasedAI());
+        playerList.add(player1);
+        playerList.add(player2);
+
+        for (int i = 2; i < nbPlayers; i++) {
             Player player = new Player(i, new FirstCardStrategy());
             playerList.add(player);
         }
-        Player player = new Player(nbPlayers - 1, new WonderStrategy());
-        playerList.add(player);
         return playerList;
     }
 

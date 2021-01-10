@@ -24,6 +24,12 @@ public class ResourceEffect extends Effect {
         inv.getAvailableResources()[resource.getIndex()] += nb;
     }
 
+    @Override
+    public int getConstantlyAddedItem() {
+        return nb;
+    }
+
+
     public Resource getResource() {
         return resource;
     }

@@ -20,4 +20,10 @@ public class ScoreEffect extends Effect {
         }
         inv.addScore(nb);
     }
+
+    @Override
+    public int getConstantlyAddedItem() {
+        return nb;
+    }
+
 }

@@ -6,6 +6,7 @@ import gameelements.enums.Symbol;
 import gameelements.strategy.FirstCardStrategy;
 import gameelements.strategy.PlayingStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +46,10 @@ public class Player {
         return chosenCard;
     }
 
+    public void acknowledgeGameStatus(ArrayList<Inventory> censoredInvList, int age, int currentTurn) {
+        strategy.updateKnowledge(censoredInvList, age, currentTurn, rightNeighborId, leftNeighborId);
+    }
+
     public Card chooseGuildCard(List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         return list.get(0);
     }
@@ -58,7 +63,6 @@ public class Player {
     public Card chooseDiscardedCardToBuild(Inventory inventory, List<Card> discardedDeckCardList) {
         return discardedDeckCardList.get(0);
     }
-
 
     public String getStrategyName() {
         return strategy.getClass().getName();

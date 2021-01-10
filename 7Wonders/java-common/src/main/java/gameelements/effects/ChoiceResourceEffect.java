@@ -26,4 +26,7 @@ public class ChoiceResourceEffect extends Effect {
         }
     }
 
+    public Resource[] getResources() {
+        return resources;
+    }
 }

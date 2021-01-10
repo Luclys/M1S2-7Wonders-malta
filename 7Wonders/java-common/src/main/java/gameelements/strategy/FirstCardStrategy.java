@@ -38,4 +38,8 @@ public class FirstCardStrategy implements PlayingStrategy {
     public Action getAction() {
         return this.action;
     }
+
+    @Override
+    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+    }
 }

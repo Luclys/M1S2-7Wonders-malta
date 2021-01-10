@@ -25,6 +25,10 @@ public class WonderStrategy implements PlayingStrategy {
         return this.action;
     }
 
+    @Override
+    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+    }
+
     private void setAction(Action action) {
         this.action = action;
     }

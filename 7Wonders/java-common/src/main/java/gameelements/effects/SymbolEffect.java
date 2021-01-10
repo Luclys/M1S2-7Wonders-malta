@@ -6,8 +6,8 @@ import gameelements.enums.EffectDelay;
 import gameelements.enums.Symbol;
 
 public class SymbolEffect extends Effect {
-    private Symbol symbol;
-    private int nb;
+    private final Symbol symbol;
+    private final int nb;
 
     public SymbolEffect(Symbol symbol, int nb) {
         super(EffectDelay.INSTANTANEOUS);
@@ -22,6 +22,11 @@ public class SymbolEffect extends Effect {
             return;
         }
         inv.getAvailableSymbols()[symbol.getIndex()] += nb;
+    }
+
+    @Override
+    public int getConstantlyAddedItem() {
+        return nb;
     }
 
     public Symbol getSymbol() {
