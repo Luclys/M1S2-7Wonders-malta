@@ -20,10 +20,10 @@ class InventoryTest {
     }
 
     @Test
-    void discardLastCardTest() {
+    void discardLastCardTest() throws Exception {
         // the method throw an erreur if the number of cards in hand of the
         // inventory is more then 1
-        assertThrows(Error.class, () -> inventory.discardLastCard());
+        assertThrows(Exception.class, () -> inventory.discardLastCard());
         // test if the number of cards is 1
         setCards();
         assertSame(inventory.getCardsInHand().get(0), inventory.discardLastCard());
@@ -31,9 +31,9 @@ class InventoryTest {
     }
 
     @Test
-    void sellCardTest() {
+    void sellCardTest() throws Exception {
         // if the inventory try to sell a card that he doesn't have an erreur is thrown
-        assertThrows(Error.class, () -> inventory.sellCard(CardsSet.CHANTIER));
+        assertThrows(Exception.class, () -> inventory.sellCard(CardsSet.CHANTIER));
         int coins = inventory.getCoins();
         setCards();
         // if the inventory try to sell a card that he has then he gets 3 coins

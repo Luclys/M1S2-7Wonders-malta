@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
-    static String SEPARATOR = "%n==========================================================================%n";
-    public boolean booleanPrint;
+    private static String separator = "%n==========================================================================%n";
+    public  boolean booleanPrint;
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
@@ -23,22 +23,22 @@ public class GameLogger {
 
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
-        log.info(String.format(SEPARATOR + "%n========================= INITIATING GAME N° %d ===========================" + SEPARATOR, i));
+        log.info(String.format(separator + "%n========================= INITIATING GAME N° %d ===========================" + separator, i));
     }
 
     public void endOfGame() {
         if (!booleanPrint) return;
-        log.info(String.format(SEPARATOR + "====================== END OF GAME. FINAL RESULTS ========================" + SEPARATOR));
+        log.info(String.format(separator + "====================== END OF GAME. FINAL RESULTS ========================" + separator));
     }
 
     public void beginningOfAge(int i) {
         if (!booleanPrint) return;
-        log.info(String.format(SEPARATOR + "========================== START AGE N° %d ================================" + SEPARATOR, i));
+        log.info(String.format(separator + "========================== START AGE N° %d ================================" + separator, i));
     }
 
     public void endOfAge(int i) {
         if (!booleanPrint) return;
-        log.info(String.format(SEPARATOR + "================ LAST CARDS ARE DISCARDED. END OF AGE N° %d ===============" + SEPARATOR, i));
+        log.info(String.format(separator + "================ LAST CARDS ARE DISCARDED. END OF AGE N° %d ===============" + separator, i));
     }
 
     public void newTurn(int turn) {
@@ -282,7 +282,7 @@ public class GameLogger {
     }
     public void display(String s){
         if (!booleanPrint) return;
-        log.info("[TEST] "+s);
+        log.info(s);
     }
 
     public void playerCards(Inventory inventory){

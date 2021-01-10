@@ -24,14 +24,6 @@ public class CardManager {
     }
 
     public CardManager(CardManager cardManager) {
-       /* this.playerList = new ArrayList<>();
-        for (Player p : cardManager.playerList){
-            this.playerList.add(new Player(p));
-        }
-        this.playerInventoryList = new ArrayList<>();
-        for (Inventory i: cardManager.playerInventoryList){
-            this.playerInventoryList.add(new Inventory(i));
-        }*/
         this.playerList = cardManager.playerList;
         this.playerInventoryList = cardManager.playerInventoryList;
     }

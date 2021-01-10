@@ -1,6 +1,6 @@
 package board;
 
-import gameelements.enums.Resource;
+
 import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
-    //private GameLogger log;
+
     List<Player> playerList;
     List<Inventory> playerInventoryList;
 
-    GameLogger log = new GameLogger(true);
+    GameLogger log ;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;

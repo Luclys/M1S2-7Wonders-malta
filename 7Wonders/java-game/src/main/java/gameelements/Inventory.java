@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static gameelements.wonders.WonderBoard.initiateColossusA;
 
-public class Inventory implements Comparable {
+public class Inventory implements Comparable<Object> {
     private final int playerId;
     private final int[] availableResources;
     private final int[] availableSymbols;
@@ -74,9 +74,7 @@ public class Inventory implements Comparable {
         this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
         this.availableResources = Arrays.copyOf(inventory.availableResources, inventory.availableResources.length);
-      //  System.arraycopy(this.availableResources, 0, inventory.availableResources, 0, inventory.availableResources.length);
         this.availableSymbols = Arrays.copyOf(inventory.availableSymbols,inventory.availableSymbols.length);
-      //  System.arraycopy(this.availableSymbols, 0, inventory.availableSymbols, 0, inventory.availableSymbols.length);
         this.pairResChoice = new ArrayList<>(inventory.pairResChoice);
         this.cardsInHand = new ArrayList<>(inventory.cardsInHand);
         this.playedCards = new ArrayList<>(inventory.playedCards);
@@ -142,13 +140,13 @@ public class Inventory implements Comparable {
         }
     }
 
-    public Card discardLastCard() {
+    public Card discardLastCard() throws Exception {
         if (cardsInHand.size() == 1) {
             return cardsInHand.remove(0);
         } else if (cardsInHand.size() > 1) {
-            throw new Error("There is more than 1 card left.");
+            throw new Exception("There is more than 1 card left.");
         } else {
-            throw new Error("There is no cards left.");
+            throw new Exception("There is no cards left.");
         }
     }
 
@@ -157,12 +155,12 @@ public class Inventory implements Comparable {
         return cardsInHand.contains(card);
     }
 
-    public void sellCard(Card card) {
+    public void sellCard(Card card) throws Exception {
         if (canSell(card)) {
             addCoins(3);
             cardsInHand.remove(card);
         } else {
-            throw new Error("Can't sell a card you don't have.");
+            throw new Exception("Can't sell a card you don't have.");
         }
     }
 

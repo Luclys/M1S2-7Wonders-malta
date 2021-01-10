@@ -23,7 +23,7 @@ class PlayerTest {
     private Board board;
 
     @Test
-    void chooseCardTest() {
+    void chooseCardTest() throws Exception {
         player = new Player(0, new FirstCardStrategy());
         inv = new Inventory(0);
         playerRightNeighbor = new Inventory(1);

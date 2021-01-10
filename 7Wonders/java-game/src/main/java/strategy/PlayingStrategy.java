@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author lamac
  */
 public interface PlayingStrategy {
-    Card chooseCard(Inventory inventory, Board b);
+    Card chooseCard(Inventory inventory, Board b) throws Exception;
 
     Action getAction();
     Card getCard();
@@ -32,5 +32,21 @@ public interface PlayingStrategy {
         ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(inv.getCardsInHand());
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card) && card.isBuilding());
         return cardsAvailableToPlay;
+    }
+
+    default ArrayList<Action> availableActions(Card c, Inventory inv){
+        ArrayList<Action> list = new ArrayList<>();
+        list.add(Action.SELL);
+        // if can build step
+        if (inv.canBuildNextStep(inv.getWonderBoard())) {
+            list.add(Action.WONDER);
+        }
+        if (inv.canBuild(c.getRequiredResources())){
+            list.add(Action.BUILDING);
+        }
+        if (inv.getPossibleFreeBuildings()>0){
+            list.add(Action.BUILDFREE);
+        }
+        return list;
     }
 }

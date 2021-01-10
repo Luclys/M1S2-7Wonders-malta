@@ -18,7 +18,6 @@ import statistic.DetailedResults;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -158,7 +157,7 @@ public class Board {
      * @param nbPlay
      */
 
-    public int play(int nbPlay) throws JsonProcessingException, NoSuchAlgorithmException {
+    public int play(int nbPlay) throws Exception {
         log.setBooleanPrint(false);
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
@@ -200,7 +199,7 @@ public class Board {
         return -1;
     }
 
-    public void endOfAge(){
+    public void endOfAge() throws Exception {
         handleLastTurnCard();
         resolveWarConflict(getJetonVictoryValue());
     }
@@ -245,7 +244,7 @@ public class Board {
      * this method checks if it the end on the age so that the last cards in the hands of
      * the players can be discard
      */
-    void handleLastTurnCard() {
+    void handleLastTurnCard() throws Exception {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
          for (Inventory inv : getPlayerInventoryList()) {
@@ -266,8 +265,7 @@ public class Board {
     /**
      * this method allows to associate the wonder boards to the players
      */
-    private void assignWBToPlayers() throws NoSuchAlgorithmException {
-       // Random r = new Random();
+    private void assignWBToPlayers() throws Exception {
         Random r = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
 
         for (int i = 0; i < playerInventoryList.size(); i++) {
@@ -294,7 +292,7 @@ public class Board {
      * @param inv
      * @param player
      */
-    public void executePlayerAction(Inventory inv, Player player) {
+    public void executePlayerAction(Inventory inv, Player player) throws Exception {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
         switch (action) {
@@ -390,7 +388,7 @@ public class Board {
      * @param chosenCard
      * @param player
      */
-    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
+    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
@@ -404,7 +402,7 @@ public class Board {
      * @param trueInv
      * @param chosenCard
      */
-    private void initSellCard(Inventory trueInv, Card chosenCard) {
+    private void initSellCard(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
@@ -450,7 +448,6 @@ public class Board {
             for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
                 inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
             }
-            //inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 

@@ -152,13 +152,13 @@ public class WonderBoard {
         return res;
     }
 
-    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) throws Exception {
         if (currentStepIndex < steps.size()) {
             steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
             associatedInv.getCardsInHand().remove(card);
             currentStepIndex++;
         } else {
-            throw new Error("No step left to build");
+            throw new Exception("No step left to build");
         }
     }
 
@@ -178,12 +178,12 @@ public class WonderBoard {
         currentStepIndex = i;
     }
 
-    public void claimBoard(Player player, Inventory inv) {
+    public void claimBoard(Player player, Inventory inv) throws Exception {
         if (this.associatedInv == null) {
             inv.setWonderBoard(this);
             this.baseEffect.activateEffect(player, inv, null, null);
             this.associatedInv = inv;
-        } else throw new Error("WonderBoard already claimed.");
+        } else throw new Exception("WonderBoard already claimed.");
     }
 
     public Resource[] getCurrentStepRequiredResources() {

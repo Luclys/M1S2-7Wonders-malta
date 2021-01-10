@@ -9,7 +9,7 @@ import gameelements.enums.Action;
 
 import java.util.ArrayList;
 
-public class Monte implements PlayingStrategy {
+public class MonteCarloStrategy implements PlayingStrategy {
     Action chosenAction;
     Board board;
     Card chosenCard;
@@ -21,7 +21,7 @@ public class Monte implements PlayingStrategy {
     }
 
     @Override
-    public Card chooseCard(Inventory inventory, Board b) {
+    public Card chooseCard(Inventory inventory, Board b) throws Exception {
         board = new Board(b);
         inv = inventory;
         monteCarlo();
@@ -38,21 +38,7 @@ public class Monte implements PlayingStrategy {
         return chosenCard;
     }
 
-    public ArrayList<Action> availableActions(Card c, Inventory inv){
-        ArrayList<Action> list = new ArrayList<>();
-        list.add(Action.SELL);
-        // if can build step
-        if (inv.canBuildNextStep(inv.getWonderBoard())) {
-            list.add(Action.WONDER);
-        }
-        if (inv.canBuild(c.getRequiredResources())){
-            list.add(Action.BUILDING);
-        }
-        if (inv.getPossibleFreeBuildings()>0){
-            list.add(Action.BUILDFREE);
-        }
-        return list;
-    }
+
 
     private void getBestChosenCardAndAction(ArrayList<ArrayList<Integer>> numberOfVictories, ArrayList<Card> cards) {
         int maxscore = 0;
@@ -69,7 +55,7 @@ public class Monte implements PlayingStrategy {
         board.log = new GameLogger(false);
     }
 
-    public Card monteCarlo(){
+    public Card monteCarlo() throws Exception {
         ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
         int idwinner = 0;
         if (availableCards.size() != 0){
@@ -107,7 +93,7 @@ public class Monte implements PlayingStrategy {
         return chosenCard;
     }
 
-    public int continueGame(Board board, Inventory inventory){
+    public int continueGame(Board board, Inventory inventory) throws Exception {
         // changer notre stagerie
         board.getPlayerList().get(inventory.getPlayerId()).setStrategy(new WonderStrategy());
 

@@ -1,24 +1,23 @@
 package board;
 
 import client.Client;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import gameelements.GameLogger;
 import gameelements.Player;
-import strategy.Monte;
+import strategy.MonteCarloStrategy;
+import strategy.RandomStrategy;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class SevenWondersLauncher {
-    private final static Logger log = Logger.getLogger(SevenWondersLauncher.class.getName());
-    static Client client;
+    private  static final GameLogger log = new GameLogger(true);
+    public static  Client client;
     static int nbPlayers = 3;
     static int nbGames = 1;
     static boolean boolPrint = false;
     static Board board;
 
-    public static void main(String... args) throws InterruptedException, JsonProcessingException, NoSuchAlgorithmException {
+    public static void main(String... args) throws Exception {
         //Starting the client
         startClient();
 
@@ -37,17 +36,18 @@ public class SevenWondersLauncher {
         }
         for (int i = 1; i <= nbGames; i++) {
             board = new Board(playerList, boolPrint);
-            board.getPlayerList().get(nbPlayers-1).setStrategy(new Monte());
+            board.getPlayerList().get(nbPlayers-1).setStrategy(new MonteCarloStrategy());
+            board.getPlayerList().get(nbPlayers-2).setStrategy(new RandomStrategy());
             int winner = board.play(i);
             winsCount.set(winner, winsCount.get(winner)+1);
             if (i != nbGames) {
-                System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
+                log.display("[7WONDERS - LAMAC] Progress :" + i+"/"+ nbGames+"\r");
             } else {
-                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+                log.display("[7WONDERS - LAMAC] Execution finished : "+nbGames+" games played.\n");
             }
         }
         for (int i = 0; i < winsCount.size(); i++) {
-            System.out.printf("[7WONDERS - LAMAC] Player %d wins %d times", i, winsCount.get(i));
+            log.display("[7WONDERS - LAMAC] Player "+ i+" wins " +  winsCount.get(i)+" times\n");
         }
         client.showStats();
     }
@@ -61,7 +61,7 @@ public class SevenWondersLauncher {
         return playerList;
     }
 
-    public static void startClient() {
+    public static void startClient() throws Exception {
         client = new Client("http://127.0.0.1:10101");
         client.start();
     }

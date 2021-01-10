@@ -26,7 +26,7 @@ public class Step {
         this.built = true;
         this.marker = sacrifice;
 
-        for (Effect effect : effects) {
+        for (Effect effect : getEffects()) {
             effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
         }
     }
@@ -45,15 +45,5 @@ public class Step {
         return built;
     }
 
-    public void setBuilt(Boolean built) {
-        this.built = built;
-    }
 
-    public Card getMarker() {
-        return marker;
-    }
-
-    public void setMarker(Card marker) {
-        this.marker = marker;
-    }
 }

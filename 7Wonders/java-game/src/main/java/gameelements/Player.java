@@ -6,7 +6,6 @@ import gameelements.enums.Action;
 import gameelements.enums.Symbol;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
-import strategy.WonderStrategy;
 
 import java.util.List;
 
@@ -22,25 +21,14 @@ public class Player {
     private int leftNeighborId;
     private Card chosenCard;
 
-    GameLogger log = new GameLogger(true);
-
     public Player(int id) {
         this.id = id;
-        //this.strategy = new FirstCardStrategy();
-        this.strategy = new WonderStrategy();
+        this.strategy = new FirstCardStrategy();
     }
 
     public Player(Player p) {
         this.id = p.id;
         this.strategy = p.strategy.copy();
-        rightNeighborId = p.rightNeighborId;
-        leftNeighborId = p.leftNeighborId;
-        chosenCard = p.chosenCard;
-    }
-
-    public Player(Player p, PlayingStrategy strategy) {
-        this.id = p.id;
-        this.strategy = strategy;
         rightNeighborId = p.rightNeighborId;
         leftNeighborId = p.leftNeighborId;
         chosenCard = p.chosenCard;
@@ -61,7 +49,7 @@ public class Player {
      * @param inv
      * @return chosen card
      */
-    public Card chooseCard(Inventory inv, Board b) {
+    public Card chooseCard(Inventory inv, Board b) throws Exception {
         chosenCard = strategy.chooseCard(inv,b);
         return strategy.getCard();
     }

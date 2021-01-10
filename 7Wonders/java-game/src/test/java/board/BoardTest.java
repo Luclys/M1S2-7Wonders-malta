@@ -1,6 +1,5 @@
 package board;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +62,7 @@ class BoardTest {
     }
 
     @Test
-    void claimBoard() {
+    void claimBoard() throws Exception {
         // We claim a test Board, then test if we got the base resource.
         Board board = new Board(playerList, false);
         Player player = playerList.get(0);
@@ -94,7 +92,7 @@ class BoardTest {
         TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
         assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
-        Assertions.assertThrows(Error.class, () -> TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv));
+        Assertions.assertThrows(Exception.class, () -> TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv));
     }
 
     @Test
@@ -111,7 +109,7 @@ class BoardTest {
 
     @Disabled
     @Test
-    void assignWBToPlayersTest() throws JsonProcessingException, NoSuchAlgorithmException {
+    void assignWBToPlayersTest() throws Exception {
         Card card = CardsSet.CHANTIER;
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(card);
@@ -130,7 +128,7 @@ class BoardTest {
     }
 
     @Test
-    void executeActionBUILDFREETest() {
+    void executeActionBUILDFREETest() throws Exception {
         Inventory inv = board.getPlayerInventoryList().get(0);
         inv.setPossibleFreeBuildings(1);
         assertEquals(1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
