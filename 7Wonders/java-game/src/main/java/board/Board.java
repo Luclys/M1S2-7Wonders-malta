@@ -145,6 +145,7 @@ public class Board {
             log.endOfAge(age);
         }
 
+
         scores();
         denseRanking(playerInventoryList);
         updateLastDetailedResultsValues();
@@ -370,6 +371,7 @@ public class Board {
      * this method calculate the scores of the player at the end of the game
      */
     public void scores() {
+
         log.endOfGame();
         /*The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
@@ -380,7 +382,9 @@ public class Board {
             Player player = playerList.get(inv.getPlayerId());
             Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
             Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
-            inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+            for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
+                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+            }
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 
@@ -409,7 +413,6 @@ public class Board {
             log.playerInformation(inv);
         }
     }
-
     // GETTERS & SETTERS
     public PlayersManager getManager() {
         return playersManager;

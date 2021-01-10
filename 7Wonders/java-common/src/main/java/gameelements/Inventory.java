@@ -138,7 +138,7 @@ public class Inventory implements Comparable {
     public void sellCard(Card card) {
         if (cardsInHand.contains(card)) {
             addCoins(3);
-            cardsInHand.remove(0);
+            cardsInHand.remove(card);
         } else {
             throw new Error("Can't sell a card you don't have.");
         }
