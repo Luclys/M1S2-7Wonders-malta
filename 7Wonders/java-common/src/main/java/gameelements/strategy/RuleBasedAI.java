@@ -23,14 +23,15 @@ public class RuleBasedAI implements PlayingStrategy {
 
     @Override
     public Card chooseCard(Inventory inventory) {
-        ArrayList<Card> cardsBuildable = cardsAvailableToPlay(inventory);
+        ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
 
-        // REGLE 6 (Partie 2)
-        if (cardsBuildable.isEmpty()) {
-            this.action = Action.BUILDFREE;
+        // REGLE 6 (Partie 1) - a random remaining card is played if possible
+        if (cardsAvailable.isEmpty()) {
+            this.action = Action.SELL;
             return inventory.getCardsInHand().get(0);
         }
 
+        ArrayList<Card> cardsBuildable = cardsAvailable;
         cardsBuildable.removeIf(card -> !(inventory.canBuildCardForFree(card) || inventory.canBuild(card.getRequiredResources())));
 
 
@@ -143,11 +144,16 @@ public class RuleBasedAI implements PlayingStrategy {
         }
 
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
-        Random r = new Random();
-        int rand = r.nextInt(cardsBuildable.size());
+        if (cardsBuildable.isEmpty()) {
+            this.action = Action.SELL;
+            return inventory.getCardsInHand().get(0);
+        } else {
+            Random r = new Random();
+            int rand = r.nextInt(cardsBuildable.size());
 
-        action = Action.BUILDING;
-        return cardsBuildable.get(rand);
+            action = Action.BUILDING;
+            return cardsBuildable.get(rand);
+        }
     }
 
     private boolean isOnlyLeader(int nbBoubou) {
