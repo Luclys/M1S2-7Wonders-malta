@@ -48,4 +48,9 @@ public class RandomStrategy implements PlayingStrategy {
         s.chosenCard = this.chosenCard;
         return s;
     }
+
+    @Override
+    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+
+    }
 }

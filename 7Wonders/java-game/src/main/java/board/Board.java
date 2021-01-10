@@ -259,7 +259,7 @@ public class Board {
                 player.setStrategy(s);
             }
         }
-        log = new GameLogger(false);
+        //log = new GameLogger(false);
     }
 
     /**

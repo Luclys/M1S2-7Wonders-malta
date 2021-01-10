@@ -1,5 +1,6 @@
 package strategy;
 
+import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
@@ -17,18 +18,20 @@ import java.util.Random;
 public class RuleBasedAI implements PlayingStrategy {
     ArrayList<Inventory> censoredInvList = null;
     Action action;
+    Card chosenCard;
     private int age = 0;
     private int rightNeighborId;
     private int leftNeighborId;
 
     @Override
-    public Card chooseCard(Inventory inventory) {
+    public Card chooseCard(Inventory inventory, Board b) throws Exception {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
 
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsAvailable.isEmpty()) {
             this.action = Action.SELL;
-            return inventory.getCardsInHand().get(0);
+            chosenCard =inventory.getCardsInHand().get(0);
+            return chosenCard;
         }
 
         ArrayList<Card> cardsBuildable = cardsAvailable;
@@ -52,7 +55,8 @@ public class RuleBasedAI implements PlayingStrategy {
         for (Card card : cardsBuildable) {
             if (moreThanOneResourceType.contains(card)) {
                 this.action = Action.BUILDING;
-                return card;
+                chosenCard =card;
+                return chosenCard;
             }
         }
 
@@ -84,7 +88,8 @@ public class RuleBasedAI implements PlayingStrategy {
                         ResourceEffect effect = (ResourceEffect) card.getEffects()[0];
                         if (effect.getResource().getIndex() == i) {
                             this.action = Action.BUILDING;
-                            return card;
+                            chosenCard =card;
+                            return chosenCard;
                         }
                     }
                     if (card.getEffects()[0] instanceof ChoiceResourceEffect) {
@@ -92,7 +97,8 @@ public class RuleBasedAI implements PlayingStrategy {
                         for (Resource res : effect.getResources()) {
                             if (res.getIndex() == i) {
                                 this.action = Action.BUILDING;
-                                return card;
+                                chosenCard =card;
+                                return chosenCard;
                             }
                         }
                     }
@@ -113,14 +119,16 @@ public class RuleBasedAI implements PlayingStrategy {
 
                 if (isAmongLeaders(playerShields)) {
                     action = Action.BUILDING;
-                    return optimalCard;
+                    chosenCard =optimalCard;
+                    return chosenCard;
                 } else {
                     int nbBoubou = optimalCard.getEffects()[0].getConstantlyAddedItem();
                     nbBoubou += playerShields;
 
                     if (isAmongLeaders(nbBoubou)) {
                         action = Action.BUILDING;
-                        return optimalCard;
+                        chosenCard =optimalCard;
+                        return chosenCard;
                     }
                 }
             }
@@ -132,7 +140,8 @@ public class RuleBasedAI implements PlayingStrategy {
         if (civilCards.size() != 0) {
             civilCards.sort(Comparator.comparingInt(card -> card.getEffects()[0].getConstantlyAddedItem()));
             action = Action.BUILDING;
-            return civilCards.get(civilCards.size() - 1);
+            chosenCard = civilCards.get(civilCards.size() - 1);
+            return chosenCard;
         }
 
         // REGLE 5 - play science card
@@ -140,7 +149,8 @@ public class RuleBasedAI implements PlayingStrategy {
         scienceCards.removeIf(card -> card.getCategory() != Category.BATIMENT_SCIENTIFIQUE);
         if (scienceCards.size() != 0) {
             action = Action.BUILDING;
-            return scienceCards.get(0);
+            chosenCard = scienceCards.get(0);
+            return chosenCard;
         }
 
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
@@ -152,7 +162,8 @@ public class RuleBasedAI implements PlayingStrategy {
             int rand = r.nextInt(cardsBuildable.size());
 
             action = Action.BUILDING;
-            return cardsBuildable.get(rand);
+            chosenCard = cardsBuildable.get(rand);
+            return chosenCard;
         }
     }
 
@@ -173,9 +184,20 @@ public class RuleBasedAI implements PlayingStrategy {
     }
 
 
+
     @Override
     public Action getAction() {
         return action;
+    }
+
+    @Override
+    public Card getCard() {
+        return chosenCard;
+    }
+
+    @Override
+    public PlayingStrategy copy() {
+        return this;
     }
 
     @Override

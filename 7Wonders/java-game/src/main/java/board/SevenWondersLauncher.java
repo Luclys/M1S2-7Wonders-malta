@@ -1,17 +1,15 @@
 package board;
 
-import client.Client;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import gameelements.Player;
-import gameelements.GameLogger;
-import strategy.MonteCarloStrategy;
-import strategy.RandomStrategy;
-import RuleBasedAI;
 
+import client.Client;
+import gameelements.GameLogger;
+import gameelements.Player;
+import strategy.FirstCardStrategy;
+import strategy.MonteCarloStrategy;
+import strategy.WonderStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class SevenWondersLauncher {
     private  static final GameLogger log = new GameLogger(true);
@@ -57,8 +55,8 @@ public class SevenWondersLauncher {
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
 
-        Player player1 = new Player(0, new WonderStrategy());
-        Player player2 = new Player(1, new RuleBasedAI());
+        Player player1 = new Player(0, new MonteCarloStrategy());
+        Player player2 = new Player(1, new WonderStrategy());
         playerList.add(player1);
         playerList.add(player2);
 

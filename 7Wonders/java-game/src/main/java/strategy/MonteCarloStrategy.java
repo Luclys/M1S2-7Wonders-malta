@@ -21,6 +21,11 @@ public class MonteCarloStrategy implements PlayingStrategy {
     }
 
     @Override
+    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+
+    }
+
+    @Override
     public Card chooseCard(Inventory inventory, Board b) throws Exception {
         board = new Board(b);
         inv = inventory;
@@ -52,7 +57,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
                 }
             }
         }
-        board.log = new GameLogger(false);
+      //  board.log = new GameLogger(false);
     }
 
     public Card monteCarlo() throws Exception {
@@ -74,7 +79,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
                     memoriseTheBoard.getCommerce().log = new GameLogger(false);
                     memoriseTheBoard.executePlayerAction(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()), memoriseTheBoard.getPlayerList().get(inv.getPlayerId()));
 
-                    for (int i = 0 ;i < 1000; i++ ){
+                    for (int i = 0 ;i < 100; i++ ){
                         // recuperer l'ancien board apres le choix de monte
                         Board memoriseTheBoard2 = new Board(memoriseTheBoard );
                         memoriseTheBoard2.getCommerce().log = new GameLogger(false);
