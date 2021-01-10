@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +111,7 @@ class BoardTest {
 
     @Disabled
     @Test
-    void assignWBToPlayersTest() throws JsonProcessingException {
+    void assignWBToPlayersTest() throws JsonProcessingException, NoSuchAlgorithmException {
         Card card = CardsSet.CHANTIER;
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(card);
@@ -124,7 +125,6 @@ class BoardTest {
         doReturn(inv).when(listInv).get(0);
         doReturn(true).when(inv).canSell(card);
 
-        //when(board.getPlayerInventoryList().get(player.getId()).canSell(card)).thenReturn(true);
         board.play(boardMOCK.getPlayerInventoryList().size());
         assertEquals(14 - board.getPlayerInventoryList().size() * 2, board.getAvailableWonderBoardList().size());
     }
@@ -134,7 +134,6 @@ class BoardTest {
         Inventory inv = board.getPlayerInventoryList().get(0);
         inv.setPossibleFreeBuildings(1);
         assertEquals(1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
-      //  doReturn(0).when(player).getId();
         doReturn(Action.BUILDFREE).when(player).getAction();
         board.executePlayerAction(inv, player);
         assertEquals(-1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());

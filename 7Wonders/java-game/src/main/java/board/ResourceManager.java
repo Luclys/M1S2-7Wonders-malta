@@ -96,7 +96,7 @@ public class ResourceManager {
         List<List<Resource>> remainingRequiredResourcesCombination = new ArrayList<>();
         //check each possible combination
         for (int[] combination : indexCombinationsFromPairResourcesChoices) {
-            List<Resource> remainingRequiredResources = new ArrayList<>(requiredResources);;
+            List<Resource> remainingRequiredResources = new ArrayList<>(requiredResources);
             for (int i = 0; i < playerInventory.getPairResChoice().size(); i++) {
                 //choose resource in each pair according to combination
                 Resource chosenResource = playerInventory.getPairResChoice().get(i)[combination[i]];

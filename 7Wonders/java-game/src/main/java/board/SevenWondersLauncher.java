@@ -4,8 +4,8 @@ import client.Client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import gameelements.Player;
 import strategy.Monte;
-import strategy.WonderStrategy;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,7 +18,7 @@ public class SevenWondersLauncher {
     static boolean boolPrint = false;
     static Board board;
 
-    public static void main(String... args) throws InterruptedException, JsonProcessingException {
+    public static void main(String... args) throws InterruptedException, JsonProcessingException, NoSuchAlgorithmException {
         //Starting the client
         startClient();
 
