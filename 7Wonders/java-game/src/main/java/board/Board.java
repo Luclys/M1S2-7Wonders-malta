@@ -40,7 +40,7 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    private final GameLogger log;
+    public final GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
@@ -158,7 +158,7 @@ public class Board {
      */
 
     public int play(int nbPlay) throws Exception {
-        log.setBooleanPrint(false);
+        //log.setBooleanPrint(false);
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
@@ -173,6 +173,10 @@ public class Board {
             for ( currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 log.newTurn(currentTurn + 1);
                 log.play();
+
+                for (Inventory inv : getPlayerInventoryList()){
+                    log.playerInformation(inv);
+                }
 
                 // Each player plays a card on each turn
                 for (Player p : playerList) {

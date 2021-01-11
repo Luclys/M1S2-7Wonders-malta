@@ -105,6 +105,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
         // terminer la partie courant
         for(Player p : board.getPlayerList()){
             if(inventory.getPlayerId()!=p.getId()){
+                p.acknowledgeGameStatus((ArrayList<Inventory>) board.getPlayerInventoryList(), board.getCurrentAge(), board.getCurrentTurn());
                 p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
             }
         }
