@@ -11,6 +11,7 @@ import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -164,7 +165,7 @@ public class RuleBasedAI implements PlayingStrategy {
             this.chosenCard = inventory.getCardsInHand().get(0);
             return chosenCard;
         } else {
-            Random r = new Random();
+            Random r = new SecureRandom();
             int rand = r.nextInt(cardsBuildable.size());
             action = Action.BUILDING;
             chosenCard = cardsBuildable.get(rand);
