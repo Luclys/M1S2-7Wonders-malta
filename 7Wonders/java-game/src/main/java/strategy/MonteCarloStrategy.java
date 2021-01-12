@@ -91,15 +91,13 @@ public class MonteCarloStrategy implements PlayingStrategy {
                             monteCarloBoard.getPlayerList().get(initialInventory.getPlayerId())
                     );
 
+                    int scoresSum = 0;
                     for (int i = 0; i < depth; i++) {
                         //playerIdWithBestResult = continueGame(new Board(monteCarloBoard), monteCarloInventory);
                         continueGame(new Board(monteCarloBoard), monteCarloInventory);
 
                         if (CHOOSE_BY_SCORE) {
-                            resultsForCardAndAction.get(cardIndex).set(
-                                    actionIndex,
-                                    resultsForCardAndAction.get(cardIndex).get(actionIndex) + curBoard.getPlayerInventoryList().get(monteCarloInventory.getPlayerId()).getScore()
-                            );
+                            scoresSum += curBoard.getPlayerInventoryList().get(monteCarloInventory.getPlayerId()).getScore();
                         } else {
                             //if current player is a winner, we increment resultsForCardAndAction for chosen card and action
                             Inventory winner = curBoard.getPlayerInventoryList().get(0);
@@ -111,6 +109,12 @@ public class MonteCarloStrategy implements PlayingStrategy {
                                 resultsForCardAndAction.get(cardIndex).set(actionIndex, resultsForCardAndAction.get(cardIndex).get(actionIndex) + 1);
                             }
                         }
+                    }
+                    if (CHOOSE_BY_SCORE) {
+                        resultsForCardAndAction.get(cardIndex).set(
+                                actionIndex,
+                                scoresSum/depth
+                        );
                     }
                 }
             }
