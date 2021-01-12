@@ -95,7 +95,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
                         //playerIdWithBestResult = continueGame(new Board(monteCarloBoard), monteCarloInventory);
                         continueGame(new Board(monteCarloBoard), monteCarloInventory);
 
-                        if (!CHOOSE_BY_SCORE) {
+                        if (CHOOSE_BY_SCORE) {
                             resultsForCardAndAction.get(cardIndex).set(
                                     actionIndex,
                                     resultsForCardAndAction.get(cardIndex).get(actionIndex) + curBoard.getPlayerInventoryList().get(monteCarloInventory.getPlayerId()).getScore()
