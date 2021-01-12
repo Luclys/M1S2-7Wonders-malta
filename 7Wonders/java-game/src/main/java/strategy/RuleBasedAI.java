@@ -23,6 +23,7 @@ public class RuleBasedAI implements PlayingStrategy {
     private int age = 0;
     private int rightNeighborId;
     private int leftNeighborId;
+    private int currentTurn;
 
     Board board;
 
@@ -31,18 +32,37 @@ public class RuleBasedAI implements PlayingStrategy {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
         this.board = b;
         /*this.action = Action.SELL;
-        chosenCard =inventory.getCardsInHand().get(0)*/;
+        chosenCard =inventory.getCardsInHand().get(0)*/
 
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsAvailable.isEmpty()) {
-           this.action = Action.SELL;
-            chosenCard =inventory.getCardsInHand().get(0);
+            this.action = Action.SELL;
+            chosenCard = inventory.getCardsInHand().get(0);
             return chosenCard;
         }
 
         ArrayList<Card> cardsBuildable = cardsAvailable;
         cardsBuildable.removeIf(card -> !(inventory.canBuildCardForFree(card) || inventory.canBuild(card.getRequiredResources())));
 
+        // In the third game age, the set of rules is superseded by choosing the decision with best immediate VP reward.
+        if (age == 3) {
+            int currentScore;
+            int bestScore = 0;
+            this.action = Action.SELL;
+            chosenCard = inventory.getCardsInHand().get(0);
+
+            boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
+
+            for (Card card : cardsBuildable) {
+                currentScore = b.computeScoreWithAddingCard(inventory, card, isEndGame);
+                if (currentScore > bestScore) {
+                    this.action = Action.BUILDING;
+                    chosenCard = card;
+                    bestScore = currentScore;
+                }
+            }
+            return chosenCard;
+        }
 
         // REGLE 1 - a card providing 2 or more resource types
         // On retire toutes les cartes qui ne sont pas constructibles gratuitement ou avec les ressources disponibles
@@ -190,7 +210,6 @@ public class RuleBasedAI implements PlayingStrategy {
     }
 
 
-
     @Override
     public Action getAction() {
         return action;
@@ -200,6 +219,17 @@ public class RuleBasedAI implements PlayingStrategy {
     public Card getCard() {
         return chosenCard;
     }
+
+    @Override
+    public void setCard(Card card) {
+        this.chosenCard = card;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
 
     @Override
     public PlayingStrategy copy() {
@@ -213,6 +243,7 @@ public class RuleBasedAI implements PlayingStrategy {
     public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
         this.censoredInvList = censoredInvList;
         this.age = age;
+        this.currentTurn = currentTurn;
         this.rightNeighborId = rightNeighborId;
         this.leftNeighborId = leftNeighborId;
     }

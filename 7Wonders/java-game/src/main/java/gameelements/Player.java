@@ -20,7 +20,6 @@ public class Player {
     private  PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
-    private Card chosenCard;
 
     public Player(int id) {
         this.id = id;
@@ -32,7 +31,6 @@ public class Player {
         this.strategy = p.strategy.copy();
         rightNeighborId = p.rightNeighborId;
         leftNeighborId = p.leftNeighborId;
-        chosenCard = p.chosenCard;
     }
 
     public Player(int id, PlayingStrategy strategy) {
@@ -51,7 +49,7 @@ public class Player {
      * @return chosen card
      */
     public Card chooseCard(Inventory inv, Board b) throws Exception {
-        chosenCard = strategy.chooseCard(inv,b);
+        strategy.chooseCard(inv, b);
         return strategy.getCard();
     }
 

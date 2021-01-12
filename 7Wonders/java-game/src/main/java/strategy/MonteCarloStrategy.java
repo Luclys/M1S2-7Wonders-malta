@@ -51,6 +51,17 @@ public class MonteCarloStrategy implements PlayingStrategy {
         return chosenCard;
     }
 
+
+    @Override
+    public void setCard(Card card) {
+        this.chosenCard = card;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.chosenAction = action;
+    }
+
     private void getBestChosenCardAndAction(ArrayList<ArrayList<Integer>> resultsForCardAndAction, ArrayList<Card> cards) {
         int bestResult = 0;
         for (int cardIndex = 0; cardIndex < resultsForCardAndAction.size(); cardIndex++) {

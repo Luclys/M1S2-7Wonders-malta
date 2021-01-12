@@ -436,6 +436,7 @@ public class Board {
             for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
                 inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
             }
+
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 

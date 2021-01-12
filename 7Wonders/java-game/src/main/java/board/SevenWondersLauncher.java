@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SevenWondersLauncher {
-    private  static final GameLogger log = new GameLogger(true);
-    public static  Client client;
+    private static final GameLogger log = new GameLogger(true);
+    public static Client client;
     static int nbPlayers = 3;
-    static int nbGames = 1000;
-    static boolean boolPrint = true;
+    static int nbGames = 10;
+    static boolean boolPrint = false;
 
 
     public static void main(String... args) throws Exception {

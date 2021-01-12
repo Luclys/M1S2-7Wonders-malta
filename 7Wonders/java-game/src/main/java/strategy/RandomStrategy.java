@@ -42,6 +42,16 @@ public class RandomStrategy implements PlayingStrategy {
     }
 
     @Override
+    public void setCard(Card card) {
+        this.chosenCard = card;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.chosenAction = action;
+    }
+
+    @Override
     public PlayingStrategy copy() {
         RandomStrategy s = new RandomStrategy();
         s.chosenAction = this.chosenAction;

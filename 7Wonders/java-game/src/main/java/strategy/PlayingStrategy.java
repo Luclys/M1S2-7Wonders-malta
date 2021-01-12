@@ -34,21 +34,27 @@ public interface PlayingStrategy {
         return cardsAvailableToPlay;
     }
 
-    default ArrayList<Action> availableActions(Card c, Inventory inv){
+    void setCard(Card c);
+
+    void setAction(Action action);
+
+    default ArrayList<Action> availableActions(Card c, Inventory inv) {
         ArrayList<Action> list = new ArrayList<>();
         list.add(Action.SELL);
         // if can build step
         if (inv.canBuildNextStep(inv.getWonderBoard())) {
             list.add(Action.WONDER);
         }
-        if (inv.canBuild(c.getRequiredResources())){
+        if (inv.canBuild(c.getRequiredResources())) {
             list.add(Action.BUILDING);
         }
-        if (inv.getPossibleFreeBuildings()>0){
+        if (inv.getPossibleFreeBuildings() > 0) {
             list.add(Action.BUILDFREE);
         }
         return list;
     }
 
     void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId);
+
+
 }

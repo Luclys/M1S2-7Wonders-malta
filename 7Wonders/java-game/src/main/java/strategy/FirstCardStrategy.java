@@ -24,6 +24,16 @@ public class FirstCardStrategy implements PlayingStrategy {
         return s;
     }
 
+    @Override
+    public void setCard(Card card) {
+        this.chosen = card;
+    }
+
+    @Override
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
     /**
      * This method allows to choose a card
      * to build it if it's possible
