@@ -444,8 +444,6 @@ public class Board {
 
             inv.addScore(computeScore(inv));
             log.playerInformation(inv);
-
-            System.out.printf("Score du joueur jouant la stratégie %s : %d.\n", player.getStrategy().toString(), inv.getScore());
         }
     }
 
