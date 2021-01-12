@@ -11,6 +11,7 @@ import gameelements.enums.Category;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
@@ -23,13 +24,18 @@ public class RuleBasedAI implements PlayingStrategy {
     private int rightNeighborId;
     private int leftNeighborId;
 
+    Board board;
+
     @Override
     public Card chooseCard(Inventory inventory, Board b) throws Exception {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
+        this.board = b;
+        /*this.action = Action.SELL;
+        chosenCard =inventory.getCardsInHand().get(0)*/;
 
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsAvailable.isEmpty()) {
-            this.action = Action.SELL;
+           this.action = Action.SELL;
             chosenCard =inventory.getCardsInHand().get(0);
             return chosenCard;
         }
@@ -55,7 +61,7 @@ public class RuleBasedAI implements PlayingStrategy {
         for (Card card : cardsBuildable) {
             if (moreThanOneResourceType.contains(card)) {
                 this.action = Action.BUILDING;
-                chosenCard =card;
+                chosenCard = card;
                 return chosenCard;
             }
         }
@@ -88,7 +94,7 @@ public class RuleBasedAI implements PlayingStrategy {
                         ResourceEffect effect = (ResourceEffect) card.getEffects()[0];
                         if (effect.getResource().getIndex() == i) {
                             this.action = Action.BUILDING;
-                            chosenCard =card;
+                            chosenCard = card;
                             return chosenCard;
                         }
                     }
@@ -97,7 +103,7 @@ public class RuleBasedAI implements PlayingStrategy {
                         for (Resource res : effect.getResources()) {
                             if (res.getIndex() == i) {
                                 this.action = Action.BUILDING;
-                                chosenCard =card;
+                                chosenCard = card;
                                 return chosenCard;
                             }
                         }
@@ -156,11 +162,11 @@ public class RuleBasedAI implements PlayingStrategy {
         // REGLE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsBuildable.isEmpty()) {
             this.action = Action.SELL;
-            return inventory.getCardsInHand().get(0);
+            this.chosenCard = inventory.getCardsInHand().get(0);
+            return chosenCard;
         } else {
-            Random r = new Random();
+            Random r = new SecureRandom();
             int rand = r.nextInt(cardsBuildable.size());
-
             action = Action.BUILDING;
             chosenCard = cardsBuildable.get(rand);
             return chosenCard;
@@ -197,7 +203,10 @@ public class RuleBasedAI implements PlayingStrategy {
 
     @Override
     public PlayingStrategy copy() {
-        return this;
+        RuleBasedAI s = new RuleBasedAI();
+        s.chosenCard = this.chosenCard;
+        s.action = this.action;
+        return s;
     }
 
     @Override

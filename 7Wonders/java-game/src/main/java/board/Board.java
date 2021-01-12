@@ -344,7 +344,9 @@ public class Board {
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
-
+        log.startTrade();
+        log.pricesOfResources(trueInv);
+        log.missingResources(missingResources);
         canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
             log.gotMissingResources();
