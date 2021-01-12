@@ -429,10 +429,12 @@ public class Board {
          * */
         for (Inventory inv : playerInventoryList) {
             int scoreBefore = inv.getScore();
-            // End Game Effects (guilds buildings)
+
             Player player = playerList.get(inv.getPlayerId());
             Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
             Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+
+            // End Game Effects (guilds buildings)
             for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
                 inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
             }
@@ -440,31 +442,62 @@ public class Board {
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 
-            // Sum of Conflict Points
-            inv.addScore(inv.getVictoryChipsScore() - inv.getDefeatChipsCount());
-
-            // (Sum coins / 3) -> each 3 coins grant 1 score point
-            int scoreEGCoins = inv.getCoins() / 3;
-            inv.addScore(scoreEGCoins);
-            inv.getDetailedResults().setScoreFromEndGameCoins(scoreEGCoins);
-
-            scoreBefore = inv.getScore();
-            //foreach(nb same Scientific²) + min(nb same scientific) * 7
-            List<Integer> list = new ArrayList<>();
-            list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
-            list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
-            list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
-
-            int nbSameScientific = Collections.min(list);
-
-            list.forEach(integer -> inv.addScore(integer * integer));
-            inv.addScore(nbSameScientific * 7);
-            int scientificScore = inv.getScore() - scoreBefore;
-            inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
-
+            inv.addScore(computeScore(inv));
             log.playerInformation(inv);
+
+            System.out.printf("Score du joueur jouant la stratégie %s : %d.\n", player.getStrategy().toString(), inv.getScore());
         }
     }
+
+    public int computeScore(Inventory inv) {
+        int scoreToAdd = 0;
+
+        // Sum of Conflict Points
+        int conflictScore = inv.getVictoryChipsScore() - inv.getDefeatChipsCount();
+        scoreToAdd += conflictScore;
+
+        // (Sum coins / 3) -> each 3 coins grant 1 score point
+        int scoreEGCoins = inv.getCoins() / 3;
+        scoreToAdd += scoreEGCoins;
+
+        //foreach(nb same Scientific²) + min(nb same scientific) * 7
+        List<Integer> list = new ArrayList<>();
+        list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
+        list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
+        list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
+        int nbSameScientific = Collections.min(list);
+
+        int scientificScore = nbSameScientific * 7;
+        scientificScore += list.stream().mapToInt(integer -> (integer * integer)).sum();
+        scoreToAdd += scientificScore;
+
+        inv.getDetailedResults().setScoreFromEndGameCoins(scoreEGCoins);
+        inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
+
+        return scoreToAdd;
+    }
+
+    public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
+        // On fait une copie de l'inventaire
+        Inventory inv = new Inventory(inventaire);
+        Player player = playerList.get(inv.getPlayerId());
+        Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
+        Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+
+
+        player.getStrategy().setAction(Action.BUILDING);
+        player.getStrategy().setCard(card);
+        executePlayerAction(inv, player);
+
+        if (isEndGame) {
+            for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
+                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+            }
+        }
+
+        return computeScore(inv);
+    }
+
 
     // GETTERS & SETTERS
     public PlayersManager getManager() {

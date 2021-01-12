@@ -145,7 +145,7 @@ public class RuleBasedAI implements PlayingStrategy {
 
                 if (isAmongLeaders(playerShields)) {
                     action = Action.BUILDING;
-                    chosenCard =optimalCard;
+                    chosenCard = optimalCard;
                     return chosenCard;
                 } else {
                     int nbBoubou = optimalCard.getEffects()[0].getConstantlyAddedItem();
