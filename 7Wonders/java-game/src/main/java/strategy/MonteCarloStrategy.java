@@ -123,6 +123,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
         // Each player plays a card on each turn until each has 1 card left
         while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
             for (Player p : board.getPlayerList()) {
+                p.acknowledgeGameStatus((ArrayList<Inventory>) board.getPlayerInventoryList(), board.getCurrentAge(), board.getCurrentTurn());
                 p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
                 board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
             }
@@ -144,6 +145,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
                 //terminer chaque turn
                 while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
                     for (Player p : board.getPlayerList()) {
+                        p.acknowledgeGameStatus((ArrayList<Inventory>) board.getPlayerInventoryList(), board.getCurrentAge(), board.getCurrentTurn());
                         p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
                         board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
                     }
