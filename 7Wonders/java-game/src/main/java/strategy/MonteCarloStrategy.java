@@ -130,6 +130,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
         for (Player player : curBoard.getPlayerList()) {
             if (player.getId() != idToExclude) {
                 Inventory playerInventory = curBoard.getPlayerInventoryList().get(player.getId());
+                player.acknowledgeGameStatus((ArrayList<Inventory>) curBoard.getPlayerInventoryList(), curBoard.getCurrentAge(), curBoard.getCurrentTurn());
                 player.chooseCard(playerInventory, curBoard);
                 curBoard.executePlayerAction(playerInventory, player);
             }

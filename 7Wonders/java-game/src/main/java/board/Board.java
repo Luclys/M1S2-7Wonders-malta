@@ -40,7 +40,7 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    private final GameLogger log;
+    public final GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;

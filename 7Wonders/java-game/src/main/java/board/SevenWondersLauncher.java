@@ -5,6 +5,7 @@ import gameelements.GameLogger;
 import gameelements.Player;
 import strategy.FirstCardStrategy;
 import strategy.MonteCarloStrategy;
+import strategy.RuleBasedAI;
 import strategy.WonderStrategy;
 
 import java.util.ArrayList;
