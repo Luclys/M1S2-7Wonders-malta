@@ -1,7 +1,7 @@
 package strategy;
 
 import board.Board;
-import gameelements.GameLogger;
+import board.Trade;
 import gameelements.Inventory;
 import gameelements.Player;
 import gameelements.cards.Card;
@@ -10,10 +10,18 @@ import gameelements.enums.Action;
 import java.util.ArrayList;
 
 public class MonteCarloStrategy implements PlayingStrategy {
+    Board initialBoard;
+    Inventory initialInventory;
+
     Action chosenAction;
-    Board board;
     Card chosenCard;
-    Inventory inv ;
+
+    Board curBoard;
+    Inventory curInv;
+
+    int DEPTH = 1000;
+    boolean ALL_AGES_CALCULATED = false;
+    boolean CHOOSE_BY_SCORE = true;
 
     @Override
     public PlayingStrategy copy() {
@@ -26,10 +34,10 @@ public class MonteCarloStrategy implements PlayingStrategy {
     }
 
     @Override
-    public Card chooseCard(Inventory inventory, Board b) throws Exception {
-        board = new Board(b);
-        inv = inventory;
-        monteCarlo();
+    public Card chooseCard(Inventory inventory, Board board) throws Exception {
+        initialBoard = new Board(board);
+        initialInventory = inventory;
+        monteCarlo(DEPTH);
         return chosenCard;
     }
 
@@ -43,121 +51,121 @@ public class MonteCarloStrategy implements PlayingStrategy {
         return chosenCard;
     }
 
-
-
-    private void getBestChosenCardAndAction(ArrayList<ArrayList<Integer>> numberOfVictories, ArrayList<Card> cards) {
-        int maxscore = 0;
-        for (int cardIndex = 0; cardIndex < numberOfVictories.size(); cardIndex++) {
-            ArrayList<Action> actions = availableActions(cards.get(cardIndex), inv);
-            for (int actionIndex = 0; actionIndex < numberOfVictories.get(cardIndex).size(); actionIndex++) {
-                if (numberOfVictories.get(cardIndex).get(actionIndex) > maxscore) {
-                    maxscore = numberOfVictories.get(cardIndex).get(actionIndex);
+    private void getBestChosenCardAndAction(ArrayList<ArrayList<Integer>> resultsForCardAndAction, ArrayList<Card> cards) {
+        int bestResult = 0;
+        for (int cardIndex = 0; cardIndex < resultsForCardAndAction.size(); cardIndex++) {
+            ArrayList<Action> availableActions = availableActions(cards.get(cardIndex), initialInventory);
+            for (int actionIndex = 0; actionIndex < resultsForCardAndAction.get(cardIndex).size(); actionIndex++) {
+                if (resultsForCardAndAction.get(cardIndex).get(actionIndex) > bestResult) {
+                    bestResult = resultsForCardAndAction.get(cardIndex).get(actionIndex);
                     chosenCard = cards.get(cardIndex);
-                    chosenAction = actions.get(actionIndex);
+                    chosenAction = availableActions.get(actionIndex);
                 }
             }
         }
-      //  board.log = new GameLogger(false);
     }
 
-    public Card monteCarlo() throws Exception {
-        ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
-        int idwinner = 0;
-        if (availableCards.size() != 0){
-            ArrayList<ArrayList<Integer>> numberOfVictories = new ArrayList<>();
-            for (int cardIndex = 0 ; cardIndex < availableCards.size() ; cardIndex++){
-                ArrayList<Action> listActions = availableActions(availableCards.get(cardIndex), inv);
-                numberOfVictories.add(new ArrayList<>());
-                for (int actionIndex = 0; actionIndex < listActions.size(); actionIndex++){
-                    numberOfVictories.get(cardIndex).add(0);
-                    Action action = listActions.get(actionIndex);
-                    Inventory copyTheInventory = new Inventory(inv);
+    public Card monteCarlo(int depth) throws Exception {
+        boolean print = initialBoard.log.getBooleanPrint();
+        if (print) {
+            initialBoard.log.setBooleanPrint(false);
+            Trade.log.setBooleanPrint(false);
+        }
+        ArrayList<Card> availableCards = cardsAvailableToPlay(initialInventory);
+        if (availableCards.size() != 0) {
+            ArrayList<ArrayList<Integer>> resultsForCardAndAction = new ArrayList<>();
+            for (int cardIndex = 0; cardIndex < availableCards.size(); cardIndex++) {
+                ArrayList<Action> listActions = availableActions(availableCards.get(cardIndex), initialInventory);
+                resultsForCardAndAction.add(new ArrayList<>());
+                for (int actionIndex = 0; actionIndex < listActions.size(); actionIndex++) {
+                    resultsForCardAndAction.get(cardIndex).add(0);
+
                     chosenCard = availableCards.get(cardIndex);
-                    chosenAction = action;
-                    Board memoriseTheBoard = new Board(board);
+                    chosenAction = listActions.get(actionIndex);
 
-                    memoriseTheBoard.getCommerce().log = new GameLogger(false);
-                    memoriseTheBoard.executePlayerAction(memoriseTheBoard.getPlayerInventoryList().get(inv.getPlayerId()), memoriseTheBoard.getPlayerList().get(inv.getPlayerId()));
+                    Inventory monteCarloInventory = new Inventory(initialInventory);
+                    Board monteCarloBoard = new Board(initialBoard);
 
-                    for (int i = 0 ;i < 100; i++ ){
-                        // recuperer l'ancien board apres le choix de monte
-                        Board memoriseTheBoard2 = new Board(memoriseTheBoard );
-                        memoriseTheBoard2.getCommerce().log = new GameLogger(false);
-                        idwinner = continueGame(memoriseTheBoard2,copyTheInventory);
-                        if (idwinner == copyTheInventory.getPlayerId()){
-                            numberOfVictories.get(cardIndex).set(actionIndex, numberOfVictories.get(cardIndex).get(actionIndex)+1); // aussi donné l'action joue
+                    monteCarloBoard.executePlayerAction(
+                            monteCarloBoard.getPlayerInventoryList().get(initialInventory.getPlayerId()),
+                            monteCarloBoard.getPlayerList().get(initialInventory.getPlayerId())
+                    );
+
+                    for (int i = 0; i < depth; i++) {
+                        //playerIdWithBestResult = continueGame(new Board(monteCarloBoard), monteCarloInventory);
+                        continueGame(new Board(monteCarloBoard), monteCarloInventory);
+
+                        if (!CHOOSE_BY_SCORE) {
+                            resultsForCardAndAction.get(cardIndex).set(
+                                    actionIndex,
+                                    resultsForCardAndAction.get(cardIndex).get(actionIndex) + curBoard.getPlayerInventoryList().get(monteCarloInventory.getPlayerId()).getScore()
+                            );
+                        } else {
+                            //if current player is a winner, we increment resultsForCardAndAction for chosen card and action
+                            Inventory winner = curBoard.getPlayerInventoryList().get(0);
+                            for (Inventory inv : curBoard.getPlayerInventoryList()) {
+                                if (inv.getScore() > winner.getScore())
+                                    winner = inv;
+                            }
+                            if (winner.getPlayerId() == monteCarloInventory.getPlayerId()) {
+                                resultsForCardAndAction.get(cardIndex).set(actionIndex, resultsForCardAndAction.get(cardIndex).get(actionIndex) + 1);
+                            }
                         }
                     }
                 }
             }
-            getBestChosenCardAndAction(numberOfVictories, availableCards);
-        }else{
-            chosenCard = inv.getCardsInHand().get(0);
+            getBestChosenCardAndAction(resultsForCardAndAction, availableCards);
+        } else {
+            chosenCard = initialInventory.getCardsInHand().get(0);
             chosenAction = Action.SELL;
+        }
+        if (print) {
+            initialBoard.log.setBooleanPrint(true);
+            Trade.log.setBooleanPrint(true);
         }
         return chosenCard;
     }
 
-    public int continueGame(Board board, Inventory inventory) throws Exception {
-        // changer notre stagerie
-        board.getPlayerList().get(inventory.getPlayerId()).setStrategy(new WonderStrategy());
-
-        // terminer la partie courant
-        for(Player p : board.getPlayerList()){
-            if(inventory.getPlayerId()!=p.getId()){
-                p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
+    private void finishTurn(int idToExclude) throws Exception {
+        for (Player player : curBoard.getPlayerList()) {
+            if (player.getId() != idToExclude) {
+                Inventory playerInventory = curBoard.getPlayerInventoryList().get(player.getId());
+                player.chooseCard(playerInventory, curBoard);
+                curBoard.executePlayerAction(playerInventory, player);
             }
         }
+        curBoard.endOfTurn();
+    }
 
-        //chaque player joue carte sauf le player actuel
-        for(Inventory p : board.getPlayerInventoryList()){
-            if(inventory.getPlayerId()!=p.getPlayerId()){
-                board.executePlayerAction(p, board.getPlayerList().get(p.getPlayerId()));
-            }
+    private void finishAge() throws Exception {
+        while (curBoard.getPlayerInventoryList().get(0).getCardsInHand().size() > 1) {
+            finishTurn(-1);
         }
+        curBoard.endOfAge();
+    }
 
-        board.endOfTurn();
+    public void continueGame(Board board, Inventory inv) throws Exception {
+        curBoard = new Board(board);
+        curInv = new Inventory(inv);
+        //set base strategy
+        curBoard.getPlayerList().get(curInv.getPlayerId()).setStrategy(new WonderStrategy());
 
-        //terminer l'age
-        // Each player plays a card on each turn until each has 1 card left
-        while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
-            for (Player p : board.getPlayerList()) {
-                p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
-                board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
-            }
-            board.endOfTurn();
-        }
-        board.endOfAge();
+        //finish current turn and current age for other players
+        finishTurn(curInv.getPlayerId());
+        finishAge();
 
-
-        //terminer toutes les ages restantes
-        for (int age = board.getCurrentAge()+1; age <= Board.AGES; age++){
-                board.ageSetUp(age);
-                // Card dealing & resetting possibleFreeBuildingsCount
-                for (Inventory playerInv : board.getPlayerInventoryList()) {
-                    playerInv.setCardsInHand(board.drawCards(Board.CARDS_NUMBER));
-                    //reset possibleFreeBuildingsCount because it's a new age
+        if (ALL_AGES_CALCULATED) {
+            //finish all the ages
+            for (int age = curBoard.getCurrentAge() + 1; age <= Board.AGES; age++) {
+                //ageSetUp, card dealing & resetting possibleFreeBuildingsCount
+                curBoard.ageSetUp(age);
+                for (Inventory playerInv : curBoard.getPlayerInventoryList()) {
+                    playerInv.setCardsInHand(curBoard.drawCards(Board.CARDS_NUMBER));
                     if (playerInv.getPossibleFreeBuildings() == -1) playerInv.setPossibleFreeBuildings(1);
                 }
-
-                //terminer chaque turn
-                while(board.getPlayerInventoryList().get(0).getCardsInHand().size()>1){
-                    for (Player p : board.getPlayerList()) {
-                        p.chooseCard(board.getPlayerInventoryList().get(p.getId()),board);
-                        board.executePlayerAction(board.getPlayerInventoryList().get(p.getId()), p);
-                    }
-                    board.endOfTurn();
-                }
-                board.endOfAge();
+                finishAge();
+            }
+            curBoard.endOfGame();
         }
-        // terminer le jeu
-        board.endOfGame();
-        //determiner le gagnant
-        Inventory winner = board.getPlayerInventoryList().get(0) ;
-        for (Inventory i : board.getPlayerInventoryList()) {
-            if (i.getScore()>winner.getScore())
-                winner = i;
-        }
-        return winner.getPlayerId();
     }
 }

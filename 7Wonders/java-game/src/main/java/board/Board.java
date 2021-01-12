@@ -63,26 +63,19 @@ public class Board {
             this.playerInventoryList.add(new Inventory(n));
         }
 
-        this.log = new GameLogger(false);
+        this.log = b.log;
 
         this.discardedDeckCardList = new ArrayList<>();
-        for ( Card c : b.getDiscardedDeckCardList()){
-            this.discardedDeckCardList.add(c);
-        }
-
+        this.discardedDeckCardList.addAll(b.getDiscardedDeckCardList());
 
         this.cardManager = new CardManager(playerList,playerInventoryList);
 
         this.availableWonderBoardList = new ArrayList<>();
-        for (WonderBoard w: b.availableWonderBoardList) {
-            this.availableWonderBoardList.add(w);
-        }
+        this.availableWonderBoardList.addAll(b.availableWonderBoardList);
 
 
         this.currentDeckCardList =new ArrayList<>();
-        for ( Card c : b.getCurrentDeckCardList()){
-            this.currentDeckCardList.add(c);
-        }
+        for (Card c : b.getCurrentDeckCardList()) this.currentDeckCardList.add(c);
 
         this.isLeftRotation = b.isLeftRotation;
         this.jetonVictoryValue = b.jetonVictoryValue;
@@ -156,9 +149,7 @@ public class Board {
      *
      * @param nbPlay
      */
-
     public int play(int nbPlay) throws Exception {
-        log.setBooleanPrint(false);
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for ( currentAge = 1; currentAge <= AGES; currentAge++) {
@@ -259,7 +250,6 @@ public class Board {
                 player.setStrategy(s);
             }
         }
-        //log = new GameLogger(false);
     }
 
     /**
@@ -295,15 +285,11 @@ public class Board {
     public void executePlayerAction(Inventory inv, Player player) throws Exception {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
-
-        log.action(player.getId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
                 if (nbFreeBuildings > 0) {
                     buildCard(inv, chosenCard, player);
-                    log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
@@ -311,7 +297,6 @@ public class Board {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
-                    log.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
                     buildCard(inv, chosenCard, player);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources)) {
@@ -345,8 +330,6 @@ public class Board {
                 initSellCard(inv, chosenCard);
                 break;
         }
-        log.playersNewState(inv.getPlayerId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
 
@@ -361,9 +344,7 @@ public class Board {
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
-        log.startTrade();
-        log.pricesOfResources(trueInv);
-        log.missingResources(missingResources);
+
         canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         if (canBuy) {
             log.gotMissingResources();
@@ -414,7 +395,6 @@ public class Board {
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
-
 
     /**
      * this method allows to resolve the war conflict between a players and their neighbors

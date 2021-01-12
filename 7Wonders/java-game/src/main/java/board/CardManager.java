@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardManager {
-    GameLogger log = new GameLogger(true);
     List<Player> playerList;
     List<Inventory> playerInventoryList;
 

@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
     private static String separator = "%n==========================================================================%n";
-    public  boolean booleanPrint;
+    private boolean booleanPrint;
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
@@ -20,6 +20,8 @@ public class GameLogger {
     public void setBooleanPrint(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
     }
+
+    public boolean getBooleanPrint() { return booleanPrint;}
 
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
@@ -136,6 +138,12 @@ public class GameLogger {
         if (!booleanPrint) return;
         log.info(String.format("%n[ACTION] Player %d builds card %s%n", playerId, card.getName()));
     }
+
+    public void playerBuildsFreeCardFromDiscarded(int playerId, Card card) {
+        if (!booleanPrint) return;
+        log.info(String.format("%n[ACTION] Player %d builds free card from discarded %s%n", playerId, card.getName()));
+    }
+
 
     public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree) {
         if (!booleanPrint) return;

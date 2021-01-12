@@ -1,6 +1,5 @@
 package board;
 
-
 import client.Client;
 import gameelements.GameLogger;
 import gameelements.Player;
