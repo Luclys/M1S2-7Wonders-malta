@@ -4,8 +4,7 @@ import client.Client;
 import gameelements.GameLogger;
 import gameelements.Player;
 import strategy.FirstCardStrategy;
-import strategy.MonteCarloStrategy;
-import strategy.RuleBasedAI;
+import strategy.RandomStrategy;
 import strategy.WonderStrategy;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.List;
 public class SevenWondersLauncher {
     private static final GameLogger log = new GameLogger(true);
     public static Client client;
-    static int nbPlayers = 3;
+    static int nbPlayers = 4;
     static int nbGames = 10;
     static boolean boolPrint = false;
 
@@ -55,12 +54,14 @@ public class SevenWondersLauncher {
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
 
-        Player player1 = new Player(0, new RuleBasedAI());
-        Player player2 = new Player(1, new MonteCarloStrategy());
-        Player player3 = new Player(2, new WonderStrategy());
+        Player player1 = new Player(0, new FirstCardStrategy());
+        Player player2 = new Player(1, new WonderStrategy());
+        Player player3 = new Player(2, new RandomStrategy());
+      //  Player player4 = new Player(3, new RuleBasedAI());
         playerList.add(player1);
         playerList.add(player2);
         playerList.add(player3);
+      //  playerList.add(player4);
 
 
         for (int i = playerList.size(); i < nbPlayers; i++) {

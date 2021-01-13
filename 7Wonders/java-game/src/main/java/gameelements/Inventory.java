@@ -39,6 +39,7 @@ public class Inventory implements Comparable<Object> {
     private int possibleFreeBuildings;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
+    GameLogger log = new GameLogger(true) ;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
