@@ -20,7 +20,7 @@ public class MonteCarloStrategy implements PlayingStrategy {
     Inventory curInv;
 
     int DEPTH = 1000;
-    boolean ALL_AGES_CALCULATED = false;
+    boolean ALL_AGES_CALCULATED = true;
     boolean CHOOSE_BY_SCORE = true;
 
     @Override
@@ -165,6 +165,11 @@ public class MonteCarloStrategy implements PlayingStrategy {
         curInv = new Inventory(inv);
         //set base strategy
         curBoard.getPlayerList().get(curInv.getPlayerId()).setStrategy(new WonderStrategy());
+        for (Player p : curBoard.getPlayerList()) {
+            if (p.getStrategyName() == this.getClass().getName()) {
+                p.setStrategy(new WonderStrategy());
+            }
+        }
 
         //finish current turn and current age for other players
         finishTurn(curInv.getPlayerId());
