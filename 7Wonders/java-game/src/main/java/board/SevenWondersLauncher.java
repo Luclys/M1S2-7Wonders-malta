@@ -4,7 +4,7 @@ import client.Client;
 import gameelements.GameLogger;
 import gameelements.Player;
 import strategy.FirstCardStrategy;
-import strategy.RandomStrategy;
+import strategy.RuleBasedAI;
 import strategy.WonderStrategy;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class SevenWondersLauncher {
     private static final GameLogger log = new GameLogger(true);
     public static Client client;
     static int nbPlayers = 4;
-    static int nbGames = 10;
+    static int nbGames = 10000;
     static boolean boolPrint = false;
 
 
@@ -38,15 +38,17 @@ public class SevenWondersLauncher {
         for (int i = 1; i <= nbGames; i++) {
             Board board = new Board(playerList, boolPrint);
             int winner = board.play(i);
-            winsCount.set(winner, winsCount.get(winner)+1);
             if (i != nbGames) {
                 System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
             } else {
                 System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
             }
+
+            winsCount.set(winner, winsCount.get(winner) + 1);
         }
+
         for (int i = 0; i < winsCount.size(); i++) {
-            System.out.printf("[7WONDERS - LAMAC] Player "+ i+" wins " +  winsCount.get(i)+" times\n");
+            System.out.print("[7WONDERS - LAMAC] Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
         }
         client.showStats();
     }
@@ -54,14 +56,14 @@ public class SevenWondersLauncher {
     public static List<Player> fetchPlayers(int nbPlayers) {
         List<Player> playerList = new ArrayList<>(nbPlayers);
 
-        Player player1 = new Player(0, new FirstCardStrategy());
-        Player player2 = new Player(1, new WonderStrategy());
-        Player player3 = new Player(2, new RandomStrategy());
-      //  Player player4 = new Player(3, new RuleBasedAI());
+        Player player1 = new Player(playerList.size(), new RuleBasedAI());
         playerList.add(player1);
+        Player player2 = new Player(playerList.size(), new FirstCardStrategy());
         playerList.add(player2);
+        Player player3 = new Player(playerList.size(), new WonderStrategy());
         playerList.add(player3);
-      //  playerList.add(player4);
+        Player player4 = new Player(playerList.size(), new FirstCardStrategy());
+        playerList.add(player4);
 
 
         for (int i = playerList.size(); i < nbPlayers; i++) {

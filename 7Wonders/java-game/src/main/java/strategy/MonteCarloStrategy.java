@@ -92,6 +92,63 @@ public class MonteCarloStrategy implements PlayingStrategy {
                     resultsForCardAndAction.get(cardIndex).add(0);
 
                     chosenCard = availableCards.get(cardIndex);
+
+                    // NE REGARDEZ PAS LE STREAM
+                    // BAD GIRLS
+                    // J'AVAIS DIS DE NE PAS LIRE !
+                    // TU MÉRITES BIEN D'ÊTRE DANS CE SALON VOCAL LA !
+                    // BOOOUUUH BAAAAAADDDDD GGGIIIIIIIRRRRRRLLLLLLL
+
+                    // Vous avez une recette de lentille ?
+                    // J'en ai dans le placard, il faudrait que je me fasse à manger
+                    // Ok
+                    // dans l'eau direct, ou un coup dans la poêle avant ?
+                    // Ok
+
+                    // Merci pour la recette ;)
+
+                    // Bonjour Madame Pelleau :)
+                    // Vous voulez la recette de Meryem ?
+                    // Elle m'a tout expliqué en vocal, je peux partager, si vous voulez ?! :)
+                    // C'est comme vous voulez, j'pense qu'elle est d'accord si je vous transmets sa
+                    // Recette ancestrale de lentilles_de_la_mort_qui_tue !
+                    // Ce qui est drôle, c'est que pendant que j'écris ces lignes, j'écoute mes camarades qui
+                    // Elles, sont en train de réfléchir et de commenter le fonctionnement de Monte Carlo !
+                    // Ce serrait vraiment très drôle que dans un moment d'inattention je push ces phrases !!
+                    // Elles se rendent compte que leur IA n'est peut-être aps si worth que ça au final
+                    // Quand on voit que sur un total de 1000 games, elle n'a gagné que 22 fois !! BAD GIRLS !
+                    // C'est vraiment dommage, surtout quand on voit que l'IA qui démonte toutes les autres
+                    // C'est l'Ia qu'on a fait vite faite au début avant même d'avoir commencé le TER !
+
+                    // Bon, retour sur la recette :
+                    // - Faire revenir les oignons coupés dans de l'huile (ajouter les carottes si voulues).
+                    // - Mettre à cuire les  lentilles agrémentées d'épices.
+                    // - (combien de tmeps, je sais plus) -> Pas de temps précis, tu dois l'ressentir dans tes tripes !
+                    // - Ajouter une tomate passée à la Diam's ( à la rappeuse ) !!
+                    // - Ajouter de l'eau (on va dire assez pour recouvrir les lentilles) !!
+
+                    // - Et voilà !
+
+                    // Il faudrait que je redemande à Meryem ce qu'elle en pense car j'ai comme l'impression que
+                    // J'ai oublié quelques petits détails :/
+
+                    // MERYEM ?!! MERYEM YOUHOU MERYEM ?!
+                    // ALLO ?!
+                    // YOUHOU
+                    // HEY
+                    // DIS , ELLE EST BIEN MA RECETTE ?
+                    // M E R Y E M ?
+                    // TU ES D'ACCORD ?
+
+                    // ANASTASIA ? GOOD GIRL ?
+                    // Tu arrives à contacter Meryem toi ?!
+                    // Elle ne me lis plus, c'est terrible, je n'ai pas moyen de savoir si ma recette est accurate ou pas ?!
+                    // Merci de ta part, je ne sais vraiment pas ce que j'aurais fais sans toi !
+
+
+                    // Alessandro, on compte sur toi pour nous rédiger le compte rendu avec Latex ;)
+                    // Monte Carlo 22 wins !
+
                     chosenAction = listActions.get(actionIndex);
 
                     Inventory monteCarloInventory = new Inventory(initialInventory);
