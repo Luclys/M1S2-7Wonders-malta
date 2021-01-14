@@ -1,4 +1,4 @@
-![](Documentation/Images/7w_logo.png)
+![](7w_logo.png)
 
 ### Team members
 - **L**oïc Filippi
