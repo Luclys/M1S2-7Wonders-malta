@@ -240,10 +240,6 @@ public class Board {
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : getPlayerInventoryList()) {
             if (!inv.isCanPlayLastCard()) {
-                log.display("-------------------------------------");
-                log.display("The player can t play last card");
-                log.playerInformation(inv);
-                log.display("-------------------------------------");
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 Player player = playerList.get(inv.getPlayerId());
@@ -386,7 +382,6 @@ public class Board {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
-        //trueInv.getCardsInHand().remove(chosenCard);
     }
 
 

@@ -28,14 +28,15 @@ public class RuleBasedAI implements PlayingStrategy {
     Board board;
 
     @Override
-    public Card chooseCard(Inventory inventory, Board b) throws Exception {
+    public Card chooseCard(Inventory inventory, Board board) throws Exception {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
-        this.board = b;
-        /*this.action = Action.SELL;
-        chosenCard =inventory.getCardsInHand().get(0)*/
+        this.board = board;
 
-        // REGLE 6 (Partie 1) - a random remaining card is played if possible
+        // RULE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsAvailable.isEmpty()) {
+
+            if (buildStepIfPossible(inventory)) return chosenCard;
+
             this.action = Action.SELL;
             chosenCard = inventory.getCardsInHand().get(0);
             return chosenCard;
@@ -44,50 +45,125 @@ public class RuleBasedAI implements PlayingStrategy {
         ArrayList<Card> cardsBuildable = cardsAvailable;
         cardsBuildable.removeIf(card -> !(inventory.canBuildCardForFree(card) || inventory.canBuild(card.getRequiredResources())));
 
+        // RULE 4 - play civil card
+        if (rule4_CivilCard(cardsBuildable)) return chosenCard;
+
+        // RULE 3 - if IA is not the only leader in military, and the card allows rbAI to become the (or one of the) leading military player(s)
+        if (rule3_MilitaryCard(inventory, cardsBuildable)) return chosenCard;
+
+        if (buildStepIfPossible(inventory)) return chosenCard;
+
+        // RULE 5 - play science card
+        if (rule5_ScienceCard(inventory, cardsBuildable)) return chosenCard;
+
         // In the third game age, the set of rules is superseded by choosing the decision with best immediate VP reward.
-        if (age == 3) {
-            int currentScore;
-            int bestScore = 0;
+        if (ruleAge3(inventory, cardsBuildable)) return chosenCard;
+
+        // RULE 2 - a card providing a single resource type that is lacking
+        // On compile toutes les ressources détenues possibles et on cherche s'il y en a une à 0
+        if (rule2_ResourceLacking(inventory, cardsBuildable)) return chosenCard;
+
+        // RULE 1 - a card providing 2 or more resource types
+        // On retire toutes les cartes qui ne sont pas constructibles gratuitement ou avec les ressources disponibles
+        if (rule1_MultipleResourcesGranted(cardsBuildable)) return chosenCard;
+
+        // RULE 6 (Partie 1) - a random remaining card is played if possible
+        if (cardsBuildable.isEmpty()) {
             this.action = Action.SELL;
-            chosenCard = inventory.getCardsInHand().get(0);
+            this.chosenCard = inventory.getCardsInHand().get(0);
+        } else {
+            Random r = new SecureRandom();
+            int rand = r.nextInt(cardsBuildable.size());
+            action = Action.BUILDING;
+            chosenCard = cardsBuildable.get(rand);
+        }
+        return chosenCard;
+    }
 
-            boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
-
-            for (Card card : cardsBuildable) {
-                currentScore = b.computeScoreWithAddingCard(inventory, card, isEndGame);
-                if (currentScore > bestScore) {
+    private boolean ruleAge3(Inventory inventory, ArrayList<Card> cardsBuildable) throws Exception {
+        if (age == 3) {
+            if (cardsBuildable.size() != 0) {
+                Card card = getBestCardScoreFromList(inventory, cardsBuildable);
+                if (card != null) {
                     this.action = Action.BUILDING;
                     chosenCard = card;
-                    bestScore = currentScore;
+
+                    return true;
                 }
             }
-            return chosenCard;
         }
+        return false;
+    }
 
-        // REGLE 1 - a card providing 2 or more resource types
-        // On retire toutes les cartes qui ne sont pas constructibles gratuitement ou avec les ressources disponibles
+    private Card getBestCardScoreFromList(Inventory inventory, ArrayList<Card> cardArrayList) throws Exception {
+        boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
+        Card bestCard = cardArrayList.get(0);
+        int bestScore = 0;
 
-        ArrayList<Card> moreThanOneResourceType = new ArrayList<>();
-        moreThanOneResourceType.add(CardsSet.FORUM);
-        moreThanOneResourceType.add(CardsSet.CARAVANSERAIL);
-
-        moreThanOneResourceType.add(CardsSet.EXCAVATION);
-        moreThanOneResourceType.add(CardsSet.FOSSE_ARGILEUSE);
-        moreThanOneResourceType.add(CardsSet.EXPLOITATION_FORESTIERE);
-        moreThanOneResourceType.add(CardsSet.GISEMENT);
-        moreThanOneResourceType.add(CardsSet.MINE);
-
-
-        for (Card card : cardsBuildable) {
-            if (moreThanOneResourceType.contains(card)) {
-                this.action = Action.BUILDING;
-                chosenCard = card;
-                return chosenCard;
+        for (Card card : cardArrayList) {
+            int currentScore = board.computeScoreWithAddingCard(inventory, card, isEndGame);
+            if (currentScore > bestScore) {
+                bestCard = card;
+                bestScore = currentScore;
             }
         }
+        return bestCard;
+    }
 
-        // REGLE NUMERO 2 - a card providing a single resource type that is lacking
-        // On compile toutes les ressources détenues possibles et on cherche s'il y en a une à 0
+    private boolean rule5_ScienceCard(Inventory inventory, ArrayList<Card> cardsBuildable) throws Exception {
+        ArrayList<Card> scienceCards = new ArrayList<>(cardsBuildable);
+        scienceCards.removeIf(card -> card.getCategory() != Category.BATIMENT_SCIENTIFIQUE);
+        if (scienceCards.size() != 0) {
+            action = Action.BUILDING;
+            chosenCard = getBestCardScoreFromList(inventory, scienceCards);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rule4_CivilCard(ArrayList<Card> cardsBuildable) {
+        ArrayList<Card> civilCards = new ArrayList<>(cardsBuildable);
+        civilCards.removeIf(card -> card.getCategory() != Category.BATIMENT_CIVIL);
+        if (civilCards.size() != 0) {
+            civilCards.sort(Comparator.comparingInt(card -> card.getEffects()[0].getConstantlyAddedItem()));
+            action = Action.BUILDING;
+            chosenCard = civilCards.get(civilCards.size() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rule3_MilitaryCard(Inventory inventory, ArrayList<Card> cardsBuildable) {
+        ArrayList<Card> militaryCards = new ArrayList<>(cardsBuildable);
+        militaryCards.removeIf(card -> card.getCategory() != Category.BATIMENT_MILITAIRE);
+
+        if (militaryCards.size() != 0) {
+            int playerShields = inventory.getSymbolCount(Symbol.BOUCLIER);
+
+            if (!isOnlyLeader(playerShields)) {
+                militaryCards.sort(Comparator.comparingInt(card -> card.getEffects()[0].getConstantlyAddedItem()));
+                Card optimalCard = militaryCards.get(militaryCards.size() - 1);
+
+                if (isAmongLeaders(playerShields)) {
+                    action = Action.BUILDING;
+                    chosenCard = optimalCard;
+                    return true;
+                } else {
+                    int nbBoubou = optimalCard.getEffects()[0].getConstantlyAddedItem();
+                    nbBoubou += playerShields;
+
+                    if (isAmongLeaders(nbBoubou)) {
+                        action = Action.BUILDING;
+                        chosenCard = optimalCard;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean rule2_ResourceLacking(Inventory inventory, ArrayList<Card> cardsBuildable) {
         int[] resources = inventory.getAvailableResources().clone();
         for (Resource[] pair : inventory.getPairResChoice()) {
             for (Resource res : pair) {
@@ -115,7 +191,7 @@ public class RuleBasedAI implements PlayingStrategy {
                         if (effect.getResource().getIndex() == i) {
                             this.action = Action.BUILDING;
                             chosenCard = card;
-                            return chosenCard;
+                            return true;
                         }
                     }
                     if (card.getEffects()[0] instanceof ChoiceResourceEffect) {
@@ -124,73 +200,55 @@ public class RuleBasedAI implements PlayingStrategy {
                             if (res.getIndex() == i) {
                                 this.action = Action.BUILDING;
                                 chosenCard = card;
-                                return chosenCard;
+                                return true;
                             }
                         }
                     }
                 }
             }
         }
+        return false;
+    }
 
-        // REGLE NUMERO 3 - if IA is not the only leader in military, and the card allows rbAI to become the (or one of the) leading military player(s)
-        ArrayList<Card> militaryCards = new ArrayList<>(cardsBuildable);
-        militaryCards.removeIf(card -> card.getCategory() != Category.BATIMENT_MILITAIRE);
+    private boolean rule1_MultipleResourcesGranted(ArrayList<Card> cardsBuildable) {
+        ArrayList<Card> moreThanOneResourceType = new ArrayList<>();
+        moreThanOneResourceType.add(CardsSet.FORUM);
+        moreThanOneResourceType.add(CardsSet.CARAVANSERAIL);
 
-        if (militaryCards.size() != 0) {
-            int playerShields = inventory.getSymbolCount(Symbol.BOUCLIER);
+        moreThanOneResourceType.add(CardsSet.EXCAVATION);
+        moreThanOneResourceType.add(CardsSet.FOSSE_ARGILEUSE);
+        moreThanOneResourceType.add(CardsSet.EXPLOITATION_FORESTIERE);
+        moreThanOneResourceType.add(CardsSet.GISEMENT);
+        moreThanOneResourceType.add(CardsSet.MINE);
 
-            if (!isOnlyLeader(playerShields)) {
-                militaryCards.sort(Comparator.comparingInt(card -> card.getEffects()[0].getConstantlyAddedItem()));
-                Card optimalCard = militaryCards.get(militaryCards.size() - 1);
 
-                if (isAmongLeaders(playerShields)) {
-                    action = Action.BUILDING;
-                    chosenCard = optimalCard;
-                    return chosenCard;
-                } else {
-                    int nbBoubou = optimalCard.getEffects()[0].getConstantlyAddedItem();
-                    nbBoubou += playerShields;
-
-                    if (isAmongLeaders(nbBoubou)) {
-                        action = Action.BUILDING;
-                        chosenCard =optimalCard;
-                        return chosenCard;
-                    }
-                }
+        for (Card card1 : moreThanOneResourceType) {
+            if (cardsBuildable.contains(card1)) {
+                this.action = Action.BUILDING;
+                chosenCard = card1;
+                return true;
             }
         }
+        return false;
+    }
 
-        // REGLE 4 - play civil card
-        ArrayList<Card> civilCards = new ArrayList<>(cardsBuildable);
-        civilCards.removeIf(card -> card.getCategory() != Category.BATIMENT_CIVIL);
-        if (civilCards.size() != 0) {
-            civilCards.sort(Comparator.comparingInt(card -> card.getEffects()[0].getConstantlyAddedItem()));
-            action = Action.BUILDING;
-            chosenCard = civilCards.get(civilCards.size() - 1);
-            return chosenCard;
-        }
+    private boolean buildStepIfPossible(Inventory inventory) {
+        boolean canBuildStep = inventory.canBuildNextStep(inventory.getWonderBoard());
+        if (canBuildStep) {
+            chosenCard = inventory.getCardsInHand().get(0);
+            action = Action.WONDER;
 
-        // REGLE 5 - play science card
-        ArrayList<Card> scienceCards = new ArrayList<>(cardsBuildable);
-        scienceCards.removeIf(card -> card.getCategory() != Category.BATIMENT_SCIENTIFIQUE);
-        if (scienceCards.size() != 0) {
-            action = Action.BUILDING;
-            chosenCard = scienceCards.get(0);
-            return chosenCard;
+            //Player picks a card he cannot build
+            for (Card card : inventory.getCardsInHand()) {
+                //We pick the first non-buildable card
+                if (!inventory.canBuild(card.getRequiredResources())) {
+                    chosenCard = card;
+                    break;
+                }
+            }
+            return true;
         }
-
-        // REGLE 6 (Partie 1) - a random remaining card is played if possible
-        if (cardsBuildable.isEmpty()) {
-            this.action = Action.SELL;
-            this.chosenCard = inventory.getCardsInHand().get(0);
-            return chosenCard;
-        } else {
-            Random r = new SecureRandom();
-            int rand = r.nextInt(cardsBuildable.size());
-            action = Action.BUILDING;
-            chosenCard = cardsBuildable.get(rand);
-            return chosenCard;
-        }
+        return false;
     }
 
     private boolean isOnlyLeader(int nbBoubou) {
