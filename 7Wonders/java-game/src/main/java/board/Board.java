@@ -476,23 +476,23 @@ public class Board {
 
     public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
         // On fait une copie de l'inventaire
-        Inventory inv = new Inventory(inventaire);
-        Player player = playerList.get(inv.getPlayerId());
+        Inventory fakeInv = new Inventory(inventaire);
+        Player player = playerList.get(fakeInv.getPlayerId());
         Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
         Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
 
 
         player.getStrategy().setAction(Action.BUILDING);
         player.getStrategy().setCard(card);
-        executePlayerAction(inv, player);
+        executePlayerAction(fakeInv, player);
 
         if (isEndGame) {
-            for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
-                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+            for (int i = 0; i < fakeInv.getEndGameEffects().size(); i++) {
+                fakeInv.getEndGameEffects().get(i).activateEffect(player, fakeInv, leftNeighborInv, rightNeighborInv, true);
             }
         }
 
-        return computeScore(inv);
+        return computeScore(fakeInv);
     }
 
 
