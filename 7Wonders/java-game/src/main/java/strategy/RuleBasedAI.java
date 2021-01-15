@@ -51,13 +51,11 @@ public class RuleBasedAI implements PlayingStrategy {
         // RULE 3 - if IA is not the only leader in military, and the card allows rbAI to become the (or one of the) leading military player(s)
         if (rule3_MilitaryCard(inventory, cardsBuildable)) return chosenCard;
 
-        if (buildStepIfPossible(inventory)) return chosenCard;
+        // In the third game age, the set of rules is superseded by choosing the decision with best immediate VP reward.
+        if (ruleAge3(inventory, cardsBuildable)) return chosenCard;
 
         // RULE 5 - play science card
         if (rule5_ScienceCard(inventory, cardsBuildable)) return chosenCard;
-
-        // In the third game age, the set of rules is superseded by choosing the decision with best immediate VP reward.
-        if (ruleAge3(inventory, cardsBuildable)) return chosenCard;
 
         // RULE 2 - a card providing a single resource type that is lacking
         // On compile toutes les ressources détenues possibles et on cherche s'il y en a une à 0
@@ -66,6 +64,8 @@ public class RuleBasedAI implements PlayingStrategy {
         // RULE 1 - a card providing 2 or more resource types
         // On retire toutes les cartes qui ne sont pas constructibles gratuitement ou avec les ressources disponibles
         if (rule1_MultipleResourcesGranted(cardsBuildable)) return chosenCard;
+
+        if (buildStepIfPossible(inventory)) return chosenCard;
 
         // RULE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsBuildable.isEmpty()) {
