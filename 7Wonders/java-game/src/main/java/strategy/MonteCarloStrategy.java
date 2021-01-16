@@ -21,7 +21,15 @@ public class MonteCarloStrategy implements PlayingStrategy {
 
     int DEPTH = 100;
     boolean ALL_AGES_CALCULATED = true;
-    boolean CHOOSE_BY_SCORE = false;
+    boolean CHOOSE_BY_SCORE = true;
+
+    public MonteCarloStrategy(boolean score){
+        CHOOSE_BY_SCORE = score;
+    }
+
+    public MonteCarloStrategy(){
+        CHOOSE_BY_SCORE = true;
+    }
 
     @Override
     public PlayingStrategy copy() {

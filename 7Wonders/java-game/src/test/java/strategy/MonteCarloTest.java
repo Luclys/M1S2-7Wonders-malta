@@ -36,7 +36,7 @@ class MonteCarloTest {
     @Test
     void chooseCardTest() throws Exception {
         Player p = board.getPlayerList().get(2);
-        p.setStrategy(new MonteCarloStrategy());
+        p.setStrategy(new MonteCarloStrategy(true));
         board.play(1);
 
         assertEquals(0,board.getPlayerInventoryList().get(2).getCardsInHand().size() );
