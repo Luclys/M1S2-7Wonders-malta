@@ -107,26 +107,6 @@ class BoardTest {
         assertTrue(board.isLeftRotation());
     }
 
-    @Disabled
-    @Test
-    void assignWBToPlayersTest() throws Exception {
-        Card card = CardsSet.CHANTIER;
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(card);
-       // assertEquals(14, board.getAvailableWonderBoardList().size());
-        SevenWondersLauncher.startClient();
-        doReturn(Action.SELL).when(player).getAction();
-        doReturn(card).when(player).getChosenCard();
-
-        doReturn(listInv).when(boardMOCK).getPlayerInventoryList();
-        doReturn(0).when(player).getId();
-        doReturn(inv).when(listInv).get(0);
-        doReturn(true).when(inv).canSell(card);
-
-        board.play(boardMOCK.getPlayerInventoryList().size());
-        assertEquals(14 - board.getPlayerInventoryList().size() * 2, board.getAvailableWonderBoardList().size());
-    }
-
     @Test
     void executeActionBUILDFREETest() throws Exception {
         Inventory inv = board.getPlayerInventoryList().get(0);

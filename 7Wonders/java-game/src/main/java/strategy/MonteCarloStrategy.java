@@ -33,10 +33,6 @@ public class MonteCarloStrategy implements PlayingStrategy {
 
     @Override
     public PlayingStrategy copy() {
-      /*  MonteCarloStrategy s = new MonteCarloStrategy();
-        s.chosenCard = this.chosenCard;
-        s.chosenAction = this.chosenAction;
-        return s;*/
         return this;
     }
 
