@@ -3,10 +3,7 @@ package board;
 import client.Client;
 import gameelements.GameLogger;
 import gameelements.Player;
-import strategy.FirstCardStrategy;
-import strategy.RandomStrategy;
-import strategy.WonderStrategy;
-
+import strategy.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,14 +52,13 @@ public class SevenWondersLauncher {
         List<Player> playerList = new ArrayList<>(nbPlayers);
 
         Player player1 = new Player(0, new FirstCardStrategy());
-        Player player2 = new Player(1, new WonderStrategy());
-        Player player3 = new Player(2, new RandomStrategy());
       //  Player player4 = new Player(3, new RuleBasedAI());
         playerList.add(player1);
-        playerList.add(player2);
-        playerList.add(player3);
-      //  playerList.add(player4);
 
+        Player player2 = new Player(playerList.size(), new MonteCarloStrategy());
+        playerList.add(player2);
+        Player player3 = new Player(playerList.size(), new StupidStrategy());
+        playerList.add(player3);
 
         for (int i = playerList.size(); i < nbPlayers; i++) {
             Player player = new Player(i, new FirstCardStrategy());
@@ -75,5 +71,4 @@ public class SevenWondersLauncher {
         client = new Client("http://127.0.0.1:10101");
         client.start();
     }
-
 }
