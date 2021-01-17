@@ -2,7 +2,6 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gameelements.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -15,7 +14,11 @@ import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
+import statistic.DetailedResults;
+import strategy.FirstCardStrategy;
+import strategy.PlayingStrategy;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,11 +40,48 @@ public class Board {
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    private final GameLogger log;
+    public final GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
     private int jetonVictoryValue;
+    private int currentAge;
+    private int currentTurn;
+
+    public Board(Board b) {
+
+        this.playersManager = new PlayersManager(b.playersManager);
+        this.commerce = b.commerce;
+
+        this.playerList = new ArrayList<>();
+        for (Player p : b.getPlayerList()){
+            this.playerList.add(new Player(p));
+        }
+
+        this.playerInventoryList = new ArrayList<>();
+        for (Inventory n : b.getPlayerInventoryList()){
+            this.playerInventoryList.add(new Inventory(n));
+        }
+
+        this.log = b.log;
+
+        this.discardedDeckCardList = new ArrayList<>();
+        this.discardedDeckCardList.addAll(b.getDiscardedDeckCardList());
+
+        this.cardManager = new CardManager(playerList,playerInventoryList);
+
+        this.availableWonderBoardList = new ArrayList<>();
+        this.availableWonderBoardList.addAll(b.availableWonderBoardList);
+
+
+        this.currentDeckCardList =new ArrayList<>();
+        for (Card c : b.getCurrentDeckCardList()) this.currentDeckCardList.add(c);
+
+        this.isLeftRotation = b.isLeftRotation;
+        this.jetonVictoryValue = b.jetonVictoryValue;
+        this.currentAge = b.currentAge;
+        this.currentTurn = b.currentTurn;
+    }
 
     /**
      * the constructor allows
@@ -62,6 +102,8 @@ public class Board {
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
         availableWonderBoardList = WonderBoard.initiateWonders();
+        this.currentAge = 1;
+        this.currentTurn = 0;
     }
 
     static void denseRanking(List<Inventory> playerInventoryList) {
@@ -107,26 +149,26 @@ public class Board {
      *
      * @param nbPlay
      */
-
-    public void play(int nbPlay) throws JsonProcessingException {
+    public int play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
-        for (int age = 1; age <= AGES; age++) {
-            ageSetUp(age);
-            log.beginningOfAge(age);
+        for ( currentAge = 1; currentAge <= AGES; currentAge++) {
+            ageSetUp(currentAge);
+            log.beginningOfAge(currentAge);
+
             // Card dealing & resetting possibleFreeBuildingsCount
             for (Inventory inventory : playerInventoryList) {
                 inventory.setCardsInHand(drawCards(CARDS_NUMBER));
                 if (inventory.getPossibleFreeBuildings() == -1) inventory.setPossibleFreeBuildings(1);
             }
-
-            for (int currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
+            for ( currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 log.newTurn(currentTurn + 1);
                 log.play();
 
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
-                    p.chooseCard(new Inventory(playerInventoryList.get(p.getId())));
+                    p.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
+                    p.chooseCard(playerInventoryList.get(p.getId()),this);
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
 
@@ -134,22 +176,37 @@ public class Board {
                 for (int i = 0; i < getPlayerList().size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
                 }
-
-                playersManager.updateCoins();
-                playersManager.freeBuildFromDiscarded(discardedDeckCardList);
-
-                getCardManager().playersCardsRotation(isLeftRotation());
+                endOfTurn();
             }
-            handleLastTurnCard();
-            resolveWarConflict(getJetonVictoryValue());
-            log.endOfAge(age);
+            endOfAge();
+            log.endOfAge(currentAge);
         }
 
+        endOfGame();
+        retrieveResults();
+        for (int i = 0; i < playerInventoryList.size(); i++) {
+            if (playerInventoryList.get(i).getRank() == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void endOfAge() throws Exception {
+        handleLastTurnCard();
+        resolveWarConflict(getJetonVictoryValue());
+    }
+    public void endOfTurn(){
+
+        playersManager.updateCoins();
+        playersManager.freeBuildFromDiscarded(discardedDeckCardList);
+        getCardManager().playersCardsRotation(isLeftRotation());
+    }
+
+    public void endOfGame(){
         scores();
         denseRanking(playerInventoryList);
         updateLastDetailedResultsValues();
-        log.finalGameRanking(playerInventoryList);
-        retrieveResults();
     }
 
     private void retrieveResults() throws JsonProcessingException {
@@ -179,7 +236,7 @@ public class Board {
      * this method checks if it the end on the age so that the last cards in the hands of
      * the players can be discard
      */
-    void handleLastTurnCard() {
+    void handleLastTurnCard() throws Exception {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
         for (Inventory inv : getPlayerInventoryList()) {
@@ -187,8 +244,11 @@ public class Board {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 Player player = playerList.get(inv.getPlayerId());
-                player.chooseCard(new Inventory(inv));
+                PlayingStrategy s = player.getStrategy();
+                player.setStrategy(new FirstCardStrategy());
+                player.chooseCard(new Inventory(inv),this);
                 executePlayerAction(inv, player);
+                player.setStrategy(s);
             }
         }
     }
@@ -196,8 +256,9 @@ public class Board {
     /**
      * this method allows to associate the wonder boards to the players
      */
-    private void assignWBToPlayers() {
-        Random r = new Random();
+    private void assignWBToPlayers() throws Exception {
+        Random r = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
+
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Player player = playerList.get(i);
             Inventory inv = playerInventoryList.get(i);
@@ -222,18 +283,14 @@ public class Board {
      * @param inv
      * @param player
      */
-    protected void executePlayerAction(Inventory inv, Player player) {
+    public void executePlayerAction(Inventory inv, Player player) throws Exception {
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
-
-        log.action(player.getId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
                 if (nbFreeBuildings > 0) {
                     buildCard(inv, chosenCard, player);
-                    log.playerBuildCardFreeBuildingEffect(player.getId(), chosenCard);
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
@@ -241,7 +298,6 @@ public class Board {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
-                    log.playerCanBuildCardForFree(player.getId(), chosenCard, inv.getPlayedCardNamesByIds(chosenCard.getRequiredBuildingsToBuildForFree()));
                     buildCard(inv, chosenCard, player);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources)) {
@@ -275,8 +331,6 @@ public class Board {
                 initSellCard(inv, chosenCard);
                 break;
         }
-        log.playersNewState(inv.getPlayerId());
-        log.playerInformation(playerInventoryList.get(player.getId()));
     }
 
 
@@ -325,7 +379,7 @@ public class Board {
      * @param chosenCard
      * @param player
      */
-    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) {
+    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
         wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
@@ -338,12 +392,11 @@ public class Board {
      * @param trueInv
      * @param chosenCard
      */
-    private void initSellCard(Inventory trueInv, Card chosenCard) {
+    private void initSellCard(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
-
 
     /**
      * this method allows to resolve the war conflict between a players and their neighbors
@@ -360,7 +413,7 @@ public class Board {
         }
     }
 
-    List<Card> drawCards(int nbCards) {
+    public List<Card> drawCards(int nbCards) {
         List<Card> playerDeck = new ArrayList<>(currentDeckCardList.subList(0, nbCards));
         this.currentDeckCardList = this.currentDeckCardList.subList(nbCards, currentDeckCardList.size());
         return playerDeck;
@@ -376,39 +429,73 @@ public class Board {
          * */
         for (Inventory inv : playerInventoryList) {
             int scoreBefore = inv.getScore();
-            // End Game Effects (guilds buildings)
+
             Player player = playerList.get(inv.getPlayerId());
             Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
             Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
-            inv.getEndGameEffects().forEach(effect -> effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true));
+
+            // End Game Effects (guilds buildings)
+            for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
+                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+            }
+
             int guildScore = inv.getScore() - scoreBefore;
             inv.getDetailedResults().setScoreFromGuilds(guildScore);
 
-            // Sum of Conflict Points
-            inv.addScore(inv.getVictoryChipsScore() - inv.getDefeatChipsCount());
-
-            // (Sum coins / 3) -> each 3 coins grant 1 score point
-            int scoreEGCoins = inv.getCoins() / 3;
-            inv.addScore(scoreEGCoins);
-            inv.getDetailedResults().setScoreFromEndGameCoins(scoreEGCoins);
-
-            scoreBefore = inv.getScore();
-            //foreach(nb same Scientific²) + min(nb same scientific) * 7
-            List<Integer> list = new ArrayList<>();
-            list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
-            list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
-            list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
-
-            int nbSameScientific = Collections.min(list);
-
-            list.forEach(integer -> inv.addScore(integer * integer));
-            inv.addScore(nbSameScientific * 7);
-            int scientificScore = inv.getScore() - scoreBefore;
-            inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
-
+            inv.addScore(computeScore(inv));
             log.playerInformation(inv);
         }
     }
+
+    public int computeScore(Inventory inv) {
+        int scoreToAdd = 0;
+
+        // Sum of Conflict Points
+        int conflictScore = inv.getVictoryChipsScore() - inv.getDefeatChipsCount();
+        scoreToAdd += conflictScore;
+
+        // (Sum coins / 3) -> each 3 coins grant 1 score point
+        int scoreEGCoins = inv.getCoins() / 3;
+        scoreToAdd += scoreEGCoins;
+
+        //foreach(nb same Scientific²) + min(nb same scientific) * 7
+        List<Integer> list = new ArrayList<>();
+        list.add(inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()]);
+        list.add(inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()]);
+        list.add(inv.getAvailableSymbols()[Symbol.STELE.getIndex()]);
+        int nbSameScientific = Collections.min(list);
+
+        int scientificScore = nbSameScientific * 7;
+        scientificScore += list.stream().mapToInt(integer -> (integer * integer)).sum();
+        scoreToAdd += scientificScore;
+
+        inv.getDetailedResults().setScoreFromEndGameCoins(scoreEGCoins);
+        inv.getDetailedResults().setScoreFromScientificBuildings(scientificScore);
+
+        return scoreToAdd;
+    }
+
+    public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
+        // On fait une copie de l'inventaire
+        Inventory fakeInv = new Inventory(inventaire);
+        Player player = playerList.get(fakeInv.getPlayerId());
+        Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
+        Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+
+
+        player.getStrategy().setAction(Action.BUILDING);
+        player.getStrategy().setCard(card);
+        executePlayerAction(fakeInv, player);
+
+        if (isEndGame) {
+            for (int i = 0; i < fakeInv.getEndGameEffects().size(); i++) {
+                fakeInv.getEndGameEffects().get(i).activateEffect(player, fakeInv, leftNeighborInv, rightNeighborInv, true);
+            }
+        }
+
+        return computeScore(fakeInv);
+    }
+
 
     // GETTERS & SETTERS
     public PlayersManager getManager() {
@@ -449,5 +536,13 @@ public class Board {
 
     public List<WonderBoard> getAvailableWonderBoardList() {
         return availableWonderBoardList;
+    }
+
+    public int getCurrentAge() {
+        return currentAge;
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
     }
 }

@@ -1,6 +1,7 @@
 package board;
 
-import gameelements.DetailedResults;
+
+import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersManager {
-    private final GameLogger log;
+
     List<Player> playerList;
     List<Inventory> playerInventoryList;
+
+    GameLogger log;
 
     public PlayersManager(GameLogger logger) {
         this.log = logger;
@@ -23,6 +26,14 @@ public class PlayersManager {
         this.log = new GameLogger(false);
         playerList = new ArrayList<>();
         playerInventoryList = new ArrayList<>();
+    }
+
+    public PlayersManager(PlayersManager playersManager) {
+        this.log = new GameLogger(false);
+        this.playerList = new ArrayList<>();
+        this.playerList.addAll(playersManager.playerList);
+        this.playerInventoryList = new ArrayList<>();
+        this.playerInventoryList.addAll(playersManager.playerInventoryList);
     }
 
     protected void updateCoins() {
@@ -36,14 +47,16 @@ public class PlayersManager {
 
     protected void freeBuildFromDiscarded(List<Card> discardedDeckCardList) {
         for (Inventory inv : playerInventoryList) {
+            log.playerInformation(inv);
             if (discardedDeckCardList.isEmpty()) {
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
                 Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
-                inv.updateInventory(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()));
+                inv.updateInventoryFreeCard(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()), discardedDeckCardList);
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
+                log.playerBuildsFreeCardFromDiscarded(player.getId(), card);
             }
         }
     }
