@@ -1,6 +1,6 @@
 ![](7w_logo.png)
 
-![Java CI with Maven](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
+![Java CI with Maven](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/workflows/Java%20CI%20with%20Maven/badge.svg?branch=main)
 
 # UE Gestion de projet
 ## M1-S1-7W-MALTA
