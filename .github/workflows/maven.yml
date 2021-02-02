@@ -7,10 +7,35 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: Running compil
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Compile code
+      run: 
+        cd ./7Wonders
+        mvn compile
+  test:
+    runs-on: ubuntu-latest
+    name: Running tests
+    needs: compile
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Run unit tests
+        run: mvn test
   build:
     runs-on: ubuntu-latest
-
-
+    name: Run mvn build and generate coverage report
+    needs: test
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -18,6 +43,17 @@ jobs:
         with:
           java-version: 11
       - name: Build with Maven
-        run: |
+        run: 
           cd ./7Wonders
-          mvn -B package --file pom.xml
+          mvn -B package --file pom.xml -Dmaven.test.skip=true
+      - name: generate report codecov
+        run: 
+          cd ./7Wonders
+          mvn cobertura:cobertura
+      - name: Upload coverage
+        if: success()
+        run: |
+          curl -s https://codecov.io/bash | bash
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        shell: bash
