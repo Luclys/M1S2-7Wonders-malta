@@ -1,13 +1,31 @@
 ![](7w_logo.png)
 
-### Team members
-- **L**oïc Filippi
-- **A**lessandro Pepegna
+![Java CI with Maven](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
+
+# UE Gestion de projet
+## M1-S1-7W-MALTA
+
+## 🏫 Groupe MALTA
+
 - **M**eryem Boufalah
 - **A**nastasiia Kozlova
-- **C**haeyeon Shim
+- **L**oïc Filippi
+- **T**igran Nersissian
+- **A**lessandro Pepegna
 
-# Travail d'étude et de recherche
+
+## [⚙️ Milestones](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestones)
+
+| Iteration | Date |
+| --- | --- |
+| ❌ [Iteration 0](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/1) | *09/02/2021* | 
+| ❌ [Iteration 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/2)| *19/03/2021* |
+
+## 🗂 Documentation
+[Documentation Folder](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/tree/main/Documentation)
+
+## 🚀 Releases
+[Lien direct](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/releases)
 
 ## Defining the two AIs and the rules of the game
 
