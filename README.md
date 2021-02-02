@@ -19,7 +19,8 @@
 | Iteration | Date |
 | --- | --- |
 | ❌ [Iteration 0](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/1) | *09/02/2021* | 
-| ❌ [Iteration 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/2)| *19/03/2021* |
+| ❌ [Iteration 1](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/3)| *24/02/2021* |
+| ❌ [Iteration 2](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/milestone/2)| *19/03/2021* |
 
 ## 🗂 Documentation
 [Documentation Folder](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/tree/main/Documentation)
