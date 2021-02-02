@@ -16,4 +16,5 @@ before_install:
 - sudo mv docker-compose /usr/local/bin
 
 install:
-  - mvn clean package
+  - cd ./7Wonders | mvn clean package
+  - cd ./7Wonders | mvn test
