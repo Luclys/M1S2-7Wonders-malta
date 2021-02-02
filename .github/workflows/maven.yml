@@ -36,7 +36,7 @@ jobs:
           mvn test
   build:
     runs-on: ubuntu-latest
-    name: Run mvn build and generate coverage report
+    name: Run mvn build
     needs: test
     steps:
       - uses: actions/checkout@v2
@@ -48,14 +48,3 @@ jobs:
         run: |
           cd ./7Wonders
           mvn -B package --file pom.xml -Dmaven.test.skip=true
-      - name: generate report codecov
-        run: |
-          cd ./7Wonders
-          mvn cobertura:cobertura
-      - name: Upload coverage
-        if: success()
-        run: |
-          curl -s https://codecov.io/bash | bash
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        shell: bash
