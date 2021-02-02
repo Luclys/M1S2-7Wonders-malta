@@ -31,7 +31,9 @@ jobs:
         with:
           java-version: 11
       - name: Run unit tests
-        run: mvn test
+        run: |
+          cd ./7Wonders
+          mvn test
   build:
     runs-on: ubuntu-latest
     name: Run mvn build and generate coverage report
