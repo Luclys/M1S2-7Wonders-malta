@@ -2,22 +2,7 @@ language: java
 
 jdk:
   - openjdk11
-
-sudo: required
-
-env:
-  global:
-    - DOCKER_COMPOSE_VERSION: 1.25.3
-
-services:
-  - docker
-
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
+  
 install:
   - cd ./7Wonders | mvn clean package
   - cd ./7Wonders | mvn test
