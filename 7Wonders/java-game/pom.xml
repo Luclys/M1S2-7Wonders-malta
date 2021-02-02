@@ -114,11 +114,6 @@
                 </executions>
                 <configuration>
                     <mainClass>board.SevenWondersLauncher</mainClass>
-                    <arguments>
-                        <argument>3</argument><!--Nb Players-->
-                        <argument>1</argument><!--Nb Games-->
-                        <argument>true</argument><!--Boolean print outputs-->
-                    </arguments>
                 </configuration>
             </plugin>
 
