@@ -21,3 +21,7 @@ before_install:
 install:
   - cd ./7Wonders | mvn clean package
   - cd ./7Wonders | mvn test
+
+cache:
+  directories:
+  - $HOME/.m2
