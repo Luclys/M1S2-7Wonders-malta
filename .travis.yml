@@ -6,7 +6,8 @@ jdk:
 install:
   - cd ./7Wonders
   - mvn test -DskipTests
-
+  - cd ./java-engine
+  - mvn exec:java@stats3p
 cache:
   directories:
     - $HOME/.m2
