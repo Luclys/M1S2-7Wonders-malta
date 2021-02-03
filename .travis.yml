@@ -4,7 +4,7 @@ jdk:
   - openjdk11
   
 install:
-  - cd ./7Wonders | mvn test -DskipTests
+  - mvn test -DskipTests
 
 cache:
   directories:
