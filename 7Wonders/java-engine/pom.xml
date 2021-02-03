@@ -10,6 +10,109 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>java-engine</artifactId>
+
+
+
+    <build>
+        <sourceDirectory>src/main/java
+        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <testSourceDirectory>src/test/java
+        </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <!--EXECUTIONS FOR ONE SINGLE GAME FOR 3, 5, 7 PLAYERS-->
+                    <execution>
+                        <id>game3p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>3</argument><!--Nb Players-->
+                                <argument>1</argument><!--Nb Games-->
+                                <argument>true</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>game5p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>5</argument><!--Nb Players-->
+                                <argument>1</argument><!--Nb Games-->
+                                <argument>true</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>game7p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>7</argument><!--Nb Players-->
+                                <argument>1</argument><!--Nb Games-->
+                                <argument>true</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <!--EXECUTIONS FOR 1.000 GAME FOR 3, 5, 7 PLAYERS-->
+                    <execution>
+                        <id>stats3p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>3</argument><!--Nb Players-->
+                                <argument>1000</argument><!--Nb Games-->
+                                <argument>false</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stats5p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>5</argument><!--Nb Players-->
+                                <argument>1000</argument><!--Nb Games-->
+                                <argument>false</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stats7p</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>7</argument><!--Nb Players-->
+                                <argument>1000</argument><!--Nb Games-->
+                                <argument>false</argument><!--Boolean print outputs-->
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>board.SevenWondersLauncher</mainClass>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>Lamac</groupId>
