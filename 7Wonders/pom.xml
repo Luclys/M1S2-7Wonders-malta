@@ -13,6 +13,8 @@
         <module>java-game</module>
         <module>java-common</module>
         <module>report</module>
+        <module>java-player</module>
+        <module>java-engine</module>
     </modules>
     <packaging>pom</packaging>
 

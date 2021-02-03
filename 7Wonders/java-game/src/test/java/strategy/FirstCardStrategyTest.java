@@ -1,24 +1,16 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.enums.Action;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
 class FirstCardStrategyTest {
-
-    @Mock
-    Board board;
 
     @Test
     void chooseCardTest() {

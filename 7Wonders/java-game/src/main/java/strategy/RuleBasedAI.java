@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
@@ -93,7 +92,8 @@ public class RuleBasedAI implements PlayingStrategy {
     }
 
     private Card getBestCardScoreFromList(Inventory inventory, ArrayList<Card> cardArrayList) throws Exception {
-        boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
+        //boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
+        boolean isEndGame = false;
         Card bestCard = cardArrayList.get(0);
         int bestScore = 0;
 

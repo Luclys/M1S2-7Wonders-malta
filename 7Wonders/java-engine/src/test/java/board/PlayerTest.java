@@ -32,9 +32,9 @@ class PlayerTest {
         cards.add(CardsSet.BIBLIOTHEQUE);
         cards.add(CardsSet.THEATRE);
         inv.setCardsInHand(cards);
-        assertEquals(CardsSet.BIBLIOTHEQUE, player.chooseCard(inv,board));
+        assertEquals(CardsSet.BIBLIOTHEQUE, player.chooseCard(inv));
         inv.updateInventory(CardsSet.BIBLIOTHEQUE, player, playerRightNeighbor, playerLeftNeighbor);
-        assertEquals(CardsSet.THEATRE, player.chooseCard(inv,board));
+        assertEquals(CardsSet.THEATRE, player.chooseCard(inv));
     }
 
 }

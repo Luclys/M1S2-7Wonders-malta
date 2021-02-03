@@ -1,4 +1,4 @@
-package board;
+package gameelements;
 
 import gameelements.Player;
 import gameelements.ages.Age;
@@ -16,7 +16,6 @@ class AgesTest {
 
     Age age;
     private int playersCount;
-    private Board board;
     private List<Player> playerList;
 
     @Test

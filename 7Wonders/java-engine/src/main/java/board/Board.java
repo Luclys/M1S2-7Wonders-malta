@@ -2,9 +2,9 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.Player;
+import gameelements.*;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -17,6 +17,7 @@ import gameelements.wonders.WonderBoard;
 import statistic.DetailedResults;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
+
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class Board {
                 // Each player plays a card on each turn
                 for (Player p : playerList) {
                     p.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
-                    p.chooseCard(playerInventoryList.get(p.getId()),this);
+                    p.chooseCard(playerInventoryList.get(p.getId()));
                     log.chosenCards(p.getId(), p.getChosenCard());
                 }
 
@@ -246,7 +247,7 @@ public class Board {
                 Player player = playerList.get(inv.getPlayerId());
                 PlayingStrategy s = player.getStrategy();
                 player.setStrategy(new FirstCardStrategy());
-                player.chooseCard(new Inventory(inv),this);
+                player.chooseCard(new Inventory(inv));
                 executePlayerAction(inv, player);
                 player.setStrategy(s);
             }

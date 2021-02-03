@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
@@ -24,7 +23,6 @@ class WonderStrategyTest {
     Inventory inv;
     WonderStrategy strategy;
     ArrayList<Card> cards;
-    Board board;
 
     @BeforeEach
     void setUp() {

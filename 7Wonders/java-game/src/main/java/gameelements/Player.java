@@ -1,6 +1,5 @@
 package gameelements;
 
-import board.Board;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
 import gameelements.enums.Symbol;
@@ -48,7 +47,7 @@ public class Player {
      * @param inv
      * @return chosen card
      */
-    public Card chooseCard(Inventory inv, Board b) throws Exception {
+    public Card chooseCard(Inventory inv) throws Exception {
         strategy.chooseCard(inv);
         return strategy.getCard();
     }
