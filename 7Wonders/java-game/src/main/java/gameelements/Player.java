@@ -49,7 +49,7 @@ public class Player {
      * @return chosen card
      */
     public Card chooseCard(Inventory inv, Board b) throws Exception {
-        strategy.chooseCard(inv, b);
+        strategy.chooseCard(inv);
         return strategy.getCard();
     }
 

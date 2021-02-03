@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -36,7 +35,7 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     @Override
-    public Card chooseCard(Inventory inv, Board b) {
+    public Card chooseCard(Inventory inv) {
         return chooseCardToBuildStep(inv);
     }
 

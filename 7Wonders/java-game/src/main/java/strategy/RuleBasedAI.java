@@ -25,12 +25,9 @@ public class RuleBasedAI implements PlayingStrategy {
     private int leftNeighborId;
     private int currentTurn;
 
-    Board board;
-
     @Override
-    public Card chooseCard(Inventory inventory, Board board) throws Exception {
+    public Card chooseCard(Inventory inventory) throws Exception {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
-        this.board = board;
 
         // RULE 6 (Partie 1) - a random remaining card is played if possible
         if (cardsAvailable.isEmpty()) {
@@ -101,7 +98,9 @@ public class RuleBasedAI implements PlayingStrategy {
         int bestScore = 0;
 
         for (Card card : cardArrayList) {
-            int currentScore = board.computeScoreWithAddingCard(inventory, card, isEndGame);
+            // TODO On enlève la dépendance sur Board
+            //int currentScore = board.computeScoreWithAddingCard(inventory, card, isEndGame);
+            int currentScore = 22;
             if (currentScore > bestScore) {
                 bestCard = card;
                 bestScore = currentScore;

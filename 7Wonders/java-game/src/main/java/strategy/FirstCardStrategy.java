@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -43,7 +42,7 @@ public class FirstCardStrategy implements PlayingStrategy {
      * @return Card chosen card according to which action the player can use
      */
     @Override
-    public Card chooseCard(Inventory inv, Board b) {
+    public Card chooseCard(Inventory inv) {
         this.action = Action.BUILDING;
 
         ArrayList<Card> available = cardsAvailableToPlay(inv);

@@ -28,11 +28,11 @@ class FirstCardStrategyTest {
         cards.add(CardsSet.CHANTIER);
         inv.setCardsInHand(cards);
         FirstCardStrategy strategy = new FirstCardStrategy();
-        assertEquals(CardsSet.HOTEL_DE_VILLE, strategy.chooseCard(inv,board));
+        assertEquals(CardsSet.HOTEL_DE_VILLE, strategy.chooseCard(inv));
         assertEquals(Action.BUILDING, strategy.getAction());
         inv.setPlayedCards(cards);
         inv.getCardsInHand().remove(1);
-        assertEquals(CardsSet.HOTEL_DE_VILLE, strategy.chooseCard(inv,board));
+        assertEquals(CardsSet.HOTEL_DE_VILLE, strategy.chooseCard(inv));
         assertEquals(Action.SELL, strategy.getAction());
     }
 }

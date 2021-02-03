@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -14,7 +13,7 @@ public class RandomStrategy implements PlayingStrategy {
     Card chosenCard;
 
     @Override
-    public Card chooseCard(Inventory inventory, Board b) throws Exception {
+    public Card chooseCard(Inventory inventory) throws Exception {
         Random r1 = new SecureRandom();
         ArrayList<Card> listCard = cardsAvailableToPlay(inventory);
         if(!listCard.isEmpty()){

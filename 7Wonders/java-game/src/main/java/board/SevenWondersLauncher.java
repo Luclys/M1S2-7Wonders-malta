@@ -56,9 +56,9 @@ public class SevenWondersLauncher {
 
         Player player1 = new Player(playerList.size(), new RuleBasedAI());
         playerList.add(player1);
-        Player player2 = new Player(playerList.size(), new MonteCarloStrategy(true));
+        Player player2 = new Player(playerList.size(), new RuleBasedAI());
         playerList.add(player2);
-        Player player3 = new Player(playerList.size(), new MonteCarloStrategy(false));
+        Player player3 = new Player(playerList.size(), new RuleBasedAI());
         playerList.add(player3);
 
 

@@ -1,6 +1,5 @@
 package strategy;
 
-import board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
  * @author lamac
  */
 public interface PlayingStrategy {
-    Card chooseCard(Inventory inventory, Board b) throws Exception;
+    Card chooseCard(Inventory inventory) throws Exception;
 
     Action getAction();
     Card getCard();

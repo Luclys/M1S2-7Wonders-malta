@@ -41,21 +41,21 @@ class WonderStrategyTest {
     @Test
     void chooseCardWonderTest() {
         doReturn(true).when(inv).canBuildNextStep(any());
-        strategy.chooseCard(inv,board);
+        strategy.chooseCard(inv);
         assertEquals(Action.WONDER, strategy.getAction());
         doReturn(false).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
-        strategy.chooseCard(inv,board);
+        strategy.chooseCard(inv);
         assertEquals(Action.WONDER, strategy.getAction());
     }
 
     @Test
     void chooseCardBuildingTest() {
         doReturn(false).when(inv).canBuild(any());
-        strategy.chooseCard(inv,board);
+        strategy.chooseCard(inv);
         assertEquals(Action.BUILDING, strategy.getAction());
 
         doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
-        strategy.chooseCard(inv,board);
+        strategy.chooseCard(inv);
         assertEquals(Action.BUILDING, strategy.getAction());
     }
 
@@ -65,7 +65,7 @@ class WonderStrategyTest {
         doReturn(false).when(inv).canBuildNextStep(any());
         // doReturn(true).when(inv).canBuild(CardsSet.HOTEL_DE_VILLE.getRequiredResources());
         doReturn(cards).when(inv).getPlayedCards();
-        strategy.chooseCard(inv,board);
+        strategy.chooseCard(inv);
         assertEquals(Action.SELL, strategy.getAction());
     }
 
@@ -74,12 +74,12 @@ class WonderStrategyTest {
 
         doReturn(1).when(inv).getPossibleFreeBuildings();
         doReturn(false).when(inv).canBuild(any());
-        strategy.chooseCard(inv, board);
+        strategy.chooseCard(inv);
         assertEquals(Action.BUILDING, strategy.getAction());
 
         Resource[] r = inv.getCardsInHand().get(0).getRequiredResources();
         doReturn(true).when(inv).canBuild(r);
-        strategy.chooseCard(inv, board);
+        strategy.chooseCard(inv);
         assertEquals(Action.BUILDFREE, strategy.getAction());
 
     }
