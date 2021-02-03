@@ -4,9 +4,8 @@ jdk:
   - openjdk11
   
 install:
-  script:
-    - cd ./7Wonders
-    - mvn test -DskipTests
+  - cd ./7Wonders
+  - mvn test -DskipTests
 
 cache:
   directories:
