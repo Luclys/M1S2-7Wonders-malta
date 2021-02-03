@@ -5,7 +5,8 @@ jdk:
   
 install:
   - cd ./7Wonders
-  - mvn test -DskipTests
+  - mvn clean
+  - mvn install
   - cd ./java-engine
   - mvn exec:java@stats3p
 cache:
