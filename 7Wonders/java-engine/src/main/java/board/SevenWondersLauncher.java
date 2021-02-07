@@ -49,6 +49,7 @@ public class SevenWondersLauncher {
             System.out.print("[7WONDERS - LAMAC] Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
         }
         client.showStats();
+        System.exit(0);
     }
 
     public static List<Player> fetchPlayers(int nbPlayers) {
