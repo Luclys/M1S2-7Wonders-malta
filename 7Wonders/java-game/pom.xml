@@ -13,6 +13,8 @@
     <artifactId>java-game</artifactId> <!-- et le nom du projet -->
     <version>1</version>
 
+    <packaging>jar</packaging>
+
     <properties>
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml

@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  server:
+    image: malta:server
+    container_name: java-server
+    networks:
+      testing_net:
+        #ipv4_address: 172.28.0.2
+
+#  player:
+#    image: malta:player
+#   container_name: java-player
+#   networks:
+#     testing_net:
+#       ipv4_address: 172.28.0.253
+
+  game:
+    image: malta:game
+    container_name: java-game
+    networks:
+      testing_net:
+       # ipv4_address: 172.28.0.2
+
+  engine:
+    image: malta:engine
+    container_name: java-engine
+    networks:
+      testing_net:
+       # ipv4_address: 172.28.0.2
+
+  common:
+    image: malta:common
+    container_name: java-common
+    networks:
+      testing_net:
+      #  ipv4_address: 172.28.0.2
+
+networks:
+  testing_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16

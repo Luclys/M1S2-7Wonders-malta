@@ -11,7 +11,7 @@
 
     <artifactId>java-engine</artifactId>
 
-
+    <packaging>jar</packaging>
 
     <build>
         <sourceDirectory>src/main/java

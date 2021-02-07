@@ -10,6 +10,8 @@
         <version>1</version>
     </parent>
 
+    <packaging>jar</packaging>
+
     <artifactId>java-common</artifactId> <!-- et le nom du projet -->
     <version>1</version>
 
