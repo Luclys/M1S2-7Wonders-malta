@@ -110,7 +110,7 @@ public class Server {
 
     public static void main(String[] args) {
         Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.1");
+        configuration.setHostname("127.0.0.253");
         configuration.setPort(10101);
 
         Server server = new Server(configuration);
