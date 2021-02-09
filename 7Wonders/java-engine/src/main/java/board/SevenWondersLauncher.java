@@ -2,8 +2,9 @@ package board;
 
 import client.Client;
 import gameelements.GameLogger;
-import gameelements.Player;
-import strategy.*;
+import player.Player;
+import strategy.FirstCardStrategy;
+import strategy.RuleBasedAI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class SevenWondersLauncher {
         }
 
         for (int i = 0; i < winsCount.size(); i++) {
-            System.out.print("[7WONDERS - LAMAC] Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
+            System.out.print("[7WONDERS - LAMAC] player.Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
         }
         client.stop();
         System.exit(0);

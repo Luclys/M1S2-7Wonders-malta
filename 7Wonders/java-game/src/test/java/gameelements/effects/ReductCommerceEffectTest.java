@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.Neighbor;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ReductCommerceEffectTest {
-    Player player;
     Inventory inv;
     Inventory leftNeighborInv;
     Inventory rightNeighborInv;
@@ -19,7 +17,6 @@ class ReductCommerceEffectTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
@@ -32,12 +29,12 @@ class ReductCommerceEffectTest {
         int priceRight = inv.getMatieresPremieresPriceRight();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
         //Not end of the game and left neihghbor, primaryRessource
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(1, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(commerceEffect));
     }
 
@@ -48,13 +45,13 @@ class ReductCommerceEffectTest {
         int priceRight = inv.getMatieresPremieresPriceRight();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
         //Not end of the game and left neihghbor, primaryRessource
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(1, inv.getProduitsManifacturesPrice());
         pricemanifacture = inv.getProduitsManifacturesPrice();
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(commerceEffect));
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
     }
@@ -65,12 +62,12 @@ class ReductCommerceEffectTest {
         int priceLeft = inv.getMatieresPremieresPriceLeft();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
         //Not end of the game and left neihghbor, primaryRessource
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(commerceEffect));
     }
 
@@ -79,12 +76,12 @@ class ReductCommerceEffectTest {
         commerceEffect = new ReductCommerceEffect(Neighbor.RIGHT, true);
         int priceLeft = inv.getMatieresPremieresPriceLeft();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
@@ -94,12 +91,12 @@ class ReductCommerceEffectTest {
     void activateEffectEndGamePrimaryRessourcesLeftNeighborTest() {
         int priceRight = inv.getMatieresPremieresPriceRight();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(1, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(1, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
@@ -111,13 +108,13 @@ class ReductCommerceEffectTest {
         int priceLeft = inv.getMatieresPremieresPriceLeft();
         int priceRight = inv.getMatieresPremieresPriceRight();
         int pricemanifacture = inv.getProduitsManifacturesPrice();
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(1, inv.getProduitsManifacturesPrice());
         pricemanifacture = inv.getProduitsManifacturesPrice();
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(priceLeft, inv.getMatieresPremieresPriceLeft());
         assertEquals(priceRight, inv.getMatieresPremieresPriceRight());
         assertEquals(1, inv.getProduitsManifacturesPrice());
@@ -128,12 +125,12 @@ class ReductCommerceEffectTest {
     void activateEffectEndGamePrimaryRessourcesBothNeighborsTest() {
         commerceEffect = new ReductCommerceEffect(Neighbor.BOTH, true);
         int pricemanifacture = inv.getProduitsManifacturesPrice();
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(1, inv.getMatieresPremieresPriceLeft());
         assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());
         commerceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        commerceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        commerceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(1, inv.getMatieresPremieresPriceLeft());
         assertEquals(1, inv.getMatieresPremieresPriceRight());
         assertEquals(pricemanifacture, inv.getProduitsManifacturesPrice());

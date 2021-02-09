@@ -2,9 +2,8 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gameelements.GameLogger;
 import gameelements.Inventory;
-import gameelements.Player;
-import gameelements.*;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
@@ -14,10 +13,10 @@ import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
+import player.Player;
 import statistic.DetailedResults;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
-
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -266,7 +265,7 @@ public class Board {
 
             int random = r.nextInt(availableWonderBoardList.size());
             WonderBoard chosenWB = availableWonderBoardList.get(random);
-            chosenWB.claimBoard(player, inv);
+            chosenWB.claimBoard(inv);
 
             int index = availableWonderBoardList.indexOf(chosenWB);
             int otherFaceIndex = chosenWB.getName().endsWith("A") ? index + 1 : index - 1;
@@ -368,7 +367,7 @@ public class Board {
     private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
         if (chosenCard != null) {
             log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
-            trueInv.updateInventory(chosenCard, player, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+            trueInv.updateInventory(chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
         }
     }
 
@@ -383,7 +382,7 @@ public class Board {
     private void buildWonder(Inventory trueInv, Card chosenCard, Player player) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
-        wonder.buyNextStep(player, chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        wonder.buyNextStep(chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
     }
 
 
@@ -437,7 +436,7 @@ public class Board {
 
             // End Game Effects (guilds buildings)
             for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
-                inv.getEndGameEffects().get(i).activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+                inv.getEndGameEffects().get(i).activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
             }
 
             int guildScore = inv.getScore() - scoreBefore;
@@ -490,7 +489,7 @@ public class Board {
 
         if (isEndGame) {
             for (int i = 0; i < fakeInv.getEndGameEffects().size(); i++) {
-                fakeInv.getEndGameEffects().get(i).activateEffect(player, fakeInv, leftNeighborInv, rightNeighborInv, true);
+                fakeInv.getEndGameEffects().get(i).activateEffect(fakeInv, leftNeighborInv, rightNeighborInv, true);
             }
         }
 

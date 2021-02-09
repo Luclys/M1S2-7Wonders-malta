@@ -1,18 +1,16 @@
-package board;
+package player;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import strategy.FirstCardStrategy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class PlayerTest {
@@ -20,7 +18,6 @@ class PlayerTest {
     final List<Card> cards = new ArrayList<>(7);
     private Player player;
     private Inventory inv, playerRightNeighbor, playerLeftNeighbor;
-    private Board board;
 
     @Test
     void chooseCardTest() throws Exception {
@@ -33,7 +30,7 @@ class PlayerTest {
         cards.add(CardsSet.THEATRE);
         inv.setCardsInHand(cards);
         assertEquals(CardsSet.BIBLIOTHEQUE, player.chooseCard(inv));
-        inv.updateInventory(CardsSet.BIBLIOTHEQUE, player, playerRightNeighbor, playerLeftNeighbor);
+        inv.updateInventory(CardsSet.BIBLIOTHEQUE, playerRightNeighbor, playerLeftNeighbor);
         assertEquals(CardsSet.THEATRE, player.chooseCard(inv));
     }
 

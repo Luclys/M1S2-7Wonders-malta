@@ -1,7 +1,6 @@
 package board;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.effects.ResourceEffect;
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ class BoardTest {
     void setUp() {
         playerList = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-            //Player player = new Player(i, new WonderStrategy());
+            //player.Player player = new player.Player(i, new WonderStrategy());
             playerList.add(player);
         }
         board = new Board(playerList, false);
@@ -75,23 +75,23 @@ class BoardTest {
         listSteps.add(new Step(null, new SymbolEffect(Symbol.STELE, 1)));
         WonderBoard TESTBOARD = new WonderBoard("TEST", new ResourceEffect(Resource.BOIS, 1), listSteps);
 
-        TESTBOARD.claimBoard(player, inv);
+        TESTBOARD.claimBoard(inv);
 
         assertEquals(1, inv.getResCount(Resource.BOIS));
 
         // We claim a test Board, then test if when buying a step, we get the resource.
         Card card = CardsSet.CHANTIER;
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
 
         assertEquals(2, inv.getResCount(Resource.BOIS));
 
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
         assertEquals(2, inv.getResCount(Resource.PIERRE));
 
-        TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
         assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
-        Assertions.assertThrows(Exception.class, () -> TESTBOARD.buyNextStep(player, card, leftNeighborInv, rightNeighborInv));
+        Assertions.assertThrows(Exception.class, () -> TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv));
     }
 
     @Test

@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.Resource;
 
@@ -16,7 +15,7 @@ public class ResourceEffect extends Effect {
     }
 
     @Override
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+    public void activateEffect(Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
         if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
             inv.addEndGameEffect(this);
             return;

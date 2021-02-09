@@ -1,7 +1,6 @@
 package gameelements.wonders;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.effects.Effect;
 import gameelements.enums.Resource;
@@ -22,12 +21,12 @@ public class Step {
         this.effects = new Effect[]{effect};
     }
 
-    void build(Player player, Inventory inv, Card sacrifice, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+    void build(Inventory inv, Card sacrifice, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         this.built = true;
         this.marker = sacrifice;
 
         for (Effect effect : getEffects()) {
-            effect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv);
+            effect.activateEffect(inv, leftNeighborInv, rightNeighborInv);
         }
     }
 

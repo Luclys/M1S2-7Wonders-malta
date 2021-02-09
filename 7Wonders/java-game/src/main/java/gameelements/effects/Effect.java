@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 
 /**
@@ -17,15 +16,15 @@ public abstract class Effect {
     }
 
     // Needed : 2 neighbors, and Player Inventories
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+    public void activateEffect(Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+        activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
     }
 
     public int getConstantlyAddedItem() {
         return 0;
     }
 
-    public abstract void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame);
+    public abstract void activateEffect(Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame);
 
     public EffectDelay getDelay() {
         return delay;

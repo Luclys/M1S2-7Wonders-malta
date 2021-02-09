@@ -2,11 +2,11 @@ package board;
 
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

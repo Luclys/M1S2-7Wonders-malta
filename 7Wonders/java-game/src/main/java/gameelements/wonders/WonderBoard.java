@@ -1,7 +1,6 @@
 package gameelements.wonders;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.effects.*;
 import gameelements.enums.Neighbor;
@@ -152,9 +151,9 @@ public class WonderBoard {
         return res;
     }
 
-    public void buyNextStep(Player player, Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) throws Exception {
+    public void buyNextStep(Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) throws Exception {
         if (currentStepIndex < steps.size()) {
-            steps.get(currentStepIndex).build(player, associatedInv, card, leftNeighborInv, rightNeighborInv);
+            steps.get(currentStepIndex).build(associatedInv, card, leftNeighborInv, rightNeighborInv);
             associatedInv.getCardsInHand().remove(card);
             currentStepIndex++;
         } else {
@@ -178,10 +177,10 @@ public class WonderBoard {
         currentStepIndex = i;
     }
 
-    public void claimBoard(Player player, Inventory inv) throws Exception {
+    public void claimBoard(Inventory inv) throws Exception {
         if (this.associatedInv == null) {
             inv.setWonderBoard(this);
-            this.baseEffect.activateEffect(player, inv, null, null);
+            this.baseEffect.activateEffect(inv, null, null);
             this.associatedInv = inv;
         } else throw new Exception("WonderBoard already claimed.");
     }

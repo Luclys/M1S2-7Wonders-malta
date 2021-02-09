@@ -87,7 +87,7 @@ public class ResourceManager {
     /**
      * Removes required resources which can be chosen from cards with pair of resources for choice
      * and returns all the combinations of the remaining required resources sorted by array size
-     * @param playerInventory Player's inventory
+     * @param playerInventory player.Player's inventory
      * @param requiredResources List of requiredResources
      * @return List<List<Resource>> Returns the list with all the combinations of the remaining required resources sorted by array size
      */

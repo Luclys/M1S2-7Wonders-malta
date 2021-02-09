@@ -4,6 +4,7 @@ import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
+
 import java.util.List;
 
 public class Trade {

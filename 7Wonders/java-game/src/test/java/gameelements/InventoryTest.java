@@ -45,7 +45,7 @@ class InventoryTest {
     void updateInventoryTest() {
         setCards();
         assertEquals(CardsSet.CHANTIER, inventory.getCardsInHand().get(0));
-        inventory.updateInventory(CardsSet.CHANTIER, null, null, null);
+        inventory.updateInventory(CardsSet.CHANTIER, null, null);
         assertEquals(0, inventory.getCardsInHand().size());
         assertEquals(CardsSet.CHANTIER, inventory.getPlayedCards().get(0));
     }

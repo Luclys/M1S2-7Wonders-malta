@@ -67,7 +67,7 @@ public class WonderStrategy implements PlayingStrategy {
 
         if (canBuildStep) {
             setAction(Action.WONDER);
-            //Player picks a card he cannot build
+            //player.Player picks a card he cannot build
             for (Card card : inv.getCardsInHand()) {
                 //We pick the first non-buildable card
                 if (!inv.canBuild(card.getRequiredResources())) {
@@ -78,7 +78,7 @@ public class WonderStrategy implements PlayingStrategy {
         } else {
             ArrayList<Card> availableCards = cardsAvailableToPlay(inv);
 
-            //Player picks a card he can build
+            //player.Player picks a card he can build
             if (availableCards.isEmpty()) {
                 this.action = Action.SELL;
                 chosen = inv.getCardsInHand().get(0);
@@ -99,7 +99,7 @@ public class WonderStrategy implements PlayingStrategy {
 
             setAction(Action.BUILDING);
             for (Card card : availableCards) {
-                //Player picks the first buildable card
+                //player.Player picks the first buildable card
                 if (inv.canBuild(card.getRequiredResources())) {
                     chosen = card;
                     return chosen;

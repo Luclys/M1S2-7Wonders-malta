@@ -1,12 +1,12 @@
 package board;
 
 
-import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
+import player.Player;
+import statistic.DetailedResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class PlayersManager {
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
                 Player player = playerList.get(inv.getPlayerId());
                 Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
-                inv.updateInventoryFreeCard(card, player, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()), discardedDeckCardList);
+                inv.updateInventoryFreeCard(card, playerInventoryList.get(player.getLeftNeighborId()), playerInventoryList.get(player.getRightNeighborId()), discardedDeckCardList);
                 inv.addPossibleFreeDiscardedBuildingsCount(-1);
                 log.playerBuildsFreeCardFromDiscarded(player.getId(), card);
             }

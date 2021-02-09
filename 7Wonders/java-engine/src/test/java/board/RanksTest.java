@@ -1,8 +1,8 @@
 package board;
 
-import statistic.DetailedResults;
 import gameelements.Inventory;
 import org.junit.jupiter.api.Test;
+import statistic.DetailedResults;
 
 import java.util.ArrayList;
 

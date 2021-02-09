@@ -1,5 +1,6 @@
-package gameelements;
+package player;
 
+import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
 import gameelements.enums.Symbol;
@@ -38,7 +39,7 @@ public class Player {
     }
 
     public String toString() {
-        return "Player " + id;
+        return "player.Player " + id;
     }
 
     /**

@@ -1,11 +1,11 @@
 package board;
 
-import statistic.DetailedResults;
 import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import statistic.DetailedResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy resources, but none of the neighbors has it
+     * player.Player tries to buy resources, but none of the neighbors has it
      *
      * @result buyResources must return false and the coins of all players must remain unchanged
      */
@@ -48,7 +48,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy resources, only right neighbor has it and player has enough coins
+     * player.Player tries to buy resources, only right neighbor has it and player has enough coins
      *
      * @result buyResources must return true, player must have less coins, rightNeighbor must have more coins and
      * leftNeighbor's coins are unchanged
@@ -70,7 +70,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy resources,
+     * player.Player tries to buy resources,
      * both neighbors have it and player has enough coins,
      * leftPlayer has less coins than rightPlayer,
      * Matieres Premieres prices are equal
@@ -100,7 +100,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy resources,
+     * player.Player tries to buy resources,
      * both neighbors have it,
      * player has enough coins,
      * leftPlayer and rightPlayer has the same amount of coins,
@@ -131,7 +131,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy resources,
+     * player.Player tries to buy resources,
      * both neighbors have it,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
@@ -161,7 +161,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy 2 identical resources,
+     * player.Player tries to buy 2 identical resources,
      * each neighbor has one,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
@@ -193,7 +193,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy 2 identical resources,
+     * player.Player tries to buy 2 identical resources,
      * each neighbor has one,
      * player has enough coins only for one,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
@@ -224,7 +224,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy 3 resources,
+     * player.Player tries to buy 3 resources,
      * leftNeighbor has first and second, rightNeighbor has second and third,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
@@ -259,7 +259,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy 2 Matieres Premieres and 1 Produit Manifacture,
+     * player.Player tries to buy 2 Matieres Premieres and 1 Produit Manifacture,
      * both neighbors have all resources,
      * player has enough coins,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's
@@ -298,7 +298,7 @@ class TradeTest {
     }
 
     /**
-     * Player tries to buy 2 Matieres Premieres and 1 Produit Manifacture,
+     * player.Player tries to buy 2 Matieres Premieres and 1 Produit Manifacture,
      * both neighbors have all resources,
      * player has enough coins only for Matieres Premieres,
      * rightPlayer's Matieres Premieres price is less than leftPlayer's

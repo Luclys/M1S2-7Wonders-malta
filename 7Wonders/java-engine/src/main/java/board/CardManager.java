@@ -1,9 +1,8 @@
 package board;
 
-import gameelements.GameLogger;
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
+import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

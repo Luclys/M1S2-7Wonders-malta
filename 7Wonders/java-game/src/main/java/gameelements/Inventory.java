@@ -164,24 +164,24 @@ public class Inventory implements Comparable<Object> {
         }
     }
 
-    public void updateInventory(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+    public void updateInventory(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         for (Effect effect : playedCard.getEffects()) {
-            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
+            effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
         cardsInHand.remove(playedCard);
     }
 
-    public void updateInventoryCopyCard(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv) {
+    public void updateInventoryCopyCard(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv) {
         for (Effect effect : playedCard.getEffects()) {
-            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
+            effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
     }
 
-    public void updateInventoryFreeCard(Card playedCard, Player player, Inventory leftNeighborInv, Inventory rightNeighborInv, List<Card> discardedDeckCardList) {
+    public void updateInventoryFreeCard(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv, List<Card> discardedDeckCardList) {
         for (Effect effect : playedCard.getEffects()) {
-            effect.activateEffect(player, this, leftNeighborInv, rightNeighborInv);
+            effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
         discardedDeckCardList.remove(playedCard);

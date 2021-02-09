@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.wonders.WonderBoard;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ScoreForMerveilleEffectTest {
-    Player player;
     Inventory inv;
     Inventory leftNeighborInv;
     Inventory rightNeighborInv;
@@ -20,7 +18,6 @@ class ScoreForMerveilleEffectTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
@@ -30,12 +27,12 @@ class ScoreForMerveilleEffectTest {
 
     @Test
     void activateEffectNotEndGameTest() {
-        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        scoreEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(scoreEffect));
         scoreEffect.setDelay(EffectDelay.INSTANTANEOUS);
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         int score = scoreEffect.getScore() * stepsCount;
-        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        scoreEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(score, inv.getScore());
     }
 
@@ -43,12 +40,12 @@ class ScoreForMerveilleEffectTest {
     void activateEffectEndGameTest() {
         int stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         int score = scoreEffect.getScore() * stepsCount;
-        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        scoreEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(score, inv.getScore());
         scoreEffect.setDelay(EffectDelay.INSTANTANEOUS);
         stepsCount = inv.getWonderBoard().getCurrentStepIndex();
         score = scoreEffect.getScore() * stepsCount;
-        scoreEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        scoreEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(score, inv.getScore());
     }
 }

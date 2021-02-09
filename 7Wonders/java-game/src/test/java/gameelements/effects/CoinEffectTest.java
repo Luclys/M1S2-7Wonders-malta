@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CoinEffectTest {
-    Player player;
     Inventory inv;
     Inventory leftNeighborInv;
     Inventory rightNeighborInv;
@@ -18,7 +16,6 @@ class CoinEffectTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
@@ -29,11 +26,11 @@ class CoinEffectTest {
     void activateEffectNotEndGameTest() {
         int coins = inv.getCoins();
         //Not end of the game
-        coinEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        coinEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertEquals(coins + 1, inv.getCoins());
         inv.setCoins(coins);
         coinEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        coinEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        coinEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(coinEffect));
 
     }
@@ -41,11 +38,11 @@ class CoinEffectTest {
     @Test
     void activateEffectEndGameTest() {
         int coins = inv.getCoins();
-        coinEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        coinEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins + 1, inv.getCoins());
         inv.setCoins(coins);
         coinEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        coinEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        coinEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertEquals(coins + 1, inv.getCoins());
     }
 }

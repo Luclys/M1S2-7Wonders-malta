@@ -116,11 +116,6 @@ public class Server {
 
         Server server = new Server(configuration);
         server.start();
-
-        while (true) {
-            log.info("boucle infinie");
-            Thread.sleep(5000);
-        }
     }
 
     private void start() {

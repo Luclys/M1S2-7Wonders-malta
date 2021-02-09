@@ -1,13 +1,13 @@
 package board;
 
-import statistic.DetailedResults;
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import player.Player;
+import statistic.DetailedResults;
 
 import java.util.ArrayList;
 import java.util.List;

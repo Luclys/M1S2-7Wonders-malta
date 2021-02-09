@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.cards.Card;
 import gameelements.enums.Category;
 import gameelements.enums.EffectDelay;
@@ -15,7 +14,7 @@ public class CopyNeighborGuildEffect extends Effect {
     }
 
     @Override
-    public void activateEffect(Player player, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
+    public void activateEffect(Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv, boolean isEndGame) {
         if ((!isEndGame) && (getDelay() == EffectDelay.END_OF_THE_GAME)) {
             inv.addEndGameEffect(this);
             return;
@@ -26,8 +25,8 @@ public class CopyNeighborGuildEffect extends Effect {
         list.removeIf(card -> card.getCategory() != Category.GUILDE);
 
         if (!list.isEmpty()) {
-            Card card = player.chooseGuildCard(list, new Inventory(inv), new Inventory(leftNeighborInv), new Inventory(rightNeighborInv));
-            inv.updateInventoryCopyCard(card, player, leftNeighborInv, rightNeighborInv);
+            //Card card = player.chooseGuildCard(list, new Inventory(inv), new Inventory(leftNeighborInv), new Inventory(rightNeighborInv));
+            inv.updateInventoryCopyCard(list.get(0), leftNeighborInv, rightNeighborInv);
         }
     }
 }

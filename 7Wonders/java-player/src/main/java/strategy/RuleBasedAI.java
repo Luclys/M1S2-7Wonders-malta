@@ -237,7 +237,7 @@ public class RuleBasedAI implements PlayingStrategy {
             chosenCard = inventory.getCardsInHand().get(0);
             action = Action.WONDER;
 
-            //Player picks a card he cannot build
+            //player.Player picks a card he cannot build
             for (Card card : inventory.getCardsInHand()) {
                 //We pick the first non-buildable card
                 if (!inventory.canBuild(card.getRequiredResources())) {

@@ -1,7 +1,6 @@
 package gameelements.effects;
 
 import gameelements.Inventory;
-import gameelements.Player;
 import gameelements.enums.EffectDelay;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ChoiceResourceEffectTest {
-    Player player;
     Inventory inv;
     Inventory leftNeighborInv;
     Inventory rightNeighborInv;
@@ -20,7 +18,6 @@ class ChoiceResourceEffectTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player(0);
         inv = new Inventory(0);
         leftNeighborInv = new Inventory(1);
         rightNeighborInv = new Inventory(2);
@@ -34,10 +31,10 @@ class ChoiceResourceEffectTest {
     @Test
     void activateEffectNotEndGameTest() {
         //Not end of the game
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getPairResChoice().contains(resources));
         choiceResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(choiceResourceEffect));
         Resource[] r = new Resource[1];
         inv = new Inventory(1);
@@ -45,17 +42,17 @@ class ChoiceResourceEffectTest {
         assertFalse(inv.getEndGameEffects().contains(choiceResourceEffect));
         assertFalse(inv.getPairResChoice().contains(r));
         choiceResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, false);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, false);
         assertTrue(inv.getEndGameEffects().contains(choiceResourceEffect));
     }
 
     @Test
     void activateEffectEndGameTest() {
         //Not end of the game
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertTrue(inv.getPairResChoice().contains(resources));
         choiceResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertTrue(inv.getPairResChoice().contains(resources));
         Resource[] r = new Resource[1];
         inv = new Inventory(1);
@@ -63,7 +60,7 @@ class ChoiceResourceEffectTest {
         assertFalse(inv.getEndGameEffects().contains(choiceResourceEffect));
         assertFalse(inv.getPairResChoice().contains(r));
         choiceResourceEffect.setDelay(EffectDelay.END_OF_THE_GAME);
-        choiceResourceEffect.activateEffect(player, inv, leftNeighborInv, rightNeighborInv, true);
+        choiceResourceEffect.activateEffect(inv, leftNeighborInv, rightNeighborInv, true);
         assertFalse(inv.getEndGameEffects().contains(choiceResourceEffect));
     }
 
