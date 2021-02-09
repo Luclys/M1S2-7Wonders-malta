@@ -19,7 +19,16 @@ public class SevenWondersLauncher {
 
     public static void main(String... args) throws Exception {
         //Starting the client
-        String serverIp = args.length == 1 ? args[0] : "127.0.0.253";
+        String serverIp;
+        if (args.length == 1) {
+            serverIp = args[0];
+            System.out.println("With argument : " + serverIp);
+        }
+        else {
+            serverIp = "172.28.0.253";
+            System.out.println("Without argument : " + serverIp);
+        }
+        //String serverIp = args.length == 1 ? args[0] : "127.0.0.253";
         startClient(serverIp);
 
         //Maven's arguments

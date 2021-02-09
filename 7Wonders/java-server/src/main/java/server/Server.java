@@ -111,7 +111,7 @@ public class Server {
 
     public static void main(String[] args) throws InterruptedException {
         Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.253");
+        configuration.setHostname("172.28.0.253");
         configuration.setPort(10101);
 
         Server server = new Server(configuration);

@@ -28,12 +28,8 @@ public class Client {
 
     }
 
-    private void makeConnection() {
-        connection.connect();
-    }
-
     public void start() {
-        makeConnection();
+        connection.connect();
     }
 
     public void sendNumberOfPlayers(int numberOfPlayers) {
