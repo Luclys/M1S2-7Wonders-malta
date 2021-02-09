@@ -40,10 +40,6 @@ public class Client {
         connection.emit(NET.PLAYERS, numberOfPlayers);
     }
 
-    public void showStats() {
-        connection.emit("ping");
-    }
-
     public void stop() {
         connection.disconnect();
         connection.close();

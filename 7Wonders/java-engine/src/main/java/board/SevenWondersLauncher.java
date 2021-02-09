@@ -18,7 +18,7 @@ public class SevenWondersLauncher {
 
     public static void main(String... args) throws Exception {
         //Starting the client
-        String serveurIp = args.length == 1 ? args[0] : "127.0.0.1";
+        String serveurIp = args.length == 1 ? args[0] : "127.0.0.253";
         startClient(serveurIp);
 
         //Maven's arguments
@@ -49,7 +49,7 @@ public class SevenWondersLauncher {
         for (int i = 0; i < winsCount.size(); i++) {
             System.out.print("[7WONDERS - LAMAC] Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
         }
-        client.showStats();
+        client.stop();
         System.exit(0);
     }
 

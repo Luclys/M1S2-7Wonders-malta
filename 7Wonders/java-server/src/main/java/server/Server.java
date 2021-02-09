@@ -41,7 +41,10 @@ public class Server {
         socketServer.addDisconnectListener(new DisconnectListener() {
             @Override
             public void onDisconnect(SocketIOClient socketIOClient) {
-                log.info("Client disconnected");
+                log.info("Client disconnected, showing stats");
+                showStatistics();
+                log.info("Stopping the server...");
+                System.exit(0);
             }
         });
 
@@ -66,8 +69,6 @@ public class Server {
             }
         });
 
-        // Show the win rate of each player
-        socketServer.addPingListener(this::showStatistics);
     }
 
     private void setData() {
