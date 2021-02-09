@@ -18,7 +18,8 @@ public class SevenWondersLauncher {
 
     public static void main(String... args) throws Exception {
         //Starting the client
-        startClient();
+        String serveurIp = args.length == 1 ? args[0] : "127.0.0.1";
+        startClient(serveurIp);
 
         //Maven's arguments
         if (args.length >= 3) {
@@ -71,8 +72,8 @@ public class SevenWondersLauncher {
         return playerList;
     }
 
-    public static void startClient() throws Exception {
-        client = new Client("http://127.0.0.1:10101");
+    public static void startClient(String ip) throws Exception {
+        client = new Client("http://" + ip + ":10101");
         client.start();
     }
 

@@ -70,15 +70,6 @@ public class Server {
         socketServer.addPingListener(this::showStatistics);
     }
 
-    public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.1");
-        configuration.setPort(10101);
-
-        Server server = new Server(configuration);
-        server.start();
-    }
-
     private void setData() {
         for (int i = 0; i < nbPlayers; i++) {
             //Wins of each player
@@ -115,6 +106,15 @@ public class Server {
 
     private void sendDisconnectSignal(SocketIOClient socketIOClient) {
         socketIOClient.sendEvent("disconnect");
+    }
+
+    public static void main(String[] args) {
+        Configuration configuration = new Configuration();
+        configuration.setHostname("127.0.0.1");
+        configuration.setPort(10101);
+
+        Server server = new Server(configuration);
+        server.start();
     }
 
     private void start() {

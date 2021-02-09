@@ -7,35 +7,25 @@ services:
     container_name: java-server
     networks:
       testing_net:
-        #ipv4_address: 172.28.0.2
+        ipv4_address: 172.28.0.253
+    depends_on:
+      - engine
 
-#  player:
+  #  player:
 #    image: malta:player
 #   container_name: java-player
 #   networks:
 #     testing_net:
 #       ipv4_address: 172.28.0.253
 
-  game:
-    image: malta:game
-    container_name: java-game
-    networks:
-      testing_net:
-       # ipv4_address: 172.28.0.2
-
   engine:
     image: malta:engine
     container_name: java-engine
+    environment:
+      - SERVER_IP=172.28.0.253
     networks:
       testing_net:
        # ipv4_address: 172.28.0.2
-
-  common:
-    image: malta:common
-    container_name: java-common
-    networks:
-      testing_net:
-      #  ipv4_address: 172.28.0.2
 
 networks:
   testing_net:
