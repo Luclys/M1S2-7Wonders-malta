@@ -18,8 +18,8 @@ public class SevenWondersLauncher {
 
     public static void main(String... args) throws Exception {
         //Starting the client
-        String serveurIp = args.length == 1 ? args[0] : "127.0.0.253";
-        startClient(serveurIp);
+        String serverIp = args.length == 1 ? args[0] : "127.0.0.253";
+        startClient(serverIp);
 
         //Maven's arguments
         if (args.length >= 3) {

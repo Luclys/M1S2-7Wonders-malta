@@ -109,13 +109,18 @@ public class Server {
         socketIOClient.sendEvent("disconnect");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Configuration configuration = new Configuration();
         configuration.setHostname("127.0.0.253");
         configuration.setPort(10101);
 
         Server server = new Server(configuration);
         server.start();
+
+        while (true) {
+            log.info("boucle infinie");
+            Thread.sleep(5000);
+        }
     }
 
     private void start() {
