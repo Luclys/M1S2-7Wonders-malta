@@ -10,7 +10,7 @@
         <version>1</version>
     </parent>
 
-    <artifactId>java-game</artifactId> <!-- et le nom du projet -->
+    <artifactId>java-engine-player</artifactId><!-- et le nom du projet -->
     <version>1</version>
 
     <packaging>jar</packaging>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>Lamac</groupId>
-            <artifactId>java-common</artifactId>
+            <artifactId>java-engine-server</artifactId>
             <version>1</version>
             <scope>compile</scope>
         </dependency>

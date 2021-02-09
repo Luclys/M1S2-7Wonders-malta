@@ -100,7 +100,7 @@ public class Board {
         playerInventoryList = getManager().getPlayerInventoryList();
         cardManager = new CardManager(playerList, playerInventoryList);
         // Setup Decks
-        discardedDeckCardList = new ArrayList<>(playerList.size() * 7);
+        discardedDeckCardList = new ArrayList<>(playerInventoryList.size() * 7);
         availableWonderBoardList = WonderBoard.initiateWonders();
         this.currentAge = 1;
         this.currentTurn = 0;
@@ -135,7 +135,7 @@ public class Board {
             default:
                 throw new IllegalStateException("Unexpected age value: " + numAge);
         }
-        currentDeckCardList = age.initiateCards(playerList.size());
+        currentDeckCardList = age.initiateCards(playerInventoryList.size());
         isLeftRotation = age.isLeftRotation();
         jetonVictoryValue = age.getVictoryJetonValue();
 
@@ -173,7 +173,7 @@ public class Board {
                 }
 
                 log.playersStartToPlayCards();
-                for (int i = 0; i < getPlayerList().size(); i++) {
+                for (int i = 0; i < getPlayerInventoryList().size(); i++) {
                     executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
                 }
                 endOfTurn();
@@ -260,7 +260,6 @@ public class Board {
         Random r = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
 
         for (int i = 0; i < playerInventoryList.size(); i++) {
-            Player player = playerList.get(i);
             Inventory inv = playerInventoryList.get(i);
 
             int random = r.nextInt(availableWonderBoardList.size());
@@ -273,7 +272,7 @@ public class Board {
             availableWonderBoardList.remove(chosenWB);
 
             inv.getDetailedResults().setWbName(chosenWB.getName());
-            log.chosenWonderBoard(player.getId(), inv.getWonderBoard());
+            log.chosenWonderBoard(inv.getPlayerId(), inv.getWonderBoard());
         }
     }
 

@@ -12,7 +12,7 @@
 
     <packaging>jar</packaging>
 
-    <artifactId>java-common</artifactId> <!-- et le nom du projet -->
+    <artifactId>java-engine-server</artifactId> <!-- et le nom du projet -->
     <version>1</version>
 
     <properties>
