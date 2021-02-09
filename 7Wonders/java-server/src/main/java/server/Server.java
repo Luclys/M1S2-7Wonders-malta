@@ -95,7 +95,7 @@ public class Server {
 
     }
 
-    private void showStatistics(SocketIOClient socketIOClient) {
+    private void showStatistics() {
         for (int i = 0; i < nbPlayers; i++) {
             log.info("Player " + i + " | Win rate : " + wins.get(i) / 10 +
                     " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
