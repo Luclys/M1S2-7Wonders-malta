@@ -2,7 +2,6 @@ package board;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;

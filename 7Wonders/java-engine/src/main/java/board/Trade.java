@@ -1,6 +1,5 @@
 package board;
 
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;

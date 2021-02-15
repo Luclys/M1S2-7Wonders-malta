@@ -1,7 +1,6 @@
 package board;
 
 import client.Client;
-import gameelements.GameLogger;
 import player.Player;
 import strategy.FirstCardStrategy;
 import strategy.RuleBasedAI;
