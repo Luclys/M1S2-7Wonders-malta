@@ -41,7 +41,10 @@ public class Server {
         socketServer.addDisconnectListener(new DisconnectListener() {
             @Override
             public void onDisconnect(SocketIOClient socketIOClient) {
-                log.info("Client disconnected");
+                log.info("Client disconnected, showing stats");
+                showStatistics();
+                log.info("Stopping the server...");
+                System.exit(0);
             }
         });
 
@@ -66,17 +69,6 @@ public class Server {
             }
         });
 
-        // Show the win rate of each player
-        socketServer.addPingListener(this::showStatistics);
-    }
-
-    public static void main(String[] args) {
-        Configuration configuration = new Configuration();
-        configuration.setHostname("127.0.0.1");
-        configuration.setPort(10101);
-
-        Server server = new Server(configuration);
-        server.start();
     }
 
     private void setData() {
@@ -103,7 +95,7 @@ public class Server {
 
     }
 
-    private void showStatistics(SocketIOClient socketIOClient) {
+    private void showStatistics() {
         for (int i = 0; i < nbPlayers; i++) {
             log.info("Player " + i + " | Win rate : " + wins.get(i) / 10 +
                     " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
@@ -115,6 +107,15 @@ public class Server {
 
     private void sendDisconnectSignal(SocketIOClient socketIOClient) {
         socketIOClient.sendEvent("disconnect");
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Configuration configuration = new Configuration();
+        configuration.setHostname("172.28.0.253");
+        configuration.setPort(10101);
+
+        Server server = new Server(configuration);
+        server.start();
     }
 
     private void start() {

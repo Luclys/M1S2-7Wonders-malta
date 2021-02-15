@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>Lamac</groupId> <!-- à changer par le nom du groupe -->
+        <artifactId>Global</artifactId> <!-- et le nom du projet -->
+        <version>1</version>
+    </parent>
+
+    <packaging>jar</packaging>
+
+    <artifactId>java-engine-server</artifactId> <!-- et le nom du projet -->
+    <version>1</version>
+
+    <properties>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>
+            src/main/java/gameelements/GameLogger.java,
+            src/main/java/constants/NET.java
+        </sonar.coverage.exclusions>
+    </properties>
+
+    <build>
+        <sourceDirectory>src/main/java
+        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <testSourceDirectory>src/test/java
+        </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
+    </build>
+
+    <dependencies>
+    </dependencies>
+
+
+</project>

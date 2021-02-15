@@ -1,5 +1,5 @@
 ![](Documentation/Images/7w_logo.png)
-
+![Travis CI Build](https://travis-ci.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta.svg?token=mTMP6VBRTyXP9sP8TWt7&branch=main)
 ![Java CI with Maven](https://github.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta/workflows/Java%20CI%20with%20Maven/badge.svg?branch=main)
 ![Travis CI Build](https://travis-ci.com/uca-m1informatique-softeng/s2-gestiondeprojet-malta.svg?token=mTMP6VBRTyXP9sP8TWt7&branch=main)
 # UE Gestion de projet

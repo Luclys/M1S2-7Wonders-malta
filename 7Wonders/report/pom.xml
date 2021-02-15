@@ -22,12 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>Lamac</groupId>
-            <artifactId>java-game</artifactId>
+            <artifactId>java-engine-player</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
             <groupId>Lamac</groupId>
-            <artifactId>java-common</artifactId>
+            <artifactId>java-engine-server</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
@@ -36,6 +36,16 @@
             <version>1</version>
         </dependency>
 
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-player</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>Lamac</groupId>
+            <artifactId>java-engine</artifactId>
+            <version>1</version>
+        </dependency>
         <!-- etc. TOUS LES MODULES DOIVENT ETRE INCLUS ICI
         -->
     </dependencies>

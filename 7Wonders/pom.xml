@@ -10,9 +10,11 @@
 
     <modules>
         <module>java-server</module>
-        <module>java-game</module>
-        <module>java-common</module>
+        <module>java-engine-player</module>
+        <module>java-engine-server</module>
         <module>report</module>
+        <module>java-player</module>
+        <module>java-engine</module>
     </modules>
     <packaging>pom</packaging>
 
