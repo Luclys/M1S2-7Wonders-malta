@@ -35,12 +35,21 @@ public class Server {
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
+    private int test ;
 
-    public Server(Configuration configuration) {
-        // Creation of the server
-        socketServer = new SocketIOServer(configuration);
+    public Server(){
+        this(42);
+    }
+    public Server(int t){
+       test = t;
+    }
 
-        // We accept the connection
+    private void  setConfiguration(Configuration conf){
+        socketServer = new SocketIOServer(conf);
+        listeners();
+    }
+
+    private void listeners(){
         socketServer.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient socketIOClient) {
@@ -77,6 +86,13 @@ public class Server {
                 setData();
             }
         });
+    }
+
+    public Server(Configuration configuration) {
+        // Creation of the server
+        socketServer = new SocketIOServer(configuration);
+        listeners();
+        // We accept the connection
 
     }
 
@@ -126,7 +142,7 @@ public class Server {
             e.printStackTrace();
         }
 
-        SpringApplication.run(Server.class, args);
+        SpringApplication.run(Server.class);
     }
 
 
@@ -135,11 +151,14 @@ public class Server {
         return args -> {
             // ack de connexion sur l'adresse docker
             Configuration configuration = new Configuration();
-            configuration.setHostname("172.28.0.253");
+            InetAddress inetadr = InetAddress.getLocalHost();
+            String adresseIPLocale = (String) inetadr.getHostAddress();
+            System.out.println("Adresse "+ adresseIPLocale);
+            configuration.setHostname(adresseIPLocale);
             configuration.setPort(10101);
 
-            Server server = new Server(configuration);
-            server.start();
+            setConfiguration(configuration);
+            start();
 
         };
     }
