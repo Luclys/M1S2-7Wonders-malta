@@ -88,21 +88,8 @@ public class Player {
         return strategy.getCard();
     }
 
-    public int getRightNeighborId() {
-        return this.rightNeighborId;
-    }
 
-    public void setRightNeighborId(int id) {
-        this.rightNeighborId = id;
-    }
 
-    public int getLeftNeighborId() {
-        return this.leftNeighborId;
-    }
-
-    public void setLeftNeighborId(int id) {
-        this.leftNeighborId = id;
-    }
 
     public Action getAction() {
         return strategy.getAction();

@@ -44,6 +44,7 @@ public class SevenWondersLauncher {
             winsCount.add(0);
         }
         for (int i = 1; i <= nbGames; i++) {
+            // au lieu de playList -> urlList
             Board board = new Board(playerList, boolPrint);
             int winner = board.play(i);
             if (i != nbGames) {
@@ -69,7 +70,7 @@ public class SevenWondersLauncher {
         playerList.add(player1);
         Player player2 = new Player(playerList.size(), new RuleBasedAI());
         playerList.add(player2);
-        Player player3 = new Player(playerList.size(), new RuleBasedAI());
+        Player player3 = new Player(playerList.size(), new FirstCardStrategy());
         playerList.add(player3);
 
 

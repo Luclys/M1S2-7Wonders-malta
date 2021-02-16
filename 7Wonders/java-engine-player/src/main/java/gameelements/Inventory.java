@@ -39,6 +39,8 @@ public class Inventory implements Comparable<Object> {
     private int possibleFreeBuildings;
     private int possibleFreeDiscardedBuildingsCount;
     private boolean canPlayLastCard;
+    private int rightNeighborId;
+    private int leftNeighborId;
 
     public Inventory(int playerId) {
         this.playerId = playerId;
@@ -101,6 +103,8 @@ public class Inventory implements Comparable<Object> {
             this.wonderBoard = initiateColossusA();
             this.wonderBoard.setAssociatedInv(this);
         }
+        this.rightNeighborId = inventory.rightNeighborId;
+        this.leftNeighborId = inventory.leftNeighborId;
     }
 
 
@@ -486,5 +490,21 @@ public class Inventory implements Comparable<Object> {
         ArrayList<Card> cardsAvailableToPlay = new ArrayList<>(this.getCardsInHand());
         cardsAvailableToPlay.removeIf(card -> this.getPlayedCards().contains(card) && card.isBuilding());
         return cardsAvailableToPlay;
+    }
+
+    public int getRightNeighborId() {
+        return rightNeighborId;
+    }
+
+    public int getLeftNeighborId() {
+        return leftNeighborId;
+    }
+
+    public void setRightNeighborId(int rightNeighborId) {
+        this.rightNeighborId = rightNeighborId;
+    }
+
+    public void setLeftNeighborId(int leftNeighborId) {
+        this.leftNeighborId = leftNeighborId;
     }
 }

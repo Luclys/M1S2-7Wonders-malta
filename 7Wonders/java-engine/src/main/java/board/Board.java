@@ -53,6 +53,7 @@ public class Board {
         this.commerce = b.commerce;
 
         this.playerList = new ArrayList<>();
+        // TODO
         for (Player p : b.getPlayerList()){
             this.playerList.add(new Player(p));
         }
@@ -67,7 +68,7 @@ public class Board {
         this.discardedDeckCardList = new ArrayList<>();
         this.discardedDeckCardList.addAll(b.getDiscardedDeckCardList());
 
-        this.cardManager = new CardManager(playerList,playerInventoryList);
+        this.cardManager = new CardManager(playerInventoryList);
 
         this.availableWonderBoardList = new ArrayList<>();
         this.availableWonderBoardList.addAll(b.availableWonderBoardList);
@@ -95,9 +96,12 @@ public class Board {
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
         // Setup Players and their inventories
-        this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
+        //this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
+        // TODO
+        this.playerList = (ArrayList<Player>) playerList;
+        getManager().associateNeighbor(playerList);
         playerInventoryList = getManager().getPlayerInventoryList();
-        cardManager = new CardManager(playerList, playerInventoryList);
+        cardManager = new CardManager(playerInventoryList);
         // Setup Decks
         discardedDeckCardList = new ArrayList<>(playerInventoryList.size() * 7);
         availableWonderBoardList = WonderBoard.initiateWonders();
@@ -165,6 +169,7 @@ public class Board {
                 log.play();
 
                 // Each player plays a card on each turn
+                //TODO
                 for (Player p : playerList) {
                     p.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
                     p.chooseCard(playerInventoryList.get(p.getId()));
@@ -242,6 +247,7 @@ public class Board {
             if (!inv.isCanPlayLastCard()) {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
+                // TODO  create a method that play the last card
                 Player player = playerList.get(inv.getPlayerId());
                 PlayingStrategy s = player.getStrategy();
                 player.setStrategy(new FirstCardStrategy());
@@ -282,13 +288,14 @@ public class Board {
      * @param player
      */
     public void executePlayerAction(Inventory inv, Player player) throws Exception {
+        // TODO return a couple (action and card)
         Card chosenCard = player.getChosenCard();
         Action action = player.getAction();
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
                 if (nbFreeBuildings > 0) {
-                    buildCard(inv, chosenCard, player);
+                    buildCard(inv, chosenCard);
                     inv.setPossibleFreeBuildings(-1);
                     break;
                 }
@@ -296,13 +303,13 @@ public class Board {
             case BUILDING:
                 Resource[] chosenCardRequiredResources = chosenCard.getRequiredResources();
                 if (inv.canBuildCardForFree(chosenCard)) {
-                    buildCard(inv, chosenCard, player);
+                    buildCard(inv, chosenCard);
                 } else if (inv.payIfPossible(chosenCard.getCost())) {
                     if (inv.canBuild(chosenCardRequiredResources)) {
-                        buildCard(inv, chosenCard, player);
+                        buildCard(inv, chosenCard);
                     } else {
-                        if (buyResourcesIfPossible(inv, chosenCardRequiredResources, player)) {
-                            buildCard(inv, chosenCard, player);
+                        if (buyResourcesIfPossible(inv, chosenCardRequiredResources)) {
+                            buildCard(inv, chosenCard);
                         } else {
                             initSellCard(inv, chosenCard);
                         }
@@ -315,10 +322,10 @@ public class Board {
             case WONDER:
                 Resource[] wonderRequiredResources = inv.getCurrentStepRequiredResources();
                 if (inv.canBuildNextStep(inv.getWonderBoard())) {
-                    buildWonder(inv, chosenCard, player);
+                    buildWonder(inv, chosenCard);
                 } else {
-                    if (buyResourcesIfPossible(inv, wonderRequiredResources, player)) {
-                        buildWonder(inv, chosenCard, player);
+                    if (buyResourcesIfPossible(inv, wonderRequiredResources)) {
+                        buildWonder(inv, chosenCard);
                     } else {
                         initSellCard(inv, chosenCard);
                     }
@@ -337,16 +344,15 @@ public class Board {
      *
      * @param trueInv
      * @param requiredResources
-     * @param player
      * @return
      */
-    private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources, Player player) {
+    private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
         log.startTrade();
         log.pricesOfResources(trueInv);
         log.missingResources(missingResources);
-        canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        canBuy = getCommerce().buyResources(missingResources, trueInv, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
         if (canBuy) {
             log.gotMissingResources();
         } else {
@@ -357,30 +363,26 @@ public class Board {
 
     /**
      * this method alowws to build chosen card
-     *
-     * @param trueInv
+     *  @param trueInv
      * @param chosenCard
-     * @param player
      */
-    private void buildCard(Inventory trueInv, Card chosenCard, Player player) {
+    private void buildCard(Inventory trueInv, Card chosenCard) {
         if (chosenCard != null) {
             log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
-            trueInv.updateInventory(chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+            trueInv.updateInventory(chosenCard, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
         }
     }
 
     /**
      * this method alowws to build a step of the wonder assocaite to the player by using
      * the chosen card
-     *
-     * @param trueInv
+     *  @param trueInv
      * @param chosenCard
-     * @param player
      */
-    private void buildWonder(Inventory trueInv, Card chosenCard, Player player) throws Exception {
+    private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
-        wonder.buyNextStep(chosenCard, playerInventoryList.get(player.getRightNeighborId()), playerInventoryList.get(player.getLeftNeighborId()));
+        wonder.buyNextStep(chosenCard, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
     }
 
 
@@ -403,9 +405,9 @@ public class Board {
      */
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
-            Player player = playerList.get(i);
-            int getRightNeighborId = player.getRightNeighborId();
-            int getLeftNeighborId = player.getLeftNeighborId();
+            Inventory inv = playerInventoryList.get(i);
+            int getRightNeighborId = inv.getRightNeighborId();
+            int getLeftNeighborId = inv.getLeftNeighborId();
             playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getRightNeighborId), victoryJetonValue);
             playersManager.fightWithNeighbor(playerInventoryList.get(i), playerInventoryList.get(getLeftNeighborId), victoryJetonValue);
         }
@@ -428,9 +430,9 @@ public class Board {
         for (Inventory inv : playerInventoryList) {
             int scoreBefore = inv.getScore();
 
-            Player player = playerList.get(inv.getPlayerId());
-            Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
-            Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+            //Player player = playerList.get(inv.getPlayerId());
+            Inventory leftNeighborInv = playerInventoryList.get(inv.getLeftNeighborId());
+            Inventory rightNeighborInv = playerInventoryList.get(inv.getRightNeighborId());
 
             // End Game Effects (guilds buildings)
             for (int i = 0; i < inv.getEndGameEffects().size(); i++) {
@@ -472,13 +474,13 @@ public class Board {
 
         return scoreToAdd;
     }
-
+/*
     public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
         // On fait une copie de l'inventaire
         Inventory fakeInv = new Inventory(inventaire);
         Player player = playerList.get(fakeInv.getPlayerId());
-        Inventory leftNeighborInv = playerInventoryList.get(player.getLeftNeighborId());
-        Inventory rightNeighborInv = playerInventoryList.get(player.getRightNeighborId());
+        Inventory leftNeighborInv = playerInventoryList.get(inventaire.getLeftNeighborId());
+        Inventory rightNeighborInv = playerInventoryList.get(inventaire.getRightNeighborId());
 
 
         player.getStrategy().setAction(Action.BUILDING);
@@ -493,7 +495,7 @@ public class Board {
 
         return computeScore(fakeInv);
     }
-
+*/
 
     // GETTERS & SETTERS
     public PlayersManager getManager() {

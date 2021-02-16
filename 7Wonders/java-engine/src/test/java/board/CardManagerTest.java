@@ -21,7 +21,6 @@ class CardManagerTest {
     void setUp() {
         cardManager = new CardManager();
         for (int i = 0; i < 3; i++) {
-            cardManager.getPlayerList().add(new Player(i));
             cardManager.getPlayerInventoryList().add(new Inventory(i));
         }
         List<Card> cards = new ArrayList<>();
