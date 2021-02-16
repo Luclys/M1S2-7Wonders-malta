@@ -9,11 +9,20 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.NET;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import statistic.DetailedResults;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+@SpringBootApplication
 public class Server {
     private final static Logger log = Logger.getLogger(Server.class.getName());
     private final HashMap<Integer, Integer> wins = new HashMap<>();
@@ -109,13 +118,30 @@ public class Server {
         socketIOClient.sendEvent("disconnect");
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        Configuration configuration = new Configuration();
-        configuration.setHostname("172.28.0.253");
-        configuration.setPort(10101);
 
-        Server server = new Server(configuration);
-        server.start();
+    public static void main(String[] args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        SpringApplication.run(Server.class, args);
+    }
+
+
+    @Bean
+    public CommandLineRunner run() {
+        return args -> {
+            // ack de connexion sur l'adresse docker
+            Configuration configuration = new Configuration();
+            configuration.setHostname("172.28.0.253");
+            configuration.setPort(10101);
+
+            Server server = new Server(configuration);
+            server.start();
+
+        };
     }
 
     private void start() {
