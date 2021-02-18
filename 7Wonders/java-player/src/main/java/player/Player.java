@@ -1,5 +1,6 @@
 package player;
 
+import gameelements.CardActionPair;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -88,13 +89,14 @@ public class Player {
         return strategy.getCard();
     }
 
-
-
-
     public Action getAction() {
         return strategy.getAction();
     }
     public void setStrategy(PlayingStrategy s){
         this.strategy = s;
+    }
+
+    public CardActionPair getCardAction() {
+        return new CardActionPair(getChosenCard(), getAction());
     }
 }
