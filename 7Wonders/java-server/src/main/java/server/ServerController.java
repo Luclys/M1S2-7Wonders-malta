@@ -26,11 +26,11 @@ public class ServerController {
     @PostMapping("/connexion/")
     public boolean connecter(@RequestBody String url) {
         urlClient = url;
-        System.out.println("Moteur > connexion acceptée pour " + urlClient);
+        System.out.println("Serveur > connexion acceptée pour le client" + urlClient);
         return true;
     }
 
     public String getStatFromClient() {
-        return restTemplate.postForObject("http://localhost:8081/stat", urlClient, String.class);
+        return restTemplate.postForObject(urlClient+"/stat", urlClient, String.class);
     }
 }

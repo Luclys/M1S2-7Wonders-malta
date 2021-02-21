@@ -9,10 +9,13 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.NET;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import statistic.DetailedResults;
 
 import java.io.PrintStream;
@@ -22,6 +25,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+@Component
+@Scope("singleton")
 @SpringBootApplication
 public class Server {
     private final static Logger log = Logger.getLogger(Server.class.getName());
@@ -48,12 +53,15 @@ public class Server {
         socketServer = new SocketIOServer(conf);
         listeners();
     }
+    @Autowired
+    ServerController crl;
 
     private void listeners(){
         socketServer.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient socketIOClient) {
                 log.info("Connection of " + socketIOClient.getRemoteAddress());
+                System.out.println(crl.getStatFromClient());
             }
         });
         socketServer.addDisconnectListener(new DisconnectListener() {
@@ -134,7 +142,7 @@ public class Server {
         socketIOClient.sendEvent("disconnect");
     }
 
-
+/*
     public static void main(String[] args) {
         try {
             System.setOut(new PrintStream(System.out, true, "UTF-8"));
@@ -143,7 +151,7 @@ public class Server {
         }
 
         SpringApplication.run(Server.class);
-    }
+    }*/
 
 
     @Bean
@@ -161,6 +169,18 @@ public class Server {
             start();
 
         };
+    }
+
+    Thread partie;
+
+    public void lancerPartie() {
+        if (partie == null) {
+            partie = new Thread((Runnable) this);
+            partie.start();
+        }
+        else {
+            System.out.println("Moteur > Une partie est déjà commencé.");
+        }
     }
 
     private void start() {
