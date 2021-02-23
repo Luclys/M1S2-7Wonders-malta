@@ -47,6 +47,7 @@ public class Board {
     private int currentAge;
     private int currentTurn;
 
+    private DetailedResults[] results;
     public Board(Board b) {
 
         this.playersManager = new PlayersManager(b.playersManager);
@@ -215,17 +216,17 @@ public class Board {
 
     private void retrieveResults() throws JsonProcessingException {
         int size = playerInventoryList.size();
-        DetailedResults[] results = new DetailedResults[size];
+        results = new DetailedResults[size];
         for (int i = 0; i < size; i++) {
             results[i] = playerInventoryList.get(i).getDetailedResults();
         }
-        sendToServer(results);
+       // sendToServer(results);
     }
 
     private void sendToServer(DetailedResults[] results) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String s = objectMapper.writeValueAsString(results);
-        SevenWondersLauncher.client.sendResults(s);
+        //SevenWondersLauncher.client.sendResults(s);
     }
 
     private void updateLastDetailedResultsValues() {
@@ -544,5 +545,9 @@ public class Board {
 
     public int getCurrentTurn() {
         return currentTurn;
+    }
+
+    public DetailedResults[] getResults() {
+        return results;
     }
 }

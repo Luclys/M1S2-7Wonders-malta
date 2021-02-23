@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import statistic.DetailedResults;
 
 @RestController
 public class ServerController {
@@ -26,11 +27,32 @@ public class ServerController {
     @PostMapping("/connexion/")
     public boolean connecter(@RequestBody String url) {
         urlClient = url;
+        System.out.println("*****************Connection  Client Server ******************");
+
         System.out.println("Serveur > connexion acceptée pour le client" + urlClient);
+        server.lancerPartie();
         return true;
     }
 
-    public String getStatFromClient() {
-        return restTemplate.postForObject(urlClient+"/stat", urlClient, String.class);
+    @PostMapping("/sendnumberplayers/")
+    public boolean getNumberofplayers(@RequestBody int s) {
+        System.out.println("***************** Get number of players from Client ******************");
+        System.out.println("number of players " + s);
+        server.setNbPlayer(s);
+        return true;
     }
+
+    @PostMapping("/sendStats/")
+    public boolean getstats(@RequestBody DetailedResults[] results) {
+        server.setStats(results);
+        return true;
+    }
+
+    @PostMapping("/showStats/")
+    public String showStats(@RequestBody int i) {
+        System.out.println("***************** Show Stats ******************");
+        return server.showStatistics();
+    }
+
+
 }

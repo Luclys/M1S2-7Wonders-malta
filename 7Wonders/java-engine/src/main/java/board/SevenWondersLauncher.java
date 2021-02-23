@@ -1,6 +1,10 @@
 package board;
 
-import client.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import player.Player;
 import strategy.FirstCardStrategy;
 import strategy.RuleBasedAI;
@@ -8,59 +12,50 @@ import strategy.RuleBasedAI;
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootApplication
 public class SevenWondersLauncher {
     private static final GameLogger log = new GameLogger(true);
-    public static Client client;
+
     static int nbPlayers = 3;
     static int nbGames = 1000;
     static boolean boolPrint = false;
 
 
     public static void main(String... args) throws Exception {
-        //Starting the client
-        String serverIp;
-        if (args.length == 1) {
-            serverIp = args[0];
-            System.out.println("With argument : " + serverIp);
-        }
-        else {
-            serverIp = "172.28.0.253";
-            System.out.println("Without argument : " + serverIp);
-        }
-        //String serverIp = args.length == 1 ? args[0] : "127.0.0.253";
-        startClient(serverIp);
-
-        //Maven's arguments
-        if (args.length >= 3) {
-            nbPlayers = Integer.parseInt(args[0]);
-            nbGames = Integer.parseInt(args[1]);
-            boolPrint = Boolean.parseBoolean(args[2]);
-        }
-
-        List<Player> playerList = fetchPlayers(nbPlayers);
-        client.sendNumberOfPlayers(nbPlayers);
-        ArrayList<Integer> winsCount = new ArrayList<>();
-        for (int i = 0; i < nbPlayers; i++) {
-            winsCount.add(0);
-        }
-        for (int i = 1; i <= nbGames; i++) {
-            // au lieu de playList -> urlList
-            Board board = new Board(playerList, boolPrint);
-            int winner = board.play(i);
-            if (i != nbGames) {
-                System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
-            } else {
-                System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+        SpringApplication.run(SevenWondersLauncher.class, args);
+    }
+    @Autowired
+    Client client;
+    @Bean
+    public CommandLineRunner unClient() {
+        return args -> {
+            /// retrieving the value
+            System.out.println("*****************Connect Client to server******************");
+            Boolean val =  client.crl.connection();
+            System.out.println("client > Connextion accepeted ? "+val);
+            if (args.length >= 3) {
+                nbPlayers = Integer.parseInt(args[0]);
+                nbGames = Integer.parseInt(args[1]);
+                boolPrint = Boolean.parseBoolean(args[2]);
             }
 
-            winsCount.set(winner, winsCount.get(winner) + 1);
-        }
+            List<Player> playerList = fetchPlayers(nbPlayers);
+            client.crl.sendNumberOfPlayers(nbPlayers);
 
-        for (int i = 0; i < winsCount.size(); i++) {
-            System.out.print("[7WONDERS - LAMAC] player.Player playing stratégie " + playerList.get(i).getStrategyName() + " wins " + winsCount.get(i) + " times\n");
-        }
-        client.stop();
-        System.exit(0);
+            for (int i = 1; i <= nbGames; i++) {
+                // au lieu de playList -> urlList
+                Board board = new Board(playerList, boolPrint);
+                board.play(i);
+                if (i != nbGames) {
+                    System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
+                } else {
+                    System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+                }
+                client.crl.sendStats(board.getResults());
+            }
+            client.crl.showStats();
+            System.exit(0);
+        };
     }
 
     public static List<Player> fetchPlayers(int nbPlayers) {
@@ -80,11 +75,6 @@ public class SevenWondersLauncher {
             playerList.add(player);
         }
         return playerList;
-    }
-
-    public static void startClient(String ip) throws Exception {
-        client = new Client("http://" + ip + ":10101");
-        client.start();
     }
 
 }

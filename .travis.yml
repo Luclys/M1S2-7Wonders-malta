@@ -29,7 +29,7 @@ before_script:
   - docker images
 
 script:
-  - mvn test
+  #- mvn test
   #- SUBNET=172.28.0.0/16 IP=172.19.0.8 docker-compose up --force-recreate
   - docker-compose up
   - docker-compose down

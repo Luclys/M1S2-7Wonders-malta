@@ -36,7 +36,6 @@ public class Server {
     private final HashMap<Integer, Integer> stepsBuilt = new HashMap<>();
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
-    SocketIOServer socketServer;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
@@ -49,60 +48,40 @@ public class Server {
        test = t;
     }
 
-    private void  setConfiguration(Configuration conf){
-        socketServer = new SocketIOServer(conf);
-        listeners();
-    }
     @Autowired
     ServerController crl;
 
-    private void listeners(){
-        socketServer.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient socketIOClient) {
-                log.info("Connection of " + socketIOClient.getRemoteAddress());
-                System.out.println(crl.getStatFromClient());
-            }
-        });
-        socketServer.addDisconnectListener(new DisconnectListener() {
-            @Override
-            public void onDisconnect(SocketIOClient socketIOClient) {
-                log.info("Client disconnected, showing stats");
-                showStatistics();
-                log.info("Stopping the server...");
-                System.exit(0);
-            }
-        });
 
-        socketServer.addEventListener(NET.PLAYERS, Integer.class, new DataListener<Integer>() {
-            @Override
-            public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
-                nbPlayers = integer;
-                for (int i = 0; i < nbPlayers; i++) {
-                    wins.put(i, 0);
-                    scores.put(i, 0);
-                }
-            }
-        });
 
-        socketServer.addEventListener(NET.RESULTS, String.class, new DataListener<String>() {
-            @Override
-            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                ObjectMapper objectMapper = new ObjectMapper();
-                results = objectMapper.readValue(s, DetailedResults[].class);
-                nbStats++;
-                setData();
-            }
-        });
+    public static void main(String[] args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        SpringApplication.run(Server.class);
+    }
+    Server partie;
+
+    public void lancerPartie() {
+        if (partie == null) {
+            partie = this;
+        }
+        else {
+            System.out.println("Moteur > Une partie est déjà commencé.");
+        }
     }
 
-    public Server(Configuration configuration) {
-        // Creation of the server
-        socketServer = new SocketIOServer(configuration);
-        listeners();
-        // We accept the connection
-
+    @Bean
+    public CommandLineRunner run() {
+        return args -> {
+            // ack de connexion sur l'adresse docker
+            partie = this;
+            System.out.println("*****************Run Server******************");
+        };
     }
+
 
     private void setData() {
         for (int i = 0; i < nbPlayers; i++) {
@@ -128,63 +107,32 @@ public class Server {
 
     }
 
-    private void showStatistics() {
+    public String showStatistics() {
+        String stats ="";
         for (int i = 0; i < nbPlayers; i++) {
-            log.info("Player " + i + " | Win rate : " + wins.get(i) / 10 +
+            stats+="Player " + i + " | Win rate : " + wins.get(i) / 10 +
+
                     " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
                     " | Steps built : " + stepsBuilt.get(i) + " | Trade Mean - Money earned : " + coinsAcquiredInTrade.get(i) / 1000 +
-                    " | Trade Mean : Money spent " + coinsSpentInTrade.get(i) / 1000);
+                    " | Trade Mean : Money spent " + coinsSpentInTrade.get(i) / 1000+"\n";
         }
-        log.info("DATA RECEIVED FROM " + nbStats + " GAMES");
+        stats+="DATA RECEIVED FROM " + nbStats + " GAMES";
+        return stats;
     }
 
-    private void sendDisconnectSignal(SocketIOClient socketIOClient) {
-        socketIOClient.sendEvent("disconnect");
-    }
 
-/*
-    public static void main(String[] args) {
-        try {
-            System.setOut(new PrintStream(System.out, true, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        SpringApplication.run(Server.class);
-    }*/
-
-
-    @Bean
-    public CommandLineRunner run() {
-        return args -> {
-            // ack de connexion sur l'adresse docker
-            Configuration configuration = new Configuration();
-            InetAddress inetadr = InetAddress.getLocalHost();
-            String adresseIPLocale = (String) inetadr.getHostAddress();
-            System.out.println("Adresse "+ adresseIPLocale);
-            configuration.setHostname(adresseIPLocale);
-            configuration.setPort(10101);
-
-            setConfiguration(configuration);
-            start();
-
-        };
-    }
-
-    Thread partie;
-
-    public void lancerPartie() {
-        if (partie == null) {
-            partie = new Thread((Runnable) this);
-            partie.start();
-        }
-        else {
-            System.out.println("Moteur > Une partie est déjà commencé.");
+    public void setNbPlayer(int nb){
+        nbPlayers = nb;
+        for (int i = 0; i < nbPlayers; i++) {
+            wins.put(i, 0);
+            scores.put(i, 0);
         }
     }
 
-    private void start() {
-        socketServer.start();
-        log.info("Waiting for connexion...");
+    public void setStats(DetailedResults[] results){
+        this.results =results;
+        nbStats++;
+        setData();
     }
+
 }
