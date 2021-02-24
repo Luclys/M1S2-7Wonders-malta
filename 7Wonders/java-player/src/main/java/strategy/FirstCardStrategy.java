@@ -23,16 +23,6 @@ public class FirstCardStrategy implements PlayingStrategy {
         return s;
     }
 
-    @Override
-    public void setCard(Card card) {
-        this.chosen = card;
-    }
-
-    @Override
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
     /**
      * This method allows to choose a card
      * to build it if it's possible
@@ -50,7 +40,7 @@ public class FirstCardStrategy implements PlayingStrategy {
             this.action = Action.SELL;
             chosen = inv.getCardsInHand().get(0);
 
-        }else{
+        } else {
             chosen = available.get(0);
         }
 
@@ -63,11 +53,21 @@ public class FirstCardStrategy implements PlayingStrategy {
     }
 
     @Override
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    @Override
     public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
     }
 
-    public Card getCard(){
+    public Card getCard() {
         return chosen;
+    }
+
+    @Override
+    public void setCard(Card card) {
+        this.chosen = card;
     }
 
 

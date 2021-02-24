@@ -4,7 +4,6 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import io.cucumber.java8.En;
-import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,6 @@ public class RotationSteps implements En {
         Given("Inventories have cards", () -> {
             cardManager = new CardManager();
             for (int i = 0; i < 3; i++) {
-                cardManager.getPlayerList().add(new Player(i));
                 cardManager.getPlayerInventoryList().add(new Inventory(i));
             }
             List<Card> cards = new ArrayList<>();

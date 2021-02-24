@@ -1,11 +1,7 @@
-package gameelements;
+package gameelements.ages;
 
-import gameelements.ages.Age;
-import gameelements.ages.AgeI;
-import gameelements.ages.AgeII;
-import gameelements.ages.AgeIII;
+
 import org.junit.jupiter.api.Test;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

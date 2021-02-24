@@ -1,6 +1,5 @@
 package board;
 
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,10 +65,10 @@ class ResourceManagerTest {
         inventory.addPairResChoice(resources);
 
         ArrayList<int[]> result = new ArrayList<>();
-        result.add(new int[]{0,0});
-        result.add(new int[]{0,1});
-        result.add(new int[]{1,0});
-        result.add(new int[]{1,1});
+        result.add(new int[]{0, 0});
+        result.add(new int[]{0, 1});
+        result.add(new int[]{1, 0});
+        result.add(new int[]{1, 1});
 
         resourceManager.fillInIndexCombinationsFromPairResourcesChoices(inventory);
         assertTrue(compareArraysOfArrays(result, resourceManager.getIndexCombinationsFromPairResourcesChoices()));
@@ -92,28 +91,29 @@ class ResourceManagerTest {
         inventory.addPairResChoice(resources);
 
         ArrayList<int[]> result = new ArrayList<>();
-        result.add(new int[]{0,0,0,0});
-        result.add(new int[]{0,0,0,1});
-        result.add(new int[]{0,0,1,0});
-        result.add(new int[]{0,0,1,1});
-        result.add(new int[]{0,1,0,0});
-        result.add(new int[]{0,1,0,1});
-        result.add(new int[]{0,1,1,0});
-        result.add(new int[]{0,1,1,1});
-        result.add(new int[]{1,0,0,0});
-        result.add(new int[]{1,0,0,1});
-        result.add(new int[]{1,0,1,0});
-        result.add(new int[]{1,0,1,1});
-        result.add(new int[]{1,1,0,0});
-        result.add(new int[]{1,1,0,1});
-        result.add(new int[]{1,1,1,0});
-        result.add(new int[]{1,1,1,1});
+        result.add(new int[]{0, 0, 0, 0});
+        result.add(new int[]{0, 0, 0, 1});
+        result.add(new int[]{0, 0, 1, 0});
+        result.add(new int[]{0, 0, 1, 1});
+        result.add(new int[]{0, 1, 0, 0});
+        result.add(new int[]{0, 1, 0, 1});
+        result.add(new int[]{0, 1, 1, 0});
+        result.add(new int[]{0, 1, 1, 1});
+        result.add(new int[]{1, 0, 0, 0});
+        result.add(new int[]{1, 0, 0, 1});
+        result.add(new int[]{1, 0, 1, 0});
+        result.add(new int[]{1, 0, 1, 1});
+        result.add(new int[]{1, 1, 0, 0});
+        result.add(new int[]{1, 1, 0, 1});
+        result.add(new int[]{1, 1, 1, 0});
+        result.add(new int[]{1, 1, 1, 1});
         resourceManager.fillInIndexCombinationsFromPairResourcesChoices(inventory);
         assertTrue(compareArraysOfArrays(result, resourceManager.getIndexCombinationsFromPairResourcesChoices()));
     }
 
     /**
      * No available resources ([0,0,0,0,0,0,0])
+     *
      * @result converted array is []
      */
     @Test
@@ -125,6 +125,7 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 1 Pierre and 1 Argile ([1,1,0,0,0,0,0])
+     *
      * @result converted array is [Pierre, Argile]
      */
     @Test
@@ -143,12 +144,13 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 1 Pierre and 1 Argile ([3,1,0,0,0,0,0])
+     *
      * @result converted array is [Pierre, Argile, Argile, Argile]
      */
     @Test
     void resourcesByIndexesToResourcesWithIdenticals() {
         inventory.getAvailableResources()[Resource.PIERRE.getIndex()]++;
-        inventory.getAvailableResources()[Resource.ARGILE.getIndex()]+=3;
+        inventory.getAvailableResources()[Resource.ARGILE.getIndex()] += 3;
 
         ArrayList<Resource> resultResources = new ArrayList<>();
         resultResources.add(Resource.ARGILE);
@@ -163,6 +165,7 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 1 Pierre and 1 Argile, required resources = [Pierre, Argile]
+     *
      * @result there are no remaining resources
      */
     @Test
@@ -181,6 +184,7 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 2 Pierres and 1 Argile, required resources = [Pierre, Pierre, Argile]
+     *
      * @result there are no remaining resources
      */
     @Test
@@ -201,6 +205,7 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 1 Pierre and 1 Argile, required resources = [Pierre, Argile, Minerai]
+     *
      * @result [Minerai] is remaining
      */
     @Test
@@ -221,6 +226,7 @@ class ResourceManagerTest {
 
     /**
      * AvailableResources are 1 Pierre and 1 Argile, required resources = [Minerai, Minerai]
+     *
      * @result [Minerai, Minerai] is remaining
      */
     @Test
@@ -239,6 +245,7 @@ class ResourceManagerTest {
 
     /**
      * Available pairs for choice are ARGILE/MINERAI ET BOIS/PIERRE, required resources = [MINERAI, PIERRE]
+     *
      * @result No remaining resources
      */
     @Test
@@ -257,6 +264,7 @@ class ResourceManagerTest {
 
     /**
      * Available pairs for choice are ARGILE/MINERAI, required resources = [MINERAI, ARGILE]
+     *
      * @result Possible combinations of remaining resources are [MINERAI] and [ARGILE]
      */
     @Test
@@ -283,6 +291,7 @@ class ResourceManagerTest {
 
     /**
      * Available pairs for choice are ARGILE/MINERAI, BOIS/PIERRE, MINERAI/BOIS required resources = [MINERAI, MINERAI, BOIS, PIERRE]
+     *
      * @result Possible combinations of remaining resources are:
      * [PIERRE] if choose MINERAI from first pair, BOIS from second pair and MINERAI from third pair
      * [BOIS] if choose MINERAI from first pair, PIERRE from second pair and MINERAI from third pair
@@ -354,6 +363,7 @@ class ResourceManagerTest {
     /**
      * Combinations of required resources are [PIERRE], [ARGILE], [BOIS]
      * right is cheaper than left, right has BOIS and left has ARGILE
+     *
      * @result The cheapest is BOIS
      */
     @Test
@@ -386,6 +396,7 @@ class ResourceManagerTest {
     /**
      * Combinations of required resources are [PIERRE, BOIS], [BOIS, ARGILE], [ARGILE, MINERAI]
      * right is cheaper than left, right has BOIS and left has ARGILE and MINERAI
+     *
      * @result The cheapest is ARGILE + BOIS (sum = 3)
      */
     @Test
@@ -424,6 +435,7 @@ class ResourceManagerTest {
     /**
      * Combinations of required resources are [PIERRE, BOIS], [BOIS, ARGILE], [ARGILE, MINERAI]
      * neighbors don't have any
+     *
      * @result Can't use any of these combinations
      */
     @Test
@@ -454,6 +466,7 @@ class ResourceManagerTest {
     /**
      * User has 2 ANY MATIERE PREMIERE cards
      * Required count is 2
+     *
      * @result can build all the resources with cards
      */
     @Test
@@ -556,7 +569,7 @@ class ResourceManagerTest {
         inventory.setAnyMatierePremiereAvailableCount(2);
         inventory.getAvailableResources()[Resource.TISSU.getIndex()]++;
         inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
-        Resource [] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
+        Resource[] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
         inventory.addPairResChoice(resources);
 
         inventory.setMatieresPremieresPriceRight(1);
@@ -584,7 +597,7 @@ class ResourceManagerTest {
         inventory.setCoins(5);
         inventory.setAnyMatierePremiereAvailableCount(2);
         inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
-        Resource [] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
+        Resource[] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
         inventory.addPairResChoice(resources);
 
         inventory.setMatieresPremieresPriceRight(1);
@@ -613,7 +626,7 @@ class ResourceManagerTest {
         inventory.setCoins(1);
         inventory.setAnyMatierePremiereAvailableCount(2);
         inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
-        Resource [] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
+        Resource[] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
         inventory.addPairResChoice(resources);
 
         inventory.setMatieresPremieresPriceRight(1);
@@ -634,15 +647,15 @@ class ResourceManagerTest {
     void canBuildTwoPairs() {
         Inventory leftNeighbor = new Inventory(1);
         Inventory rightNeighbor = new Inventory(2);
-        leftNeighbor.getAvailableResources()[Resource.PIERRE.getIndex()]+=2;
-        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()]+=2;
+        leftNeighbor.getAvailableResources()[Resource.PIERRE.getIndex()] += 2;
+        rightNeighbor.getAvailableResources()[Resource.ARGILE.getIndex()] += 2;
 
         inventory.setCoins(10);
         inventory.setAnyMatierePremiereAvailableCount(2);
         inventory.getAvailableResources()[Resource.TISSU.getIndex()]++;
         inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
 
-        Resource [] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
+        Resource[] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
         inventory.addPairResChoice(resources);
         resources = new Resource[]{Resource.MINERAI, Resource.ARGILE};
         inventory.addPairResChoice(resources);
@@ -675,7 +688,7 @@ class ResourceManagerTest {
         inventory.getAvailableResources()[Resource.TISSU.getIndex()]++;
         inventory.getAvailableResources()[Resource.VERRE.getIndex()]++;
 
-        Resource [] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
+        Resource[] resources = new Resource[]{Resource.MINERAI, Resource.BOIS};
         inventory.addPairResChoice(resources);
         resources = new Resource[]{Resource.MINERAI, Resource.ARGILE};
         inventory.addPairResChoice(resources);

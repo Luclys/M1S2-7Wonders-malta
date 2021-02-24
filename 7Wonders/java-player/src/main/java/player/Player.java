@@ -1,5 +1,6 @@
 package player;
 
+import gameelements.CardActionPair;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class Player {
     private final int id;
-    private  PlayingStrategy strategy;
+    private PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
 
@@ -79,6 +80,10 @@ public class Player {
         return strategy;
     }
 
+    public void setStrategy(PlayingStrategy s) {
+        this.strategy = s;
+    }
+
     //Getters and setters
     public int getId() {
         return id;
@@ -88,26 +93,11 @@ public class Player {
         return strategy.getCard();
     }
 
-    public int getRightNeighborId() {
-        return this.rightNeighborId;
-    }
-
-    public void setRightNeighborId(int id) {
-        this.rightNeighborId = id;
-    }
-
-    public int getLeftNeighborId() {
-        return this.leftNeighborId;
-    }
-
-    public void setLeftNeighborId(int id) {
-        this.leftNeighborId = id;
-    }
-
     public Action getAction() {
         return strategy.getAction();
     }
-    public void setStrategy(PlayingStrategy s){
-        this.strategy = s;
+
+    public CardActionPair getCardAction() {
+        return new CardActionPair(getChosenCard(), getAction());
     }
 }

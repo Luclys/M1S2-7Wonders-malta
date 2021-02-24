@@ -1,6 +1,5 @@
 package board;
 
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Resource;
 import org.junit.jupiter.api.BeforeEach;

@@ -273,6 +273,11 @@ public class RuleBasedAI implements PlayingStrategy {
     }
 
     @Override
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    @Override
     public Card getCard() {
         return chosenCard;
     }
@@ -281,12 +286,6 @@ public class RuleBasedAI implements PlayingStrategy {
     public void setCard(Card card) {
         this.chosenCard = card;
     }
-
-    @Override
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
 
     @Override
     public PlayingStrategy copy() {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CardDiscardingSteps implements En {
     Card card = CardsSet.CAVITE;
@@ -36,7 +35,7 @@ public class CardDiscardingSteps implements En {
         And("the card is no more available", () -> {
             assertEquals(initialCardsCount - 1, inv.getCardsInHand().size());
         });
-        Given("inventory has not the card", () -> {
+      /*  Given("inventory do not has  the card", () -> {
             initialCardsCount = inv.getCardsInHand().size();
             initialCoinsCount = inv.getCoins();
         });
@@ -48,6 +47,10 @@ public class CardDiscardingSteps implements En {
             assertEquals(initialCoinsCount, inv.getCoins());
             assertEquals(initialCardsCount, inv.getCardsInHand().size());
         });
+            Given inventory has not the card
+    When inventory discards the card
+    Then no modification
+        */
     }
 
 }

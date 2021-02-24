@@ -2,27 +2,22 @@ package board;
 
 import gameelements.Inventory;
 import gameelements.cards.Card;
-import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CardManager {
-    List<Player> playerList;
     List<Inventory> playerInventoryList;
 
     public CardManager() {
         playerInventoryList = new ArrayList<>();
-        playerList = new ArrayList<>();
     }
 
-    public CardManager(List<Player> playerList, List<Inventory> playerInventoryList) {
-        this.playerList = playerList;
+    public CardManager(List<Inventory> playerInventoryList) {
         this.playerInventoryList = playerInventoryList;
     }
 
     public CardManager(CardManager cardManager) {
-        this.playerList = cardManager.playerList;
         this.playerInventoryList = cardManager.playerInventoryList;
     }
 
@@ -31,7 +26,7 @@ public class CardManager {
         int leftNeighborId;
         List<Card> cards = playerInventoryList.get(playerInventoryList.size() - 1).getCardsInHand();
         for (Inventory i : playerInventoryList) {
-            leftNeighborId = playerList.get(i.getPlayerId()).getLeftNeighborId();
+            leftNeighborId = i.getLeftNeighborId();
             tmpList.get(leftNeighborId).setCardsInHand(playerInventoryList.get(i.getPlayerId()).getCardsInHand());
         }
         tmpList.get(tmpList.size() - 2).setCardsInHand(cards);
@@ -45,8 +40,10 @@ public class CardManager {
         int i = 0;
         last = playerInventoryList.get(0).getCardsInHand();
         while (i < playerInventoryList.size()) {
-            temp = playerInventoryList.get(playerList.get(i).getRightNeighborId()).getCardsInHand();
-            playerInventoryList.get(playerList.get(i).getRightNeighborId()).setCardsInHand(last);
+            Inventory inv = playerInventoryList.get(i);
+            Inventory invRight = playerInventoryList.get(inv.getRightNeighborId());
+            temp = invRight.getCardsInHand();
+            playerInventoryList.get(invRight.getPlayerId()).setCardsInHand(last);
             last = temp;
             i++;
         }
@@ -61,9 +58,6 @@ public class CardManager {
         }
     }
 
-    public List<Player> getPlayerList() {
-        return playerList;
-    }
 
     public List<Inventory> getPlayerInventoryList() {
         return playerInventoryList;

@@ -25,16 +25,6 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     @Override
-    public void setCard(Card card) {
-        this.chosen = card;
-    }
-
-    @Override
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
-    @Override
     public Card chooseCard(Inventory inv) {
         return chooseCardToBuildStep(inv);
     }
@@ -45,9 +35,13 @@ public class WonderStrategy implements PlayingStrategy {
     }
 
     @Override
-    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+    public void setAction(Action action) {
+        this.action = action;
     }
 
+    @Override
+    public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
+    }
 
     /**
      * this method choose a card according to this actions
@@ -110,7 +104,12 @@ public class WonderStrategy implements PlayingStrategy {
         return chosenCard;
     }
 
-    public Card getCard(){
+    public Card getCard() {
         return chosen;
+    }
+
+    @Override
+    public void setCard(Card card) {
+        this.chosen = card;
     }
 }

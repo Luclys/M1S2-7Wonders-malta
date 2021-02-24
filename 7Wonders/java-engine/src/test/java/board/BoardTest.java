@@ -66,8 +66,8 @@ class BoardTest {
         Board board = new Board(playerList, false);
         Player player = playerList.get(0);
         Inventory inv = board.getPlayerInventoryList().get(0);
-        Inventory leftNeighborInv = board.getPlayerInventoryList().get(player.getLeftNeighborId());
-        Inventory rightNeighborInv = board.getPlayerInventoryList().get(player.getRightNeighborId());
+        Inventory leftNeighborInv = board.getPlayerInventoryList().get(inv.getLeftNeighborId());
+        Inventory rightNeighborInv = board.getPlayerInventoryList().get(inv.getRightNeighborId());
 
         List<Step> listSteps = new ArrayList<>();
         listSteps.add(new Step(null, new ResourceEffect(Resource.BOIS, 1)));

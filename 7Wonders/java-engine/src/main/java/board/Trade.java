@@ -1,6 +1,5 @@
 package board;
 
-import gameelements.GameLogger;
 import gameelements.Inventory;
 import gameelements.enums.Category;
 import gameelements.enums.Resource;
@@ -13,10 +12,10 @@ public class Trade {
     public static GameLogger log;
 
     public Trade(GameLogger logger) {
-        this.log = logger;
+        log = logger;
     }
 
-    protected int [] tryBuy(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv, int coinsRest) {
+    protected int[] tryBuy(List<Resource> missingResources, Inventory playerInv, Inventory rightNeighborInv, Inventory leftNeighborInv, int coinsRest) {
         boolean canBuyAllResources = true;
         int rightPrice;
         int leftPrice;

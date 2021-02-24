@@ -18,16 +18,6 @@ public class StupidStrategy implements PlayingStrategy {
         return s;
     }
 
-    @Override
-    public void setCard(Card card) {
-        this.chosen = card;
-    }
-
-    @Override
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
     /**
      * This method allows to choose a card
      * to build it if it's possible
@@ -50,11 +40,21 @@ public class StupidStrategy implements PlayingStrategy {
     }
 
     @Override
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    @Override
     public void updateKnowledge(ArrayList<Inventory> censoredInvList, int age, int currentTurn, int rightNeighborId, int leftNeighborId) {
     }
 
-    public Card getCard(){
+    public Card getCard() {
         return chosen;
+    }
+
+    @Override
+    public void setCard(Card card) {
+        this.chosen = card;
     }
 
 
