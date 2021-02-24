@@ -11,18 +11,16 @@ import java.util.logging.Logger;
 
 public class GameLogger {
     private static final Logger log = Logger.getLogger(GameLogger.class.getName());
-    private static String separator = "%n==========================================================================%n";
+    private static final String separator = "%n==========================================================================%n";
     private boolean booleanPrint;
 
     public GameLogger(boolean booleanPrint) {
         this.booleanPrint = booleanPrint;
     }
 
-    public void setBooleanPrint(boolean booleanPrint) {
-        this.booleanPrint = booleanPrint;
+    public boolean getBooleanPrint() {
+        return booleanPrint;
     }
-
-    public boolean getBooleanPrint() { return booleanPrint;}
 
     public void beginningOfPlay(int i) {
         if (!booleanPrint) return;
@@ -69,60 +67,8 @@ public class GameLogger {
         log.info(String.format("%n============== PLAYER HAS SOME MISSING RESOURCES: START TRADE ================%n%n"));
     }
 
-    public void playerInformation(Inventory inv) {
-        if (!booleanPrint) return;
-        String avaibaleResources = String.format("[BOIS : %d, ARGILE: %d, PIERRE: %d, MINERAI: %d, VERRE: %d, PAPYRUS: %d, TISSU: %d]",
-                inv.getAvailableResources()[Resource.BOIS.getIndex()],
-                inv.getAvailableResources()[Resource.ARGILE.getIndex()],
-                inv.getAvailableResources()[Resource.PIERRE.getIndex()],
-                inv.getAvailableResources()[Resource.MINERAI.getIndex()],
-                inv.getAvailableResources()[Resource.VERRE.getIndex()],
-                inv.getAvailableResources()[Resource.PAPYRUS.getIndex()],
-                inv.getAvailableResources()[Resource.TISSU.getIndex()]
-        );
-
-        String availableSymbols = String.format("[BOUCLIER: %d, COMPAS: %d, ROUAGE: %d, STELE: %d]",
-                inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()],
-                inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()],
-                inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()],
-                inv.getAvailableSymbols()[Symbol.STELE.getIndex()]
-        );
-
-        String availableResourcesFromPairs = " ";
-        for (Resource[] pair: inv.getPairResChoice()) {
-            availableResourcesFromPairs += pair[0].toString() + "|" + pair[1].toString() + ", ";
-        }
-        log.info(String.format("%n========================== PLAYER %d STATE =============================%n" +
-                        "WONDER: %s, %n" +
-                        "CURRENT WONDER STEP INDEX %d, %n" +
-                        "CARDS IN HAND: %s,%n" +
-                        "PLAYED CARDS: %s,%n" +
-                        "AVAILABLE RESOURCES: %s,%n" +
-                        "AVAILABLE RESOURCES FROM PAIRS: %s, %n" +
-                        "ANY RESOURCE FROM MATIERES PREMIERES AVAILABLE COUNT: %d, %n" +
-                        "ANY RESOURCE FROM PRODUITS MANIFACTURES AVAILABLE COUNT %d, %n" +
-                        "AVAILABLE SYMBOLS: %s,%n" +
-                        "VICTORY CHIPS SCORE: %d,%n" +
-                        "DEFEAT CHIPS COUNT: %d,%n" +
-                        "SCORE: %d,%n" +
-                        "COINS: %d %n" +
-                        "Available Cards to play: %s",
-                inv.getPlayerId(),
-                inv.getWonderBoard().getName(),
-                inv.getWonderBoard().getCurrentStepIndex(),
-                inv.getCardsInHand().toString(),
-                inv.getPlayedCards().toString(),
-                avaibaleResources,
-                availableResourcesFromPairs,
-                inv.getAnyMatierePremiereAvailableCount(),
-                inv.getAnyProduitManufactureAvailableCount(),
-                availableSymbols,
-                inv.getVictoryChipsScore(),
-                inv.getDefeatChipsCount(),
-                inv.getScore(),
-                inv.getCoins(),
-                inv.cardsAvailableToPlay().toString()
-        ));
+    public void setBooleanPrint(boolean booleanPrint) {
+        this.booleanPrint = booleanPrint;
     }
 
     public void chosenWonderBoard(int id, WonderBoard wb) {
@@ -144,7 +90,6 @@ public class GameLogger {
         if (!booleanPrint) return;
         log.info(String.format("%n[ACTION] Player %d builds free card from discarded %s%n", playerId, card.getName()));
     }
-
 
     public void playerCanBuildCardForFree(int playerId, Card card, List<String> cardsAllowingToBuildForFree) {
         if (!booleanPrint) return;
@@ -289,15 +234,72 @@ public class GameLogger {
     public boolean isBooleanPrint() {
         return booleanPrint;
     }
-    public void display(String s){
+
+    public void playerInformation(Inventory inv) {
+        if (!booleanPrint) return;
+        String avaibaleResources = String.format("[BOIS : %d, ARGILE: %d, PIERRE: %d, MINERAI: %d, VERRE: %d, PAPYRUS: %d, TISSU: %d]",
+                inv.getAvailableResources()[Resource.BOIS.getIndex()],
+                inv.getAvailableResources()[Resource.ARGILE.getIndex()],
+                inv.getAvailableResources()[Resource.PIERRE.getIndex()],
+                inv.getAvailableResources()[Resource.MINERAI.getIndex()],
+                inv.getAvailableResources()[Resource.VERRE.getIndex()],
+                inv.getAvailableResources()[Resource.PAPYRUS.getIndex()],
+                inv.getAvailableResources()[Resource.TISSU.getIndex()]
+        );
+
+        String availableSymbols = String.format("[BOUCLIER: %d, COMPAS: %d, ROUAGE: %d, STELE: %d]",
+                inv.getAvailableSymbols()[Symbol.BOUCLIER.getIndex()],
+                inv.getAvailableSymbols()[Symbol.COMPAS.getIndex()],
+                inv.getAvailableSymbols()[Symbol.ROUAGE.getIndex()],
+                inv.getAvailableSymbols()[Symbol.STELE.getIndex()]
+        );
+
+        String availableResourcesFromPairs = " ";
+        for (Resource[] pair : inv.getPairResChoice()) {
+            availableResourcesFromPairs += pair[0].toString() + "|" + pair[1].toString() + ", ";
+        }
+        log.info(String.format("%n========================== PLAYER %d STATE =============================%n" +
+                        "WONDER: %s, %n" +
+                        "CURRENT WONDER STEP INDEX %d, %n" +
+                        "CARDS IN HAND: %s,%n" +
+                        "PLAYED CARDS: %s,%n" +
+                        "AVAILABLE RESOURCES: %s,%n" +
+                        "AVAILABLE RESOURCES FROM PAIRS: %s, %n" +
+                        "ANY RESOURCE FROM MATIERES PREMIERES AVAILABLE COUNT: %d, %n" +
+                        "ANY RESOURCE FROM PRODUITS MANIFACTURES AVAILABLE COUNT %d, %n" +
+                        "AVAILABLE SYMBOLS: %s,%n" +
+                        "VICTORY CHIPS SCORE: %d,%n" +
+                        "DEFEAT CHIPS COUNT: %d,%n" +
+                        "SCORE: %d,%n" +
+                        "COINS: %d %n" +
+                        "Available Cards to play: %s",
+                inv.getPlayerId(),
+                inv.getWonderBoard().getName(),
+                inv.getWonderBoard().getCurrentStepIndex(),
+                inv.getCardsInHand().toString(),
+                inv.getPlayedCards().toString(),
+                avaibaleResources,
+                availableResourcesFromPairs,
+                inv.getAnyMatierePremiereAvailableCount(),
+                inv.getAnyProduitManufactureAvailableCount(),
+                availableSymbols,
+                inv.getVictoryChipsScore(),
+                inv.getDefeatChipsCount(),
+                inv.getScore(),
+                inv.getCoins(),
+                inv.cardsAvailableToPlay().toString()
+        ));
+    }
+
+    public void display(String s) {
         if (!booleanPrint) return;
         log.info(s);
     }
 
-    public void playerCards(Inventory inventory){
+    public void playerCards(Inventory inventory) {
         if (!booleanPrint) return;
-        for (Card c : inventory.getCardsInHand()){
-            log.info("[CARDS] "+c);
+        for (Card c : inventory.getCardsInHand()) {
+            log.info("[CARDS] " + c);
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Player {
     private final int id;
-    private  PlayingStrategy strategy;
+    private PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
 
@@ -80,6 +80,10 @@ public class Player {
         return strategy;
     }
 
+    public void setStrategy(PlayingStrategy s) {
+        this.strategy = s;
+    }
+
     //Getters and setters
     public int getId() {
         return id;
@@ -91,9 +95,6 @@ public class Player {
 
     public Action getAction() {
         return strategy.getAction();
-    }
-    public void setStrategy(PlayingStrategy s){
-        this.strategy = s;
     }
 
     public CardActionPair getCardAction() {

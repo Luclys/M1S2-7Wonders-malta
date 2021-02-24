@@ -16,13 +16,13 @@ public class RandomStrategy implements PlayingStrategy {
     public Card chooseCard(Inventory inventory) throws Exception {
         Random r1 = new SecureRandom();
         ArrayList<Card> listCard = cardsAvailableToPlay(inventory);
-        if(!listCard.isEmpty()){
+        if (!listCard.isEmpty()) {
             int randomCard = r1.nextInt(listCard.size());
             chosenCard = listCard.get(randomCard);
             ArrayList<Action> listActions = availableActions(chosenCard, inventory);
             int randomAction = r1.nextInt(listActions.size());
             chosenAction = listActions.get(randomAction);
-        }else{
+        } else {
             int randomCard = r1.nextInt(inventory.getCardsInHand().size());
             chosenCard = inventory.getCardsInHand().get(randomCard);
             chosenAction = Action.SELL;
@@ -36,6 +36,11 @@ public class RandomStrategy implements PlayingStrategy {
     }
 
     @Override
+    public void setAction(Action action) {
+        this.chosenAction = action;
+    }
+
+    @Override
     public Card getCard() {
         return chosenCard;
     }
@@ -43,11 +48,6 @@ public class RandomStrategy implements PlayingStrategy {
     @Override
     public void setCard(Card card) {
         this.chosenCard = card;
-    }
-
-    @Override
-    public void setAction(Action action) {
-        this.chosenAction = action;
     }
 
     @Override

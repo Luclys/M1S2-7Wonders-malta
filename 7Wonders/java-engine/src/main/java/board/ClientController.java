@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
+import static constants.WEBSERVICES.*;
+
 @RestController
 public class ClientController {
 
@@ -24,30 +26,29 @@ public class ClientController {
         return builder.build();
     }
 
-    public Boolean connection(String adresse){
+    public Boolean connection(String adresse) {
         this.adresse = adresse;
         System.out.println("***************** Send connection to Server ******************");
-        return restTemplate.postForObject(adresse +  "/connexion/", client.getUrl(), Boolean.class);
-
+        return restTemplate.postForObject(adresse + CONNEXION, client.getUrl(), Boolean.class);
     }
 
-    public Boolean sendNumberOfPlayers(int nbr){
+    public Boolean sendNumberOfPlayers(int nbr) {
         System.out.println("***************** Send number of players to Server ******************");
-        return restTemplate.postForObject(adresse + "/sendnumberplayers/", nbr, Boolean.class);
+        return restTemplate.postForObject(adresse + SEND_NB_PLAYERS, nbr, Boolean.class);
     }
 
 
-    public Boolean sendStats(DetailedResults[] results){
-        return restTemplate.postForObject(adresse + "/sendStats/", results, Boolean.class);
+    public Boolean sendStats(DetailedResults[] results) {
+        return restTemplate.postForObject(adresse + SEND_STATS, results, Boolean.class);
     }
 
-    public void showStats(){
+    public void showStats() {
         System.out.println("***************** Ask for  stats ******************");
-        String stat =  restTemplate.postForObject(adresse + "/showStats/", 1, String.class);
+        String stat = restTemplate.postForObject(adresse + SHOW_STATS, 1, String.class);
         System.out.println(stat);
     }
 
-    public void disconnect(){
-        restTemplate.postForObject(adresse + "/disconnect/", 1, Boolean.class);
+    public void disconnect() {
+        restTemplate.getForObject(adresse + DISCONNECT, int.class);
     }
 }

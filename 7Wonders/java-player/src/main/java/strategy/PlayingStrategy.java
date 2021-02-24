@@ -15,7 +15,12 @@ public interface PlayingStrategy {
     Card chooseCard(Inventory inventory) throws Exception;
 
     Action getAction();
+
+    void setAction(Action action);
+
     Card getCard();
+
+    void setCard(Card c);
 
     PlayingStrategy copy();
 
@@ -32,10 +37,6 @@ public interface PlayingStrategy {
         cardsAvailableToPlay.removeIf(card -> inv.getPlayedCards().contains(card));
         return cardsAvailableToPlay;
     }
-
-    void setCard(Card c);
-
-    void setAction(Action action);
 
     default ArrayList<Action> availableActions(Card c, Inventory inv) {
         ArrayList<Action> list = new ArrayList<>();

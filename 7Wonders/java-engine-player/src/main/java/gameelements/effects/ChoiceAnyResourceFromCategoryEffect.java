@@ -20,7 +20,8 @@ public class ChoiceAnyResourceFromCategoryEffect extends Effect {
     /**
      * This method activate the effect by incrementing the count of primary Resource
      * or the count of manufacture resource when it is end of the game
-     *  @param inv
+     *
+     * @param inv
      * @param leftNeighborInv
      * @param rightNeighborInv
      * @param isEndGame

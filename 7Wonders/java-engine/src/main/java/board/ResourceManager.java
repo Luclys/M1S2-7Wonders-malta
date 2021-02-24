@@ -9,26 +9,26 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ResourceManager {
-    private ArrayList<int[]> indexCombinationsFromPairResourcesChoices;
     private final Trade commerce;
-    private List<Resource> requiredMatieresPremieresResources;
-    private List<Resource> requiredProduitsManufactures;
     int rightTotal;
     int leftTotal;
     int tempLeftTotal;
     int tempRightTotal;
+    private ArrayList<int[]> indexCombinationsFromPairResourcesChoices;
+    private List<Resource> requiredMatieresPremieresResources;
+    private List<Resource> requiredProduitsManufactures;
 
-    private void unset() {
-        requiredMatieresPremieresResources = new ArrayList<>();
-        requiredProduitsManufactures = new ArrayList<>();
+    public ResourceManager(GameLogger log) {
+        commerce = new Trade(log);
         rightTotal = 0;
         leftTotal = 0;
         tempLeftTotal = 0;
         tempRightTotal = 0;
     }
 
-    public ResourceManager(GameLogger log) {
-        commerce = new Trade(log);
+    private void unset() {
+        requiredMatieresPremieresResources = new ArrayList<>();
+        requiredProduitsManufactures = new ArrayList<>();
         rightTotal = 0;
         leftTotal = 0;
         tempLeftTotal = 0;
@@ -43,7 +43,8 @@ public class ResourceManager {
      * This recursive function fills in indexCombinationsFromPairResourcesChoices with all the index combinations for
      * choosing from cards with pair of resources for choice
      * Index is an int in [0,1] and means which resource we choose from each pair
-     * @param i current index (from which we continue to construct the combination)
+     *
+     * @param i           current index (from which we continue to construct the combination)
      * @param combination current combination
      */
     public void fillInIndexCombinationsFromPairResourcesChoices(int i, int[] combination) {
@@ -64,6 +65,7 @@ public class ResourceManager {
     /**
      * Empties indexCombinationsFromPairResourcesChoices and calls a recursive function fillInIndexCombinationsFromPairResourcesChoices
      * to fill in indexCombinationsFromPairResourcesChoices
+     *
      * @param playerInventory player's inventory
      */
     public void fillInIndexCombinationsFromPairResourcesChoices(Inventory playerInventory) {
@@ -75,8 +77,9 @@ public class ResourceManager {
 
     /**
      * Sorts list of lists by size
+     *
      * @param list List of lists
-     * @return List<List<T>> returns sorted list
+     * @return List<List < T>> returns sorted list
      */
     public <T> List<List<T>> sortByArraySize(List<List<T>> list) {
         list.sort(Comparator.comparingInt(List::size));
@@ -86,9 +89,10 @@ public class ResourceManager {
     /**
      * Removes required resources which can be chosen from cards with pair of resources for choice
      * and returns all the combinations of the remaining required resources sorted by array size
-     * @param playerInventory player.Player's inventory
+     *
+     * @param playerInventory   player.Player's inventory
      * @param requiredResources List of requiredResources
-     * @return List<List<Resource>> Returns the list with all the combinations of the remaining required resources sorted by array size
+     * @return List<List < Resource>> Returns the list with all the combinations of the remaining required resources sorted by array size
      */
     public List<List<Resource>> sortedRemainingRequiredResourcesCombinationsAfterPairsChoice(Inventory playerInventory, List<Resource> requiredResources) {
         fillInIndexCombinationsFromPairResourcesChoices(playerInventory);
@@ -118,7 +122,8 @@ public class ResourceManager {
     /**
      * Removes required resources which can be chosen from cards with one produced resource
      * and returns the remaining required resources
-     * @param inventory player's inventory
+     *
+     * @param inventory         player's inventory
      * @param requiredResources List of requiredResources
      * @return List<Resource> List of remaining resources
      */
@@ -131,6 +136,7 @@ public class ResourceManager {
 
     /**
      * Converts indexes of resources (enum) to list of resources
+     *
      * @param resourcesByIndex player's inventory
      * @return List<Resource> List of resources
      */
@@ -153,7 +159,7 @@ public class ResourceManager {
         int minTotal = Integer.MAX_VALUE;
         int indexOfMin = -1;
         for (int i = 0; i < requiredResourcesCombinations.size(); i++) {
-            int [] neighborTotals = commerce.tryBuy(requiredResourcesCombinations.get(i), playerInventory, rightNeighborInventory, leftNeighborInventory, playerInventory.getCoins() - rightTotal - leftTotal);
+            int[] neighborTotals = commerce.tryBuy(requiredResourcesCombinations.get(i), playerInventory, rightNeighborInventory, leftNeighborInventory, playerInventory.getCoins() - rightTotal - leftTotal);
             if (neighborTotals != null) {
                 if (minTotal > neighborTotals[0] + neighborTotals[1]) {
                     minTotal = neighborTotals[0] + neighborTotals[1];
@@ -176,18 +182,18 @@ public class ResourceManager {
         }
     }
 
-    private boolean updateRemainingRequiredResourcesAfterChoiceAnyProduitsManufactures(Inventory inventory, Inventory leftNeighbor, Inventory rightNeighbor){
+    private boolean updateRemainingRequiredResourcesAfterChoiceAnyProduitsManufactures(Inventory inventory, Inventory leftNeighbor, Inventory rightNeighbor) {
         if (requiredProduitsManufactures.size() <= inventory.getAnyProduitManufactureAvailableCount()) {
             requiredProduitsManufactures = new ArrayList<>();
         } else {
             requiredProduitsManufactures = requiredProduitsManufactures.subList(inventory.getAnyProduitManufactureAvailableCount(), requiredProduitsManufactures.size());
             for (Resource resource : requiredProduitsManufactures) {
-                int [] neighborTotals =  commerce.tryBuy(requiredProduitsManufactures, inventory, leftNeighbor, rightNeighbor, inventory.getCoins() - rightTotal - leftTotal);
+                int[] neighborTotals = commerce.tryBuy(requiredProduitsManufactures, inventory, leftNeighbor, rightNeighbor, inventory.getCoins() - rightTotal - leftTotal);
                 if (neighborTotals == null) {
                     return false;
                 } else {
-                    leftTotal+=neighborTotals[0];
-                    rightTotal+=neighborTotals[1];
+                    leftTotal += neighborTotals[0];
+                    rightTotal += neighborTotals[1];
                 }
             }
         }
@@ -223,8 +229,8 @@ public class ResourceManager {
                     int indexOfBestCombination = findCombinationIndexWithMinTotal(playerInventory, leftNeighborInventory, rightNeighborInventory, resourceCombinationsOfSameLength);
                     //if found best combination
                     if (indexOfBestCombination != -1) {
-                        leftTotal+=tempLeftTotal;
-                        rightTotal+=tempRightTotal;
+                        leftTotal += tempLeftTotal;
+                        rightTotal += tempRightTotal;
                         return true;
                     } else {
                         combinationLengthToFindBestPrice = currentCombinationLength;
@@ -250,7 +256,7 @@ public class ResourceManager {
         if (combinations.size() == 0) {
             return true;
         }
-        if (updateRemainingRequiredResourcesAfterChoiceFromMatieresPremieres(inventory, leftNeighbor, rightNeighbor, combinations)){
+        if (updateRemainingRequiredResourcesAfterChoiceFromMatieresPremieres(inventory, leftNeighbor, rightNeighbor, combinations)) {
             commerce.payToNeighbor(inventory, leftNeighbor, leftTotal);
             commerce.payToNeighbor(inventory, rightNeighbor, rightTotal);
             return true;

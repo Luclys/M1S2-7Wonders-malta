@@ -17,7 +17,6 @@ import statistic.DetailedResults;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,13 +32,13 @@ import java.util.stream.Collectors;
 public class Board {
     public static final int AGES = 3;
     public static final int CARDS_NUMBER = 7;
+    public final GameLogger log;
     private final PlayersManager playersManager;
     private final Trade commerce;
     private final ArrayList<Player> playerList;
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
-    public final GameLogger log;
     private final List<WonderBoard> availableWonderBoardList;
     private List<Card> currentDeckCardList;
     private boolean isLeftRotation;
@@ -48,6 +47,7 @@ public class Board {
     private int currentTurn;
 
     private DetailedResults[] results;
+
     public Board(Board b) {
 
         this.playersManager = new PlayersManager(b.playersManager);
@@ -55,12 +55,12 @@ public class Board {
 
         this.playerList = new ArrayList<>();
         // TODO
-        for (Player p : b.getPlayerList()){
+        for (Player p : b.getPlayerList()) {
             this.playerList.add(new Player(p));
         }
 
         this.playerInventoryList = new ArrayList<>();
-        for (Inventory n : b.getPlayerInventoryList()){
+        for (Inventory n : b.getPlayerInventoryList()) {
             this.playerInventoryList.add(new Inventory(n));
         }
 
@@ -75,7 +75,7 @@ public class Board {
         this.availableWonderBoardList.addAll(b.availableWonderBoardList);
 
 
-        this.currentDeckCardList =new ArrayList<>();
+        this.currentDeckCardList = new ArrayList<>();
         for (Card c : b.getCurrentDeckCardList()) this.currentDeckCardList.add(c);
 
         this.isLeftRotation = b.isLeftRotation;
@@ -156,7 +156,7 @@ public class Board {
     public int play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
-        for ( currentAge = 1; currentAge <= AGES; currentAge++) {
+        for (currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
             log.beginningOfAge(currentAge);
 
@@ -165,7 +165,7 @@ public class Board {
                 inventory.setCardsInHand(drawCards(CARDS_NUMBER));
                 if (inventory.getPossibleFreeBuildings() == -1) inventory.setPossibleFreeBuildings(1);
             }
-            for ( currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
+            for (currentTurn = 0; currentTurn < CARDS_NUMBER - 1; currentTurn++) {
                 log.newTurn(currentTurn + 1);
                 log.play();
 
@@ -201,14 +201,15 @@ public class Board {
         handleLastTurnCard();
         resolveWarConflict(getJetonVictoryValue());
     }
-    public void endOfTurn(){
+
+    public void endOfTurn() {
 
         playersManager.updateCoins();
         playersManager.freeBuildFromDiscarded(discardedDeckCardList);
         getCardManager().playersCardsRotation(isLeftRotation());
     }
 
-    public void endOfGame(){
+    public void endOfGame() {
         scores();
         denseRanking(playerInventoryList);
         updateLastDetailedResultsValues();
@@ -220,7 +221,7 @@ public class Board {
         for (int i = 0; i < size; i++) {
             results[i] = playerInventoryList.get(i).getDetailedResults();
         }
-       // sendToServer(results);
+        // sendToServer(results);
     }
 
     private void sendToServer(DetailedResults[] results) throws JsonProcessingException {
@@ -263,7 +264,7 @@ public class Board {
      * this method allows to associate the wonder boards to the players
      */
     private void assignWBToPlayers() throws Exception {
-        Random r = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
+        Random r = new Random();  // SecureRandom is preferred to Random
 
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Inventory inv = playerInventoryList.get(i);
@@ -364,7 +365,8 @@ public class Board {
 
     /**
      * this method alowws to build chosen card
-     *  @param trueInv
+     *
+     * @param trueInv
      * @param chosenCard
      */
     private void buildCard(Inventory trueInv, Card chosenCard) {
@@ -377,7 +379,8 @@ public class Board {
     /**
      * this method alowws to build a step of the wonder assocaite to the player by using
      * the chosen card
-     *  @param trueInv
+     *
+     * @param trueInv
      * @param chosenCard
      */
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {

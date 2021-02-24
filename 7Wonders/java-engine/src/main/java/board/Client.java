@@ -15,7 +15,8 @@ public class Client {
     ClientController crl;
 
     String stats;
-    public Client(){
+
+    public Client() {
         url = "http://localhost:8081";
         stats = null;
     }

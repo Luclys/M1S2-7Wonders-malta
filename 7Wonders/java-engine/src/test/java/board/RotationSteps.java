@@ -4,7 +4,6 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
 import io.cucumber.java8.En;
-import player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

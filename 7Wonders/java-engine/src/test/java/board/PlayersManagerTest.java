@@ -6,14 +6,12 @@ import gameelements.cards.CardsSet;
 import gameelements.enums.Symbol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import player.Player;
 import statistic.DetailedResults;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 class PlayersManagerTest {
 
@@ -55,6 +53,7 @@ class PlayersManagerTest {
         playersManager.fightWithNeighbor(inv, invNeighbor, 5);
         assertEquals(defeatJetonsCount + 1, inv.getDefeatChipsCount());
     }
+
     //TODO
 /*
     @Test

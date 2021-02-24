@@ -76,7 +76,7 @@ public class Inventory implements Comparable<Object> {
         this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
         this.availableResources = Arrays.copyOf(inventory.availableResources, inventory.availableResources.length);
-        this.availableSymbols = Arrays.copyOf(inventory.availableSymbols,inventory.availableSymbols.length);
+        this.availableSymbols = Arrays.copyOf(inventory.availableSymbols, inventory.availableSymbols.length);
         this.pairResChoice = new ArrayList<>(inventory.pairResChoice);
         this.cardsInHand = new ArrayList<>(inventory.cardsInHand);
         this.playedCards = new ArrayList<>(inventory.playedCards);
@@ -481,7 +481,7 @@ public class Inventory implements Comparable<Object> {
         return canPay;
     }
 
-    public void set(Inventory inv){
+    public void set(Inventory inv) {
         new Inventory(inv);
     }
 
@@ -496,12 +496,12 @@ public class Inventory implements Comparable<Object> {
         return rightNeighborId;
     }
 
-    public int getLeftNeighborId() {
-        return leftNeighborId;
-    }
-
     public void setRightNeighborId(int rightNeighborId) {
         this.rightNeighborId = rightNeighborId;
+    }
+
+    public int getLeftNeighborId() {
+        return leftNeighborId;
     }
 
     public void setLeftNeighborId(int leftNeighborId) {

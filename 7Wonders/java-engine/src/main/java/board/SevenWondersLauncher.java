@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.ResourceAccessException;
 import player.Player;
 import strategy.FirstCardStrategy;
 import strategy.RuleBasedAI;
@@ -17,29 +18,42 @@ public class SevenWondersLauncher {
     private static final GameLogger log = new GameLogger(true);
 
     static int nbPlayers = 3;
-    static int nbGames = 1000;
+    static int nbGames = 5;
     static boolean boolPrint = false;
-
+    @Autowired
+    Client client;
 
     public static void main(String... args) throws Exception {
         SpringApplication.run(SevenWondersLauncher.class, args);
     }
-    @Autowired
-    Client client;
+
+    public static List<Player> fetchPlayers(int nbPlayers) {
+        List<Player> playerList = new ArrayList<>(nbPlayers);
+
+        Player player1 = new Player(playerList.size(), new RuleBasedAI());
+        playerList.add(player1);
+        Player player2 = new Player(playerList.size(), new RuleBasedAI());
+        playerList.add(player2);
+        Player player3 = new Player(playerList.size(), new FirstCardStrategy());
+        playerList.add(player3);
+
+
+        for (int i = playerList.size(); i < nbPlayers; i++) {
+            Player player = new Player(i, new FirstCardStrategy());
+            playerList.add(player);
+        }
+        return playerList;
+    }
+
     @Bean
     public CommandLineRunner unClient() {
         return args -> {
             /// retrieving the value
-            String adresse;
-            if (args.length == 1) {
-                adresse =  "http://" + args[0] + ":8080";
-            }
-            else {
-                adresse = "http://localhost:8080";
-            }
+            String adresse = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
+
             System.out.println("*****************Connect Client to server******************");
-            Boolean val =  client.crl.connection(adresse);
-            System.out.println("client > Connection accepted ? "+val);
+            Boolean val = client.crl.connection(adresse);
+            System.out.println("client > Connection accepted ? " + val);
             if (args.length >= 3) {
                 nbPlayers = Integer.parseInt(args[0]);
                 nbGames = Integer.parseInt(args[1]);
@@ -61,27 +75,14 @@ public class SevenWondersLauncher {
                 client.crl.sendStats(board.getResults());
             }
             client.crl.showStats();
+
+            try {
+                client.crl.disconnect();
+            } catch (ResourceAccessException ignored) {
+            }
+
             System.exit(0);
         };
-    }
-
-    public static List<Player> fetchPlayers(int nbPlayers) {
-        List<Player> playerList = new ArrayList<>(nbPlayers);
-
-        Player player1 = new Player(playerList.size(), new RuleBasedAI());
-        playerList.add(player1);
-        Player player2 = new Player(playerList.size(), new RuleBasedAI());
-        playerList.add(player2);
-        Player player3 = new Player(playerList.size(), new FirstCardStrategy());
-        playerList.add(player3);
-
-
-
-        for (int i = playerList.size(); i < nbPlayers; i++) {
-            Player player = new Player(i, new FirstCardStrategy());
-            playerList.add(player);
-        }
-        return playerList;
     }
 
 }

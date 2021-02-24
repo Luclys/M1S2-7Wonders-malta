@@ -84,7 +84,7 @@ public class PlayersManager {
         for (int i = 0; i < players.size(); i++) {
             Inventory inv = new Inventory(i);
             // To make a sure we bind the first's left to last id
-           // Player player = players.get(i);
+            // Player player = players.get(i);
             if (i == 0) {
                 inv.setLeftNeighborId(players.size() - 1);
             } else {
