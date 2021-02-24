@@ -32,7 +32,7 @@ public class SevenWondersLauncher {
             /// retrieving the value
             System.out.println("*****************Connect Client to server******************");
             Boolean val =  client.crl.connection();
-            System.out.println("client > Connextion accepeted ? "+val);
+            System.out.println("client > Connection accepted ? "+val);
             if (args.length >= 3) {
                 nbPlayers = Integer.parseInt(args[0]);
                 nbGames = Integer.parseInt(args[1]);
