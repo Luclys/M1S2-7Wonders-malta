@@ -50,7 +50,7 @@ public class ServerController {
 
     @PostMapping("/showStats/")
     public String showStats(@RequestBody int i) {
-        System.out.println("***************** Show Stats ******************");
+        System.out.println("***************** Send Stats ******************");
         return server.showStatistics();
     }
 

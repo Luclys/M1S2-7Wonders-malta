@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-@ExtendWith(MockitoExtension.class)
 class PlayerTest {
 
     final List<Card> cards = new ArrayList<>(7);

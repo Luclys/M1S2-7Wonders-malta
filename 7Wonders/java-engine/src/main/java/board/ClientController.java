@@ -39,7 +39,7 @@ public class ClientController {
     }
 
     public void showStats(){
-        System.out.println("***************** Show  stats ******************");
+        System.out.println("***************** Ask for  stats ******************");
         String stat =  restTemplate.postForObject("http://localhost:8080/showStats/", 1, String.class);
         System.out.println(stat);
     }
