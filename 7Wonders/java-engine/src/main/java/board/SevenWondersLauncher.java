@@ -30,8 +30,15 @@ public class SevenWondersLauncher {
     public CommandLineRunner unClient() {
         return args -> {
             /// retrieving the value
+            String adresse;
+            if (args.length == 1) {
+                adresse =  "http://" + args[0] + ":8080";
+            }
+            else {
+                adresse = "http://localhost:8080";
+            }
             System.out.println("*****************Connect Client to server******************");
-            Boolean val =  client.crl.connection();
+            Boolean val =  client.crl.connection(adresse);
             System.out.println("client > Connection accepted ? "+val);
             if (args.length >= 3) {
                 nbPlayers = Integer.parseInt(args[0]);

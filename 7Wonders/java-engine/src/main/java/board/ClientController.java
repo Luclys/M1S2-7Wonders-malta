@@ -10,6 +10,8 @@ import statistic.DetailedResults;
 @RestController
 public class ClientController {
 
+    String adresse;
+
     @Autowired
     Client client;
 
@@ -22,30 +24,30 @@ public class ClientController {
         return builder.build();
     }
 
-    public Boolean connection(){
+    public Boolean connection(String adresse){
+        this.adresse = adresse;
         System.out.println("***************** Send connection to Server ******************");
-        return restTemplate.postForObject("http://localhost:8080/connexion/", client.getUrl(), Boolean.class);
+        return restTemplate.postForObject(adresse +  "/connexion/", client.getUrl(), Boolean.class);
 
     }
 
     public Boolean sendNumberOfPlayers(int nbr){
         System.out.println("***************** Send number of players to Server ******************");
-        return restTemplate.postForObject("http://localhost:8080/sendnumberplayers/", nbr, Boolean.class);
+        return restTemplate.postForObject(adresse + "/sendnumberplayers/", nbr, Boolean.class);
     }
 
 
     public Boolean sendStats(DetailedResults[] results){
-        return restTemplate.postForObject("http://localhost:8080/sendStats/", results, Boolean.class);
+        return restTemplate.postForObject(adresse + "/sendStats/", results, Boolean.class);
     }
 
     public void showStats(){
         System.out.println("***************** Ask for  stats ******************");
-        String stat =  restTemplate.postForObject("http://localhost:8080/showStats/", 1, String.class);
+        String stat =  restTemplate.postForObject(adresse + "/showStats/", 1, String.class);
         System.out.println(stat);
     }
 
     public void disconnect(){
-        restTemplate.postForObject("http://localhost:8080/disconnect/", 1, Boolean.class);
+        restTemplate.postForObject(adresse + "/disconnect/", 1, Boolean.class);
     }
 }
-
