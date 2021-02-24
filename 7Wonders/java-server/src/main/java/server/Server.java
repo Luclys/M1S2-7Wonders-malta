@@ -26,22 +26,17 @@ public class Server {
     private final HashMap<Integer, Integer> stepsBuilt = new HashMap<>();
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
-    @Autowired
-    ServerController crl;
-    Server partie;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
+
+    Server partie;
+
+    @Autowired
+    ServerController crl;
+
     @Autowired
     private ApplicationContext appContext;
-
-    public Server() {
-        this(42);
-    }
-
-
-    public Server(int t) {
-    }
 
     public static void main(String[] args) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
@@ -53,7 +48,7 @@ public class Server {
         if (partie == null) {
             partie = this;
         } else {
-            System.out.println("Moteur > Une partie est déjà commencé.");
+            System.out.println("Engine > A game is already started.");
         }
     }
 
@@ -62,7 +57,7 @@ public class Server {
         return args -> {
             // ack de connexion sur l'adresse docker
             partie = this;
-            System.out.println("*****************Run Server******************");
+            System.out.println("***************** Server running... ******************");
         };
     }
 
@@ -88,13 +83,12 @@ public class Server {
             // Coins spent during trade
             coinsSpentInTrade.merge(i, results[i].getNbCoinsSpentInTrade(), Integer::sum);
         }
-
     }
 
     public String showStatistics() {
         String stats = "";
         for (int i = 0; i < nbPlayers; i++) {
-            stats += "Player " + i + " | Win rate : " + wins.get(i) / 10 +
+            stats += "> Player " + i + " | Win rate : " + wins.get(i) / 10 +
 
                     " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
                     " | Steps built : " + stepsBuilt.get(i) + " | Trade Mean - Money earned : " + coinsAcquiredInTrade.get(i) / 1000 +

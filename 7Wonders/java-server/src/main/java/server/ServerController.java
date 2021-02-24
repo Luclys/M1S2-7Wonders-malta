@@ -28,9 +28,9 @@ public class ServerController {
     @PostMapping(CONNEXION)
     public boolean connecter(@RequestBody String url) {
         urlClient = url;
-        System.out.println("*****************Connection  Client Server ******************");
+        System.out.println("***************** Connection Client Server ******************");
 
-        System.out.println("Serveur > connexion acceptée pour le client" + urlClient);
+        System.out.println("Server > Connexion granted to the client : " + urlClient);
         server.lancerPartie();
         return true;
     }

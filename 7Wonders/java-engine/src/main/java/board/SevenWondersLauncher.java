@@ -23,7 +23,7 @@ public class SevenWondersLauncher {
     @Autowired
     Client client;
 
-    public static void main(String... args) throws Exception {
+    public static void main(String... args) {
         SpringApplication.run(SevenWondersLauncher.class, args);
     }
 
@@ -51,7 +51,7 @@ public class SevenWondersLauncher {
             /// retrieving the value
             String adresse = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
 
-            System.out.println("*****************Connect Client to server******************");
+            System.out.println("***************** Connect Client to server ******************");
             Boolean val = client.crl.connection(adresse);
             System.out.println("client > Connection accepted ? " + val);
             if (args.length >= 3) {
@@ -67,11 +67,13 @@ public class SevenWondersLauncher {
                 // au lieu de playList -> urlList
                 Board board = new Board(playerList, boolPrint);
                 board.play(i);
+
                 if (i != nbGames) {
                     System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
                 } else {
                     System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
                 }
+
                 client.crl.sendStats(board.getResults());
             }
             client.crl.showStats();

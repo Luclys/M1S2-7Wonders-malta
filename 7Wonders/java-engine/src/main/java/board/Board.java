@@ -1,7 +1,5 @@
 package board;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gameelements.Inventory;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
@@ -153,7 +151,7 @@ public class Board {
      *
      * @param nbPlay
      */
-    public int play(int nbPlay) throws Exception {
+    public void play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
         for (currentAge = 1; currentAge <= AGES; currentAge++) {
@@ -189,12 +187,6 @@ public class Board {
 
         endOfGame();
         retrieveResults();
-        for (int i = 0; i < playerInventoryList.size(); i++) {
-            if (playerInventoryList.get(i).getRank() == 1) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     public void endOfAge() throws Exception {
@@ -215,19 +207,13 @@ public class Board {
         updateLastDetailedResultsValues();
     }
 
-    private void retrieveResults() throws JsonProcessingException {
-        int size = playerInventoryList.size();
-        results = new DetailedResults[size];
-        for (int i = 0; i < size; i++) {
+    private void retrieveResults() {
+        int resultArraySize = playerInventoryList.size();
+        results = new DetailedResults[resultArraySize];
+
+        for (int i = 0; i < resultArraySize; i++) {
             results[i] = playerInventoryList.get(i).getDetailedResults();
         }
-        // sendToServer(results);
-    }
-
-    private void sendToServer(DetailedResults[] results) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String s = objectMapper.writeValueAsString(results);
-        //SevenWondersLauncher.client.sendResults(s);
     }
 
     private void updateLastDetailedResultsValues() {

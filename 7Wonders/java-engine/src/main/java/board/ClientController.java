@@ -28,7 +28,7 @@ public class ClientController {
 
     public Boolean connection(String adresse) {
         this.adresse = adresse;
-        System.out.println("***************** Send connection to Server ******************");
+        System.out.println("***************** Send connection request to Server ******************");
         return restTemplate.postForObject(adresse + CONNEXION, client.getUrl(), Boolean.class);
     }
 
@@ -43,7 +43,7 @@ public class ClientController {
     }
 
     public void showStats() {
-        System.out.println("***************** Ask for  stats ******************");
+        System.out.println("***************** Ask Server for stats ******************");
         String stat = restTemplate.postForObject(adresse + SHOW_STATS, 1, String.class);
         System.out.println(stat);
     }
