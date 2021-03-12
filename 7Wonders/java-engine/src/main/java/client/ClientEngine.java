@@ -1,4 +1,4 @@
-package board;
+package client;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
-public class Client {
+public class ClientEngine {
 
 
     String url;
     @Autowired
-    ClientController crl;
+    ClientEngineController crl;
 
     String stats;
 
-    public Client() {
+    public ClientEngine() {
         url = "http://localhost:8081";
         stats = null;
     }

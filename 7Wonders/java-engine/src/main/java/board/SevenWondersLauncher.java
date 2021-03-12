@@ -1,12 +1,12 @@
 package board;
 
+import client.ClientEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.ResourceAccessException;
-import player.Player;
 import strategy.FirstCardStrategy;
 import strategy.RuleBasedAI;
 
@@ -15,34 +15,33 @@ import java.util.List;
 
 @SpringBootApplication
 public class SevenWondersLauncher {
-    private static final GameLogger log = new GameLogger(true);
 
     static int nbPlayers = 3;
     static int nbGames = 5;
     static boolean boolPrint = false;
     @Autowired
-    Client client;
+    ClientEngine clientEngine;
 
     public static void main(String... args) {
         SpringApplication.run(SevenWondersLauncher.class, args);
     }
 
-    public static List<Player> fetchPlayers(int nbPlayers) {
-        List<Player> playerList = new ArrayList<>(nbPlayers);
+    public static List<String> fetchPlayers(int nbPlayers) {
+        List<String> playerURLList = new ArrayList<>(nbPlayers);
 
-        Player player1 = new Player(playerList.size(), new RuleBasedAI());
-        playerList.add(player1);
-        Player player2 = new Player(playerList.size(), new RuleBasedAI());
-        playerList.add(player2);
-        Player player3 = new Player(playerList.size(), new FirstCardStrategy());
-        playerList.add(player3);
+        Player player1 = new Player(playerURLList.size(), new RuleBasedAI());
+        playerURLList.add(player1);
+        Player player2 = new Player(playerURLList.size(), new RuleBasedAI());
+        playerURLList.add(player2);
+        Player player3 = new Player(playerURLList.size(), new FirstCardStrategy());
+        playerURLList.add(player3);
 
 
-        for (int i = playerList.size(); i < nbPlayers; i++) {
+        for (int i = playerURLList.size(); i < nbPlayers; i++) {
             Player player = new Player(i, new FirstCardStrategy());
-            playerList.add(player);
+            playerURLList.add(player);
         }
-        return playerList;
+        return playerURLList;
     }
 
     @Bean
@@ -51,9 +50,9 @@ public class SevenWondersLauncher {
             /// retrieving the value
             String adresse = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
 
-            System.out.println("***************** Connect Client to server ******************");
-            Boolean val = client.crl.connection(adresse);
-            System.out.println("client > Connection accepted ? " + val);
+            System.out.println("***************** Connect ClientEngine to Server ******************");
+            Boolean val = clientEngine.crl.connection(adresse);
+            System.out.println("clientEngine > Connection accepted ? " + val);
             if (args.length >= 3) {
                 nbPlayers = Integer.parseInt(args[0]);
                 nbGames = Integer.parseInt(args[1]);
@@ -61,7 +60,7 @@ public class SevenWondersLauncher {
             }
 
             List<Player> playerList = fetchPlayers(nbPlayers);
-            client.crl.sendNumberOfPlayers(nbPlayers);
+            clientEngine.crl.sendNumberOfPlayers(nbPlayers);
 
             for (int i = 1; i <= nbGames; i++) {
                 // au lieu de playList -> urlList
@@ -74,12 +73,12 @@ public class SevenWondersLauncher {
                     System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
                 }
 
-                client.crl.sendStats(board.getResults());
+                clientEngine.crl.sendStats(board.getResults());
             }
-            client.crl.showStats();
+            clientEngine.crl.showStats();
 
             try {
-                client.crl.disconnect();
+                clientEngine.crl.disconnect();
             } catch (ResourceAccessException ignored) {
             }
 

@@ -22,6 +22,14 @@ public class Player {
     private int rightNeighborId;
     private int leftNeighborId;
 
+
+    public static void main(String[] args) {
+/*
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        SpringApplication.run(Server.class);
+*/
+    }
+
     public Player(int id) {
         this.id = id;
         this.strategy = new FirstCardStrategy();

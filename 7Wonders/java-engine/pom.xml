@@ -164,12 +164,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>Lamac</groupId>
-            <artifactId>java-player</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
         </dependency>

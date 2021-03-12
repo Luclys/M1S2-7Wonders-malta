@@ -1,4 +1,4 @@
-package board;
+package client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -7,15 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
-import static constants.WEBSERVICES.*;
+import static constants.WEBSERVICES_STATS.*;
+
 
 @RestController
-public class ClientController {
+public class ClientEngineController {
 
     String adresse;
 
     @Autowired
-    Client client;
+    ClientEngine clientEngine;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -29,7 +30,7 @@ public class ClientController {
     public Boolean connection(String adresse) {
         this.adresse = adresse;
         System.out.println("***************** Send connection request to Server ******************");
-        return restTemplate.postForObject(adresse + CONNEXION, client.getUrl(), Boolean.class);
+        return restTemplate.postForObject(adresse + CONNEXION, clientEngine.getUrl(), Boolean.class);
     }
 
     public Boolean sendNumberOfPlayers(int nbr) {
