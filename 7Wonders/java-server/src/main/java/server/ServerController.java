@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
-import static constants.WEBSERVICES.*;
+import static constants.WEBSERVICES_STATS.*;
 
 @RestController
 public class ServerController {
