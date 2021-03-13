@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>Lamac</groupId>
+        <groupId>Malta</groupId>
         <artifactId>Global</artifactId>
         <version>1</version>
     </parent>
@@ -21,28 +21,28 @@
 
     <dependencies>
         <dependency>
-            <groupId>Lamac</groupId>
+            <groupId>Malta</groupId>
             <artifactId>java-engine-player</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
-            <groupId>Lamac</groupId>
+            <groupId>Malta</groupId>
             <artifactId>java-engine-server</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
-            <groupId>Lamac</groupId>
+            <groupId>Malta</groupId>
             <artifactId>java-server</artifactId>
             <version>1</version>
         </dependency>
 
         <dependency>
-            <groupId>Lamac</groupId>
+            <groupId>Malta</groupId>
             <artifactId>java-player</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
-            <groupId>Lamac</groupId>
+            <groupId>Malta</groupId>
             <artifactId>java-engine</artifactId>
             <version>1</version>
         </dependency>

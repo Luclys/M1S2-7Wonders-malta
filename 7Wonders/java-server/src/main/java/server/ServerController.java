@@ -28,16 +28,16 @@ public class ServerController {
     @PostMapping(CONNEXION)
     public boolean connecter(@RequestBody String url) {
         urlClient = url;
-        System.out.println("***************** Connection Client Server ******************");
+        System.out.println("***************** Connection Engine to StatsServer ******************");
 
-        System.out.println("Server > Connexion granted to the client : " + urlClient);
+        System.out.println("StatsServer > Connexion granted to the engine : " + urlClient);
         server.lancerPartie();
         return true;
     }
 
     @PostMapping(SEND_NB_PLAYERS)
     public boolean getNumberofplayers(@RequestBody int s) {
-        System.out.println("***************** Get number of players from Client ******************");
+        System.out.println("***************** Get number of players from Engine ******************");
         System.out.println("number of players " + s);
         server.setNbPlayer(s);
         return true;

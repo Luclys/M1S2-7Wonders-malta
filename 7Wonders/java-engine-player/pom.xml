@@ -4,43 +4,32 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <packaging>jar</packaging>
+
     <parent>
-        <groupId>Lamac</groupId> <!-- à changer par le nom du groupe -->
+        <groupId>Malta</groupId> <!-- à changer par le nom du groupe -->
         <artifactId>Global</artifactId> <!-- et le nom du projet -->
         <version>1</version>
     </parent>
 
-    <artifactId>java-engine-player</artifactId><!-- et le nom du projet -->
+    <artifactId>java-engine-player</artifactId>
     <version>1</version>
-
-    <packaging>jar</packaging>
 
     <properties>
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>
+            src/main/java/constants/WEBSERVICES_GAME.java
+        </sonar.coverage.exclusions>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>Lamac</groupId>
-            <artifactId>java-engine-server</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
 
-        <!-- Intégrations Network -->
-        <dependency>
-            <groupId>io.socket</groupId>
-            <artifactId>socket.io-client</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>Lamac</groupId>
-            <artifactId>java-server</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
+    <dependencies>
     </dependencies>
 
 

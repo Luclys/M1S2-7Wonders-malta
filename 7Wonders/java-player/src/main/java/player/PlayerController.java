@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static constants.WEBSERVICES_GAME.CHOOSE_CARD_AND_ACTION;
-import static constants.WEBSERVICES_STATS.CONNEXION;
+import static constants.WEBSERVICES_GAME.*;
 
 @RestController
 public class PlayerController {
