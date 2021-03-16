@@ -195,7 +195,7 @@ public class Board {
         ArrayList<CardActionPair> actionList = new ArrayList<>(playersURLList.size());
         for (String playerURL : playersURLList) {
             restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
-            Integer playerId =  restTemplate.getForObject(playerURL + GET_PLAYER_ID, Integer.class);
+            Integer playerId = restTemplate.getForObject(playerURL + GET_PLAYER_ID, Integer.class);
             CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, playerInventoryList.get(playerId), CardActionPair.class);
 
             actionList.add(action);
@@ -239,10 +239,10 @@ public class Board {
         }
     }
 
-/**
+    /**
      * this method checks if it the end on the age so that the last cards in the hands of
      * the players can be discard
-*/
+     */
     void handleLastTurnCard() throws Exception {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
@@ -260,9 +260,9 @@ public class Board {
         }
     }
 
-/**
+    /**
      * this method allows to associate the wonder boards to the players
-*/
+     */
     private void assignWBToPlayers() throws Exception {
         Random r = new Random();  // SecureRandom is preferred to Random
 
@@ -283,12 +283,12 @@ public class Board {
         }
     }
 
-/**
+    /**
      * this method execute the action of the player
      *
      * @param inv
      * @param cardActionPair
-*/
+     */
 
 
     public void executePlayerAction(Inventory inv, CardActionPair cardActionPair) throws Exception {
@@ -343,13 +343,13 @@ public class Board {
     }
 
 
-/**
+    /**
      * this method allows to check if the player can buy resources
      *
      * @param trueInv
      * @param requiredResources
      * @return
-*/
+     */
 
 
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources) {
@@ -367,12 +367,12 @@ public class Board {
         return canBuy;
     }
 
-/**
+    /**
      * this method alowws to build chosen card
      *
      * @param trueInv
      * @param chosenCard
-*/
+     */
 
 
     private void buildCard(Inventory trueInv, Card chosenCard) {
@@ -382,13 +382,13 @@ public class Board {
         }
     }
 
-/**
+    /**
      * this method alowws to build a step of the wonder assocaite to the player by using
      * the chosen card
      *
      * @param trueInv
      * @param chosenCard
-*/
+     */
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
@@ -396,24 +396,23 @@ public class Board {
     }
 
 
-/**
+    /**
      * this method allows to sell the chosen card
      *
      * @param trueInv
      * @param chosenCard
-
-*/
+     */
     private void initSellCard(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
 
-/**
+    /**
      * this method allows to resolve the war conflict between a players and their neighbors
      *
      * @param victoryJetonValue
-*/
+     */
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Inventory inv = playerInventoryList.get(i);
@@ -508,7 +507,6 @@ public class Board {
         return computeScore(fakeInv);
     }
 */
-
 
 
     // GETTERS & SETTERS

@@ -22,12 +22,12 @@
     <dependencies>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-engine-player</artifactId>
+            <artifactId>common-engine-player</artifactId>
             <version>1</version>
         </dependency>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-engine-server</artifactId>
+            <artifactId>common-engine-server</artifactId>
             <version>1</version>
         </dependency>
         <dependency>

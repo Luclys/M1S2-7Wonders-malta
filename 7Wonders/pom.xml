@@ -13,8 +13,8 @@
     <version>1</version>
 
     <modules>
-        <module>java-engine-player</module>
-        <module>java-engine-server</module>
+        <module>common-engine-player</module>
+        <module>common-engine-server</module>
         <module>java-server</module>
         <module>java-player</module>
         <module>java-engine</module>

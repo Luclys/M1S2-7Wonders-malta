@@ -21,13 +21,13 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class EngineServer {
     private final static Logger log = Logger.getLogger(EngineServer.class.getName());
+    static int nbPlayers = 3;
+    static int nbGames = 5;
+    static boolean boolPrint = false;
 
     @Autowired
     EngineServerController ctrl;
 
-    static int nbPlayers = 3;
-    static int nbGames = 5;
-    static boolean boolPrint = false;
     List<String> playersURLList;
     private String serverURL;
 
@@ -83,7 +83,7 @@ public class EngineServer {
         System.exit(0);
     }
 
-    int addPlayerURL(String url){
+    int addPlayerURL(String url) {
         this.playersURLList.add(url);
         return this.playersURLList.size();
     }
@@ -94,10 +94,10 @@ public class EngineServer {
 
     public void testStart() throws Exception {
         if (nbPlayers <= playersURLList.size()) {
-            System.out.println("clientEngine > "+playersURLList.size()+" players ready, initialising games.");
+            System.out.println("clientEngine > " + playersURLList.size() + " players ready, initialising games.");
             startGamesEngine();
         } else {
-            System.out.println("clientEngine > " + (playersURLList.size()-nbPlayers) + " missing players. Waiting...");
+            System.out.println("clientEngine > " + (playersURLList.size() - nbPlayers) + " missing players. Waiting...");
         }
     }
 }

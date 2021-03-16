@@ -82,7 +82,7 @@
     <dependencies>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-engine-player</artifactId>
+            <artifactId>common-engine-player</artifactId>
             <version>1</version>
             <scope>compile</scope>
         </dependency>

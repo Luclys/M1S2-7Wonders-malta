@@ -13,9 +13,9 @@ import statistic.DetailedResults;
 import static constants.WEBSERVICES_STATS.*;
 
 @RestController
-public class ServerController {
+public class StatsServerController {
     @Autowired
-    Server server;
+    StatsServer statsServer;
 
     String urlClient;
 
@@ -31,7 +31,7 @@ public class ServerController {
         System.out.println("***************** Connection Engine to StatsServer ******************");
 
         System.out.println("StatsServer > Connexion granted to the engine : " + urlClient);
-        server.lancerPartie();
+        statsServer.lancerPartie();
         return true;
     }
 
@@ -39,26 +39,26 @@ public class ServerController {
     public boolean getNumberofplayers(@RequestBody int s) {
         System.out.println("***************** Get number of players from Engine ******************");
         System.out.println("number of players " + s);
-        server.setNbPlayer(s);
+        statsServer.setNbPlayer(s);
         return true;
     }
 
     @PostMapping(SEND_STATS)
     public boolean getstats(@RequestBody DetailedResults[] results) {
-        server.setStats(results);
+        statsServer.setStats(results);
         return true;
     }
 
     @PostMapping(SHOW_STATS)
     public String showStats(@RequestBody int i) {
         System.out.println("***************** Send Stats ******************");
-        return server.showStatistics();
+        return statsServer.showStatistics();
     }
 
     @GetMapping(DISCONNECT)
     public int disconnect() {
         System.out.println("***************** Hard Stopping Server ******************");
-        return server.InitiateExit();
+        return statsServer.InitiateExit();
     }
 
 }

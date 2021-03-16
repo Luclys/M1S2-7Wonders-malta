@@ -12,7 +12,7 @@
         <version>1</version>
     </parent>
 
-    <artifactId>java-engine-server</artifactId>
+    <artifactId>common-engine-server</artifactId>
     <version>1</version>
 
     <properties>

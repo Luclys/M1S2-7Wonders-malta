@@ -12,7 +12,7 @@
         <version>1</version>
     </parent>
 
-    <artifactId>java-engine-player</artifactId>
+    <artifactId>common-engine-player</artifactId>
     <version>1</version>
 
     <properties>
@@ -32,7 +32,7 @@
     <dependencies>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-engine-server</artifactId>
+            <artifactId>common-engine-server</artifactId>
             <version>1</version>
             <scope>compile</scope>
         </dependency>

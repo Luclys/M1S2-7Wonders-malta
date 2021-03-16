@@ -18,30 +18,27 @@ import java.util.logging.Logger;
 @Component
 @Scope("singleton")
 @SpringBootApplication
-public class Server {
-    private final static Logger log = Logger.getLogger(Server.class.getName());
+public class StatsServer {
+    private final static Logger log = Logger.getLogger(StatsServer.class.getName());
     private final HashMap<Integer, Integer> wins = new HashMap<>();
     private final HashMap<Integer, Integer> scores = new HashMap<>();
     private final HashMap<Integer, Integer> discardedCards = new HashMap<>();
     private final HashMap<Integer, Integer> stepsBuilt = new HashMap<>();
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
+    StatsServer partie;
+    @Autowired
+    StatsServerController crl;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
-
-    Server partie;
-
-    @Autowired
-    ServerController crl;
-
     @Autowired
     private ApplicationContext appContext;
 
     public static void main(String[] args) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 
-        SpringApplication.run(Server.class);
+        SpringApplication.run(StatsServer.class);
     }
 
     public void lancerPartie() {
