@@ -1,13 +1,17 @@
 package engine.server;
 
-import engine.server.EngineServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static constants.WEBSERVICES_GAME.CONNECT_ENGINE_PLAYER;
 import static constants.WEBSERVICES_STATS.*;
 
 @RestController
@@ -27,14 +31,28 @@ public class EngineServerController {
         return builder.build();
     }
 
-    public Boolean connection(String adresse) {
-        this.adresse = adresse;
-        System.out.println("***************** Send connection request to StatsServer ******************");
-        return restTemplate.postForObject(adresse + CONNEXION, engineServer.getUrl(), Boolean.class);
+    @PostMapping(CONNECT_ENGINE_PLAYER)
+    public int connectToEngineServer(@RequestBody String url, HttpServletRequest request) {
+        System.out.println("Engine > ***************** Connection Player to Engine ******************");
+
+        String playerURL = "http://" + request.getRequestURI() + ":8080";
+
+        int playerId = engineServer.addPlayerURL(playerURL);
+
+        System.out.println("Engine > Connexion granted to the player : " + playerURL + ", Player id = " + playerId);
+
+        return playerId;
+    }
+
+
+    public Boolean connectToStatsServer(String statsServerURL) {
+        this.adresse = statsServerURL;
+        System.out.println("Engine > ***************** Send connection request to StatsServer ******************");
+        return restTemplate.postForObject(statsServerURL + CONNECT_ENGINE_STATS, engineServer.getUrl(), Boolean.class);
     }
 
     public Boolean sendNumberOfPlayers(int nbr) {
-        System.out.println("***************** Send number of players to StatsServer ******************");
+        System.out.println("Engine > ***************** Send number of players to StatsServer ******************");
         return restTemplate.postForObject(adresse + SEND_NB_PLAYERS, nbr, Boolean.class);
     }
 
@@ -44,7 +62,7 @@ public class EngineServerController {
     }
 
     public void showStats() {
-        System.out.println("***************** Ask StatsServer for stats ******************");
+        System.out.println("Engine > ***************** Ask StatsServer for stats ******************");
         String stat = restTemplate.postForObject(adresse + SHOW_STATS, 1, String.class);
         System.out.println(stat);
     }

@@ -1,9 +1,9 @@
 package player;
 
 import gameelements.CardActionPair;
+import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
-import gameelements.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -33,10 +33,10 @@ public class PlayerController {
         return builder.build();
     }
 
-    public Boolean connection(String engineURL) {
+    public int connection(String engineURL) {
         this.engineURL = engineURL;
-        System.out.println("***************** Send connection request to EngineServer ******************");
-        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, "http://localhost:8081", Boolean.class);
+        System.out.println("Player > ***************** Send connection request to EngineServer ******************");
+        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, "http://localhost:8081", Integer.class);
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)
@@ -62,13 +62,18 @@ public class PlayerController {
         return player.chooseScientific(currentSymbols);
     }
     @PostMapping(CHOOSE_DISCARDED_CARD_TO_BUILD)
-    public Card chooseDiscardedCardToBuild(@RequestBody Inventory inventory, List<Card> discardedDeckCardList) throws Exception {
+    public Card chooseDiscardedCardToBuild(@RequestBody Inventory inventory, List<Card> discardedDeckCardList) {
         System.out.println("Player > We choose the card we want to build amongst the discarded cards.");
         return player.chooseDiscardedCardToBuild(inventory, discardedDeckCardList);
     }
     @PostMapping(GET_PLAYER_STRATEGY)
-    public String getStrategyName() throws Exception {
+    public String getStrategyName() {
         //System.out.println("Player > We choose the card and the action.");
         return player.getStrategyName();
+    }
+    @PostMapping(GET_PLAYER_ID)
+    public int getPlayerId() {
+        //System.out.println("Player > We choose the card and the action.");
+        return player.getId();
     }
 }

@@ -25,7 +25,7 @@ public class ServerController {
         return builder.build();
     }
 
-    @PostMapping(CONNEXION)
+    @PostMapping(CONNECT_ENGINE_STATS)
     public boolean connecter(@RequestBody String url) {
         urlClient = url;
         System.out.println("***************** Connection Engine to StatsServer ******************");

@@ -98,7 +98,6 @@ public class Server {
         return stats;
     }
 
-
     public void setNbPlayer(int nb) {
         nbPlayers = nb;
         for (int i = 0; i < nbPlayers; i++) {

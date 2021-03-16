@@ -8,6 +8,7 @@ public class WEBSERVICES_GAME {
     public static final String CHOOSE_SCIENTIFIC_SYMBOL= "/choose_scientific_symbol/";
     public static final String CHOOSE_DISCARDED_CARD_TO_BUILD= "/choose_discarded_card_to_build/";
     public static final String GET_PLAYER_STRATEGY= "/get_player_strategy/";
+    public static final String GET_PLAYER_ID= "/get_player_id/";
 
 
     private WEBSERVICES_GAME() {

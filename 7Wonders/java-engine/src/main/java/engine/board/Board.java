@@ -1,5 +1,6 @@
 package engine.board;
 
+import gameelements.CardActionPair;
 import gameelements.Inventory;
 import gameelements.ages.Age;
 import gameelements.ages.AgeI;
@@ -10,6 +11,8 @@ import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import static constants.WEBSERVICES_GAME.*;
 
 /**
  * This class presents the director of the game
@@ -43,6 +48,10 @@ public class Board {
 
     private DetailedResults[] results;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+/*
     public Board(Board b) {
 
         this.playersManager = new PlayersManager(b.playersManager);
@@ -78,6 +87,7 @@ public class Board {
         this.currentAge = b.currentAge;
         this.currentTurn = b.currentTurn;
     }
+*/
 
     /**
      * the constructor allows
@@ -167,9 +177,11 @@ public class Board {
                 // Each player plays a card on each turn
                 //TODO
                 for (String playerURL : playersURLList) {
-                    playerURL.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
-                    playerURL.chooseCard(playerInventoryList.get(playerURL.getId()));
-                    log.chosenCards(playerURL.getId(), playerURL.getChosenCard());
+                    restTemplate.postForObject(playerURL + ACKOWNLEDGE_STATUS, playerInventoryList, Boolean.class);
+                    Integer playerId =  restTemplate.getForObject(playerURL + GET_PLAYER_ID, int.class);
+                    CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, playerInventoryList.get(playerId), CardActionPair.class);
+
+                    log.chosenCards(playerId, action.getCard());
                 }
 
                 log.playersStartToPlayCards();
@@ -221,10 +233,11 @@ public class Board {
         }
     }
 
-    /**
+*
      * this method checks if it the end on the age so that the last cards in the hands of
      * the players can be discard
-     */
+
+
     void handleLastTurnCard() throws Exception {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
@@ -243,9 +256,10 @@ public class Board {
         }
     }
 
-    /**
+*
      * this method allows to associate the wonder boards to the players
-     */
+
+
     private void assignWBToPlayers() throws Exception {
         Random r = new Random();  // SecureRandom is preferred to Random
 
@@ -266,12 +280,13 @@ public class Board {
         }
     }
 
-    /**
+*
      * this method execute the action of the player
      *
      * @param inv
      * @param playerURL
-     */
+
+
     public void executePlayerAction(Inventory inv, String playerURL) throws Exception {
         // TODO return a couple (action and card)
         Card chosenCard = playerURL.getChosenCard();
@@ -324,13 +339,14 @@ public class Board {
     }
 
 
-    /**
+*
      * this method allows to check if the player can buy resources
      *
      * @param trueInv
      * @param requiredResources
      * @return
-     */
+
+
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources) {
         boolean canBuy;
         List<Resource> missingResources = trueInv.missingResources(requiredResources);
@@ -346,12 +362,13 @@ public class Board {
         return canBuy;
     }
 
-    /**
+*
      * this method alowws to build chosen card
      *
      * @param trueInv
      * @param chosenCard
-     */
+
+
     private void buildCard(Inventory trueInv, Card chosenCard) {
         if (chosenCard != null) {
             log.playerBuildsCard(trueInv.getPlayerId(), chosenCard);
@@ -359,13 +376,14 @@ public class Board {
         }
     }
 
-    /**
+*
      * this method alowws to build a step of the wonder assocaite to the player by using
      * the chosen card
      *
      * @param trueInv
      * @param chosenCard
-     */
+
+
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
@@ -373,23 +391,25 @@ public class Board {
     }
 
 
-    /**
+*
      * this method allows to sell the chosen card
      *
      * @param trueInv
      * @param chosenCard
-     */
+
+
     private void initSellCard(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
 
-    /**
+*
      * this method allows to resolve the war conflict between a players and their neighbors
      *
      * @param victoryJetonValue
-     */
+
+
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Inventory inv = playerInventoryList.get(i);
@@ -406,14 +426,16 @@ public class Board {
         return playerDeck;
     }
 
-    /**
+*
      * this method calculate the scores of the player at the end of the game
-     */
+
+
     public void scores() {
         log.endOfGame();
-        /*The player's score is calculated by doing :
+The player's score is calculated by doing :
          * In case of equality, the one with more coin wins, if there is still equality, they equally win.
-         * */
+         *
+
         for (Inventory inv : playerInventoryList) {
             int scoreBefore = inv.getScore();
 
@@ -461,7 +483,6 @@ public class Board {
 
         return scoreToAdd;
     }
-/*
     public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
         // On fait une copie de l'inventaire
         Inventory fakeInv = new Inventory(inventaire);
@@ -482,7 +503,8 @@ public class Board {
 
         return computeScore(fakeInv);
     }
-*/
+
+
 
     // GETTERS & SETTERS
     public PlayersManager getManager() {

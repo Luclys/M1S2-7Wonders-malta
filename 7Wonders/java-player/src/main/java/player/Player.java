@@ -36,7 +36,7 @@ public class Player {
     @Autowired
     PlayerController ctrl;
 
-    private final int id;
+    private int id;
     private PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
@@ -62,9 +62,12 @@ public class Player {
     @Bean
     public CommandLineRunner run() {
         return args -> {
+            String EngineURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
+
             // ack de connexion sur l'adresse docker
             System.out.println("***************** Player initiating... ******************");
-            ctrl.connection()
+            // Renvoyer l'ID une fois la connection établie pour le stocker.
+            this.id = ctrl.connection(EngineURL);
         };
     }
 
