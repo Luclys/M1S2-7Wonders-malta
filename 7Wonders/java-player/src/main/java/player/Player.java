@@ -55,19 +55,17 @@ public class Player {
 
     public static void main(String[] args) {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-
-        SpringApplication.run(Player.class);
+        SpringApplication.run(Player.class, args);
     }
 
     @Bean
     public CommandLineRunner run() {
         return args -> {
-            String EngineURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
-
+            String engineURL = args.length == 1 ? "http://" + args[0] + ":8081" : "http://localhost:8888";
             // ack de connexion sur l'adresse docker
             System.out.println("***************** Player initiating... ******************");
             // Renvoyer l'ID une fois la connection établie pour le stocker.
-            this.id = ctrl.connection(EngineURL);
+            this.id = ctrl.connection(engineURL);
         };
     }
 

@@ -36,7 +36,7 @@ public class PlayerController {
     public int connection(String engineURL) {
         this.engineURL = engineURL;
         System.out.println("Player > ***************** Send connection request to EngineServer ******************");
-        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, "http://localhost:8081", Integer.class);
+        return restTemplate.getForObject(engineURL + CONNECT_ENGINE_PLAYER, Integer.class);
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)

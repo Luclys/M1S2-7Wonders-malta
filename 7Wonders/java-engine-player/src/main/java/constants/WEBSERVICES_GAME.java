@@ -2,7 +2,7 @@ package constants;
 
 public class WEBSERVICES_GAME {
     public static final String CHOOSE_CARD_AND_ACTION = "/choose_card_and_action";
-    public static final String CONNECT_ENGINE_PLAYER= "/connexion/";
+    public static final String CONNECT_ENGINE_PLAYER= "/connect_engine_player/";
     public static final String ACKNOWLEDGE_STATUS = "/ackStatus/";
     public static final String CHOOSE_GUILD_CARD= "/choose_guild_card/";
     public static final String CHOOSE_SCIENTIFIC_SYMBOL= "/choose_scientific_symbol/";
