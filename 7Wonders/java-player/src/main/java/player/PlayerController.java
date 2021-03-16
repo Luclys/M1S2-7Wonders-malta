@@ -45,7 +45,7 @@ public class PlayerController {
         player.chooseCard(inv);
         return player.getCardAction();
     }
-    @PostMapping(ACKOWNLEDGE_STATUS)
+    @PostMapping(ACKNOWLEDGE_STATUS)
     public Boolean acknowledgeGameStatus(@RequestBody ArrayList<Inventory> censoredInvList, int age, int currentTurn) {
         System.out.println("Player > Game Status Acknowledged.");
         player.acknowledgeGameStatus(censoredInvList, age, currentTurn);

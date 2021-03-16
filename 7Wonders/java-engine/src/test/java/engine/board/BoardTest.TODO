@@ -1,3 +1,4 @@
+/*
 package engine.board;
 
 import gameelements.Inventory;
@@ -118,3 +119,4 @@ class BoardTest {
 }
 
 
+*/

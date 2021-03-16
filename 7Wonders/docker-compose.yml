@@ -22,7 +22,6 @@ services:
 
   player:
     image: malta:player
-    container_name: java-player
     environment:
       - ENGINE_IP=172.28.0.10
     depends_on:

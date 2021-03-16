@@ -175,18 +175,11 @@ public class Board {
                 log.play();
 
                 // Each player plays a card on each turn
-                //TODO
-                for (String playerURL : playersURLList) {
-                    restTemplate.postForObject(playerURL + ACKOWNLEDGE_STATUS, playerInventoryList, Boolean.class);
-                    Integer playerId =  restTemplate.getForObject(playerURL + GET_PLAYER_ID, int.class);
-                    CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, playerInventoryList.get(playerId), CardActionPair.class);
-
-                    log.chosenCards(playerId, action.getCard());
-                }
+                ArrayList<CardActionPair> cardActionPairArrayList = getCardActionPairsFromPlayers(playersURLList);
 
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerInventoryList().size(); i++) {
-                    executePlayerAction(playerInventoryList.get(i), getPlayersURLList().get(i));
+                    executePlayerAction(playerInventoryList.get(i), cardActionPairArrayList.get(i));
                 }
                 endOfTurn();
             }
@@ -196,6 +189,19 @@ public class Board {
 
         endOfGame();
         retrieveResults();
+    }
+
+    private ArrayList<CardActionPair> getCardActionPairsFromPlayers(ArrayList<String> playersURLList) {
+        ArrayList<CardActionPair> actionList = new ArrayList<>(playersURLList.size());
+        for (String playerURL : playersURLList) {
+            restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
+            Integer playerId =  restTemplate.getForObject(playerURL + GET_PLAYER_ID, Integer.class);
+            CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, playerInventoryList.get(playerId), CardActionPair.class);
+
+            actionList.add(action);
+            log.chosenCards(playerId, action.getCard());
+        }
+        return actionList;
     }
 
     public void endOfAge() throws Exception {
@@ -233,11 +239,10 @@ public class Board {
         }
     }
 
-*
+/**
      * this method checks if it the end on the age so that the last cards in the hands of
      * the players can be discard
-
-
+*/
     void handleLastTurnCard() throws Exception {
         // At the end of the 6th turn, we discard the remaining card
         // ⚠ The discarded cards must remembered.
@@ -247,19 +252,17 @@ public class Board {
             } else {
                 // TODO  create a method that play the last card
                 String playerURL = playersURLList.get(inv.getPlayerId());
-                PlayingStrategy s = playerURL.getStrategy();
-                playerURL.setStrategy(new FirstCardStrategy());
-                playerURL.chooseCard(new Inventory(inv));
-                executePlayerAction(inv, playerURL);
-                playerURL.setStrategy(s);
+
+                CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
+
+                executePlayerAction(inv, action);
             }
         }
     }
 
-*
+/**
      * this method allows to associate the wonder boards to the players
-
-
+*/
     private void assignWBToPlayers() throws Exception {
         Random r = new Random();  // SecureRandom is preferred to Random
 
@@ -280,17 +283,18 @@ public class Board {
         }
     }
 
-*
+/**
      * this method execute the action of the player
      *
      * @param inv
-     * @param playerURL
+     * @param cardActionPair
+*/
 
 
-    public void executePlayerAction(Inventory inv, String playerURL) throws Exception {
+    public void executePlayerAction(Inventory inv, CardActionPair cardActionPair) throws Exception {
         // TODO return a couple (action and card)
-        Card chosenCard = playerURL.getChosenCard();
-        Action action = playerURL.getAction();
+        Card chosenCard = cardActionPair.getCard();
+        Action action = cardActionPair.getAction();
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
@@ -339,12 +343,13 @@ public class Board {
     }
 
 
-*
+/**
      * this method allows to check if the player can buy resources
      *
      * @param trueInv
      * @param requiredResources
      * @return
+*/
 
 
     private boolean buyResourcesIfPossible(Inventory trueInv, Resource[] requiredResources) {
@@ -362,11 +367,12 @@ public class Board {
         return canBuy;
     }
 
-*
+/**
      * this method alowws to build chosen card
      *
      * @param trueInv
      * @param chosenCard
+*/
 
 
     private void buildCard(Inventory trueInv, Card chosenCard) {
@@ -376,14 +382,13 @@ public class Board {
         }
     }
 
-*
+/**
      * this method alowws to build a step of the wonder assocaite to the player by using
      * the chosen card
      *
      * @param trueInv
      * @param chosenCard
-
-
+*/
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
@@ -391,25 +396,24 @@ public class Board {
     }
 
 
-*
+/**
      * this method allows to sell the chosen card
      *
      * @param trueInv
      * @param chosenCard
 
-
+*/
     private void initSellCard(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerSellsCard(trueInv.getPlayerId(), chosenCard);
         trueInv.sellCard(chosenCard);
         trueInv.getDetailedResults().incNbSoldCard();
     }
 
-*
+/**
      * this method allows to resolve the war conflict between a players and their neighbors
      *
      * @param victoryJetonValue
-
-
+*/
     public void resolveWarConflict(int victoryJetonValue) {
         for (int i = 0; i < playerInventoryList.size(); i++) {
             Inventory inv = playerInventoryList.get(i);
@@ -426,16 +430,14 @@ public class Board {
         return playerDeck;
     }
 
-*
+    /**
      * this method calculate the scores of the player at the end of the game
-
-
+     */
     public void scores() {
         log.endOfGame();
-The player's score is calculated by doing :
-         * In case of equality, the one with more coin wins, if there is still equality, they equally win.
-         *
-
+        /*The player's score is calculated by doing :
+          In case of equality, the one with more coin wins, if there is still equality, they equally win.
+         */
         for (Inventory inv : playerInventoryList) {
             int scoreBefore = inv.getScore();
 
@@ -483,6 +485,8 @@ The player's score is calculated by doing :
 
         return scoreToAdd;
     }
+
+/*
     public int computeScoreWithAddingCard(Inventory inventaire, Card card, boolean isEndGame) throws Exception {
         // On fait une copie de l'inventaire
         Inventory fakeInv = new Inventory(inventaire);
@@ -503,6 +507,7 @@ The player's score is calculated by doing :
 
         return computeScore(fakeInv);
     }
+*/
 
 
 
