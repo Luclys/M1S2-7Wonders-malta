@@ -1,4 +1,4 @@
-package board;
+package engine.board;
 
 import gameelements.Inventory;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package board;
+package engine.board;
 
 import gameelements.Inventory;
 import gameelements.ages.Age;
@@ -10,10 +10,7 @@ import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
-import player.Player;
 import statistic.DetailedResults;
-import strategy.FirstCardStrategy;
-import strategy.PlayingStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +30,7 @@ public class Board {
     public final GameLogger log;
     private final PlayersManager playersManager;
     private final Trade commerce;
-    private final ArrayList<Player> playerList;
+    private final ArrayList<String> playersURLList;
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
@@ -51,10 +48,10 @@ public class Board {
         this.playersManager = new PlayersManager(b.playersManager);
         this.commerce = b.commerce;
 
-        this.playerList = new ArrayList<>();
+        this.playersURLList = new ArrayList<>();
         // TODO
-        for (Player p : b.getPlayerList()) {
-            this.playerList.add(new Player(p));
+        for (String p : b.getPlayersURLList()) {
+            this.playersURLList.add(new Player(p));
         }
 
         this.playerInventoryList = new ArrayList<>();
@@ -87,18 +84,18 @@ public class Board {
      * to associate the given player to inventories
      * to initialize the attributs
      *
-     * @param playerList
+     * @param playersURLList
      * @param boolPrint
      */
-    public Board(List<Player> playerList, Boolean boolPrint) {
+    public Board(List<String> playersURLList, Boolean boolPrint) {
         log = new GameLogger(boolPrint);
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
         // Setup Players and their inventories
         //this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
         // TODO
-        this.playerList = (ArrayList<Player>) playerList;
-        getManager().associateNeighbor(playerList);
+        this.playersURLList = (ArrayList<String>) playersURLList;
+        getManager().associateNeighbor(playersURLList);
         playerInventoryList = getManager().getPlayerInventoryList();
         cardManager = new CardManager(playerInventoryList);
         // Setup Decks
@@ -169,15 +166,15 @@ public class Board {
 
                 // Each player plays a card on each turn
                 //TODO
-                for (Player p : playerList) {
-                    p.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
-                    p.chooseCard(playerInventoryList.get(p.getId()));
-                    log.chosenCards(p.getId(), p.getChosenCard());
+                for (String playerURL : playersURLList) {
+                    playerURL.acknowledgeGameStatus((ArrayList<Inventory>) playerInventoryList, currentAge, currentTurn);
+                    playerURL.chooseCard(playerInventoryList.get(playerURL.getId()));
+                    log.chosenCards(playerURL.getId(), playerURL.getChosenCard());
                 }
 
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerInventoryList().size(); i++) {
-                    executePlayerAction(playerInventoryList.get(i), getPlayerList().get(i));
+                    executePlayerAction(playerInventoryList.get(i), getPlayersURLList().get(i));
                 }
                 endOfTurn();
             }
@@ -236,12 +233,12 @@ public class Board {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 // TODO  create a method that play the last card
-                Player player = playerList.get(inv.getPlayerId());
-                PlayingStrategy s = player.getStrategy();
-                player.setStrategy(new FirstCardStrategy());
-                player.chooseCard(new Inventory(inv));
-                executePlayerAction(inv, player);
-                player.setStrategy(s);
+                String playerURL = playersURLList.get(inv.getPlayerId());
+                PlayingStrategy s = playerURL.getStrategy();
+                playerURL.setStrategy(new FirstCardStrategy());
+                playerURL.chooseCard(new Inventory(inv));
+                executePlayerAction(inv, playerURL);
+                playerURL.setStrategy(s);
             }
         }
     }
@@ -273,12 +270,12 @@ public class Board {
      * this method execute the action of the player
      *
      * @param inv
-     * @param player
+     * @param playerURL
      */
-    public void executePlayerAction(Inventory inv, Player player) throws Exception {
+    public void executePlayerAction(Inventory inv, String playerURL) throws Exception {
         // TODO return a couple (action and card)
-        Card chosenCard = player.getChosenCard();
-        Action action = player.getAction();
+        Card chosenCard = playerURL.getChosenCard();
+        Action action = playerURL.getAction();
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
@@ -500,8 +497,8 @@ public class Board {
         return cardManager;
     }
 
-    public List<Player> getPlayerList() {
-        return this.playerList;
+    public List<String> getPlayersURLList() {
+        return this.playersURLList;
     }
 
     public List<Card> getCurrentDeckCardList() {

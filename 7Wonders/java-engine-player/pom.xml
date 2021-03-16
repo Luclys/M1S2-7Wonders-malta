@@ -30,6 +30,12 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>Malta</groupId>
+            <artifactId>java-engine-server</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 

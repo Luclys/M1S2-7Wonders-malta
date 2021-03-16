@@ -1,10 +1,9 @@
-package board;
+package engine.board;
 
 
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Symbol;
-import player.Player;
 import statistic.DetailedResults;
 
 import java.util.ArrayList;
@@ -77,21 +76,21 @@ public class PlayersManager {
         log.resolvedConflicts(invPlayer);
     }
 
-    protected List<Inventory> associateNeighbor(List<Player> players) {
+    protected List<Inventory> associateNeighbor(List<String> playersURL) {
         // TODO
         // ADD URLS TO iNVS
         playerInventoryList = new ArrayList<>();
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < playersURL.size(); i++) {
             Inventory inv = new Inventory(i);
             // To make a sure we bind the first's left to last id
-            // Player player = players.get(i);
+            // Player player = playersURL.get(i);
             if (i == 0) {
-                inv.setLeftNeighborId(players.size() - 1);
+                inv.setLeftNeighborId(playersURL.size() - 1);
             } else {
                 inv.setLeftNeighborId(i - 1);
             }
             // To make a sure we bind the last's right to first id
-            if (i == players.size() - 1) {
+            if (i == playersURL.size() - 1) {
                 inv.setRightNeighborId(0);
             } else {
                 inv.setRightNeighborId(i + 1);
@@ -103,7 +102,7 @@ public class PlayersManager {
 
             playerInventoryList.add(inv);
         }
-        //playerList = players;
+        //playerList = playersURL;
         return playerInventoryList;
     }
 

@@ -1,22 +1,28 @@
-package client;
-
+package engine.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import statistic.DetailedResults;
+
+import java.util.logging.Logger;
 
 @Component
 @Scope("singleton")
-public class ClientEngine {
+@SpringBootApplication
+public class EngineServer {
+    private final static Logger log = Logger.getLogger(EngineServer.class.getName());
 
+    EngineServer partie;
+
+    @Autowired
+    EngineServerController crl;
 
     String url;
-    @Autowired
-    ClientEngineController crl;
-
     String stats;
 
-    public ClientEngine() {
+    public EngineServer() {
         url = "http://localhost:8081";
         stats = null;
     }
@@ -28,4 +34,5 @@ public class ClientEngine {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }

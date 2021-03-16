@@ -40,7 +40,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>board.SevenWondersLauncher</mainClass>
+                            <mainClass>engine.server.SevenWondersLauncher</mainClass>
                         </manifest>
                     </archive>
 
@@ -147,7 +147,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>board.SevenWondersLauncher</mainClass>
+                    <mainClass>engine.server.SevenWondersLauncher</mainClass>
                 </configuration>
             </plugin>
             <plugin>

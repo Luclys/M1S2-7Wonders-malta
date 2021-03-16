@@ -5,33 +5,44 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
 import gameelements.enums.Symbol;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class describe a player
  *
  * @author lamac
  */
+@Component
+@Scope("singleton")
+@SpringBootApplication
 public class Player {
+    private final static Logger log = Logger.getLogger(Player.class.getName());
+
+
+    @Autowired
+    PlayerController ctrl;
+
     private final int id;
     private PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
 
 
-    public static void main(String[] args) {
-/*
-        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-        SpringApplication.run(Server.class);
-*/
-    }
-
-    public Player(int id) {
-        this.id = id;
+    public Player() {
         this.strategy = new FirstCardStrategy();
     }
 
@@ -42,9 +53,19 @@ public class Player {
         leftNeighborId = p.leftNeighborId;
     }
 
-    public Player(int id, PlayingStrategy strategy) {
-        this.id = id;
-        this.strategy = strategy;
+    public static void main(String[] args) {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+
+        SpringApplication.run(Player.class);
+    }
+
+    @Bean
+    public CommandLineRunner run() {
+        return args -> {
+            // ack de connexion sur l'adresse docker
+            System.out.println("***************** Player initiating... ******************");
+            ctrl.connection()
+        };
     }
 
     public String toString() {

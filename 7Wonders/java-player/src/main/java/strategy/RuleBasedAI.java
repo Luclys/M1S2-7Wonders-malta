@@ -99,7 +99,7 @@ public class RuleBasedAI implements PlayingStrategy {
 
         for (Card card : cardArrayList) {
             // TODO On enlève la dépendance sur Board
-            //int currentScore = board.computeScoreWithAddingCard(inventory, card, isEndGame);
+            //int currentScore = engine.board.computeScoreWithAddingCard(inventory, card, isEndGame);
             int currentScore = 22;
             if (currentScore > bestScore) {
                 bestCard = card;

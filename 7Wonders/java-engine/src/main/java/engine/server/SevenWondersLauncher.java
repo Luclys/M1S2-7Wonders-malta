@@ -1,14 +1,12 @@
-package board;
+package engine.server;
 
-import client.ClientEngine;
+import engine.board.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.ResourceAccessException;
-import strategy.FirstCardStrategy;
-import strategy.RuleBasedAI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ public class SevenWondersLauncher {
     static int nbGames = 5;
     static boolean boolPrint = false;
     @Autowired
-    ClientEngine clientEngine;
+    EngineServer engineServer;
 
     public static void main(String... args) {
         SpringApplication.run(SevenWondersLauncher.class, args);
@@ -29,18 +27,6 @@ public class SevenWondersLauncher {
     public static List<String> fetchPlayers(int nbPlayers) {
         List<String> playerURLList = new ArrayList<>(nbPlayers);
 
-        Player player1 = new Player(playerURLList.size(), new RuleBasedAI());
-        playerURLList.add(player1);
-        Player player2 = new Player(playerURLList.size(), new RuleBasedAI());
-        playerURLList.add(player2);
-        Player player3 = new Player(playerURLList.size(), new FirstCardStrategy());
-        playerURLList.add(player3);
-
-
-        for (int i = playerURLList.size(); i < nbPlayers; i++) {
-            Player player = new Player(i, new FirstCardStrategy());
-            playerURLList.add(player);
-        }
         return playerURLList;
     }
 
@@ -50,8 +36,8 @@ public class SevenWondersLauncher {
             /// retrieving the value
             String adresse = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
 
-            System.out.println("***************** Connect ClientEngine to Server ******************");
-            Boolean val = clientEngine.crl.connection(adresse);
+            System.out.println("***************** Connect ClientEngine to StatsServer ******************");
+            Boolean val = engineServer.ctrl.connection(adresse);
             System.out.println("clientEngine > Connection accepted ? " + val);
             if (args.length >= 3) {
                 nbPlayers = Integer.parseInt(args[0]);
@@ -59,26 +45,26 @@ public class SevenWondersLauncher {
                 boolPrint = Boolean.parseBoolean(args[2]);
             }
 
-            List<Player> playerList = fetchPlayers(nbPlayers);
-            clientEngine.crl.sendNumberOfPlayers(nbPlayers);
+            List<String> playersURLList = fetchPlayers(nbPlayers);
+            engineServer.ctrl.sendNumberOfPlayers(nbPlayers);
 
             for (int i = 1; i <= nbGames; i++) {
                 // au lieu de playList -> urlList
-                Board board = new Board(playerList, boolPrint);
+                Board board = new Board(playersURLList, boolPrint);
                 board.play(i);
 
                 if (i != nbGames) {
-                    System.out.printf("[7WONDERS - LAMAC] Progress : %d / %d.\r", i, nbGames);
+                    System.out.printf("[7WONDERS - MALTA] Progress : %d / %d.\r", i, nbGames);
                 } else {
-                    System.out.printf("[7WONDERS - LAMAC] Execution finished : %d games played.\n", nbGames);
+                    System.out.printf("[7WONDERS - MALTA] Execution finished : %d games played.\n", nbGames);
                 }
 
-                clientEngine.crl.sendStats(board.getResults());
+                engineServer.ctrl.sendStats(board.getResults());
             }
-            clientEngine.crl.showStats();
+            engineServer.ctrl.showStats();
 
             try {
-                clientEngine.crl.disconnect();
+                engineServer.ctrl.disconnect();
             } catch (ResourceAccessException ignored) {
             }
 

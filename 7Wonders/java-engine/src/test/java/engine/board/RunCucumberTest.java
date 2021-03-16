@@ -1,4 +1,4 @@
-package board;
+package engine.board;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

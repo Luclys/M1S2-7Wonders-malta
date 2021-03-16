@@ -1,4 +1,4 @@
-import board.Board;
+import engine.board.Board;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTestITCase {
-    Board board;
+    Board engine.board;
     Player player;
     PlayingStrategy strategy = new RuleBasedAI();
 
@@ -30,19 +30,19 @@ public class BoardTestITCase {
         player = new Player(1, strategy);
         List<Player> playerList = new ArrayList<>(1);
         playerList.add(player);
-        board = new Board(playerList, false);
+        engine.board = new Board(playerList, false);
     }
 
     @Test
     public void executePlayerActionTest() throws Exception {
-        Inventory inventory = board.getPlayerInventoryList().get(0);
+        Inventory inventory = engine.board.getPlayerInventoryList().get(0);
         List<Card> cards = new ArrayList<Card>();
         cards.add(CardsSet.BIBLIOTHEQUE);
         inventory.setCardsInHand(cards);
         int coins = inventory.getCoins();
         player.getStrategy().setAction(Action.SELL);
         player.getStrategy().setCard(inventory.getCardsInHand().get(0));
-        board.executePlayerAction(inventory, player);
+        engine.board.executePlayerAction(inventory, player);
         assertEquals(coins+3, inventory.getCoins());
     }
 }
