@@ -25,7 +25,7 @@ public class RuleBasedAI implements PlayingStrategy {
     private int currentTurn;
 
     @Override
-    public Card chooseCard(Inventory inventory) throws Exception {
+    public Card chooseCard(Inventory inventory) {
         ArrayList<Card> cardsAvailable = cardsAvailableToPlay(inventory);
 
         // RULE 6 (Partie 1) - a random remaining card is played if possible
@@ -76,7 +76,7 @@ public class RuleBasedAI implements PlayingStrategy {
         return chosenCard;
     }
 
-    private boolean ruleAge3(Inventory inventory, ArrayList<Card> cardsBuildable) throws Exception {
+    private boolean ruleAge3(Inventory inventory, ArrayList<Card> cardsBuildable) {
         if (age == 3) {
             if (cardsBuildable.size() != 0) {
                 Card card = getBestCardScoreFromList(inventory, cardsBuildable);
@@ -91,7 +91,7 @@ public class RuleBasedAI implements PlayingStrategy {
         return false;
     }
 
-    private Card getBestCardScoreFromList(Inventory inventory, ArrayList<Card> cardArrayList) throws Exception {
+    private Card getBestCardScoreFromList(Inventory inventory, ArrayList<Card> cardArrayList) {
         //boolean isEndGame = this.currentTurn == Board.CARDS_NUMBER - 2;
         boolean isEndGame = false;
         Card bestCard = cardArrayList.get(0);
@@ -109,7 +109,7 @@ public class RuleBasedAI implements PlayingStrategy {
         return bestCard;
     }
 
-    private boolean rule5_ScienceCard(Inventory inventory, ArrayList<Card> cardsBuildable) throws Exception {
+    private boolean rule5_ScienceCard(Inventory inventory, ArrayList<Card> cardsBuildable) {
         ArrayList<Card> scienceCards = new ArrayList<>(cardsBuildable);
         scienceCards.removeIf(card -> card.getCategory() != Category.BATIMENT_SCIENTIFIQUE);
         if (scienceCards.size() != 0) {

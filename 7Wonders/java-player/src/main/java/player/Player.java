@@ -79,7 +79,7 @@ public class Player {
      * @param inv
      * @return chosen card
      */
-    public Card chooseCard(Inventory inv) throws Exception {
+    public Card chooseCard(Inventory inv) {
         strategy.chooseCard(inv);
         return strategy.getCard();
     }

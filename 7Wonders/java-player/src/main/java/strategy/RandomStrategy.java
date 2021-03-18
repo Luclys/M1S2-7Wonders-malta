@@ -13,7 +13,7 @@ public class RandomStrategy implements PlayingStrategy {
     Card chosenCard;
 
     @Override
-    public Card chooseCard(Inventory inventory) throws Exception {
+    public Card chooseCard(Inventory inventory) {
         Random r1 = new SecureRandom();
         ArrayList<Card> listCard = cardsAvailableToPlay(inventory);
         if (!listCard.isEmpty()) {

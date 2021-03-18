@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 import static gameelements.wonders.WonderBoard.initiateColossusA;
 
 public class Inventory implements Comparable<Object> {
+    private String playerURL;
     private final int playerId;
+
     private final int[] availableResources;
     private final int[] availableSymbols;
     private final List<Resource[]> pairResChoice;
@@ -506,5 +508,13 @@ public class Inventory implements Comparable<Object> {
 
     public void setLeftNeighborId(int leftNeighborId) {
         this.leftNeighborId = leftNeighborId;
+    }
+
+    public void setPlayerURL(String url) {
+        this.playerURL = url;
+    }
+
+    public String getPlayerURL() {
+        return playerURL;
     }
 }

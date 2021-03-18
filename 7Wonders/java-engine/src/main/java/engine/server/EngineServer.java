@@ -14,8 +14,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 @Component
@@ -30,7 +29,7 @@ public class EngineServer {
     @Autowired
     EngineServerController ctrl;
 
-    List<String> playersURLList;
+    HashMap<Integer, String> mapPlayerID_URL;
     private String serverURL;
 
 
@@ -43,7 +42,7 @@ public class EngineServer {
     public CommandLineRunner runner() {
         return args -> {
             System.out.println("***************** EngineServer running... ******************");
-            this.playersURLList = new ArrayList<>(10);
+            this.mapPlayerID_URL = new HashMap<>(7);
             serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
             System.out.println(serverURL);
             connectToStatsServer();
@@ -55,7 +54,7 @@ public class EngineServer {
 
         for (int i = 1; i <= nbGames; i++) {
             // au lieu de playList -> urlList
-            Board board = new Board(this.playersURLList, boolPrint);
+            Board board = new Board(this.mapPlayerID_URL, boolPrint);
             board.play(i);
 
             if (i != nbGames) {
@@ -76,15 +75,16 @@ public class EngineServer {
         System.exit(0);
     }
 
-    private void connectToStatsServer() throws UnknownHostException {
+    private void connectToStatsServer() {
         System.out.println("***************** Connect ClientEngine to StatsServer ******************");
         Boolean val = ctrl.connectToStatsServer(serverURL);
         System.out.println("clientEngine > Connection accepted ? " + val);
     }
 
     int addPlayerURL(String url) {
-        this.playersURLList.add(url);
-        return this.playersURLList.size();
+        // Si accès concurrent : BOOM
+        this.mapPlayerID_URL.put(mapPlayerID_URL.size(), url);
+        return this.mapPlayerID_URL.size() - 1;
     }
 
     public String getUrl() throws UnknownHostException {
@@ -92,11 +92,11 @@ public class EngineServer {
     }
 
     public void testStart() throws Exception {
-        if (nbPlayers <= playersURLList.size()) {
-            System.out.println("clientEngine > " + playersURLList.size() + " players ready, initialising games.");
+        if (nbPlayers <= mapPlayerID_URL.size()) {
+            System.out.println("clientEngine > " + mapPlayerID_URL.size() + " players ready, initialising games.");
             startGamesEngine();
         } else {
-            System.out.println("clientEngine > " + (playersURLList.size() - nbPlayers) + " missing players. Waiting...");
+            System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
         }
     }
 }

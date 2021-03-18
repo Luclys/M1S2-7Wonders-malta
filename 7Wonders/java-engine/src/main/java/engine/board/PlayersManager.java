@@ -7,12 +7,12 @@ import gameelements.enums.Symbol;
 import statistic.DetailedResults;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayersManager {
 
-    //List<Player> playerList;
-    List<Inventory> playerInventoryList;// add url
+    List<Inventory> playerInventoryList;
 
     GameLogger log;
 
@@ -22,14 +22,11 @@ public class PlayersManager {
 
     public PlayersManager() {
         this.log = new GameLogger(false);
-        //playerList = new ArrayList<>();
         playerInventoryList = new ArrayList<>();
     }
 
     public PlayersManager(PlayersManager playersManager) {
         this.log = new GameLogger(false);
-        //this.playerList = new ArrayList<>();
-        //this.playerList.addAll(playersManager.playerList);
         this.playerInventoryList = new ArrayList<>();
         this.playerInventoryList.addAll(playersManager.playerInventoryList);
     }
@@ -50,7 +47,7 @@ public class PlayersManager {
                 return;
             }
             if (inv.getPossibleFreeDiscardedBuildingsCount() != 0) {
-                //TODO
+                //TODO MAYBE ?
                 //Player player = playerList.get(inv.getPlayerId());
                 //Card card = player.chooseDiscardedCardToBuild(new Inventory(inv), discardedDeckCardList);
                 Card card = discardedDeckCardList.get(0);
@@ -76,34 +73,32 @@ public class PlayersManager {
         log.resolvedConflicts(invPlayer);
     }
 
-    protected List<Inventory> associateNeighbor(List<String> playersURL) {
-        // TODO
-        // ADD URLS TO iNVS
+    protected void handlePlayersIds(HashMap<Integer, String> mapPlayerID_URL) {
         playerInventoryList = new ArrayList<>();
-        for (int i = 0; i < playersURL.size(); i++) {
-            Inventory inv = new Inventory(i);
+
+        for (Integer k : mapPlayerID_URL.keySet()) {
+            Inventory inv = new Inventory(k);
+            inv.setPlayerURL(mapPlayerID_URL.get(k));
             // To make a sure we bind the first's left to last id
-            // Player player = playersURL.get(i);
-            if (i == 0) {
-                inv.setLeftNeighborId(playersURL.size() - 1);
+            if (k == 0) {
+                inv.setLeftNeighborId(mapPlayerID_URL.size() - 1);
             } else {
-                inv.setLeftNeighborId(i - 1);
+                inv.setLeftNeighborId(k - 1);
             }
             // To make a sure we bind the last's right to first id
-            if (i == playersURL.size() - 1) {
+            if (k == mapPlayerID_URL.size() - 1) {
                 inv.setRightNeighborId(0);
             } else {
-                inv.setRightNeighborId(i + 1);
+                inv.setRightNeighborId(k + 1);
             }
 
             DetailedResults details = new DetailedResults();
+            // TODO : Ask Player for his Strategy name ?
             //details.setStrategyName(player.getStrategyName());
             inv.setDetailedResults(details);
 
             playerInventoryList.add(inv);
         }
-        //playerList = playersURL;
-        return playerInventoryList;
     }
 
     public List<Inventory> getPlayerInventoryList() {

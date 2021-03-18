@@ -40,7 +40,7 @@ public class PlayerController {
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)
-    public CardActionPair chooseCard(@RequestBody Inventory inv) throws Exception {
+    public CardActionPair chooseCard(@RequestBody Inventory inv) {
         System.out.println("Player > We choose the card and the action.");
         player.chooseCard(inv);
         return player.getCardAction();

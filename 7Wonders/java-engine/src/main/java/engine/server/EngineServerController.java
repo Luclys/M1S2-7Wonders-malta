@@ -1,5 +1,7 @@
 package engine.server;
 
+import gameelements.CardActionPair;
+import gameelements.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,7 @@ import statistic.DetailedResults;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static constants.WEBSERVICES_GAME.CHOOSE_CARD_AND_ACTION;
 import static constants.WEBSERVICES_GAME.CONNECT_ENGINE_PLAYER;
 import static constants.WEBSERVICES_STATS.*;
 
@@ -34,7 +37,7 @@ public class EngineServerController {
     public int connectToEngineServer(HttpServletRequest request) throws Exception {
         System.out.println("Engine > ***************** Connection Player to Engine ******************");
 
-        String playerURL = "http://" + request.getRequestURI() + ":8080";
+        String playerURL = "http://" + request.getRemoteAddr() + ":8080";
 
         int playerId = engineServer.addPlayerURL(playerURL);
 
@@ -71,5 +74,9 @@ public class EngineServerController {
 
     public void disconnect() {
         restTemplate.getForObject(adresse + DISCONNECT, int.class);
+    }
+
+    public CardActionPair askCardAction(Inventory inv) {
+        return restTemplate.postForObject(inv.getPlayerURL() + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
     }
 }

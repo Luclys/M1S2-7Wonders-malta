@@ -1,5 +1,6 @@
 package engine.board;
 
+import engine.server.EngineServerController;
 import gameelements.CardActionPair;
 import gameelements.Inventory;
 import gameelements.ages.Age;
@@ -12,16 +13,11 @@ import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
 import gameelements.wonders.WonderBoard;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static constants.WEBSERVICES_GAME.*;
 
 /**
  * This class presents the director of the game
@@ -35,7 +31,6 @@ public class Board {
     public final GameLogger log;
     private final PlayersManager playersManager;
     private final Trade commerce;
-    private final ArrayList<String> playersURLList;
     private final List<Inventory> playerInventoryList;
     private final List<Card> discardedDeckCardList;
     private final CardManager cardManager;
@@ -49,8 +44,7 @@ public class Board {
     private DetailedResults[] results;
 
     @Autowired
-    private RestTemplate restTemplate;
-
+    EngineServerController ctrl;
 /*
     public Board(Board b) {
 
@@ -94,18 +88,15 @@ public class Board {
      * to associate the given player to inventories
      * to initialize the attributs
      *
-     * @param playersURLList
+     * @param mapPlayerID_URL
      * @param boolPrint
      */
-    public Board(List<String> playersURLList, Boolean boolPrint) {
+    public Board(HashMap<Integer, String> mapPlayerID_URL, Boolean boolPrint) {
         log = new GameLogger(boolPrint);
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
         // Setup Players and their inventories
-        //this.playerList = (ArrayList<Player>) (getManager().associateNeighbor(playerList));
-        // TODO
-        this.playersURLList = (ArrayList<String>) playersURLList;
-        getManager().associateNeighbor(playersURLList);
+        getManager().handlePlayersIds(mapPlayerID_URL);
         playerInventoryList = getManager().getPlayerInventoryList();
         cardManager = new CardManager(playerInventoryList);
         // Setup Decks
@@ -175,7 +166,7 @@ public class Board {
                 log.play();
 
                 // Each player plays a card on each turn
-                ArrayList<CardActionPair> cardActionPairArrayList = getCardActionPairsFromPlayers(playersURLList);
+                ArrayList<CardActionPair> cardActionPairArrayList = getCardActionPairsFromPlayers();
 
                 log.playersStartToPlayCards();
                 for (int i = 0; i < getPlayerInventoryList().size(); i++) {
@@ -191,15 +182,27 @@ public class Board {
         retrieveResults();
     }
 
-    private ArrayList<CardActionPair> getCardActionPairsFromPlayers(ArrayList<String> playersURLList) {
-        ArrayList<CardActionPair> actionList = new ArrayList<>(playersURLList.size());
-        for (String playerURL : playersURLList) {
-            restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
-            Integer playerId = restTemplate.getForObject(playerURL + GET_PLAYER_ID, Integer.class);
-            CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, playerInventoryList.get(playerId), CardActionPair.class);
+    private ArrayList<CardActionPair> getCardActionPairsFromPlayers() {
+        ArrayList<CardActionPair> actionList = new ArrayList<>(playerInventoryList.size());
+        for (Inventory inv : playerInventoryList) {
+            String playerURL = inv.getPlayerURL();
+            int playerId = inv.getPlayerId();
+            System.out.println(inv.getPlayerURL());
+            System.out.println(inv.getPlayerId());
 
-            actionList.add(action);
-            log.chosenCards(playerId, action.getCard());
+            //TODO : Envoyer age, currentTurn.
+            //restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
+            System.out.println("AVANT POST");
+            CardActionPair actionPair = ctrl.askCardAction(inv);
+            System.out.println("APRES POST");
+
+            actionList.add(actionPair);
+
+            if (actionPair == null) {
+                System.out.println("OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!");
+            }
+
+            log.chosenCards(playerId, actionPair.getCard());
         }
         return actionList;
     }
@@ -251,10 +254,21 @@ public class Board {
                 discardedDeckCardList.add(inv.discardLastCard());
             } else {
                 // TODO  create a method that play the last card
-                String playerURL = playersURLList.get(inv.getPlayerId());
 
-                CardActionPair action = restTemplate.postForObject(playerURL + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
+                CardActionPair action = ctrl.askCardAction(inv);
 
+                if (action == null) {
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
+                    action = new CardActionPair(inv.getCardsInHand().get(0), Action.SELL);
+                }
                 executePlayerAction(inv, action);
             }
         }
@@ -520,10 +534,6 @@ public class Board {
 
     public CardManager getCardManager() {
         return cardManager;
-    }
-
-    public List<String> getPlayersURLList() {
-        return this.playersURLList;
     }
 
     public List<Card> getCurrentDeckCardList() {

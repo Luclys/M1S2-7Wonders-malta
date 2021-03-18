@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author lamac
  */
 public interface PlayingStrategy {
-    Card chooseCard(Inventory inventory) throws Exception;
+    Card chooseCard(Inventory inventory);
 
     Action getAction();
 
