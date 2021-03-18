@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static constants.WEBSERVICES_STATS.*;
 
 @RestController
@@ -25,12 +27,15 @@ public class StatsServerController {
         return builder.build();
     }
 
-    @PostMapping(CONNECT_ENGINE_STATS)
-    public boolean connecter(@RequestBody String url) {
-        urlClient = url;
+    @GetMapping(CONNECT_ENGINE_STATS)
+    public boolean connectEngineStats(HttpServletRequest request) {
+        // request.getRemoteHost()
+        // C'est chiant, le port c'est 8081 car 8080 est occupé par StatServer... Pb : comment être sûr du port ?!
+        urlClient = "http://" + request.getRemoteAddr() + ":8081";
         System.out.println("***************** Connection Engine to StatsServer ******************");
 
         System.out.println("StatsServer > Connexion granted to the engine : " + urlClient);
+
         statsServer.lancerPartie();
         return true;
     }

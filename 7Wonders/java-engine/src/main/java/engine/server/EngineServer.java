@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
 
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,21 +45,12 @@ public class EngineServer {
             System.out.println("***************** EngineServer running... ******************");
             this.playersURLList = new ArrayList<>(10);
             serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
+            System.out.println(serverURL);
+            connectToStatsServer();
         };
     }
 
     private void startGamesEngine() throws Exception {
-        System.out.println("***************** Connect ClientEngine to StatsServer ******************");
-        Boolean val = ctrl.connectToStatsServer(serverURL);
-        System.out.println("clientEngine > Connection accepted ? " + val);
-/*
-        if (args.length >= 3) {
-            nbPlayers = Integer.parseInt(args[0]);
-            nbGames = Integer.parseInt(args[1]);
-            boolPrint = Boolean.parseBoolean(args[2]);
-        }
-*/
-
         ctrl.sendNumberOfPlayers(nbPlayers);
 
         for (int i = 1; i <= nbGames; i++) {
@@ -83,13 +76,19 @@ public class EngineServer {
         System.exit(0);
     }
 
+    private void connectToStatsServer() throws UnknownHostException {
+        System.out.println("***************** Connect ClientEngine to StatsServer ******************");
+        Boolean val = ctrl.connectToStatsServer(serverURL);
+        System.out.println("clientEngine > Connection accepted ? " + val);
+    }
+
     int addPlayerURL(String url) {
         this.playersURLList.add(url);
         return this.playersURLList.size();
     }
 
-    public String getUrl() {
-        return "http://localhost:8081";
+    public String getUrl() throws UnknownHostException {
+        return InetAddress.getLocalHost().getHostAddress();
     }
 
     public void testStart() throws Exception {
