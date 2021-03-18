@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import statistic.DetailedResults;
 
 import java.io.PrintStream;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -55,6 +56,7 @@ public class StatsServer {
             // ack de connexion sur l'adresse docker
             partie = this;
             System.out.println("***************** Server running... ******************");
+            System.out.println("StatsServer IP : " + InetAddress.getLocalHost().getHostAddress());
         };
     }
 

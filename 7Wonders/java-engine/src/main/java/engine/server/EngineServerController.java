@@ -49,7 +49,8 @@ public class EngineServerController {
     public Boolean connectToStatsServer(String statsServerURL) {
         this.adresse = statsServerURL;
         System.out.println("Engine > ***************** Send connection request to StatsServer ******************");
-        return restTemplate.postForObject(statsServerURL + CONNECT_ENGINE_STATS, engineServer.getUrl(), Boolean.class);
+        System.out.println("Attempting to access : " + adresse + CONNECT_ENGINE_STATS);
+        return restTemplate.getForObject(adresse + CONNECT_ENGINE_STATS, Boolean.class);
     }
 
     public Boolean sendNumberOfPlayers(int nbr) {
