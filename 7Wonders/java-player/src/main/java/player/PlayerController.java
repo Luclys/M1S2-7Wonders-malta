@@ -7,15 +7,15 @@ import gameelements.enums.Symbol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 import static constants.WEBSERVICES_GAME.*;
+import static constants.WEBSERVICES_STATS.CONNECT_ENGINE_STATS;
 
 @RestController
 public class PlayerController {
@@ -40,10 +40,11 @@ public class PlayerController {
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)
-    public CardActionPair chooseCard(@RequestBody Inventory inv) {
-        System.out.println("Player > We choose the card and the action.");
-        player.chooseCard(inv);
-        return player.getCardAction();
+    public Boolean chooseCard(@RequestBody Inventory inv) {
+        System.out.println("Player > We choose the card and the action. url"+ inv.getPlayerURL());
+      /*  player.chooseCard(inv);
+        return player.getCardAction();*/
+        return true;
     }
 
     @PostMapping(ACKNOWLEDGE_STATUS)
@@ -82,4 +83,5 @@ public class PlayerController {
         //System.out.println("Player > We choose the card and the action.");
         return player.getId();
     }
+
 }

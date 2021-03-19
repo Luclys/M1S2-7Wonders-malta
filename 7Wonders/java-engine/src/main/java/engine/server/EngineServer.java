@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class EngineServer {
     private final static Logger log = Logger.getLogger(EngineServer.class.getName());
     static int nbPlayers = 3;
-    static int nbGames = 5;
+    static int nbGames = 1;
     static boolean boolPrint = false;
 
     @Autowired
@@ -42,7 +42,7 @@ public class EngineServer {
     public CommandLineRunner runner() {
         return args -> {
             System.out.println("***************** EngineServer running... ******************");
-            this.mapPlayerID_URL = new HashMap<>(7);
+            this.mapPlayerID_URL = new HashMap<>();
             serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
             System.out.println(serverURL);
             connectToStatsServer();
@@ -54,7 +54,11 @@ public class EngineServer {
 
         for (int i = 1; i <= nbGames; i++) {
             // au lieu de playList -> urlList
-            Board board = new Board(this.mapPlayerID_URL, boolPrint);
+            for (Integer k: mapPlayerID_URL.keySet()){
+                System.out.println("map player> player id "+k+" url "+mapPlayerID_URL.get(k));
+            }
+
+            Board board = new Board(this.mapPlayerID_URL, boolPrint,ctrl);
             board.play(i);
 
             if (i != nbGames) {
@@ -91,12 +95,16 @@ public class EngineServer {
         return InetAddress.getLocalHost().getHostAddress();
     }
 
+    Boolean gamestarted=false;
     public void testStart() throws Exception {
-        if (nbPlayers <= mapPlayerID_URL.size()) {
+        if(gamestarted == false)
+        if (gamestarted == false && nbPlayers <= mapPlayerID_URL.size()) {
             System.out.println("clientEngine > " + mapPlayerID_URL.size() + " players ready, initialising games.");
             startGamesEngine();
-        } else {
-            System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
-        }
+            gamestarted = true;
+        } else
+            if(gamestarted == false){
+                System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
+            }
     }
 }

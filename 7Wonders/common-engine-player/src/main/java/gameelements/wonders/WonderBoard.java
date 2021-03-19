@@ -1,5 +1,6 @@
 package gameelements.wonders;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.effects.*;
@@ -15,6 +16,7 @@ public class WonderBoard {
     private final Effect baseEffect;
     private final List<Step> steps;
     private int currentStepIndex = 0;
+    @JsonIgnore
     private Inventory associatedInv;
 
     public WonderBoard(String name, Effect baseEffect, List<Step> steps) {

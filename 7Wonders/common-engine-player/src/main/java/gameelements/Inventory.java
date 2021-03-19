@@ -1,5 +1,6 @@
 package gameelements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gameelements.cards.Card;
 import gameelements.effects.Effect;
 import gameelements.enums.Resource;
@@ -26,7 +27,7 @@ public class Inventory implements Comparable<Object> {
     private DetailedResults detailedResults;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
-    private WonderBoard wonderBoard;
+   private WonderBoard wonderBoard;
     private int score;
     private int rank;
     private int victoryChipsScore;

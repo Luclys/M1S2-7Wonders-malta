@@ -77,6 +77,7 @@ public class EngineServerController {
     }
 
     public CardActionPair askCardAction(Inventory inv) {
+        System.out.println("ASK FOR CARD AND ACTION url: "+inv.getPlayerURL() );
         return restTemplate.postForObject(inv.getPlayerURL() + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
     }
 }

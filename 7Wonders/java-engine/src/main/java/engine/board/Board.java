@@ -91,7 +91,8 @@ public class Board {
      * @param mapPlayerID_URL
      * @param boolPrint
      */
-    public Board(HashMap<Integer, String> mapPlayerID_URL, Boolean boolPrint) {
+    public Board(HashMap<Integer, String> mapPlayerID_URL, Boolean boolPrint,EngineServerController c) {
+        ctrl = c;
         log = new GameLogger(boolPrint);
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
@@ -152,6 +153,7 @@ public class Board {
     public void play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
+
         for (currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
             log.beginningOfAge(currentAge);
