@@ -33,5 +33,6 @@ script:
   - mvn test
   #- SUBNET=172.28.0.0/16 IP=172.19.0.8 docker-compose up --force-recreate
   - docker-compose up --scale player=3 --force-recreate
+  - mvn failsafe:integration-test
   - docker-compose rm -f
   - docker rmi malta:server malta:engine malta:player
