@@ -1,6 +1,5 @@
 package gameelements;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import gameelements.cards.Card;
 import gameelements.effects.Effect;
 import gameelements.enums.Resource;
@@ -27,7 +26,7 @@ public class Inventory implements Comparable<Object> {
     private DetailedResults detailedResults;
     private List<Card> cardsInHand;
     private List<Card> playedCards;
-   private WonderBoard wonderBoard;
+    private WonderBoard wonderBoard;
     private int score;
     private int rank;
     private int victoryChipsScore;
@@ -71,13 +70,14 @@ public class Inventory implements Comparable<Object> {
         this.canPlayLastCard = false;
 
         this.wonderBoard = initiateColossusA();
-        this.wonderBoard.setAssociatedInv(this);
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
     }
 
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
         this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
+        this.playerURL = inventory.playerURL;
         this.availableResources = Arrays.copyOf(inventory.availableResources, inventory.availableResources.length);
         this.availableSymbols = Arrays.copyOf(inventory.availableSymbols, inventory.availableSymbols.length);
         this.pairResChoice = new ArrayList<>(inventory.pairResChoice);
@@ -101,11 +101,10 @@ public class Inventory implements Comparable<Object> {
 
         if (inventory.wonderBoard != null) {
             this.wonderBoard = new WonderBoard(inventory.wonderBoard);
-            this.wonderBoard.setAssociatedInv(this);
         } else {
             this.wonderBoard = initiateColossusA();
-            this.wonderBoard.setAssociatedInv(this);
         }
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
         this.rightNeighborId = inventory.rightNeighborId;
         this.leftNeighborId = inventory.leftNeighborId;
     }

@@ -408,7 +408,7 @@ public class Board {
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
-        wonder.buyNextStep(chosenCard, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
+        wonder.buyNextStep(chosenCard, trueInv, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
     }
 
 
