@@ -10,12 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 import static constants.WEBSERVICES_GAME.*;
-import static constants.WEBSERVICES_STATS.CONNECT_ENGINE_STATS;
 
 @RestController
 public class PlayerController {
@@ -40,11 +38,10 @@ public class PlayerController {
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)
-    public Boolean chooseCard(@RequestBody Inventory inv) {
+    public CardActionPair chooseCard(@RequestBody Inventory inv) {
         System.out.println("Player > We choose the card and the action. url"+ inv.getPlayerURL());
-      /*  player.chooseCard(inv);
-        return player.getCardAction();*/
-        return true;
+        player.chooseCard(inv);
+        return player.getCardAction();
     }
 
     @PostMapping(ACKNOWLEDGE_STATUS)
@@ -84,4 +81,9 @@ public class PlayerController {
         return player.getId();
     }
 
+    @PostMapping("/test")
+    public Boolean test(@RequestBody Card p) {
+        System.out.println("Player > test.");
+        return true;
+    }
 }

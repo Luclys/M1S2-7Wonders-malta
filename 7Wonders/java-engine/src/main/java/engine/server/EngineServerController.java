@@ -1,7 +1,10 @@
 package engine.server;
 
+import engine.board.PlayersManager;
 import gameelements.CardActionPair;
 import gameelements.Inventory;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -79,5 +82,10 @@ public class EngineServerController {
     public CardActionPair askCardAction(Inventory inv) {
         System.out.println("ASK FOR CARD AND ACTION url: "+inv.getPlayerURL() );
         return restTemplate.postForObject(inv.getPlayerURL() + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
+    }
+
+    public void test(Card card, Inventory inv) {
+        System.out.println("TEST: ");
+        restTemplate.postForObject(inv.getPlayerURL() + "/test", card, boolean.class);
     }
 }

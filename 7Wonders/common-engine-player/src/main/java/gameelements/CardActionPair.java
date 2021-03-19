@@ -7,6 +7,10 @@ public class CardActionPair {
     Card card;
     Action action;
 
+    public CardActionPair() {
+        this.card = null;
+        this.action = null;
+    }
     public CardActionPair(Card card, Action action) {
         this.card = card;
         this.action = action;

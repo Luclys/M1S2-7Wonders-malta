@@ -44,6 +44,36 @@ public class Inventory implements Comparable<Object> {
     private int rightNeighborId;
     private int leftNeighborId;
 
+
+    public Inventory() {
+        this.playerId = 0;
+        this.availableResources = new int[Resource.values().length];
+        this.availableSymbols = new int[Symbol.values().length];
+        this.pairResChoice = new ArrayList<>();
+        this.cardsInHand = new ArrayList<>(7);
+        this.playedCards = new ArrayList<>(7 * 3);
+        this.endGameEffects = new ArrayList<>(7 * 3);
+        this.detailedResults = new DetailedResults();
+        this.score = 0;
+        this.rank = 0;
+        this.victoryChipsScore = 0;
+        this.defeatChipsCount = 0;
+        this.coins = 3;
+        this.matieresPremieresPriceRight = 2;
+        this.matieresPremieresPriceLeft = 2;
+        this.produitsManifacturesPrice = 2;
+        this.addedCoins = 0;
+
+        anyMatierePremiereAvailableCount = 0;
+        anyResourceManufactureAvailableCount = 0;
+        this.possibleFreeBuildings = 0;
+        this.possibleFreeDiscardedBuildingsCount = 0;
+        this.canPlayLastCard = false;
+
+        this.wonderBoard = initiateColossusA();
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
+    }
+
     public Inventory(int playerId) {
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
