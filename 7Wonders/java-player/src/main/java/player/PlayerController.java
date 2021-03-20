@@ -7,7 +7,10 @@ import gameelements.enums.Symbol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -20,7 +23,6 @@ public class PlayerController {
 
     @Autowired
     Player player;
-    private String engineURL;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -32,7 +34,6 @@ public class PlayerController {
     }
 
     public int connection(String engineURL) {
-        this.engineURL = engineURL;
         System.out.println("Player > ***************** Send connection request to EngineServer ******************");
         return restTemplate.getForObject(engineURL + CONNECT_ENGINE_PLAYER, Integer.class);
     }
@@ -81,9 +82,9 @@ public class PlayerController {
         return player.getId();
     }
 
-    @PostMapping("/test")
-    public Boolean test(@RequestBody Card p) {
-        System.out.println("Player > test.");
-        return true;
+    @GetMapping(DISCONNECT_ENGINE_PLAYER)
+    public int disconnect() {
+        System.out.println("***************** Hard Stopping Player ******************");
+        return player.InitiateExit();
     }
 }

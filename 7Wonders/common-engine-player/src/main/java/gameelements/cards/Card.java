@@ -49,6 +49,7 @@ public class Card {
     public String toString() {
         return "Card{\"" + name + "\"}";
     }
+
     @Override
     public boolean equals(Object obj) {
         if (obj.getClass() == this.getClass()){

@@ -72,9 +72,18 @@ public class EngineServer {
         ctrl.showStats();
 
         try {
-            ctrl.disconnect();
+            ctrl.disconnectStatsServer();
         } catch (ResourceAccessException ignored) {
         }
+
+        mapPlayerID_URL.values().forEach(url -> {
+            try {
+                System.out.println("Engine > Disconnect request send.");
+                ctrl.disconnectPlayer(url);
+            } catch (ResourceAccessException ignored) {
+            }
+        });
+
 
         System.exit(0);
     }

@@ -30,29 +30,8 @@
 
         <plugins>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>server.StatsServer</mainClass>
-                        </manifest>
-                    </archive>
-
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>single</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
             <plugin>
@@ -70,11 +49,6 @@
                     <mainClass>server.StatsServer</mainClass>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
         </plugins>
     </build>
 
@@ -85,9 +59,6 @@
             <version>1</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- test et SpringBoot -->
-
     </dependencies>
 
 </project>

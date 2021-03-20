@@ -1,5 +1,6 @@
 package server;
 
+import constants.WEBSERVICES_STATS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -60,7 +61,7 @@ public class StatsServerController {
         return statsServer.showStatistics();
     }
 
-    @GetMapping(DISCONNECT)
+    @GetMapping(WEBSERVICES_STATS.DISCONNECT_ENGINE_STATS)
     public int disconnect() {
         System.out.println("***************** Hard Stopping Server ******************");
         return statsServer.InitiateExit();

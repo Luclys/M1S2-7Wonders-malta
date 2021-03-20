@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,9 @@ public class Player {
 
     @Autowired
     PlayerController ctrl;
+
+    @Autowired
+    private ApplicationContext appContext;
 
     private int id;
     private PlayingStrategy strategy;
@@ -129,5 +133,9 @@ public class Player {
 
     public CardActionPair getCardAction() {
         return new CardActionPair(getChosenCard(), getAction());
+    }
+
+    public int InitiateExit() {
+        return SpringApplication.exit(appContext, () -> 0);
     }
 }

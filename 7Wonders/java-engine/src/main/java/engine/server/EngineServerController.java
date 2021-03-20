@@ -1,10 +1,9 @@
 package engine.server;
 
-import engine.board.PlayersManager;
+import constants.WEBSERVICES_GAME;
+import constants.WEBSERVICES_STATS;
 import gameelements.CardActionPair;
 import gameelements.Inventory;
-import gameelements.cards.Card;
-import gameelements.cards.CardsSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -75,17 +74,17 @@ public class EngineServerController {
         System.out.println(stat);
     }
 
-    public void disconnect() {
-        restTemplate.getForObject(adresse + DISCONNECT, int.class);
+    public void disconnectStatsServer() {
+        restTemplate.getForObject(adresse + WEBSERVICES_STATS.DISCONNECT_ENGINE_STATS, int.class);
+    }
+
+    public void disconnectPlayer(String url) {
+        restTemplate.getForObject(url + WEBSERVICES_GAME.DISCONNECT_ENGINE_PLAYER, int.class);
     }
 
     public CardActionPair askCardAction(Inventory inv) {
-        System.out.println("ASK FOR CARD AND ACTION url: "+inv.getPlayerURL() );
+        System.out.println("ASK FOR CARD AND ACTION url: " + inv.getPlayerURL());
         return restTemplate.postForObject(inv.getPlayerURL() + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
     }
 
-    public void test(Card card, Inventory inv) {
-        System.out.println("TEST: ");
-        restTemplate.postForObject(inv.getPlayerURL() + "/test", card, boolean.class);
-    }
 }

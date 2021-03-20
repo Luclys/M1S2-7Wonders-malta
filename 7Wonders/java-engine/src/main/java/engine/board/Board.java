@@ -8,7 +8,6 @@ import gameelements.ages.AgeI;
 import gameelements.ages.AgeII;
 import gameelements.ages.AgeIII;
 import gameelements.cards.Card;
-import gameelements.cards.CardsSet;
 import gameelements.enums.Action;
 import gameelements.enums.Resource;
 import gameelements.enums.Symbol;
@@ -154,7 +153,6 @@ public class Board {
     public void play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
-        ctrl.test(CardsSet.CHANTIER,playerInventoryList.get(0));
 
         for (currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
