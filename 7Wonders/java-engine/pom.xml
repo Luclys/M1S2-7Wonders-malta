@@ -2,144 +2,47 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>Global</artifactId>
-        <groupId>Lamac</groupId>
-        <version>1</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>java-engine</artifactId>
 
     <packaging>jar</packaging>
 
+    <parent>
+        <groupId>Malta</groupId>
+        <artifactId>Global</artifactId>
+        <version>1</version>
+    </parent>
+
+    <artifactId>java-engine</artifactId>
+    <version>1</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
     <build>
-        <sourceDirectory>src/main/java
-        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
-        <testSourceDirectory>src/test/java
-        </testSourceDirectory> <!-- éventuellement à changer : localisation des fichiers sources des tests -->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>board.SevenWondersLauncher</mainClass>
-                        </manifest>
-                    </archive>
 
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>single</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
-                <executions>
-                    <!--EXECUTIONS FOR ONE SINGLE GAME FOR 3, 5, 7 PLAYERS-->
-                    <execution>
-                        <id>game3p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>3</argument><!--Nb Players-->
-                                <argument>1</argument><!--Nb Games-->
-                                <argument>true</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>game5p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>5</argument><!--Nb Players-->
-                                <argument>1</argument><!--Nb Games-->
-                                <argument>true</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>game7p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>7</argument><!--Nb Players-->
-                                <argument>1</argument><!--Nb Games-->
-                                <argument>true</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-
-                    <!--EXECUTIONS FOR 1.000 GAME FOR 3, 5, 7 PLAYERS-->
-                    <execution>
-                        <id>stats3p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>3</argument><!--Nb Players-->
-                                <argument>1000</argument><!--Nb Games-->
-                                <argument>false</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stats5p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>5</argument><!--Nb Players-->
-                                <argument>1000</argument><!--Nb Games-->
-                                <argument>false</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stats7p</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>7</argument><!--Nb Players-->
-                                <argument>1000</argument><!--Nb Games-->
-                                <argument>false</argument><!--Boolean print outputs-->
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
                 <configuration>
-                    <mainClass>board.SevenWondersLauncher</mainClass>
+                    <mainClass>engine.server.EngineServer</mainClass>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -156,47 +59,13 @@
 
         </plugins>
     </build>
+
     <dependencies>
         <dependency>
-            <groupId>Lamac</groupId>
-            <artifactId>java-engine-player</artifactId>
+            <groupId>Malta</groupId>
+            <artifactId>common-engine-player</artifactId>
             <version>1</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>Lamac</groupId>
-            <artifactId>java-player</artifactId>
-            <version>1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
 </project>

@@ -5,25 +5,48 @@ import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.enums.Action;
 import gameelements.enums.Symbol;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import strategy.FirstCardStrategy;
 import strategy.PlayingStrategy;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class describe a player
  *
  * @author lamac
  */
+@Component
+@Scope("singleton")
+@SpringBootApplication
 public class Player {
-    private final int id;
+    private final static Logger log = Logger.getLogger(Player.class.getName());
+
+
+    @Autowired
+    PlayerController ctrl;
+
+    @Autowired
+    private ApplicationContext appContext;
+
+    private int id;
     private PlayingStrategy strategy;
     private int rightNeighborId;
     private int leftNeighborId;
 
-    public Player(int id) {
-        this.id = id;
+
+    public Player() {
         this.strategy = new FirstCardStrategy();
     }
 
@@ -34,9 +57,20 @@ public class Player {
         leftNeighborId = p.leftNeighborId;
     }
 
-    public Player(int id, PlayingStrategy strategy) {
-        this.id = id;
-        this.strategy = strategy;
+    public static void main(String[] args) {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        SpringApplication.run(Player.class, args);
+    }
+
+    @Bean
+    public CommandLineRunner run() {
+        return args -> {
+            String engineURL = args.length == 1 ? "http://" + args[0] + ":8081" : "http://localhost:8081";
+            // ack de connexion sur l'adresse docker
+            System.out.println("***************** Player initiating... ******************");
+            // Renvoyer l'ID une fois la connection établie pour le stocker.
+            this.id = ctrl.connection(engineURL);
+        };
     }
 
     public String toString() {
@@ -49,7 +83,7 @@ public class Player {
      * @param inv
      * @return chosen card
      */
-    public Card chooseCard(Inventory inv) throws Exception {
+    public Card chooseCard(Inventory inv) {
         strategy.chooseCard(inv);
         return strategy.getCard();
     }
@@ -99,5 +133,9 @@ public class Player {
 
     public CardActionPair getCardAction() {
         return new CardActionPair(getChosenCard(), getAction());
+    }
+
+    public int InitiateExit() {
+        return SpringApplication.exit(appContext, () -> 0);
     }
 }

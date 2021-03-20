@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -9,13 +9,6 @@ services:
       testing_net:
         ipv4_address: 172.28.0.253
 
-  #  player:
-  #    image: malta:player
-  #   container_name: java-player
-  #   networks:
-  #     testing_net:
-  #       ipv4_address: 172.28.0.253
-
   engine:
     image: malta:engine
     container_name: java-engine
@@ -25,7 +18,16 @@ services:
       - server
     networks:
       testing_net:
-      # ipv4_address: 172.28.0.2
+        ipv4_address: 172.28.0.10
+
+  player:
+    image: malta:player
+    environment:
+      - ENGINE_IP=172.28.0.10
+    depends_on:
+      - engine
+    networks:
+      testing_net:
 
 networks:
   testing_net:
