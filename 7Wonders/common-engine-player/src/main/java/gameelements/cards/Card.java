@@ -49,7 +49,13 @@ public class Card {
     public String toString() {
         return "Card{\"" + name + "\"}";
     }
-
+    @Override
+    public boolean equals(Object obj) {
+        if (obj.getClass() == this.getClass()){
+            return this.id == ((Card) obj).id;
+        }
+        return false;
+    }
     public String getName() {
         return name;
     }
@@ -81,4 +87,6 @@ public class Card {
     public int getId() {
         return id;
     }
+
+
 }

@@ -196,7 +196,7 @@ public class Inventory implements Comparable<Object> {
             addCoins(3);
             cardsInHand.remove(card);
         } else {
-            throw new Exception("Can't sell a card you don't have.");
+             throw new Exception("Can't sell a card you don't have.");
         }
     }
 
@@ -205,7 +205,8 @@ public class Inventory implements Comparable<Object> {
             effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
-        cardsInHand.remove(playedCard);
+        System.out.println("cards "+cardsInHand+"deleted card"+playedCard+" -> "+cardsInHand.remove(playedCard));
+
     }
 
     public void updateInventoryCopyCard(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv) {
