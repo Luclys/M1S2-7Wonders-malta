@@ -8,6 +8,8 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.4</version>
     </parent>
+
+
     <groupId>Malta</groupId> <!-- à changer par le nom du groupe -->
     <artifactId>Global</artifactId> <!-- et le nom du projet -->
     <version>1</version>

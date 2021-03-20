@@ -1,5 +1,6 @@
 package gameelements.effects;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import gameelements.Inventory;
 import gameelements.enums.EffectDelay;
 
@@ -8,9 +9,9 @@ import gameelements.enums.EffectDelay;
  *
  * @author lamac
  */
+@JsonDeserialize(as=FreeDiscardedBuildingEffect.class)
 public abstract class Effect {
     private EffectDelay delay;
-
     public Effect(EffectDelay delay) {
         this.delay = delay;
     }

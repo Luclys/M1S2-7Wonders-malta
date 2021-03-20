@@ -7,6 +7,7 @@ import gameelements.enums.Symbol;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,6 @@ public class PlayerController {
 
     @Autowired
     Player player;
-    private String engineURL;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -34,14 +34,13 @@ public class PlayerController {
     }
 
     public int connection(String engineURL) {
-        this.engineURL = engineURL;
         System.out.println("Player > ***************** Send connection request to EngineServer ******************");
         return restTemplate.getForObject(engineURL + CONNECT_ENGINE_PLAYER, Integer.class);
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)
     public CardActionPair chooseCard(@RequestBody Inventory inv) {
-        System.out.println("Player > We choose the card and the action.");
+        System.out.println("Player > We choose the card and the action. url"+ inv.getPlayerURL());
         player.chooseCard(inv);
         return player.getCardAction();
     }
@@ -81,5 +80,11 @@ public class PlayerController {
     public int getPlayerId() {
         //System.out.println("Player > We choose the card and the action.");
         return player.getId();
+    }
+
+    @GetMapping(DISCONNECT_ENGINE_PLAYER)
+    public int disconnect() {
+        System.out.println("***************** Hard Stopping Player ******************");
+        return player.InitiateExit();
     }
 }

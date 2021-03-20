@@ -91,7 +91,8 @@ public class Board {
      * @param mapPlayerID_URL
      * @param boolPrint
      */
-    public Board(HashMap<Integer, String> mapPlayerID_URL, Boolean boolPrint) {
+    public Board(HashMap<Integer, String> mapPlayerID_URL, Boolean boolPrint,EngineServerController c) {
+        ctrl = c;
         log = new GameLogger(boolPrint);
         commerce = new Trade(log);
         playersManager = new PlayersManager(log);
@@ -152,6 +153,7 @@ public class Board {
     public void play(int nbPlay) throws Exception {
         log.beginningOfPlay(nbPlay);
         assignWBToPlayers();
+
         for (currentAge = 1; currentAge <= AGES; currentAge++) {
             ageSetUp(currentAge);
             log.beginningOfAge(currentAge);
@@ -184,23 +186,19 @@ public class Board {
 
     private ArrayList<CardActionPair> getCardActionPairsFromPlayers() {
         ArrayList<CardActionPair> actionList = new ArrayList<>(playerInventoryList.size());
-        for (Inventory inv : playerInventoryList) {
+        for (int i = 0; i < getPlayerInventoryList().size(); i++) {
+            Inventory inv = getPlayerInventoryList().get(i);
             String playerURL = inv.getPlayerURL();
             int playerId = inv.getPlayerId();
-            System.out.println(inv.getPlayerURL());
-            System.out.println(inv.getPlayerId());
+            System.out.println("id "+inv.getPlayerId()+"cards exec "+ inv.cardsAvailableToPlay().toString());
+            System.out.println("PLAYER choose actionCard "+inv.getPlayerId());
 
             //TODO : Envoyer age, currentTurn.
             //restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
-            System.out.println("AVANT POST");
             CardActionPair actionPair = ctrl.askCardAction(inv);
-            System.out.println("APRES POST");
-
             actionList.add(actionPair);
 
-            if (actionPair == null) {
-                System.out.println("OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!OSKOUR !!!!!!!!!!!!!!!!!!!!");
-            }
+            System.out.println(String.format("%n[CARD CHOOSING] Player %d chose card %s %n", playerId, actionPair.getCard().getName()));
 
             log.chosenCards(playerId, actionPair.getCard());
         }
@@ -217,6 +215,7 @@ public class Board {
         playersManager.updateCoins();
         playersManager.freeBuildFromDiscarded(discardedDeckCardList);
         getCardManager().playersCardsRotation(isLeftRotation());
+        System.out.println("END OF TURN");
     }
 
     public void endOfGame() {
@@ -307,8 +306,11 @@ public class Board {
 
     public void executePlayerAction(Inventory inv, CardActionPair cardActionPair) throws Exception {
         // TODO return a couple (action and card)
+
         Card chosenCard = cardActionPair.getCard();
         Action action = cardActionPair.getAction();
+        System.out.println("id "+inv.getPlayerId()+"cards exec "+ inv.cardsAvailableToPlay().toString());
+        System.out.println("id "+inv.getPlayerId()+"card "+ chosenCard +"action "+action);
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
@@ -406,7 +408,7 @@ public class Board {
     private void buildWonder(Inventory trueInv, Card chosenCard) throws Exception {
         log.playerBuildsWonderStep(trueInv.getPlayerId());
         WonderBoard wonder = trueInv.getWonderBoard();
-        wonder.buyNextStep(chosenCard, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
+        wonder.buyNextStep(chosenCard, trueInv, playerInventoryList.get(trueInv.getRightNeighborId()), playerInventoryList.get(trueInv.getLeftNeighborId()));
     }
 
 

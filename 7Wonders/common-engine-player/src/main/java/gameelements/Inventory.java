@@ -44,6 +44,36 @@ public class Inventory implements Comparable<Object> {
     private int rightNeighborId;
     private int leftNeighborId;
 
+
+    public Inventory() {
+        this.playerId = 0;
+        this.availableResources = new int[Resource.values().length];
+        this.availableSymbols = new int[Symbol.values().length];
+        this.pairResChoice = new ArrayList<>();
+        this.cardsInHand = new ArrayList<>(7);
+        this.playedCards = new ArrayList<>(7 * 3);
+        this.endGameEffects = new ArrayList<>(7 * 3);
+        this.detailedResults = new DetailedResults();
+        this.score = 0;
+        this.rank = 0;
+        this.victoryChipsScore = 0;
+        this.defeatChipsCount = 0;
+        this.coins = 3;
+        this.matieresPremieresPriceRight = 2;
+        this.matieresPremieresPriceLeft = 2;
+        this.produitsManifacturesPrice = 2;
+        this.addedCoins = 0;
+
+        anyMatierePremiereAvailableCount = 0;
+        anyResourceManufactureAvailableCount = 0;
+        this.possibleFreeBuildings = 0;
+        this.possibleFreeDiscardedBuildingsCount = 0;
+        this.canPlayLastCard = false;
+
+        this.wonderBoard = initiateColossusA();
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
+    }
+
     public Inventory(int playerId) {
         this.playerId = playerId;
         this.availableResources = new int[Resource.values().length];
@@ -70,13 +100,14 @@ public class Inventory implements Comparable<Object> {
         this.canPlayLastCard = false;
 
         this.wonderBoard = initiateColossusA();
-        this.wonderBoard.setAssociatedInv(this);
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
     }
 
     public Inventory(Inventory inventory) {
         // Consider implementing Cloneable instead...
         this.detailedResults = inventory.detailedResults;
         this.playerId = inventory.playerId;
+        this.playerURL = inventory.playerURL;
         this.availableResources = Arrays.copyOf(inventory.availableResources, inventory.availableResources.length);
         this.availableSymbols = Arrays.copyOf(inventory.availableSymbols, inventory.availableSymbols.length);
         this.pairResChoice = new ArrayList<>(inventory.pairResChoice);
@@ -100,11 +131,10 @@ public class Inventory implements Comparable<Object> {
 
         if (inventory.wonderBoard != null) {
             this.wonderBoard = new WonderBoard(inventory.wonderBoard);
-            this.wonderBoard.setAssociatedInv(this);
         } else {
             this.wonderBoard = initiateColossusA();
-            this.wonderBoard.setAssociatedInv(this);
         }
+        this.wonderBoard.setAssociatedPlayerId(this.getPlayerId());
         this.rightNeighborId = inventory.rightNeighborId;
         this.leftNeighborId = inventory.leftNeighborId;
     }
@@ -166,7 +196,7 @@ public class Inventory implements Comparable<Object> {
             addCoins(3);
             cardsInHand.remove(card);
         } else {
-            throw new Exception("Can't sell a card you don't have.");
+             throw new Exception("Can't sell a card you don't have.");
         }
     }
 
@@ -175,7 +205,8 @@ public class Inventory implements Comparable<Object> {
             effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
-        cardsInHand.remove(playedCard);
+        System.out.println("cards "+cardsInHand+"deleted card"+playedCard+" -> "+cardsInHand.remove(playedCard));
+
     }
 
     public void updateInventoryCopyCard(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv) {

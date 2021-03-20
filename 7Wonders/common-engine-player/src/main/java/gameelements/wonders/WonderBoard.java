@@ -15,7 +15,7 @@ public class WonderBoard {
     private final Effect baseEffect;
     private final List<Step> steps;
     private int currentStepIndex = 0;
-    private Inventory associatedInv;
+    private Integer associatedPlayerId;
 
     public WonderBoard(String name, Effect baseEffect, List<Step> steps) {
         this.name = name;
@@ -28,7 +28,7 @@ public class WonderBoard {
         this.baseEffect = w.baseEffect;
         this.currentStepIndex = w.currentStepIndex;
         this.steps = w.steps;
-        this.associatedInv = w.associatedInv;
+        this.associatedPlayerId = w.associatedPlayerId;
     }
 
     public static WonderBoard initiateColossusA() {
@@ -151,10 +151,10 @@ public class WonderBoard {
         return res;
     }
 
-    public void buyNextStep(Card card, Inventory leftNeighborInv, Inventory rightNeighborInv) throws Exception {
+    public void buyNextStep(Card card, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) throws Exception {
         if (currentStepIndex < steps.size()) {
-            steps.get(currentStepIndex).build(associatedInv, card, leftNeighborInv, rightNeighborInv);
-            associatedInv.getCardsInHand().remove(card);
+            steps.get(currentStepIndex).build(inv, card, leftNeighborInv, rightNeighborInv);
+            inv.getCardsInHand().remove(card);
             currentStepIndex++;
         } else {
             throw new Exception("No step left to build");
@@ -178,10 +178,10 @@ public class WonderBoard {
     }
 
     public void claimBoard(Inventory inv) throws Exception {
-        if (this.associatedInv == null) {
+        if (this.associatedPlayerId == null) {
             inv.setWonderBoard(this);
             this.baseEffect.activateEffect(inv, null, null);
-            this.associatedInv = inv;
+            this.associatedPlayerId = inv.getPlayerId();
         } else throw new Exception("WonderBoard already claimed.");
     }
 
@@ -193,11 +193,11 @@ public class WonderBoard {
         return name;
     }
 
-    public Inventory getAssociatedInv() {
-        return associatedInv;
+    public Integer getAssociatedPlayerId() {
+        return associatedPlayerId;
     }
 
-    public void setAssociatedInv(Inventory inv) {
-        this.associatedInv = inv;
+    public void setAssociatedPlayerId(Integer id) {
+        this.associatedPlayerId = id;
     }
 }
