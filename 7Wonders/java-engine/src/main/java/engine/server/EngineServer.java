@@ -42,8 +42,9 @@ public class EngineServer {
     public CommandLineRunner runner() {
         return args -> {
             System.out.println("***************** EngineServer running... ******************");
-            this.mapPlayerID_URL = new HashMap<>();
-            serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://localhost:8080";
+
+            this.mapPlayerID_URL = new HashMap<>(7);
+            serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://172.28.0.253:8080";
             System.out.println(serverURL);
             connectToStatsServer();
         };
@@ -98,6 +99,10 @@ public class EngineServer {
         // Si accès concurrent : BOOM
         this.mapPlayerID_URL.put(mapPlayerID_URL.size(), url);
         return this.mapPlayerID_URL.size() - 1;
+    }
+
+    public HashMap<Integer, String> getUrls()  {
+        return this.mapPlayerID_URL;
     }
 
     public String getUrl() throws UnknownHostException {

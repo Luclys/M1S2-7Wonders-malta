@@ -24,5 +24,6 @@ before_script:
 script:
   - mvn test
   - docker-compose up --scale player=3 --force-recreate
+  - mvn failsafe:integration-test
   - docker-compose rm -f
   - docker rmi malta:server malta:engine malta:player
