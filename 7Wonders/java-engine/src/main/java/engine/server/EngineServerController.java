@@ -36,7 +36,7 @@ public class EngineServerController {
     }
 
     @GetMapping(CONNECT_ENGINE_PLAYER)
-    public int connectToEngineServer(HttpServletRequest request) throws Exception {
+    public synchronized int connectToEngineServer(HttpServletRequest request) throws Exception {
         System.out.println("Engine > ***************** Connection Player to Engine ******************");
 
         String playerURL = "http://" + request.getRemoteAddr() + ":8080";

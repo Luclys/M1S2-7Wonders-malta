@@ -85,16 +85,18 @@ public class StatsServer {
     }
 
     public String showStatistics() {
-        String stats = "";
+        StringBuilder stats = new StringBuilder();
         for (int i = 0; i < nbPlayers; i++) {
-            stats += "> Player " + i + " | Win rate : " + wins.get(i) / 10 +
-
-                    " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
-                    " | Steps built : " + stepsBuilt.get(i) + " | Trade Mean - Money earned : " + coinsAcquiredInTrade.get(i) / 1000 +
-                    " | Trade Mean : Money spent " + coinsSpentInTrade.get(i) / 1000 + "\n";
+            stats.append("> Player ").append(i).append(" | Win rate : ").append((float) wins.get(i) / nbStats)
+                    .append(" | Mean score : ").append((float) scores.get(i) / nbStats)
+                    .append(" | Mean - Discarded cards : ").append((float) discardedCards.get(i) / nbStats)
+                    .append(" | Steps built : ").append((float) stepsBuilt.get(i))
+                    .append(" | Trade Mean - Money earned : ").append((float) coinsAcquiredInTrade.get(i) / nbStats)
+                    .append(" | Trade Mean : Money spent ").append((float) coinsSpentInTrade.get(i) / nbStats)
+                    .append("\n");
         }
-        stats += "DATA RECEIVED FROM " + nbStats + " GAMES";
-        return stats;
+        stats.append("DATA RECEIVED FROM ").append(nbStats).append(" GAMES");
+        return stats.toString();
     }
 
     public void setNbPlayer(int nb) {
@@ -107,7 +109,7 @@ public class StatsServer {
 
     public void setStats(DetailedResults[] results) {
         this.results = results;
-        nbStats++;
+        nbStats += results.length / nbPlayers;
         setData();
     }
 

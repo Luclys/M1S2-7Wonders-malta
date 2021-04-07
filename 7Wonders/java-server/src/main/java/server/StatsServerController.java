@@ -42,7 +42,7 @@ public class StatsServerController {
     }
 
     @PostMapping(SEND_NB_PLAYERS)
-    public boolean getNumberofplayers(@RequestBody int s) {
+    public boolean getNumberOfPlayers(@RequestBody int s) {
         System.out.println("***************** Get number of players from Engine ******************");
         System.out.println("number of players " + s);
         statsServer.setNbPlayer(s);
@@ -50,7 +50,7 @@ public class StatsServerController {
     }
 
     @PostMapping(SEND_STATS)
-    public boolean getstats(@RequestBody DetailedResults[] results) {
+    public boolean getStats(@RequestBody DetailedResults[] results) {
         statsServer.setStats(results);
         return true;
     }

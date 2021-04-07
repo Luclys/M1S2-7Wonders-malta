@@ -109,15 +109,23 @@ public class EngineServer {
         return InetAddress.getLocalHost().getHostAddress();
     }
 
-    Boolean gamestarted=false;
-    public void testStart() throws Exception {
-        if(gamestarted == false)
-        if (gamestarted == false && nbPlayers <= mapPlayerID_URL.size()) {
+    Boolean gameStarted =false;
+    public void testStart() {
+
+        Thread launchGame = new Thread(() -> {
+            try {
+                startGamesEngine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            gameStarted = true;
+        });
+
+        if (!gameStarted && nbPlayers <= mapPlayerID_URL.size()) {
             System.out.println("clientEngine > " + mapPlayerID_URL.size() + " players ready, initialising games.");
-            startGamesEngine();
-            gamestarted = true;
+            launchGame.start();
         } else
-            if(gamestarted == false){
+            if(!gameStarted){
                 System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
             }
     }
