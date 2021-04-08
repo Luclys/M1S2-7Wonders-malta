@@ -25,6 +25,7 @@ public class EngineServer {
     static int nbPlayers = 3;
     static int nbGames = 1;
     static boolean boolPrint = false;
+    private boolean connectToServer = false;
 
     @Autowired
     EngineServerController ctrl;
@@ -44,8 +45,9 @@ public class EngineServer {
             System.out.println("***************** EngineServer running... ******************");
 
             this.mapPlayerID_URL = new HashMap<>(7);
-            serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://172.28.0.253:8080";
-            System.out.println(serverURL);
+            serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://127.0.0.1:8080";
+            System.out.println("StatsServer IP : " +serverURL);
+            System.out.println("EngineServer IP : " + InetAddress.getLocalHost().getHostAddress());
             connectToStatsServer();
         };
     }
@@ -91,8 +93,8 @@ public class EngineServer {
 
     private void connectToStatsServer() {
         System.out.println("***************** Connect ClientEngine to StatsServer ******************");
-        Boolean val = ctrl.connectToStatsServer(serverURL);
-        System.out.println("clientEngine > Connection accepted ? " + val);
+        connectToServer = ctrl.connectToStatsServer(serverURL);
+        System.out.println("clientEngine > Connection accepted ? " + connectToServer);
     }
 
     int addPlayerURL(String url) {
@@ -128,5 +130,9 @@ public class EngineServer {
             if(!gameStarted){
                 System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
             }
+    }
+
+    public boolean isConnectToServer() {
+        return connectToServer;
     }
 }

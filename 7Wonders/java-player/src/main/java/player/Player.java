@@ -69,7 +69,7 @@ public class Player {
             // ack de connexion sur l'adresse docker
             System.out.println("***************** Player initiating... ******************");
             // Renvoyer l'ID une fois la connection établie pour le stocker.
-            this.id = ctrl.connection(engineURL);
+            this.id = ctrl.connection(engineURL,args);
         };
     }
 

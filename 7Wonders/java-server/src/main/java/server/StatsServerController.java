@@ -33,6 +33,7 @@ public class StatsServerController {
         // request.getRemoteHost()
         // C'est chiant, le port c'est 8081 car 8080 est occupé par StatServer... Pb : comment être sûr du port ?!
         urlClient = "http://" + request.getRemoteAddr() + ":8081";
+       // urlClient = "http://192.168.56.1:8081";
         System.out.println("***************** Connection Engine to StatsServer ******************");
 
         System.out.println("StatsServer > Connexion granted to the engine : " + urlClient);

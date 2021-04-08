@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
@@ -35,11 +37,17 @@ public class EngineServerController {
         return builder.build();
     }
 
-    @GetMapping(CONNECT_ENGINE_PLAYER)
-    public synchronized int connectToEngineServer(HttpServletRequest request) throws Exception {
-        System.out.println("Engine > ***************** Connection Player to Engine ******************");
 
-        String playerURL = "http://" + request.getRemoteAddr() + ":8080";
+    @PostMapping(CONNECT_ENGINE_PLAYER)
+    public synchronized int connectToEngineServer(HttpServletRequest request,@RequestBody String... args) throws Exception {
+        System.out.println("Engine > ***************** Connection Player to Engine ******************");
+        String playerURL ;
+        request.getParameter("");
+        if(args[2] == "true"){
+            playerURL = "http://localhost"+":"+args[1];
+        }else {
+            playerURL = "http://" + request.getRemoteAddr() +":"+args[1];
+        }
 
         int playerId = engineServer.addPlayerURL(playerURL);
 
