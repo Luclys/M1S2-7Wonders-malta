@@ -23,7 +23,7 @@ before_script:
 
 script:
   - mvn test
-  - docker run -d malta:server -p 8080:8080
+  - docker run -d -p 8080:8080 malta:server
  # - sleep 10 && docker run -d -e ENGINE_IP="172.17.0.1" -e PORT="8092" -e TYPE="true" -p 8092:8092 malta:player --name "player1" &
   - mvn failsafe:integration-test
   # delete container player1 .... after test rm
