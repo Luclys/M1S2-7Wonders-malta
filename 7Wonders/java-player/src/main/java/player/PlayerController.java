@@ -33,11 +33,11 @@ public class PlayerController {
         return builder.build();
     }
 
-    public int connection(String engineURL) {
+    public int connection(String engineURL, String... portPlayer) {
         System.out.println("Player > ***************** Send connection request to EngineServer ******************");
-        return restTemplate.getForObject(engineURL + CONNECT_ENGINE_PLAYER, Integer.class);
+        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, portPlayer,Integer.class);
     }
-
+//docker run -e ENGINE_IP="host.docker.internal" -e PORT="8093" -e TYPE="true" -p 8093:8093 malta:player
     @PostMapping(CHOOSE_CARD_AND_ACTION)
     public CardActionPair chooseCard(@RequestBody Inventory inv) {
         System.out.println("Player > We choose the card and the action. url"+ inv.getPlayerURL());
