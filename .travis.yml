@@ -4,8 +4,7 @@ services:
   - docker
 
 env:
-  - NB_PLAYERS=6
-  - NB_GAMES=2
+  - NB_PLAYERS=6 NB_GAMES=2
 
 jdk:
   - openjdk11
