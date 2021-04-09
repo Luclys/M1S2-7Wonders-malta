@@ -3,6 +3,9 @@ language: java
 services:
   - docker
 
+env:
+  - NB_JOUEURS=6
+
 jdk:
   - openjdk11
 
@@ -28,6 +31,6 @@ script:
   - mvn failsafe:integration-test
   # delete container player1 .... after test rm
   #- docker-compose rm malta:server
-  #- docker-compose up --scale player=3 --force-recreate
+  - docker-compose up --scale player=NB_JOUEURS --force-recreate
   - docker-compose rm -f
   - docker rmi malta:server malta:engine malta:player

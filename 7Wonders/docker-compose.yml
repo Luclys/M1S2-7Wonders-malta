@@ -14,6 +14,7 @@ services:
     container_name: java-engine
     environment:
       - SERVER_IP=172.28.0.253
+      - NB_JOUEURS=$NB_JOUEURS
     depends_on:
       - server
     networks:
