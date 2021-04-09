@@ -45,6 +45,7 @@ public class EngineServer {
             System.out.println("***************** EngineServer running... ******************");
             serverURL = args.length >= 1 ? "http://" + args[0] + ":8080" : "http://127.0.0.1:8080";
             nbPlayers = args.length >= 2 ? Integer.parseInt(args[1]) : 3;
+            nbGames = args.length >= 3 ? Integer.parseInt(args[2]) : 1;
 
             this.mapPlayerID_URL = new HashMap<>(nbPlayers);
 
