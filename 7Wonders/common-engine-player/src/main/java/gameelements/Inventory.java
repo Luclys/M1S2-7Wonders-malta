@@ -205,7 +205,8 @@ public class Inventory implements Comparable<Object> {
             effect.activateEffect(this, leftNeighborInv, rightNeighborInv);
         }
         playedCards.add(playedCard);
-        //System.out.println("cards "+cardsInHand+" deleted card"+playedCard+" -> "+cardsInHand.remove(playedCard));
+        cardsInHand.remove(playedCard);
+       // System.out.println("cards "+cardsInHand+" deleted card"+playedCard+" -> "+cardsInHand.remove(playedCard));
     }
 
     public void updateInventoryCopyCard(Card playedCard, Inventory leftNeighborInv, Inventory rightNeighborInv) {

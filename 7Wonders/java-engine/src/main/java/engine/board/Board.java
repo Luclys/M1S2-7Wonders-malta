@@ -205,6 +205,7 @@ public class Board {
     public void endOfAge() throws Exception {
         handleLastTurnCard();
         resolveWarConflict(getJetonVictoryValue());
+        System.out.println("GAME > ******** END OF AGE*******");
     }
 
     public void endOfTurn() {
@@ -212,13 +213,15 @@ public class Board {
         playersManager.updateCoins();
         playersManager.freeBuildFromDiscarded(discardedDeckCardList);
         getCardManager().playersCardsRotation(isLeftRotation());
-        System.out.println("END OF TURN");
+        System.out.println("GAME > ********END OF TURN*******");
     }
 
     public void endOfGame() {
         scores();
         denseRanking(playerInventoryList);
         updateLastDetailedResultsValues();
+        System.out.println("GAME > ********END OF GAME*******");
+
     }
 
     private void retrieveResults() {
@@ -306,8 +309,8 @@ public class Board {
 
         Card chosenCard = cardActionPair.getCard();
         Action action = cardActionPair.getAction();
-        System.out.println("id "+inv.getPlayerId()+"cards exec "+ inv.cardsAvailableToPlay().toString());
-        System.out.println("id "+inv.getPlayerId()+"card "+ chosenCard +"action "+action);
+        //System.out.println("id "+inv.getPlayerId()+"cards exec "+ inv.cardsAvailableToPlay().toString());
+        System.out.println("GAME > Player  "+inv.getPlayerId()+" plays card "+ chosenCard +"action "+action);
         switch (action) {
             case BUILDFREE:
                 int nbFreeBuildings = inv.getPossibleFreeBuildings();
