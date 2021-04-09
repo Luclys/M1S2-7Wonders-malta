@@ -24,10 +24,10 @@ before_script:
 script:
   - mvn test
   - docker run -d -p 8080:8080 malta:server
- # - sleep 10 && docker run -d -e ENGINE_IP="172.17.0.1" -e PORT="8092" -e TYPE="true" -p 8092:8092 malta:player --name "player1" &
+  #- sleep 10 && docker run -d -e ENGINE_IP="172.17.0.1" -e PORT="8092" -e TYPE="true" -p 8092:8092 malta:player --name "player1" &
   - mvn failsafe:integration-test
   # delete container player1 .... after test rm
   #- docker-compose rm malta:server
- # - docker-compose up --scale player=3 --force-recreate
+  #- docker-compose up --scale player=3 --force-recreate
   - docker-compose rm -f
   - docker rmi malta:server malta:engine malta:player

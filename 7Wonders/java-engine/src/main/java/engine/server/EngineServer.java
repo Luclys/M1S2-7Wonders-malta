@@ -46,7 +46,7 @@ public class EngineServer {
 
             this.mapPlayerID_URL = new HashMap<>(7);
             serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://127.0.0.1:8080";
-            System.out.println("StatsServer IP : " +serverURL);
+            System.out.println("StatsServer IP : " + serverURL);
             System.out.println("EngineServer IP : " + InetAddress.getLocalHost().getHostAddress());
             connectToStatsServer();
         };
