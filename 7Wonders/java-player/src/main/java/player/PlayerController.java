@@ -29,56 +29,55 @@ public class PlayerController {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-
         return builder.build();
     }
 
     public int connection(String engineURL, String... portPlayer) {
-        System.out.println("Player > ***************** Send connection request to EngineServer ******************");
+        System.out.println("PLAYER > ***************** Send connection request to EngineServer ******************");
         return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, portPlayer,Integer.class);
     }
-//docker run -e ENGINE_IP="host.docker.internal" -e PORT="8093" -e TYPE="true" -p 8093:8093 malta:player
+
     @PostMapping(CHOOSE_CARD_AND_ACTION)
     public CardActionPair chooseCard(@RequestBody Inventory inv) {
-        System.out.println("Player > We choose the card and the action. url"+ inv.getPlayerURL());
+       // System.out.println("PLAYER > We choose the card and the action. url"+ inv.getPlayerURL());
         player.chooseCard(inv);
         return player.getCardAction();
     }
 
     @PostMapping(ACKNOWLEDGE_STATUS)
     public Boolean acknowledgeGameStatus(@RequestBody ArrayList<Inventory> censoredInvList, int age, int currentTurn) {
-        System.out.println("Player > Game Status Acknowledged.");
+        System.out.println("PLAYER > Game Status Acknowledged.");
         player.acknowledgeGameStatus(censoredInvList, age, currentTurn);
         return true;
     }
 
     @PostMapping(CHOOSE_GUILD_CARD)
     public Card chooseGuildCard(@RequestBody List<Card> list, Inventory inv, Inventory leftNeighborInv, Inventory rightNeighborInv) {
-        System.out.println("Player > We choose the Guild Card.");
+        System.out.println("PLAYER "+player.getId()+" > choose the Guild Card.");
         return player.chooseGuildCard(list, inv, leftNeighborInv, rightNeighborInv);
     }
 
     @PostMapping(CHOOSE_SCIENTIFIC_SYMBOL)
     public Symbol chooseScientific(@RequestBody int[] currentSymbols) {
-        System.out.println("Player > We choose the scientific symbol.");
+        System.out.println("PLAYER "+player.getId()+" > choose the scientific symbol.");
         return player.chooseScientific(currentSymbols);
     }
 
     @PostMapping(CHOOSE_DISCARDED_CARD_TO_BUILD)
     public Card chooseDiscardedCardToBuild(@RequestBody Inventory inventory, List<Card> discardedDeckCardList) {
-        System.out.println("Player > We choose the card we want to build amongst the discarded cards.");
+        System.out.println("PLAYER "+player.getId()+" > choose the card to build among the discarded cards.");
         return player.chooseDiscardedCardToBuild(inventory, discardedDeckCardList);
     }
 
     @PostMapping(GET_PLAYER_STRATEGY)
     public String getStrategyName() {
-        //System.out.println("Player > We choose the card and the action.");
+        //System.out.println("PLAYER > choose the card and the action.");
         return player.getStrategyName();
     }
 
     @PostMapping(GET_PLAYER_ID)
     public int getPlayerId() {
-        //System.out.println("Player > We choose the card and the action.");
+        //System.out.println("PLAYER > choose the card and the action.");
         return player.getId();
     }
 

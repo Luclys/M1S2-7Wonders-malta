@@ -188,18 +188,15 @@ public class Board {
         ArrayList<CardActionPair> actionList = new ArrayList<>(playerInventoryList.size());
         for (int i = 0; i < getPlayerInventoryList().size(); i++) {
             Inventory inv = getPlayerInventoryList().get(i);
-            String playerURL = inv.getPlayerURL();
             int playerId = inv.getPlayerId();
-            System.out.println("id "+inv.getPlayerId()+"cards exec "+ inv.cardsAvailableToPlay().toString());
-            System.out.println("PLAYER choose actionCard "+inv.getPlayerId());
 
             //TODO : Envoyer age, currentTurn.
             //restTemplate.postForObject(playerURL + ACKNOWLEDGE_STATUS, playerInventoryList, Boolean.class);
             CardActionPair actionPair = ctrl.askCardAction(inv);
             actionList.add(actionPair);
-
-            System.out.println(String.format("%n[CARD CHOOSING] Player %d chose card %s %n", playerId, actionPair.getCard().getName()));
-
+            System.out.println("GAME > PLAYER "+inv.getPlayerId()+" Cards in Hand available to play :  "+ inv.cardsAvailableToPlay().toString());
+            //   System.out.println("GAME > PLAYER choose an Action and a Card "+inv.getPlayerId());
+            System.out.println(String.format("GAME > Player %d chose card %s %n", playerId, actionPair.getCard().getName()));
             log.chosenCards(playerId, actionPair.getCard());
         }
         return actionList;

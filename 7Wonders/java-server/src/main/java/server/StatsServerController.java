@@ -34,37 +34,39 @@ public class StatsServerController {
         // C'est chiant, le port c'est 8081 car 8080 est occupé par StatServer... Pb : comment être sûr du port ?!
         urlClient = "http://" + request.getRemoteAddr() + ":8081";
        // urlClient = "http://192.168.56.1:8081";
-        System.out.println("***************** Connection Engine to StatsServer ******************");
+        System.out.println("STATS SERVER CONTROLLER > ***************** Connection Engine Server to Stats Server ******************");
 
-        System.out.println("StatsServer > Connexion granted to the engine : " + urlClient);
+        System.out.println("STATS SERVER CONTROLLER > Connexion granted to the engine : " + urlClient);
 
         statsServer.lancerPartie();
         return true;
     }
 
     @PostMapping(SEND_NB_PLAYERS)
-    public boolean getNumberOfPlayers(@RequestBody int s) {
-        System.out.println("***************** Get number of players from Engine ******************");
-        System.out.println("number of players " + s);
+    public int getNumberOfPlayers(@RequestBody int s) {
+        System.out.println("STATS SERVER CONTROLLER > ***************** Get number of players from Engine Server ******************");
+        System.out.println("STATS SERVER CONTROLLER > Number of Players is : " + s);
         statsServer.setNbPlayer(s);
-        return true;
+        return statsServer.getNbPlayers();
     }
 
     @PostMapping(SEND_STATS)
-    public boolean getStats(@RequestBody DetailedResults[] results) {
-        statsServer.setStats(results);
-        return true;
+    public int getStats(@RequestBody DetailedResults[] results) {
+        System.out.println("STATS SERVER CONTROLLER > ***************** Get stats from Engine Server ******************");
+        int currentGame = statsServer.setStats(results);
+        System.out.println("STATS SERVER CONTROLLER > Current game is : "+currentGame);
+        return  currentGame;
     }
 
-    @PostMapping(SHOW_STATS)
-    public String showStats(@RequestBody int i) {
-        System.out.println("***************** Send Stats ******************");
+    @GetMapping(SHOW_STATS)
+    public String showStats() {
+        System.out.println("STATS SERVER CONTROLLER > ***************** Send Stats to Engine Server  ******************");
         return statsServer.showStatistics();
     }
 
     @GetMapping(WEBSERVICES_STATS.DISCONNECT_ENGINE_STATS)
     public int disconnect() {
-        System.out.println("***************** Hard Stopping Server ******************");
+        System.out.println("STATS SERVER CONTROLLER > ***************** Hard Stopping Server ******************");
         return statsServer.InitiateExit();
     }
 

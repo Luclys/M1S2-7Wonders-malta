@@ -19,7 +19,7 @@ class PlayerTest {
 
     @Test
     void chooseCardTest() throws Exception {
-        player = new Player(0, new FirstCardStrategy());
+        player = new Player();
         inv = new Inventory(0);
         playerRightNeighbor = new Inventory(1);
         playerLeftNeighbor = new Inventory(2);

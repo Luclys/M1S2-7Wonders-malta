@@ -46,7 +46,7 @@ public class StatsServer {
         if (partie == null) {
             partie = this;
         } else {
-            System.out.println("Engine > A game is already started.");
+            System.out.println("STATS SERVER > A game is already started.");
         }
     }
 
@@ -55,8 +55,8 @@ public class StatsServer {
         return args -> {
             // ack de connexion sur l'adresse docker
             partie = this;
-            System.out.println("***************** Server running... ******************");
-            System.out.println("StatsServer IP : " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("STATS SERVER > ***************** Server running... ******************");
+            System.out.println("STATS SERVER > StatsServer IP : http:/" + InetAddress.getLocalHost().getHostAddress());
         };
     }
 
@@ -107,13 +107,19 @@ public class StatsServer {
         }
     }
 
-    public void setStats(DetailedResults[] results) {
+    public int setStats(DetailedResults[] results) {
         this.results = results;
         nbStats += results.length / nbPlayers;
         setData();
+        return nbStats;
     }
 
     public int InitiateExit() {
         return SpringApplication.exit(appContext, () -> 0);
     }
+
+    public int getNbPlayers() {
+        return nbPlayers;
+    }
+
 }

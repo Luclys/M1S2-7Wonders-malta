@@ -26,6 +26,8 @@ public class EngineServer {
     static int nbGames = 1;
     static boolean boolPrint = false;
     private boolean connectToServer = false;
+    private boolean gameStarted = false;
+
 
     @Autowired
     EngineServerController ctrl;
@@ -42,12 +44,12 @@ public class EngineServer {
     @Bean
     public CommandLineRunner runner() {
         return args -> {
-            System.out.println("***************** EngineServer running... ******************");
+            System.out.println("ENGINE SERVER > ***************** Engine Server running... ******************");
 
             this.mapPlayerID_URL = new HashMap<>(7);
             serverURL = args.length == 1 ? "http://" + args[0] + ":8080" : "http://127.0.0.1:8080";
-            System.out.println("StatsServer IP : " +serverURL);
-            System.out.println("EngineServer IP : " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("ENGINE SERVER > Stats Server IP : " +serverURL);
+            System.out.println("ENGINE SERVER > Engine Server IP : http://" + InetAddress.getLocalHost().getHostAddress());
             connectToStatsServer();
         };
     }
@@ -58,21 +60,21 @@ public class EngineServer {
         for (int i = 1; i <= nbGames; i++) {
             // au lieu de playList -> urlList
             for (Integer k: mapPlayerID_URL.keySet()){
-                System.out.println("map player> player id "+k+" url "+mapPlayerID_URL.get(k));
+                System.out.println("ENGINE SERVER >  *** MAP PLAYER > player id "+k+" url "+mapPlayerID_URL.get(k));
             }
 
             Board board = new Board(this.mapPlayerID_URL, boolPrint,ctrl);
             board.play(i);
 
             if (i != nbGames) {
-                System.out.printf("[7WONDERS - MALTA] Progress : %d / %d.\r", i, nbGames);
+                System.out.printf("ENGINE SERVER > [7WONDERS - MALTA] Progress : %d / %d.\r", i, nbGames);
             } else {
-                System.out.printf("[7WONDERS - MALTA] Execution finished : %d games played.\n", nbGames);
+                System.out.printf("ENGINE SERVER > [7WONDERS - MALTA] Execution finished : %d games played.\n", nbGames);
             }
 
             ctrl.sendStats(board.getResults());
         }
-        ctrl.showStats();
+       System.out.println("ENGINE SERVER > \n"+ctrl.showStats());
 
         try {
             ctrl.disconnectStatsServer();
@@ -81,7 +83,7 @@ public class EngineServer {
 
         mapPlayerID_URL.values().forEach(url -> {
             try {
-                System.out.println("Engine > Disconnect request send.");
+                System.out.println("ENGINE SERVER > Disconnect request send.");
                 ctrl.disconnectPlayer(url);
             } catch (ResourceAccessException ignored) {
             }
@@ -92,9 +94,9 @@ public class EngineServer {
     }
 
     private void connectToStatsServer() {
-        System.out.println("***************** Connect ClientEngine to StatsServer ******************");
+        System.out.println("ENGINE SERVER > ***************** Connect Engine Server to Stats Server ******************");
         connectToServer = ctrl.connectToStatsServer(serverURL);
-        System.out.println("clientEngine > Connection accepted ? " + connectToServer);
+        System.out.println("ENGINE SERVER > Connection accepted ? " + connectToServer);
     }
 
     int addPlayerURL(String url) {
@@ -111,24 +113,21 @@ public class EngineServer {
         return InetAddress.getLocalHost().getHostAddress();
     }
 
-    Boolean gameStarted =false;
     public void testStart() {
-
-        Thread launchGame = new Thread(() -> {
-            try {
-                startGamesEngine();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            gameStarted = true;
-        });
-
         if (!gameStarted && nbPlayers <= mapPlayerID_URL.size()) {
-            System.out.println("clientEngine > " + mapPlayerID_URL.size() + " players ready, initialising games.");
+            System.out.println("ENGINE SERVER > " + mapPlayerID_URL.size() + " players ready, initialising games.");
+            Thread launchGame = new Thread(() -> {
+                try {
+                    startGamesEngine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                gameStarted = true;
+            });
             launchGame.start();
         } else
             if(!gameStarted){
-                System.out.println("clientEngine > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
+                System.out.println("ENGINE SERVER > " + (mapPlayerID_URL.size() - nbPlayers) + " missing players. Waiting...");
             }
     }
 
