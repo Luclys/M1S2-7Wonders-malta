@@ -28,11 +28,12 @@ public class StatsServer {
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
     StatsServer partie;
-    @Autowired
-    StatsServerController crl;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
+
+    @Autowired
+    StatsServerController crl;
     @Autowired
     private ApplicationContext appContext;
 
@@ -87,7 +88,8 @@ public class StatsServer {
     public String showStatistics() {
         StringBuilder stats = new StringBuilder();
         for (int i = 0; i < nbPlayers; i++) {
-            stats.append("> Player ").append(i).append(" | Win rate : ").append((float) wins.get(i) / nbStats)
+            int winRate = wins.get(i) / nbStats * 100;
+            stats.append("> Player ").append(i).append(" | Win rate : ").append(winRate).append("%")
                     .append(" | Mean score : ").append((float) scores.get(i) / nbStats)
                     .append(" | Mean - Discarded cards : ").append((float) discardedCards.get(i) / nbStats)
                     .append(" | Steps built : ").append((float) stepsBuilt.get(i))

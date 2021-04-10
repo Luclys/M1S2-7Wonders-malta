@@ -10,27 +10,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class ScoreTest {
-    List<Player> playerList;
-
-    @Mock
-    Player playerMocked;
+    private HashMap<Integer, String> mapPlayerID_URL;
 
     @BeforeEach
     void setUp() {
-        playerList = new ArrayList<>(3);
+        mapPlayerID_URL = new HashMap<>(3);
         for (int i = 0; i < 3; i++) {
-            playerList.add(playerMocked);
+            mapPlayerID_URL.put(mapPlayerID_URL.size(), "url" + i);
         }
     }
 
@@ -41,7 +35,7 @@ class ScoreTest {
      * */
     @Test
     void guildChooseScientificScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         Card GUILDE_DES_SCIENTIFIQUES = new Card(1, "GUILDE DES SCIENTIFIQUES TEST", new Effect[]{new ChoiceScientificEffect()}, null, null, 0, null, null);
@@ -62,7 +56,7 @@ class ScoreTest {
     @Disabled
     @Test
     void multipleEndEffectScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         Card card2ScientificSymbol = new Card(1, "", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null, 0, null, null);
@@ -80,7 +74,7 @@ class ScoreTest {
 
     @Test
     void conflictScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         inv.setCoins(0);
@@ -103,7 +97,7 @@ class ScoreTest {
      */
     @Test
     void coinScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         inv.setCoins(0);
@@ -135,7 +129,7 @@ class ScoreTest {
      * */
     @Test
     void sameScientificScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         Card card1Compas = new Card(1, "", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1)}, null, null, 0, null, null);
@@ -162,7 +156,7 @@ class ScoreTest {
      * */
     @Test
     void tripleScientificScoreTest() {
-        Board board = new Board(playerList, false);
+        Board board = new Board(mapPlayerID_URL, false, null);
         Inventory inv = board.getPlayerInventoryList().get(0);
 
         Card card3ScientificSymbol = new Card(1, "", new Effect[]{new SymbolEffect(Symbol.COMPAS, 1), new SymbolEffect(Symbol.STELE, 1), new SymbolEffect(Symbol.ROUAGE, 1)}, null, null, 0, null, null);

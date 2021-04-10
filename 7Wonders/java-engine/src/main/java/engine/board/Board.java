@@ -257,15 +257,6 @@ public class Board {
                 CardActionPair action = ctrl.askCardAction(inv);
 
                 if (action == null) {
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
-                    System.out.println("HOW ??? ! WHY DIDNT PLAYER CHOOSE HIS ACTION ?!!!!");
                     action = new CardActionPair(inv.getCardsInHand().get(0), Action.SELL);
                 }
                 executePlayerAction(inv, action);

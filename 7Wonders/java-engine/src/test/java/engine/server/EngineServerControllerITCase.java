@@ -29,6 +29,7 @@ public class EngineServerControllerITCase {
     EngineServer mSpy;
 
     int nbStats;
+
     @BeforeEach
     void setUp() {
         mSpy = Mockito.spy(engineServer);
@@ -70,23 +71,29 @@ public class EngineServerControllerITCase {
         System.out.println("*********************************************************************************************");
         System.out.println("* TEST ENGINE SERVER CONTROLLER > SEND NUMBER OF PLAYERS FROM ENGINE SERVER TO STATS SERVER *");
         System.out.println("*********************************************************************************************");
-        assertEquals(3, serverController.sendNumberOfPlayers(3));
+        int nbPlayer = 3;
+        assertEquals(nbPlayer, serverController.sendNumberOfPlayers(nbPlayer));
     }
 
     @Test
     void sendStatsTest() {
         int nbPlayer = 3;
-        serverController.sendNumberOfPlayers(nbPlayer);
         DetailedResults[] testDetailedResults = new DetailedResults[nbPlayer];
         for (int i = 0; i < nbPlayer; i++) {
             testDetailedResults[i] = new DetailedResults();
-            testDetailedResults[i].setRank(i+1);
+            testDetailedResults[i].setRank(i + 1);
         }
         System.out.println("*********************************************************************************");
         System.out.println("* TEST ENGINE SERVER CONTROLLER > SEND STATS FROM ENGINE SERVER TO STATS SERVER *");
         System.out.println("*********************************************************************************");
-        nbStats = serverController.sendStats(testDetailedResults);
-        assertEquals(1,nbStats);
+
+        serverController.sendNumberOfPlayers(nbPlayer);
+        int nbStatsBefore = serverController.sendStats(testDetailedResults);
+        nbStats = nbStatsBefore;
+        int nbStatsAfter = serverController.sendStats(testDetailedResults);
+        nbStats = nbStatsAfter;
+        // We test that only one Stat has been sent.
+        assertEquals(1, nbStatsAfter - nbStatsBefore);
     }
 
     @Test
@@ -101,7 +108,33 @@ public class EngineServerControllerITCase {
         System.out.println("********************************************************************************");
         String stats = serverController.showStats();
         System.out.println(stats);
-        String subString = "DATA RECEIVED FROM 1 GAMES";
+        String subString = "DATA RECEIVED FROM " + nbStats + " GAMES";
         assertTrue(stats.contains(subString));
     }
+
+/*
+    @Test
+    void sendStatsTest2() {
+        int nbPlayer = 3;
+        DetailedResults[] testDetailedResults = new DetailedResults[nbPlayer];
+        DetailedResults[] testDetailedResults2 = new DetailedResults[nbPlayer];
+        for (int i = 0; i < nbPlayer; i++) {
+            testDetailedResults[i] = new DetailedResults();
+            testDetailedResults2[i] = new DetailedResults();
+        }
+        testDetailedResults[0].setRank(1);
+        testDetailedResults2[1].setRank(1);
+        serverController.sendNumberOfPlayers(nbPlayer);
+        serverController.sendStats(testDetailedResults);
+        serverController.sendStats(testDetailedResults2);
+
+        String stats = serverController.showStats();
+
+        String subString = "Player 0 | Win rate : 50%";
+        String subString2 = "Player 1 | Win rate : 50%";
+        assertTrue(stats.contains(subString));
+        assertTrue(stats.contains(subString2));
+    }
+*/
+
 }

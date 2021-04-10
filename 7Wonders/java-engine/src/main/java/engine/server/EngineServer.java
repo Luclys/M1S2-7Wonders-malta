@@ -66,7 +66,7 @@ public class EngineServer {
                 System.out.println("ENGINE SERVER >  *** MAP PLAYER > player id "+k+" url "+mapPlayerID_URL.get(k));
             }
 
-            Board board = new Board(this.mapPlayerID_URL, boolPrint,ctrl);
+            Board board = new Board(this.mapPlayerID_URL, boolPrint, ctrl);
             board.play(i);
 
             if (i != nbGames) {
