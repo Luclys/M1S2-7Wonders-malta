@@ -28,8 +28,6 @@ public class EngineServerControllerITCase {
 
     EngineServer mSpy;
 
-    int nbStats;
-
     @BeforeEach
     void setUp() {
         mSpy = Mockito.spy(engineServer);
@@ -38,26 +36,26 @@ public class EngineServerControllerITCase {
         ReflectionTestUtils.setField(mSpy, "ctrl", spyserverController);
     }
 
-    /*
-        @Test
-        void connectToEngineServerTest() throws Exception {
-           /* MockHttpServletRequest request = new MockHttpServletRequest();
-            serverController.connectToEngineServer(request);
+/*
+    @Test
+    void connectToEngineServerTest() throws Exception {
+        // MockHttpServletRequest request = new MockHttpServletRequest();
+        serverController.connectToEngineServer(request);
 
-            try {
-                TimeUnit.MILLISECONDS.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            String playerURL = "http://" + request.getRemoteAddr() + ":8080";
-
-            verify(mSpy, times(1)).testStart();
-            verify(mSpy, times(1)).addPlayerURL(playerURL);
-            assertTrue(mSpy.getUrls().containsValue(playerURL));
-            assertEquals(mSpy.getUrls().size(), 1);
+        try {
+            TimeUnit.MILLISECONDS.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        */
+
+        String playerURL = "http://" + request.getRemoteAddr() + ":8080";
+
+        verify(mSpy, times(1)).testStart();
+        verify(mSpy, times(1)).addPlayerURL(playerURL);
+        assertTrue(mSpy.getUrls().containsValue(playerURL));
+        assertEquals(mSpy.getUrls().size(), 1);
+    }
+*/
     @Test
     void connectToServerTest() {
         System.out.println("*************************************************************************");
@@ -89,9 +87,7 @@ public class EngineServerControllerITCase {
 
         serverController.sendNumberOfPlayers(nbPlayer);
         int nbStatsBefore = serverController.sendStats(testDetailedResults);
-        nbStats = nbStatsBefore;
         int nbStatsAfter = serverController.sendStats(testDetailedResults);
-        nbStats = nbStatsAfter;
         // We test that only one Stat has been sent.
         assertEquals(1, nbStatsAfter - nbStatsBefore);
     }
@@ -108,11 +104,11 @@ public class EngineServerControllerITCase {
         System.out.println("********************************************************************************");
         String stats = serverController.showStats();
         System.out.println(stats);
-        String subString = "DATA RECEIVED FROM " + nbStats + " GAMES";
+        String subString = "DATA RECEIVED FROM 4 GAMES";
         assertTrue(stats.contains(subString));
     }
 
-/*
+
     @Test
     void sendStatsTest2() {
         int nbPlayer = 3;
@@ -129,12 +125,13 @@ public class EngineServerControllerITCase {
         serverController.sendStats(testDetailedResults2);
 
         String stats = serverController.showStats();
+        System.out.println(stats);
 
         String subString = "Player 0 | Win rate : 50%";
         String subString2 = "Player 1 | Win rate : 50%";
         assertTrue(stats.contains(subString));
         assertTrue(stats.contains(subString2));
     }
-*/
+
 
 }

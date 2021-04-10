@@ -88,7 +88,7 @@ public class StatsServer {
     public String showStatistics() {
         StringBuilder stats = new StringBuilder();
         for (int i = 0; i < nbPlayers; i++) {
-            int winRate = wins.get(i) / nbStats * 100;
+            int winRate = wins.get(i) * 100 / nbStats;
             stats.append("> Player ").append(i).append(" | Win rate : ").append(winRate).append("%")
                     .append(" | Mean score : ").append((float) scores.get(i) / nbStats)
                     .append(" | Mean - Discarded cards : ").append((float) discardedCards.get(i) / nbStats)
