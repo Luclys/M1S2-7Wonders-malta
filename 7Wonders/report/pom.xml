@@ -32,10 +32,9 @@
         </dependency>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-server</artifactId>
+            <artifactId>java-engine</artifactId>
             <version>1</version>
         </dependency>
-
         <dependency>
             <groupId>Malta</groupId>
             <artifactId>java-player</artifactId>
@@ -43,9 +42,10 @@
         </dependency>
         <dependency>
             <groupId>Malta</groupId>
-            <artifactId>java-engine</artifactId>
+            <artifactId>java-server</artifactId>
             <version>1</version>
         </dependency>
+
         <!-- etc. TOUS LES MODULES DOIVENT ETRE INCLUS ICI
         -->
     </dependencies>

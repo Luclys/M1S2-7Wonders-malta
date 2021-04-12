@@ -14,6 +14,8 @@ services:
     container_name: java-engine
     environment:
       - SERVER_IP=172.28.0.253
+      - NB_PLAYERS=$NB_PLAYERS
+      - NB_GAMES=$NB_GAMES
     depends_on:
       - server
     networks:
@@ -24,6 +26,8 @@ services:
     image: malta:player
     environment:
       - ENGINE_IP=172.28.0.10
+      - PORT=8080
+      - TEST=false
     depends_on:
       - engine
     networks:
@@ -35,3 +39,4 @@ networks:
       driver: default
       config:
         - subnet: 172.28.0.0/16
+

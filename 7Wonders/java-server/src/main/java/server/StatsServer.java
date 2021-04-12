@@ -28,11 +28,12 @@ public class StatsServer {
     private final HashMap<Integer, Integer> coinsAcquiredInTrade = new HashMap<>();
     private final HashMap<Integer, Integer> coinsSpentInTrade = new HashMap<>();
     StatsServer partie;
-    @Autowired
-    StatsServerController crl;
     private DetailedResults[] results;
     private int nbPlayers;
     private int nbStats = 0;
+
+    @Autowired
+    StatsServerController crl;
     @Autowired
     private ApplicationContext appContext;
 
@@ -46,7 +47,7 @@ public class StatsServer {
         if (partie == null) {
             partie = this;
         } else {
-            System.out.println("Engine > A game is already started.");
+            System.out.println("STATS SERVER > A game is already started.");
         }
     }
 
@@ -55,8 +56,8 @@ public class StatsServer {
         return args -> {
             // ack de connexion sur l'adresse docker
             partie = this;
-            System.out.println("***************** Server running... ******************");
-            System.out.println("StatsServer IP : " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("STATS SERVER > ***************** Server running... ******************");
+            System.out.println("STATS SERVER > StatsServer IP : http:/" + InetAddress.getLocalHost().getHostAddress());
         };
     }
 
@@ -85,16 +86,19 @@ public class StatsServer {
     }
 
     public String showStatistics() {
-        String stats = "";
+        StringBuilder stats = new StringBuilder();
         for (int i = 0; i < nbPlayers; i++) {
-            stats += "> Player " + i + " | Win rate : " + wins.get(i) / 10 +
-
-                    " | Mean score : " + scores.get(i) / 1000 + " | Mean - Discarded cards : " + discardedCards.get(i) / 1000 +
-                    " | Steps built : " + stepsBuilt.get(i) + " | Trade Mean - Money earned : " + coinsAcquiredInTrade.get(i) / 1000 +
-                    " | Trade Mean : Money spent " + coinsSpentInTrade.get(i) / 1000 + "\n";
+            int winRate = wins.get(i) * 100 / nbStats;
+            stats.append("> Player ").append(i).append(" | Win rate : ").append(winRate).append("%")
+                    .append(" | Mean score : ").append((float) scores.get(i) / nbStats)
+                    .append(" | Mean - Discarded cards : ").append((float) discardedCards.get(i) / nbStats)
+                    .append(" | Steps built : ").append((float) stepsBuilt.get(i))
+                    .append(" | Trade Mean - Money earned : ").append((float) coinsAcquiredInTrade.get(i) / nbStats)
+                    .append(" | Trade Mean : Money spent ").append((float) coinsSpentInTrade.get(i) / nbStats)
+                    .append("\n");
         }
-        stats += "DATA RECEIVED FROM " + nbStats + " GAMES";
-        return stats;
+        stats.append("DATA RECEIVED FROM ").append(nbStats).append(" GAMES");
+        return stats.toString();
     }
 
     public void setNbPlayer(int nb) {
@@ -105,13 +109,19 @@ public class StatsServer {
         }
     }
 
-    public void setStats(DetailedResults[] results) {
+    public int setStats(DetailedResults[] results) {
         this.results = results;
-        nbStats++;
+        nbStats += results.length / nbPlayers;
         setData();
+        return nbStats;
     }
 
     public int InitiateExit() {
         return SpringApplication.exit(appContext, () -> 0);
     }
+
+    public int getNbPlayers() {
+        return nbPlayers;
+    }
+
 }

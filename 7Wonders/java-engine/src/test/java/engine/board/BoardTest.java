@@ -1,6 +1,6 @@
-/*
 package engine.board;
 
+import gameelements.CardActionPair;
 import gameelements.Inventory;
 import gameelements.cards.Card;
 import gameelements.cards.CardsSet;
@@ -15,41 +15,31 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import player.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
 class BoardTest {
 
-    List<Player> playerList;
     Board board;
-    @Mock
-    Player player;
-    Board boardMOCK;
-    ArrayList<Inventory> listInv;
-    Inventory inv;
 
     @BeforeEach
     void setUp() {
-        playerList = new ArrayList<>(3);
+        HashMap<Integer, String> mapPlayerID_URL = new HashMap<>(3);
         for (int i = 0; i < 3; i++) {
-            //player.Player player = new player.Player(i, new WonderStrategy());
-            playerList.add(player);
+            mapPlayerID_URL.put(mapPlayerID_URL.size(), "url" + i);
         }
-        board = new Board(playerList, false);
+
+        board = new Board(mapPlayerID_URL, false, null);
     }
 
     @Test
     void drawCardsTest() {
-        int nbPlayers = 3;
-        Board board = new Board(playerList, false);
         board.ageSetUp(1);
 
         int nbToDraw = 1;
@@ -64,8 +54,6 @@ class BoardTest {
     @Test
     void claimBoard() throws Exception {
         // We claim a test Board, then test if we got the base resource.
-        Board board = new Board(playerList, false);
-        Player player = playerList.get(0);
         Inventory inv = board.getPlayerInventoryList().get(0);
         Inventory leftNeighborInv = board.getPlayerInventoryList().get(inv.getLeftNeighborId());
         Inventory rightNeighborInv = board.getPlayerInventoryList().get(inv.getRightNeighborId());
@@ -82,22 +70,21 @@ class BoardTest {
 
         // We claim a test Board, then test if when buying a step, we get the resource.
         Card card = CardsSet.CHANTIER;
-        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, inv, leftNeighborInv, rightNeighborInv);
 
         assertEquals(2, inv.getResCount(Resource.BOIS));
 
-        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, inv, leftNeighborInv, rightNeighborInv);
         assertEquals(2, inv.getResCount(Resource.PIERRE));
 
-        TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv);
+        TESTBOARD.buyNextStep(card, inv, leftNeighborInv, rightNeighborInv);
         assertEquals(1, inv.getSymbolCount(Symbol.STELE));
 
-        Assertions.assertThrows(Exception.class, () -> TESTBOARD.buyNextStep(card, leftNeighborInv, rightNeighborInv));
+        Assertions.assertThrows(Exception.class, () -> TESTBOARD.buyNextStep(card, inv, leftNeighborInv, rightNeighborInv));
     }
 
     @Test
     void setAgeTest() {
-
         assertThrows(IllegalStateException.class, () -> board.ageSetUp(10));
         board.ageSetUp(1);
         assertTrue(board.isLeftRotation());
@@ -111,12 +98,13 @@ class BoardTest {
     void executeActionBUILDFREETest() throws Exception {
         Inventory inv = board.getPlayerInventoryList().get(0);
         inv.setPossibleFreeBuildings(1);
-        assertEquals(1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
-        doReturn(Action.BUILDFREE).when(player).getAction();
-        board.executePlayerAction(inv, player);
-        assertEquals(-1, board.getPlayerInventoryList().get(0).getPossibleFreeBuildings());
+        ArrayList<Card> cardArrayList = new ArrayList<>();
+        cardArrayList.add(CardsSet.CHANTIER);
+        inv.setCardsInHand(cardArrayList);
+        CardActionPair actionPair = new CardActionPair(inv.getCardsInHand().get(0), Action.BUILDFREE);
+
+        assertEquals(1, inv.getPossibleFreeBuildings());
+        board.executePlayerAction(inv, actionPair);
+        assertEquals(-1, inv.getPossibleFreeBuildings());
     }
 }
-
-
-*/

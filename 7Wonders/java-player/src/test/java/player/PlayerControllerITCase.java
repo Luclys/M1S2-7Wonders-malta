@@ -1,17 +1,41 @@
 package player;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 public class PlayerControllerITCase {
-    @MockBean
+    @Autowired
     PlayerController playerController;
 
     @Autowired
     Player player;
+
+    Player pSpy;
+
+    @BeforeEach
+    void setUp() {
+        pSpy = Mockito.spy(player);
+        ReflectionTestUtils.setField(playerController, "player", pSpy);
+    }
+
+    @Test
+    void connectionToEngineTest(){
+        System.out.println("*************************************************************************");
+        System.out.println("* TEST PLAYER CONTROLLER > CONNECT PLAYER TO ENGINE SERVER              *");
+        System.out.println("*************************************************************************");
+        assertEquals(0,pSpy.getId());
+    }
+
 }

@@ -7,7 +7,8 @@ import gameelements.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import statistic.DetailedResults;
@@ -29,61 +30,68 @@ public class EngineServerController {
     @Autowired
     private RestTemplate restTemplate;
 
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         // Do any additional configuration here
         return builder.build();
     }
 
-    @GetMapping(CONNECT_ENGINE_PLAYER)
-    public int connectToEngineServer(HttpServletRequest request) throws Exception {
-        System.out.println("Engine > ***************** Connection Player to Engine ******************");
 
-        String playerURL = "http://" + request.getRemoteAddr() + ":8080";
-
+    @PostMapping(CONNECT_ENGINE_PLAYER)
+    public synchronized int connectToEngineServer(HttpServletRequest request, @RequestBody String... args) throws Exception {
+        System.out.println("ENGINE SERVER CONTROLLER >  Connection Player to Engine ");
+        String playerURL;
+        if (args[2] == "true") {
+            playerURL = "http://localhost" + ":" + args[1];
+        } else {
+            playerURL = "http://" + request.getRemoteAddr() + ":" + args[1];
+        }
         int playerId = engineServer.addPlayerURL(playerURL);
-
-        System.out.println("Engine > Connexion granted to the player : " + playerURL + ", Player id = " + playerId);
-
+        System.out.println("ENGINE SERVER CONTROLLER > Connexion granted to the player : " + playerURL + " , Player id = " + playerId);
         engineServer.testStart();
-
+        engineServer.setConnected(true);
         return playerId;
     }
 
 
     public Boolean connectToStatsServer(String statsServerURL) {
         this.adresse = statsServerURL;
-        System.out.println("Engine > ***************** Send connection request to StatsServer ******************");
+        System.out.print("ENGINE SERVER CONTROLLER > Send connection request to Stats Server ");
         System.out.println("Attempting to access : " + adresse + CONNECT_ENGINE_STATS);
         return restTemplate.getForObject(adresse + CONNECT_ENGINE_STATS, Boolean.class);
     }
 
-    public Boolean sendNumberOfPlayers(int nbr) {
-        System.out.println("Engine > ***************** Send number of players to StatsServer ******************");
-        return restTemplate.postForObject(adresse + SEND_NB_PLAYERS, nbr, Boolean.class);
+    public int sendNumberOfPlayers(int nbr) {
+        System.out.println("ENGINE SERVER CONTROLLER > Send number of players to Stats Server");
+        return restTemplate.postForObject(adresse + SEND_NB_PLAYERS, nbr, int.class);
     }
 
 
-    public Boolean sendStats(DetailedResults[] results) {
-        return restTemplate.postForObject(adresse + SEND_STATS, results, Boolean.class);
+    public int sendStats(DetailedResults[] results) {
+        System.out.println("ENGINE SERVER CONTROLLER > Send stats to Stats Server");
+        return restTemplate.postForObject(adresse + SEND_STATS, results, int.class);
     }
 
-    public void showStats() {
-        System.out.println("Engine > ***************** Ask StatsServer for stats ******************");
-        String stat = restTemplate.postForObject(adresse + SHOW_STATS, 1, String.class);
-        System.out.println(stat);
+    public String showStats() {
+        System.out.println("ENGINE SERVER CONTROLLER > Ask Stats Server to show stats");
+        return restTemplate.getForObject(adresse + SHOW_STATS, String.class);
     }
 
     public void disconnectStatsServer() {
+        System.out.println("ENGINE SERVER CONTROLLER > Ask Stats Server to disconnect");
         restTemplate.getForObject(adresse + WEBSERVICES_STATS.DISCONNECT_ENGINE_STATS, int.class);
     }
 
     public void disconnectPlayer(String url) {
+        System.out.print("ENGINE SERVER CONTROLLER > Ask Player to disconnect ");
+        System.out.println("Url of the player "+url);
         restTemplate.getForObject(url + WEBSERVICES_GAME.DISCONNECT_ENGINE_PLAYER, int.class);
     }
 
     public CardActionPair askCardAction(Inventory inv) {
-        System.out.println("ASK FOR CARD AND ACTION url: " + inv.getPlayerURL());
+        System.out.print("ENGINE SERVER CONTROLLER >  Ask player to choose card and action ");
+        System.out.println("Url of the player "+inv.getPlayerURL());
         return restTemplate.postForObject(inv.getPlayerURL() + CHOOSE_CARD_AND_ACTION, inv, CardActionPair.class);
     }
 
