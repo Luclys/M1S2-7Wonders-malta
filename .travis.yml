@@ -30,7 +30,7 @@ script:
   - cd java-engine
   - mvn failsafe:integration-test
   - cd ..
-  - docker run -d --rm -p 8081:8081 --name "engineIT" malta:engine
+  - docker run -d --rm -e SERVER_IP="172.17.0.2"  -p 8081:8081 --name "engineIT" malta:engine
   - cd java-player
   - mvn failsafe:integration-test
   - cd ..
