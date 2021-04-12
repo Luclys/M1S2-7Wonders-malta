@@ -12,8 +12,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Disabled
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 public class PlayerControllerITCase {
     @Autowired
@@ -27,7 +27,7 @@ public class PlayerControllerITCase {
     @BeforeEach
     void setUp() {
         pSpy = Mockito.spy(player);
-        ReflectionTestUtils.setField(playerController, "playerServer", pSpy);
+        ReflectionTestUtils.setField(playerController, "player", pSpy);
     }
 
     @Test

@@ -65,18 +65,23 @@ public class Player {
     @Bean
     public CommandLineRunner run() {
         return args -> {
-            /*String engineURL;
+            String engineURL;
+            String[] arguments = new String[3];
             if (args.length > 0) {
                 engineURL = args[2].equals("false") ? "http://" + args[0] + ":8081" : "http://127.0.0.1:8081";
+                arguments = args;
             } else {
-                engineURL = "http://172.17.0.2:8081";
-            }*/
-            String engineURL = "http://" + args[0] + ":8081" ;
+                engineURL = "http://127.0.0.1:8081";
+                arguments[0] = "127.0.0.1";
+                arguments[1] = "8089";
+                arguments[2] = "true";
+            }
+            //String engineURL = "http://" + args[0] + ":8081" ;
 
             // ack de connexion sur l'adresse docker
             System.out.println("***************** Player initiating... ******************");
             // Renvoyer l'ID une fois la connection établie pour le stocker.
-            this.id = ctrl.connection(engineURL,args);
+            this.id = ctrl.connection(engineURL,arguments);
         };
     }
 
