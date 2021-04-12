@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static constants.WEBSERVICES_GAME.*;
 
@@ -32,9 +33,14 @@ public class PlayerController {
         return builder.build();
     }
 
-    public int connection(String engineURL, String... portPlayer) {
-        System.out.println("PLAYER > ***************** Send connection request to EngineServer ******************");
-        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, portPlayer,Integer.class);
+    public int connection(String engineURL, String... playerArgs) {
+        System.out.println("PLAYER > ***************** Send connection request to EngineServer : " + engineURL + " ******************");
+        try {
+            TimeUnit.MILLISECONDS.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return restTemplate.postForObject(engineURL + CONNECT_ENGINE_PLAYER, playerArgs, Integer.class);
     }
 
     @PostMapping(CHOOSE_CARD_AND_ACTION)

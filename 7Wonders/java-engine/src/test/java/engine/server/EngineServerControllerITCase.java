@@ -1,6 +1,11 @@
 package engine.server;
 
+import gameelements.CardActionPair;
+import gameelements.Inventory;
+import gameelements.cards.Card;
+import gameelements.cards.CardsSet;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -10,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import statistic.DetailedResults;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -133,5 +139,24 @@ public class EngineServerControllerITCase {
         assertTrue(stats.contains(subString2));
     }
 
+    @Disabled
+    @Test
+    void askCardActionTest(){
+        // launch one player in background
+        System.out.println("*************************************************************************************");
+        System.out.println("* TEST ENGINE SERVER CONTROLLER > ENGINE SERVER ASK PLAYER TO CHOSE CARD AND ACTION *");
+        System.out.println("*************************************************************************************");
+        Inventory inv = new Inventory();
+        inv.setPlayerURL(mSpy.mapPlayerID_URL.get(0));
+        // add cards
+        Card card1 = CardsSet.ACADEMIE;
+        Card card2 = CardsSet.ARENE;
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(card1);
+        cards.add(card2);
+        inv.setCardsInHand(cards);
+        CardActionPair chosen = serverController.askCardAction(inv);
+        assertEquals(card1, chosen.getCard());
+    }
 
 }
