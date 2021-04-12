@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ExtendWith(SpringExtension.class)
 public class EngineServerControllerITCase {
@@ -35,6 +35,7 @@ public class EngineServerControllerITCase {
 
     EngineServer mSpy;
 
+
     @BeforeEach
     void setUp() {
         mSpy = Mockito.spy(engineServer);
@@ -43,26 +44,26 @@ public class EngineServerControllerITCase {
         ReflectionTestUtils.setField(mSpy, "ctrl", spyserverController);
     }
 
-/*
-    @Test
-    void connectToEngineServerTest() throws Exception {
-        // MockHttpServletRequest request = new MockHttpServletRequest();
-        serverController.connectToEngineServer(request);
+    /*
+        @Test
+        void connectToEngineServerTest() throws Exception {
+            // MockHttpServletRequest request = new MockHttpServletRequest();
+            serverController.connectToEngineServer(request);
 
-        try {
-            TimeUnit.MILLISECONDS.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                TimeUnit.MILLISECONDS.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            String playerURL = "http://" + request.getRemoteAddr() + ":8080";
+
+            verify(mSpy, times(1)).testStart();
+            verify(mSpy, times(1)).addPlayerURL(playerURL);
+            assertTrue(mSpy.getUrls().containsValue(playerURL));
+            assertEquals(mSpy.getUrls().size(), 1);
         }
-
-        String playerURL = "http://" + request.getRemoteAddr() + ":8080";
-
-        verify(mSpy, times(1)).testStart();
-        verify(mSpy, times(1)).addPlayerURL(playerURL);
-        assertTrue(mSpy.getUrls().containsValue(playerURL));
-        assertEquals(mSpy.getUrls().size(), 1);
-    }
-*/
+    */
     @Test
     void connectToServerTest() {
         System.out.println("*************************************************************************");
@@ -140,9 +141,10 @@ public class EngineServerControllerITCase {
         assertTrue(stats.contains(subString2));
     }
 
+
     @Disabled
     @Test
-    void askCardActionTest(){
+    void askCardActionTest() {
         // launch one player in background
         System.out.println("*************************************************************************************");
         System.out.println("* TEST ENGINE SERVER CONTROLLER > ENGINE SERVER ASK PLAYER TO CHOSE CARD AND ACTION *");

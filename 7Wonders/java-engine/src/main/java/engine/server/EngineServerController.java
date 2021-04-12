@@ -30,6 +30,7 @@ public class EngineServerController {
     @Autowired
     private RestTemplate restTemplate;
 
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         // Do any additional configuration here
@@ -49,6 +50,7 @@ public class EngineServerController {
         int playerId = engineServer.addPlayerURL(playerURL);
         System.out.println("ENGINE SERVER CONTROLLER > Connexion granted to the player : " + playerURL + " , Player id = " + playerId);
         engineServer.testStart();
+        engineServer.setConnected(true);
         return playerId;
     }
 

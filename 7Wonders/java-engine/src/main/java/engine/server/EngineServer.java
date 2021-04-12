@@ -34,6 +34,7 @@ public class EngineServer {
 
     HashMap<Integer, String> mapPlayerID_URL;
     private String serverURL;
+    private boolean connected= false;
 
 
     public static void main(String... args) {
@@ -136,5 +137,12 @@ public class EngineServer {
 
     public boolean isConnectToServer() {
         return connectToServer;
+    }
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }

@@ -27,16 +27,20 @@ before_script:
 script:
   - mvn test
   - docker run -d --rm -p 8080:8080 --name "serverIT" malta:server
+  - cd java-engine
+  - mvn failsafe:integration-test
+  - cd ..
   - docker run -d --rm -p 8081:8081 --name "engineIT" malta:engine
-  - mvn failsafe:integration-test -Dit.test=player.PlayerControllerITCase#connectionToEngineTest
+  - cd java-player
+  - mvn failsafe:integration-test
+  - cd ..
   #- sleep 10
   #- sleep 5 && docker run -d --rm -e ENGINE_IP="127.0.0.1" -e PORT="8092" -e TEST="true" -p 8092:8092 --name "playerIT1" malta:player &
-  #- docker run -d --rm -e ENGINE_IP="172.17.0.1" -e PORT="8093" -e TEST="true" -p 8093:8093 --name "playerIT2" malta:player &
-  #- docker run -d --rm -e ENGINE_IP="172.17.0.1" -e PORT="8094" -e TEST="true" -p 8094:8094 --name "playerIT3" malta:player &
+  #- docker run -d --rm -e ENGINE_IP="127.0.0.1" -e PORT="8093" -e TEST="true" -p 8093:8093 --name "playerIT2" malta:player &
+  #- docker run -d --rm -e ENGINE_IP="127.0.0.1" -e PORT="8094" -e TEST="true" -p 8094:8094 --name "playerIT3" malta:player &
   #- mvn failsafe:integration-test
   - docker stop "serverIT" "engineIT" #"playerIT1" "playerIT2" "playerIT3"
-  #- docker-compose up --scale player=$NB_PLAYERS --force-recreate
+  - docker-compose up --scale player=$NB_PLAYERS --force-recreate
   - docker-compose rm -f
   - docker rmi malta:server malta:engine malta:player
 
-#mvn failsafe:integration-test -Dit.test=player.PlayerControllerITCase#connectionToEngineTest
